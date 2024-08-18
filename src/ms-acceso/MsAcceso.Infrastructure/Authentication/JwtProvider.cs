@@ -38,7 +38,7 @@ public sealed class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddDays(365),
+            DateTime.UtcNow.AddHours(3),
             sigingCredentials
         );
 
