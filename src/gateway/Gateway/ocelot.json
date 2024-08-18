@@ -1,0 +1,121 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/users/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "users"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "users"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/update",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "users"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/delete",
+      "UpstreamHttpMethod": [ "PATCH" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "users"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/get-pagination",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/get-pagination",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "users"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/sing-in-by-token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/sing-in-by-token",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "User-Email": "Claims[Email] > value > |"
+      },
+      "SwaggerKey": "users"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "users",
+      "Config": [
+        {
+          "Name": "Users API",
+          "Version": "v1",
+          "Url": "http://localhost:5175/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5154"
+  }
+}

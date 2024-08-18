@@ -1,0 +1,19 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  sql:
+    container_name: database-sql
+    ports:
+    - 1434:1433
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=Unu#2023
+  serilogseq:
+    container_name: serilogseq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80

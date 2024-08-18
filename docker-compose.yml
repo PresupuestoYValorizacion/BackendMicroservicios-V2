@@ -1,0 +1,15 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server
+  # cleanarchitectureapi:
+    # image: ${DOCKER_REGISTRY-}cleanarchitectureapi
+    # build:
+    #   context: .
+    #   dockerfile: src/CleanArchitecture/CleanArchitecture.Api/Dockerfile
+  serilogseq:
+    image: datalust/seq:2023.4
+    

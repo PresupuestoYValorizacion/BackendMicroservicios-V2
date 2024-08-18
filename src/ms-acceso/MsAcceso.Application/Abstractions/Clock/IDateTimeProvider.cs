@@ -1,0 +1,6 @@
+namespace MsAcceso.Application.Abstractions.Clock;
+
+public interface IDateTimeProvider
+{
+    DateTime currentTime {get;}
+}
