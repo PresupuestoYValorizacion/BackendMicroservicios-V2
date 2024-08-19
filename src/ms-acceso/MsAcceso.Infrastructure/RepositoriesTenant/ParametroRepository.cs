@@ -2,11 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Infrastructure.Repositories;
-using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Infrastructure.Tenants;
 
-namespace MsAcceso.Infrastructure.Repositories;
+namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class ParametroRepository : RepositoryTenant<Parametro, ParametroId>, IParametroRepository, IPaginationParametrosRepository
 {

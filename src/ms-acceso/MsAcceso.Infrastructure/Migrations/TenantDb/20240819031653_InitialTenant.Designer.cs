@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240818062920_InitialTenant")]
+    [Migration("20240819031653_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -211,7 +211,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("user", (string)null);
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Parametros.Parametro", b =>

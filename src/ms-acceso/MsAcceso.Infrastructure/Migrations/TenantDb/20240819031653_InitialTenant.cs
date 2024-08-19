@@ -63,7 +63,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "user",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -76,9 +76,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_user_personas_EmpresaId",
+                        name: "FK_users_personas_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "personas",
                         principalColumn: "Id");
@@ -116,14 +116,14 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 column: "TipoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_Email",
-                table: "user",
+                name: "IX_users_Email",
+                table: "users",
                 column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_EmpresaId",
-                table: "user",
+                name: "IX_users_EmpresaId",
+                table: "users",
                 column: "EmpresaId");
         }
 
@@ -131,7 +131,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "user");
+                name: "users");
 
             migrationBuilder.DropTable(
                 name: "personas");

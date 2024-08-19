@@ -25,7 +25,7 @@ namespace MsAcceso.Infrastructure.Tenants
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().ToTable("user");
+            builder.Entity<User>().ToTable("users");
             builder.Entity<User>().HasKey(user => user.Id);
 
             builder.Entity<User>().Property(user => user.Id)

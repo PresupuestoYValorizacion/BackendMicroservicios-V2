@@ -14,10 +14,10 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
 using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Domain.Root.Parametros;
-using MsAcceso.Infrastructure.Repositories;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Application.Paginations;
+using MsAcceso.Domain.Tenant.Users;
 namespace MsAcceso.Infrastructure;
 
 public static class DependencyInjection
@@ -28,12 +28,6 @@ public static class DependencyInjection
         IConfiguration configuration
         )
     {
-        // services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
-        // services.AddQuartz();
-        // services.AddQuartzHostedService(
-        //     options => options.WaitForJobsToComplete = true       
-        // );
-        // services.ConfigureOptions<ProcessOutboxMessageSetup>();
 
         services.AddApiVersioning(options => 
         {
@@ -53,7 +47,6 @@ public static class DependencyInjection
         services.AddTransient<ITenantProvider, TenantProvider>();
 
         services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-        // services.AddTransient<IEmailService, EmailService>();
 
         var connectionString = configuration.GetConnectionString("ConnectionString") 
              ?? throw new ArgumentNullException(nameof(configuration));
@@ -67,6 +60,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IUserTenantRepository, UserTenantRepository>();
 
 
         services.AddScoped<IParametroRepository, ParametroRepository>();

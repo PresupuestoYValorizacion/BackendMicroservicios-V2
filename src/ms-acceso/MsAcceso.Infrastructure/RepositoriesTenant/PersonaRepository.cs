@@ -1,10 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Personas;
-using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Infrastructure.Tenants;
 
-namespace MsAcceso.Infrastructure.Repositories;
+namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class PersonaRepository : RepositoryTenant<Persona,PersonaId>, IPersonaRepository
 {

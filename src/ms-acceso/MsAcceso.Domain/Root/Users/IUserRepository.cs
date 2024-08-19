@@ -1,4 +1,3 @@
-using MsAcceso.Domain.Abstractions;
 
 namespace MsAcceso.Domain.Root.Users;
 

@@ -208,7 +208,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("user", (string)null);
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Parametros.Parametro", b =>

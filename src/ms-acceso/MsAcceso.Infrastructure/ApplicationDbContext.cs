@@ -3,6 +3,8 @@ using MsAcceso.Infrastructure.Service;
 using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
+using MsAcceso.Domain.Tenant.Users;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Infrastructure;
 
@@ -23,20 +25,36 @@ public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
     }
 
     // Application DbSets -- create for entity types to be applied to all databases
-    public DbSet<Product> Products { get; set; }
+    // public DbSet<Product> Products { get; set; }
+    public DbSet<User> UsersTenants { get; set; }
 
     // On Model Creating - multitenancy query filter, fires once on app start
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<User>().ToTable("user-tenant");
+        builder.Entity<User>().HasKey(user => user.Id);
 
-        builder.Entity<Product>().HasKey(producto => producto.Id);
+        builder.Entity<User>().Property(user => user.Id)
+        .HasConversion(userId => userId!.Value, value => new UserId(value));
 
-        builder.Entity<Product>().Property(producto => producto.Id)
-        .HasConversion(productoId => productoId!.Value, value => new ProductId(value));
+        builder.Entity<User>().Property(user => user.Username)
+        .IsRequired()
+        .HasMaxLength(100);
 
-        builder.Entity<Product>().Property(producto => producto.Activo)
-            .IsRequired()
-            .HasConversion(producto => producto!.Value, value => new Domain.Shared.Activo(value));
+        builder.Entity<User>().Property(user => user.Email)
+        .IsRequired()
+        .HasMaxLength(400);
+
+        builder.Entity<User>().Property(user => user.Password)
+        .IsRequired()
+        .HasMaxLength(2000);
+
+        builder.Entity<User>().Property(user => user.Activo)
+        .IsRequired()
+        .HasConversion(user => user!.Value, value => new Activo(value));
+
+
+        builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
     }
 
     // On Configuring -- dynamic connection string, fires on every request
@@ -50,16 +68,17 @@ public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
     }
 
     public override async Task<int> SaveChangesAsync(
-        CancellationToken cancellationToken=default
+        CancellationToken cancellationToken = default
         )
     {
-        try{
+        try
+        {
 
             var result = await base.SaveChangesAsync(cancellationToken);
 
             return result;
         }
-        catch(DbUpdateConcurrencyException ex)
+        catch (DbUpdateConcurrencyException ex)
         {
             throw new ConcurrencyException("La excepcion por concurrencia se disparo", ex);
         }

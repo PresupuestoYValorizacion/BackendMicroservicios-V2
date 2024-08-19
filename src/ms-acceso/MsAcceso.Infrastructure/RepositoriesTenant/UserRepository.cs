@@ -2,10 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Users;
-using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Infrastructure.Tenants;
 
-namespace MsAcceso.Infrastructure.Repositories;
+namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class UserRepository : RepositoryTenant<User,UserId>, IUserRepository, IPaginationUserRepository
 {
