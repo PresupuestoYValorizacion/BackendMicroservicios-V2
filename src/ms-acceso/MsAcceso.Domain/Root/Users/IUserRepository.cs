@@ -20,5 +20,10 @@ public interface IUserRepository
         CancellationToken cancellationToken = default
     );
     
+    Task<bool> ValidateIdUsuarioExists(
+        Guid idUsuario, 
+        CancellationToken cancellationToken = default
+    );
+    
 
 }

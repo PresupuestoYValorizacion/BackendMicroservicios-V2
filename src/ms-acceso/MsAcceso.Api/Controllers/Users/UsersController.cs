@@ -13,6 +13,7 @@ using MsAcceso.Application.Users.DesactiveUser;
 using MsAcceso.Application.Users.DeleteUser;
 using MsAcceso.Utils;
 using MsAcceso.Domain.Root.Users;
+using MsAcceso.Application.Users.ValidateIdUsuario;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -38,18 +39,18 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-         var userEmail = _httpContextAccessor.HttpContext!.Request.Headers["User-Email"].ToString();
+        var userEmail = _httpContextAccessor.HttpContext!.Request.Headers["User-Email"].ToString();
 
-         if(userEmail is null)
-         {
+        if (userEmail is null)
+        {
             return BadRequest("Header no existe");
-         }
+        }
 
-         var command = new SingInByTokenCommand(userEmail!);
+        var command = new SingInByTokenCommand(userEmail!);
 
         var result = await _sender.Send(command, cancellationToken);
 
-        if(result.IsFailure)
+        if (result.IsFailure)
         {
             return Unauthorized(result);
         }
@@ -68,19 +69,19 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-         var command = new LoginCommand(request.Email, request.Password);
-        
-         var result = await _sender.Send(command, cancellationToken);
+        var command = new LoginCommand(request.Email, request.Password);
 
-         if(result.IsFailure)
-         {
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
             return Unauthorized(result);
-         }
+        }
 
-         return Ok(result);
+        return Ok(result);
 
     }
-    
+
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpPost("register")]
@@ -95,6 +96,26 @@ public class UsersController : ControllerBase
             request.Password,
             request.EmpresaId
         );
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("validate-user-id/{Id}")]
+    public async Task<IActionResult> ValidateUserId(
+        Guid Id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new ValidateIdUsuarioCommand(Id);
 
         var result = await _sender.Send(command, cancellationToken);
 

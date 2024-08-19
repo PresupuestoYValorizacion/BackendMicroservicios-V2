@@ -14,6 +14,19 @@
       "SwaggerKey": "users"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/users/validate-user-id/{Id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/validate-user-id/{Id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "users"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/users/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

@@ -32,4 +32,10 @@ internal sealed class UserRepository : RepositoryTenant<User,UserId>, IUserRepos
         return await DbContext.Set<User>().Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento).Include(u => u.Empresa)
                 .ThenInclude(e => e!.Tipo).ToListAsync(cancellationToken);
     }
+
+    public async Task<bool> ValidateIdUsuarioExists(Guid idUsuario, CancellationToken cancellationToken = default)
+    {
+       return await DbContext.Set<User>()
+                    .AnyAsync(x => x.Id == new UserId(idUsuario),cancellationToken);
+    }
 }
