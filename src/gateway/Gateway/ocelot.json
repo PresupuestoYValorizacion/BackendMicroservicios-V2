@@ -11,7 +11,7 @@
       ],
       "UpstreamPathTemplate": "/users/login",
       "UpstreamHttpMethod": [ "POST" ],
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/validate-user-id/{Id}",
@@ -24,7 +24,7 @@
       ],
       "UpstreamPathTemplate": "/users/validate-user-id/{Id}",
       "UpstreamHttpMethod": [ "GET" ],
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/register",
@@ -41,7 +41,7 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       },
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/update",
@@ -58,7 +58,7 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       },
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/delete",
@@ -75,7 +75,7 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       },
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/get-pagination",
@@ -92,7 +92,7 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       },
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/sing-in-by-token",
@@ -113,15 +113,207 @@
         "Authorization": "Authorization",
         "User-Email": "Claims[Email] > value > |"
       },
-      "SwaggerKey": "users"
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/get-pagination",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/pagination",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/get-by-id/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/get-by-id/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/register",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/update",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/update",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/desactive",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/desactive",
+      "UpstreamHttpMethod": [ "PATCH" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/parametros/delete/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/parametros/delete/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate":"/api/v1/opciones/get-pagination",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/pagination",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/opciones/get-by-id/{id}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/get-by-id/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate":"/api/v1/opciones/register",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate":"/api/v1/opciones/update",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/update",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate":"/api/v1/opciones/desactive",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/desactive",
+      "UpstreamHttpMethod": [ "PATCH" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate":"/api/v1/opciones/delete/{id}",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/delete/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
     }
   ],
   "SwaggerEndPoints": [
     {
-      "Key": "users",
+      "Key": "acceso",
       "Config": [
         {
-          "Name": "Users API",
+          "Name": "Acceso API",
           "Version": "v1",
           "Url": "http://localhost:5175/swagger/v1/swagger.json"
         }

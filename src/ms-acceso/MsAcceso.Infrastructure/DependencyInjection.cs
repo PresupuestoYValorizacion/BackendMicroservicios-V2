@@ -18,6 +18,8 @@ using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Tenant.Users;
+using MsAcceso.Domain.Root.Opciones;
+using MsAcceso.Infrastructure.Repositories;
 namespace MsAcceso.Infrastructure;
 
 public static class DependencyInjection
@@ -59,12 +61,16 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
 
-        services.AddScoped<IProductRepository, ProductRepository>();
+        //BD POR CADA CLIENTE
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
 
 
+        //BD GENERAL
         services.AddScoped<IParametroRepository, ParametroRepository>();
         services.AddScoped<IPaginationParametrosRepository, ParametroRepository>();
+
+        services.AddScoped<IOpcionRepository, OpcionRepository>();
+        services.AddScoped<IPaginationOpcionRepository, OpcionRepository>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPaginationUserRepository, UserRepository>();
