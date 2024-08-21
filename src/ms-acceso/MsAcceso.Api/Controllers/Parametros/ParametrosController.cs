@@ -11,6 +11,7 @@ using MsAcceso.Application.Parametros.RegisterParametros;
 using MsAcceso.Application.Parametros.UpdateParametros;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Application.Parametros.GetSubnivelesById;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -138,6 +139,18 @@ public class ParametrosController : Controller
     public async Task<ActionResult<PaginationResult<ParametroDto>>> GetParametroById(int id)
     {
         var request = new GetByIdParametroQuery { Id = id };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-subniveles-by-id/{id}")]
+    public async Task<ActionResult<PaginationResult<ParametroDto>>> GetSubnivelesById(int id)
+    {
+        var request = new GetSubnivelesByIdQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);
