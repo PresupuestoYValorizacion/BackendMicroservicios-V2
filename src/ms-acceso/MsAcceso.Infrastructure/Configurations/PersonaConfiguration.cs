@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.PersonasNaturales;
+using MsAcceso.Domain.Root.PersonasJuridicas;
 
-namespace CleanArchitecture.Infrastructure.Configurations;
+namespace MsAcceso.Infrastructure.Configurations;
 
 internal sealed class PersonaConfiguration : IEntityTypeConfiguration<Persona>
 {
@@ -22,10 +24,6 @@ internal sealed class PersonaConfiguration : IEntityTypeConfiguration<Persona>
         .IsRequired()
         .HasMaxLength(100);
 
-        builder.Property(persona => persona.RazonSocial)
-        .IsRequired()
-        .HasMaxLength(100);
-
         builder.Property(persona => persona.Activo)
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
@@ -37,5 +35,13 @@ internal sealed class PersonaConfiguration : IEntityTypeConfiguration<Persona>
         builder.HasOne(p => p.TipoDocumento)
                 .WithMany()
                 .HasForeignKey(persona => persona.TipoDocumentoId);
+        
+        builder.HasOne(p => p.PersonaNatural)
+            .WithOne()
+            .HasForeignKey<PersonaNatural>(pn => pn.PersonaId);
+
+        builder.HasOne(p => p.PersonaJuridica)
+            .WithOne()
+            .HasForeignKey<PersonaJuridica>(pj => pj.PersonaId);
     }
 }

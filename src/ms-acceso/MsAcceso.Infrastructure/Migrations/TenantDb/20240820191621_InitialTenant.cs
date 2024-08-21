@@ -78,7 +78,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     TipoId = table.Column<int>(type: "int", nullable: true),
                     TipoDocumentoId = table.Column<int>(type: "int", nullable: true),
                     NumeroDocumento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    RazonSocial = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -122,6 +121,44 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         column: x => x.Dependencia,
                         principalTable: "sistemas",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "personas_juridicas",
+                columns: table => new
+                {
+                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RazonSocial = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_personas_juridicas", x => x.PersonaId);
+                    table.ForeignKey(
+                        name: "FK_personas_juridicas_personas_PersonaId",
+                        column: x => x.PersonaId,
+                        principalTable: "personas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "personas_naturales",
+                columns: table => new
+                {
+                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApellidoPaterno = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ApellidoMaterno = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Nombres = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_personas_naturales", x => x.PersonaId);
+                    table.ForeignKey(
+                        name: "FK_personas_naturales_personas_PersonaId",
+                        column: x => x.PersonaId,
+                        principalTable: "personas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -404,6 +441,12 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             migrationBuilder.DropTable(
                 name: "menus_opciones");
+
+            migrationBuilder.DropTable(
+                name: "personas_juridicas");
+
+            migrationBuilder.DropTable(
+                name: "personas_naturales");
 
             migrationBuilder.DropTable(
                 name: "rols_permisos_opciones");

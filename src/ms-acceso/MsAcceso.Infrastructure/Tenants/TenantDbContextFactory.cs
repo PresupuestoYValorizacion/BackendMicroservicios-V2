@@ -13,7 +13,7 @@ namespace MsAcceso.Infrastructure.Tenants
             // Build the configuration by reading from the appsettings.json file (requires Microsoft.Extensions.Configuration.Json Nuget Package)
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
                 .Build();
 
             // Retrieve the connection string from the configuration

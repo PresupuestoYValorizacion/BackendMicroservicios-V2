@@ -12,8 +12,7 @@ namespace MsAcceso.Application.Mappers
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
             .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo!.Nombre))
             .ForMember(dest => dest.TipoDocumento, opt => opt.MapFrom(src => src.TipoDocumento!.Nombre))
-            .ForMember(dest => dest.NumeroDocumento, opt => opt.MapFrom(src => src.NumeroDocumento!))
-            .ForMember(dest => dest.RazonSocial, opt => opt.MapFrom(src => src.RazonSocial!));
+            .ForMember(dest => dest.NumeroDocumento, opt => opt.MapFrom(src => src.NumeroDocumento!));
 
         }
     }

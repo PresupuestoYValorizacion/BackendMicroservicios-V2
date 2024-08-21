@@ -265,11 +265,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("RazonSocial")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<int?>("TipoDocumentoId")
                         .HasColumnType("int");
 
@@ -283,6 +278,46 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.HasIndex("TipoId");
 
                     b.ToTable("personas", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.PersonasJuridicas.PersonaJuridica", b =>
+                {
+                    b.Property<Guid>("PersonaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RazonSocial")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("PersonaId");
+
+                    b.ToTable("personas_juridicas", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.PersonasNaturales.PersonaNatural", b =>
+                {
+                    b.Property<Guid>("PersonaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApellidoMaterno")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ApellidoPaterno")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("PersonaId");
+
+                    b.ToTable("personas_naturales", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
@@ -502,6 +537,24 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Navigation("TipoDocumento");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.PersonasJuridicas.PersonaJuridica", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Personas.Persona", null)
+                        .WithOne("PersonaJuridica")
+                        .HasForeignKey("MsAcceso.Domain.Root.PersonasJuridicas.PersonaJuridica", "PersonaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.PersonasNaturales.PersonaNatural", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Personas.Persona", null)
+                        .WithOne("PersonaNatural")
+                        .HasForeignKey("MsAcceso.Domain.Root.PersonasNaturales.PersonaNatural", "PersonaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
@@ -560,6 +613,13 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("EmpresaId");
 
                     b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>
+                {
+                    b.Navigation("PersonaJuridica");
+
+                    b.Navigation("PersonaNatural");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 
-namespace CleanArchitecture.Infrastructure.Configurations;
+namespace MsAcceso.Infrastructure.Configurations;
 
 internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametro>
 {

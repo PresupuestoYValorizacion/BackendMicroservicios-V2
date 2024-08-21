@@ -1,6 +1,7 @@
-
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.PersonasJuridicas;
+using MsAcceso.Domain.Root.PersonasNaturales;
 
 namespace MsAcceso.Domain.Root.Personas;
 
@@ -12,14 +13,12 @@ public sealed class Persona : Entity<PersonaId>
         PersonaId id,
         ParametroId tipo,
         ParametroId tipoDocumento,
-        string numeroDocumento,
-        string razonSocial
+        string numeroDocumento
         ): base( id )
     {
         TipoId = tipo;
         TipoDocumentoId = tipoDocumento;
         NumeroDocumento = numeroDocumento;
-        RazonSocial = razonSocial;
     }
 
     public ParametroId? TipoId {get; private set;}
@@ -30,6 +29,7 @@ public sealed class Persona : Entity<PersonaId>
     
     public Parametro? TipoDocumento {get; private set;}
     public string? NumeroDocumento {get; private set;}
-    public string? RazonSocial {get; private set;}
+    public PersonaNatural? PersonaNatural {get; private set;}    
+    public PersonaJuridica? PersonaJuridica {get; private set;}    
 
 }

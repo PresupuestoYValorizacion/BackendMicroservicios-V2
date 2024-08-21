@@ -7,6 +7,8 @@ using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.PersonasJuridicas;
+using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.Rols;
@@ -39,6 +41,8 @@ namespace MsAcceso.Infrastructure.Tenants
         public DbSet<Rol> Rols { get; set; }
         public DbSet<RolUser> RolUsers { get; set; }
         public DbSet<Sistema> Sistemas { get; set; }
+        public DbSet<PersonaNatural> PersonasNaturales { get; set; }
+        public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -19,9 +19,9 @@ public sealed class Opcion : Entity<OpcionId>
         Abreviatura = abreviatura;
     }
 
-    public string? Nombre { get; set; }
-    public string? Logo { get; set; }
-    public string? Abreviatura { get; set; }
+    public string? Nombre { get; private set; }
+    public string? Logo { get; private set; }
+    public string? Abreviatura { get; private set; }
 
     public static Opcion Create(
         string Nombre,
