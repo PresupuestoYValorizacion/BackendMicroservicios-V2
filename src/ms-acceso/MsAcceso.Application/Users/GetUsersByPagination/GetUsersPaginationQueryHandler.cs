@@ -34,7 +34,12 @@ internal sealed class GetUsersByPaginationQueryHandler : IQueryHandler<GetUsersB
                                         p.Include(x => x.Empresa!)
                                         .ThenInclude(x => x.TipoDocumento!)
                                         .Include(x => x.Empresa!)
-                                        .ThenInclude(x => x.Tipo!),
+                                        .ThenInclude(x => x.Tipo!)
+                                        .Include(x => x.Empresa!)
+                                        .ThenInclude(x => x.PersonaNatural!)
+                                        .Include(x => x.Empresa!)
+                                        .ThenInclude(x => x.PersonaJuridica!)
+                                        ,
                                         request.PageNumber, 
                                         request.PageSize, 
                                         request.OrderBy!, 
