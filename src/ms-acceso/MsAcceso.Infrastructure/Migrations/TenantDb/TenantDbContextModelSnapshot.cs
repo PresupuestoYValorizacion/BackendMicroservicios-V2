@@ -179,76 +179,69 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                             Id = 1,
                             Activo = true,
                             Nivel = 0,
-                            Nombre = "TIPOS DE DOCUMENTO"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Abreviatura = "DNI",
-                            Activo = true,
-                            Dependencia = 1,
-                            Nivel = 1,
-                            Nombre = "DOCUMENTO NACIONAL DE IDENTIDAD",
-                            Valor = "1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Abreviatura = "RUC",
-                            Activo = true,
-                            Dependencia = 1,
-                            Nivel = 1,
-                            Nombre = "REGISTRO UNICO DE CONTRIBUYENTES",
-                            Valor = "2"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Abreviatura = "CE",
-                            Activo = true,
-                            Dependencia = 1,
-                            Nivel = 1,
-                            Nombre = "CARNET DE EXTRANJERIA",
-                            Valor = "3"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            Nivel = 0,
                             Nombre = "ESTADO DE SOLICITUDES"
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 2,
                             Activo = true,
                             Nivel = 0,
                             Nombre = "TIPO DE PERSONA"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 3,
                             Activo = true,
-                            Dependencia = 6,
+                            Dependencia = 2,
                             Nivel = 1,
                             Nombre = "NATURAL",
                             Valor = "1"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 4,
                             Activo = true,
-                            Dependencia = 6,
+                            Dependencia = 2,
                             Nivel = 1,
                             Nombre = "JURIDICA",
                             Valor = "2"
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 5,
                             Activo = true,
                             Nivel = 0,
                             Nombre = "TIPO DE ASUNTO"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Abreviatura = "DNI",
+                            Activo = true,
+                            Dependencia = 3,
+                            Nivel = 2,
+                            Nombre = "DOCUMENTO NACIONAL DE IDENTIDAD",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Abreviatura = "RUC",
+                            Activo = true,
+                            Dependencia = 4,
+                            Nivel = 2,
+                            Nombre = "REGISTRO UNICO DE CONTRIBUYENTES",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Abreviatura = "CE",
+                            Activo = true,
+                            Dependencia = 3,
+                            Nivel = 2,
+                            Nombre = "CARNET DE EXTRANJERIA",
+                            Valor = "2"
                         });
                 });
 

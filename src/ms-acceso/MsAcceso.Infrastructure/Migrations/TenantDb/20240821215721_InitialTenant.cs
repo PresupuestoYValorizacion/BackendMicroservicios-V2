@@ -327,15 +327,14 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 columns: new[] { "Id", "Abreviatura", "Activo", "Dependencia", "Descripcion", "Nivel", "Nombre", "Valor" },
                 values: new object[,]
                 {
-                    { 1, null, true, null, null, 0, "TIPOS DE DOCUMENTO", null },
-                    { 5, null, true, null, null, 0, "ESTADO DE SOLICITUDES", null },
-                    { 6, null, true, null, null, 0, "TIPO DE PERSONA", null },
-                    { 9, null, true, null, null, 0, "TIPO DE ASUNTO", null },
-                    { 2, "DNI", true, 1, null, 1, "DOCUMENTO NACIONAL DE IDENTIDAD", "1" },
-                    { 3, "RUC", true, 1, null, 1, "REGISTRO UNICO DE CONTRIBUYENTES", "2" },
-                    { 4, "CE", true, 1, null, 1, "CARNET DE EXTRANJERIA", "3" },
-                    { 7, null, true, 6, null, 1, "NATURAL", "1" },
-                    { 8, null, true, 6, null, 1, "JURIDICA", "2" }
+                    { 1, null, true, null, null, 0, "ESTADO DE SOLICITUDES", null },
+                    { 2, null, true, null, null, 0, "TIPO DE PERSONA", null },
+                    { 5, null, true, null, null, 0, "TIPO DE ASUNTO", null },
+                    { 3, null, true, 2, null, 1, "NATURAL", "1" },
+                    { 4, null, true, 2, null, 1, "JURIDICA", "2" },
+                    { 6, "DNI", true, 3, null, 2, "DOCUMENTO NACIONAL DE IDENTIDAD", "1" },
+                    { 7, "RUC", true, 4, null, 2, "REGISTRO UNICO DE CONTRIBUYENTES", "1" },
+                    { 8, "CE", true, 3, null, 2, "CARNET DE EXTRANJERIA", "2" }
                 });
 
             migrationBuilder.CreateIndex(

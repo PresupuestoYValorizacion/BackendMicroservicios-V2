@@ -44,15 +44,14 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
 
 
         builder.HasData(
-            Parametro.Create(new ParametroId(1), "TIPOS DE DOCUMENTO", null, null, null, 0, null),
-            Parametro.Create(new ParametroId(2), "DOCUMENTO NACIONAL DE IDENTIDAD", "DNI", null, new ParametroId(1), 1, "1"),
-            Parametro.Create(new ParametroId(3), "REGISTRO UNICO DE CONTRIBUYENTES", "RUC", null, new ParametroId(1), 1, "2"),
-            Parametro.Create(new ParametroId(4), "CARNET DE EXTRANJERIA", "CE", null, new ParametroId(1), 1, "3"),
-            Parametro.Create(new ParametroId(5), "ESTADO DE SOLICITUDES", null, null, null, 0, null),
-            Parametro.Create(new ParametroId(6), "TIPO DE PERSONA", null, null, null, 0, null),
-            Parametro.Create(new ParametroId(7), "NATURAL", null, null, new ParametroId(6), 1, "1"),
-            Parametro.Create(new ParametroId(8), "JURIDICA", null, null, new ParametroId(6), 1, "2"),
-            Parametro.Create(new ParametroId(9), "TIPO DE ASUNTO", null, null, null, 0, null)
+            Parametro.Create(new ParametroId(1), "ESTADO DE SOLICITUDES", null, null, null, 0, null),
+            Parametro.Create(new ParametroId(2), "TIPO DE PERSONA", null, null, null, 0, null),
+            Parametro.Create(new ParametroId(3), "NATURAL", null, null, new ParametroId(2), 1, "1"),
+            Parametro.Create(new ParametroId(4), "JURIDICA", null, null, new ParametroId(2), 1, "2"),
+            Parametro.Create(new ParametroId(5), "TIPO DE ASUNTO", null, null, null, 0, null),
+            Parametro.Create(new ParametroId(6), "DOCUMENTO NACIONAL DE IDENTIDAD", "DNI", null, new ParametroId(3), 2, "1"),
+            Parametro.Create(new ParametroId(7), "REGISTRO UNICO DE CONTRIBUYENTES", "RUC", null, new ParametroId(4), 2, "1"),
+            Parametro.Create(new ParametroId(8), "CARNET DE EXTRANJERIA", "CE", null, new ParametroId(3), 2, "2")
 
         );
     }

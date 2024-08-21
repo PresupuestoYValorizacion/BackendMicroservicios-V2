@@ -73,7 +73,6 @@ public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
     {
         try
         {
-
             var result = await base.SaveChangesAsync(cancellationToken);
 
             return result;
