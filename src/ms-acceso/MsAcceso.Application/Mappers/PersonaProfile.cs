@@ -17,9 +17,7 @@ namespace MsAcceso.Application.Mappers
             .ForMember(dest => dest.NumeroDocumento, opt => opt.MapFrom(src => src.NumeroDocumento!));
 
             CreateMap<PersonaNatural, PersonaNaturalDto>()
-            .ForMember(dest => dest.ApellidoMaterno, opt => opt.MapFrom(src => src.ApellidoMaterno!))
-            .ForMember(dest => dest.ApellidoPaterno, opt => opt.MapFrom(src => src.ApellidoPaterno!))
-            .ForMember(dest => dest.Nombres, opt => opt.MapFrom(src => src.Nombres!));
+             .ForMember(dest => dest.NombreCompleto, opt => opt.MapFrom(src => src.NombreCompleto ));
 
             CreateMap<PersonaJuridica, PersonaJuridicaDto>()
             .ForMember(dest => dest.RazonSocial, opt => opt.MapFrom(src => src.RazonSocial!));

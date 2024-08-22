@@ -8,19 +8,13 @@ public sealed class PersonaNatural
 
     private PersonaNatural(
         PersonaId personaId,
-        string apellidoPaterno,
-        string apellidoMaterno,
-        string nombres
+        string nombreCompleto
     )
     {
         PersonaId = personaId;
-        ApellidoPaterno = apellidoPaterno;
-        ApellidoMaterno = apellidoMaterno;
-        Nombres = nombres;
+        NombreCompleto = nombreCompleto;
     }
 
     public PersonaId? PersonaId { get; private set; }
-    public string? ApellidoPaterno { get; private set; }
-    public string? ApellidoMaterno { get; private set; }
-    public string? Nombres { get; private set; }
+    public string? NombreCompleto;
 }

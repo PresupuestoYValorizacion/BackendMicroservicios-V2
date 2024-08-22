@@ -146,9 +146,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 columns: table => new
                 {
                     PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ApellidoPaterno = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ApellidoMaterno = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Nombres = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    NombreCompleto = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {

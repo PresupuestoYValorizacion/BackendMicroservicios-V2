@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240821215721_InitialTenant")]
+    [Migration("20240822043527_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -296,20 +296,10 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Property<Guid>("PersonaId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ApellidoMaterno")
+                    b.Property<string>("NombreCompleto")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ApellidoPaterno")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.HasKey("PersonaId");
 

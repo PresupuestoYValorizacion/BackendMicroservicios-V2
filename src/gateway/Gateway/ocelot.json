@@ -86,7 +86,7 @@
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/users/get-pagination",
+      "UpstreamPathTemplate": "/users/pagination",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",

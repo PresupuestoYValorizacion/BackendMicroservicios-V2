@@ -14,9 +14,7 @@ public class PersonaDto
 
 public class PersonaNaturalDto
 {
-    public string? ApellidoPaterno { get; set; }
-    public string? ApellidoMaterno { get; set; }
-    public string? Nombres { get; set; }
+    public string? NombreCompleto { get; set; }
 }
 
 public class PersonaJuridicaDto

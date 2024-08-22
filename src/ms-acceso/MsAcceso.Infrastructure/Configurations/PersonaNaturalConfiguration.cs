@@ -15,16 +15,9 @@ internal sealed class PersonaNaturalConfiguration : IEntityTypeConfiguration<Per
         builder.Property(persona => persona.PersonaId)
         .HasConversion(personaId => personaId!.Value, value => new PersonaId(value));
 
-        builder.Property(persona => persona.ApellidoMaterno)
+        builder.Property(persona => persona.NombreCompleto)
         .IsRequired()
-        .HasMaxLength(200);
-
-        builder.Property(persona => persona.ApellidoPaterno)
-        .IsRequired()
-        .HasMaxLength(200);
-
-        builder.Property(persona => persona.Nombres)
-        .IsRequired()
-        .HasMaxLength(200);
+        .HasMaxLength(400);
+        
     }
 }
