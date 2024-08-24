@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Extensions;
 using MsAcceso.Infrastructure.Tenants;
 
@@ -25,7 +26,7 @@ where TEntityId : class
     )
     {
         return await DbContext.Set<TEntity>()
-        .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        .FirstOrDefaultAsync(x => x.Id == id && x.Activo == new Activo(true), cancellationToken);
     }
 
 
