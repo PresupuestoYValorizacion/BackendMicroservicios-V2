@@ -136,7 +136,7 @@ public class ParametrosController : Controller
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-by-id/{id}")]
-    public async Task<ActionResult<PaginationResult<ParametroDto>>> GetParametroById(int id)
+    public async Task<ActionResult<ParametroDto>> GetParametroById(int id)
     {
         var request = new GetByIdParametroQuery { Id = id };
         var results = await _sender.Send(request);
