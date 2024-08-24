@@ -14,6 +14,7 @@ using MsAcceso.Application.Users.DeleteUser;
 using MsAcceso.Utils;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Application.Users.ValidateIdUsuario;
+using MsAcceso.Application.Parametros.GetUserById;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -208,5 +209,15 @@ public class UsersController : ControllerBase
         return Ok(resultados);
     }
 
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-by-id/{id}")]
+    public async Task<ActionResult<PaginationResult<UserDto>>> GetUserById(Guid id)
+    {
+        var request = new GetUserByIdQuery { Id = id };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
 
 }
