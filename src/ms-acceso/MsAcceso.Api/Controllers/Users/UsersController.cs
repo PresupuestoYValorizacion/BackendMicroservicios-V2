@@ -15,6 +15,7 @@ using MsAcceso.Utils;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Application.Users.ValidateIdUsuario;
 using MsAcceso.Application.Parametros.GetUserById;
+using MsAcceso.Domain.Root.Parametros;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -95,7 +96,11 @@ public class UsersController : ControllerBase
             request.Email,
             request.Username,
             request.Password,
-            request.EmpresaId
+            new ParametroId(request.TipoId),
+            new ParametroId(request.TipoDocumentoId),
+            request.NumeroDocumento,
+            request.RazonSocial,
+            request.NombreCompleto
         );
 
         var result = await _sender.Send(command, cancellationToken);

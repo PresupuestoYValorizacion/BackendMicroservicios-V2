@@ -102,3 +102,36 @@ where TEntityId : class
     }
 
 }
+
+
+
+internal abstract class RepositoryTenant<TEntity>
+where TEntity : class
+{
+    protected readonly TenantDbContext DbContext;
+
+    protected RepositoryTenant(TenantDbContext dbContext)
+    {
+        DbContext = dbContext;
+    }
+
+
+    public void Add(TEntity entity)
+    {
+        DbContext.Add(entity);
+    }
+
+    public void Update(TEntity entity)
+    {
+        DbContext.Entry(entity).State = EntityState.Modified;
+    }
+
+    public void Delete(TEntity entity)
+    {
+        DbContext.Remove(entity);
+    }
+
+
+    
+
+}

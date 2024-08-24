@@ -32,4 +32,17 @@ public sealed class Persona : Entity<PersonaId>
     public PersonaNatural? PersonaNatural {get; private set;}    
     public PersonaJuridica? PersonaJuridica {get; private set;}    
 
+
+    public static Persona Create(
+        PersonaId personaId,
+        ParametroId tipoId,
+        ParametroId tipoDocumentoId,
+        string numeroDocumento
+    )
+    {
+        var persona = new Persona(personaId, tipoId, tipoDocumentoId, numeroDocumento);
+
+        return persona;
+    }
+
 }
