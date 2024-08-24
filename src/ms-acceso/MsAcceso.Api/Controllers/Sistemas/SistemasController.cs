@@ -18,7 +18,7 @@ namespace MsAcceso.Api.Controllers.Sistemas;
 [ApiVersion(ApiVersions.V1)]
 [ApiVersion(ApiVersions.V2)]
 [Route("api/v{version:apiVersion}/sistemas")]
-public class SistemasController : Controller
+public class SistemasController : ControllerBase
 {
 
     private readonly ISender _sender;
