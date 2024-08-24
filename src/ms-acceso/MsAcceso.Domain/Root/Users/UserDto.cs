@@ -9,5 +9,6 @@ public class UserDto
     public string? Email { get; set; }
     public string? Username { get; set; }
     public PersonaDto? Empresa { get; set; }
+    public string? EmpresaId { get; set; }
 
 }

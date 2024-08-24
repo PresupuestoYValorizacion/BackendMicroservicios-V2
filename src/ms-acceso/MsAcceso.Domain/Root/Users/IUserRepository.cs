@@ -23,6 +23,11 @@ public interface IUserRepository
         Guid idUsuario, 
         CancellationToken cancellationToken = default
     );
+
+    Task<User?> GetByIdUserIncludes(
+        UserId Id,
+        CancellationToken cancellationToken = default
+    );
     
 
 }

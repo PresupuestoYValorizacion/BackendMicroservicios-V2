@@ -6,7 +6,7 @@ using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
-internal sealed class UserRepository : RepositoryTenant<User,UserId>, IUserRepository, IPaginationUserRepository
+internal sealed class UserRepository : RepositoryTenant<User, UserId>, IUserRepository, IPaginationUserRepository
 {
     public UserRepository(TenantDbContext dbContext) : base(dbContext)
     {
@@ -21,7 +21,7 @@ internal sealed class UserRepository : RepositoryTenant<User,UserId>, IUserRepos
     public async Task<bool> IsUserExists(string email, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<User>()
-                    .AnyAsync(x => x.Email == email,cancellationToken);
+                    .AnyAsync(x => x.Email == email, cancellationToken);
     }
 
     public async Task<List<User>> GetAll(
@@ -31,10 +31,20 @@ internal sealed class UserRepository : RepositoryTenant<User,UserId>, IUserRepos
         return await DbContext.Set<User>().Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento).Include(u => u.Empresa)
                 .ThenInclude(e => e!.Tipo).ToListAsync(cancellationToken);
     }
+    public async Task<User?> GetByIdUserIncludes(
+        UserId Id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return await DbContext.Set<User>().Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento).Include(u => u.Empresa)
+                .ThenInclude(e => e!.Tipo).Include(e => e.Empresa).ThenInclude(e => e!.PersonaJuridica)
+                .Include(e => e.Empresa).ThenInclude(e => e!.PersonaNatural)
+                .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
+    }
 
     public async Task<bool> ValidateIdUsuarioExists(Guid idUsuario, CancellationToken cancellationToken = default)
     {
-       return await DbContext.Set<User>()
-                    .AnyAsync(x => x.Id == new UserId(idUsuario),cancellationToken);
+        return await DbContext.Set<User>()
+                     .AnyAsync(x => x.Id == new UserId(idUsuario), cancellationToken);
     }
 }
