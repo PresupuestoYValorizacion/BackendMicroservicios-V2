@@ -17,4 +17,14 @@ public sealed class PersonaNatural
 
     public PersonaId? PersonaId { get; private set; }
     public string? NombreCompleto;
+
+    public static PersonaNatural Create(
+        PersonaId personaId,
+        string nombreCompleto
+    )
+    {
+        var personaNatural = new PersonaNatural(personaId, nombreCompleto);
+
+        return personaNatural;
+    }
 }

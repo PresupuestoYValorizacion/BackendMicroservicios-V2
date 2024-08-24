@@ -17,4 +17,14 @@ public sealed class PersonaJuridica
 
     public PersonaId? PersonaId {get; private set;}
     public string? RazonSocial {get; private set;}
+
+    public static PersonaJuridica Create(
+        PersonaId personaId,
+        string razonSocial
+    )
+    {
+        var personaJuridica = new PersonaJuridica(personaId, razonSocial);
+
+        return personaJuridica;
+    }
 }

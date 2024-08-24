@@ -16,4 +16,9 @@ public interface IPersonaRepository
         CancellationToken cancellationToken = default
     );
 
+    Task<bool> NumeroDocumentoExists(
+        string NumeroDocumento, 
+        CancellationToken cancellationToken = default
+    );
+
 }
