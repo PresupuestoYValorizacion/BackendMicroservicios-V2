@@ -22,6 +22,9 @@ using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Infrastructure.Repositories;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.MenuOpciones;
+using MsAcceso.Domain.Root.PersonasNaturales;
+using MsAcceso.Domain.Root.PersonasJuridicas;
+
 namespace MsAcceso.Infrastructure;
 
 public static class DependencyInjection
@@ -76,6 +79,10 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPaginationUserRepository, UserRepository>();
+
+        services.AddScoped<IPersonaJuridicaRepository, PersonaJuridicaRepository>();
+        services.AddScoped<IPersonaNaturalRepository, PersonaNaturalRepository>();
+
 
         services.AddScoped<IPersonaRepository, PersonaRepository>();
         services.AddScoped<ISistemaRepository, SistemaRepository>();

@@ -12,10 +12,10 @@ public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUse
         
         RuleFor(c => c.Password).NotEmpty().MinimumLength(5);
 
-        RuleFor(c => c.EmpresaId)
-                .NotEmpty()
-                .Must(id => Guid.TryParse(id, out _))
-                .WithMessage("La EmpresaId no puede ser un GUID vacío");
+        // RuleFor(c => c.EmpresaId)
+        //         .NotEmpty()
+        //         .Must(id => Guid.TryParse(id, out _))
+        //         .WithMessage("La EmpresaId no puede ser un GUID vacío");
 
 
     }

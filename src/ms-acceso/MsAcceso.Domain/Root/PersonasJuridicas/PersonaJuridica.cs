@@ -1,3 +1,4 @@
+using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Personas;
 
 namespace MsAcceso.Domain.Root.PersonasJuridicas;
@@ -17,4 +18,21 @@ public sealed class PersonaJuridica
 
     public PersonaId? PersonaId {get; private set;}
     public string? RazonSocial {get; private set;}
+
+    public static PersonaJuridica Create(
+        PersonaId personaId,
+        string razonSocial
+    )
+    {
+        var personaJuridica = new PersonaJuridica(personaId, razonSocial);
+
+        return personaJuridica;
+    }
+
+    public Result Update(
+        string razonSocial)
+    {
+        RazonSocial = razonSocial;
+        return Result.Success();
+    }
 }
