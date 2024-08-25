@@ -78,7 +78,7 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate": "/api/v1/users/delete",
+      "DownstreamPathTemplate": "/api/v1/users/delete/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -86,7 +86,24 @@
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/users/delete",
+      "UpstreamPathTemplate": "/users/delete/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/desactive",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/desactive",
       "UpstreamHttpMethod": [ "PATCH" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",

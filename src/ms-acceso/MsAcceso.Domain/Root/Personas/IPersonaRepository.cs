@@ -7,9 +7,10 @@ public interface IPersonaRepository
 
     Task<Persona?> GetByIdAsync(PersonaId id, CancellationToken cancellationToken = default);
 
-    void Add(Persona user);
+    void Add(Persona persona);
 
-    void Update(Persona user);
+    void Update(Persona persona);
+    void Delete(Persona persona);
 
     Task<bool> IsEmpresaExists(
         PersonaId Id, 
