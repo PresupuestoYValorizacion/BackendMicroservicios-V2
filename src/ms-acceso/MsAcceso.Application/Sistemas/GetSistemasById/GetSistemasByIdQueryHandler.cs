@@ -5,7 +5,7 @@ using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Sistemas.GetSistemasById;
 
-internal sealed class GetSistemasByIdQueryHandler : IQueryHandler<GetSistemasByIdQuery, SistemasDto?>
+internal sealed class GetSistemasByIdQueryHandler : IQueryHandler<GetSistemasByIdQuery, SistemaDto?>
 {
     private readonly ISistemaRepository _sistemaRepository;
     private readonly IMapper _mapper;
@@ -19,17 +19,17 @@ internal sealed class GetSistemasByIdQueryHandler : IQueryHandler<GetSistemasByI
         _mapper = mapper;
     }
 
-    public async Task<Result<SistemasDto?>> Handle(GetSistemasByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<SistemaDto?>> Handle(GetSistemasByIdQuery request, CancellationToken cancellationToken)
     {
         var sistemaId = Guid.Parse(request.Id!);
         var sistema = await _sistemaRepository.GetByIdAsync(new SistemaId(sistemaId),cancellationToken);
 
         if(sistema is null)
         {
-            return Result.Failure<SistemasDto>(SistemaErrors.SistemaNotFound);
+            return Result.Failure<SistemaDto>(SistemaErrors.SistemaNotFound);
         }
 
-        var sistemaDto = _mapper.Map<SistemasDto>(sistema);
+        var sistemaDto = _mapper.Map<SistemaDto>(sistema);
 
         return sistemaDto;
     }

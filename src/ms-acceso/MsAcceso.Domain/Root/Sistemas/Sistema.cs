@@ -23,15 +23,15 @@ public sealed class Sistema : Entity<SistemaId>
         Logo = logo;
         Nivel = nivel;
         Url = url;
-        Tipo = tipo;
     }
 
     public SistemaId? Dependencia {get; private set;}
+    public Sistema? DependenciaModel {get; private set;}
     public string? Nombre {get; private set;}
     public string? Logo {get; private set;}
     public int Nivel {get; private set;}
     public string? Url {get; private set;}
-    public ParametroId? Tipo {get; private set;}
+    public List<Sistema> ? Sistemas { get; set; }
 
     public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, string url)
     {

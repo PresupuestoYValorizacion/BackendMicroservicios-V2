@@ -117,7 +117,7 @@ public class SistemasController : ControllerBase
 
     [HttpGet("get-sistemas")]
     [ApiVersion(ApiVersions.V1)]
-    public async Task<ActionResult<PaginationResult<SistemasDto>>> GetSistemas(CancellationToken cancellationToken)
+    public async Task<ActionResult<PaginationResult<SistemaDto>>> GetSistemas(CancellationToken cancellationToken)
     {
         var request = new GetSistemasQuery {};
         var result = await _sender.Send(request,cancellationToken);
@@ -131,7 +131,7 @@ public class SistemasController : ControllerBase
 
     [HttpGet("get-sistemas-by-id/{id}")]
     [ApiVersion(ApiVersions.V1)]
-    public async Task<ActionResult<PaginationResult<SistemasDto>>> GetSistemasById(
+    public async Task<ActionResult<PaginationResult<SistemaDto>>> GetSistemasById(
         string id,
         CancellationToken cancellationToken)
     {
@@ -147,7 +147,7 @@ public class SistemasController : ControllerBase
 
     [HttpGet("get-sistemas-by-dependencia/{id}")]
     [ApiVersion(ApiVersions.V1)]
-    public async Task<ActionResult<PaginationResult<SistemasDto>>> GetSistemasByDependencia(
+    public async Task<ActionResult<PaginationResult<SistemaDto>>> GetSistemasByDependencia(
         string id,
         CancellationToken cancellationToken
         )

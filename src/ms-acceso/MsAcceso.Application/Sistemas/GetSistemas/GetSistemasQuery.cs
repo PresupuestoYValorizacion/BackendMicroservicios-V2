@@ -5,7 +5,7 @@ using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Sistemas.GetSistemas;
 
-public sealed record GetSistemasQuery : IQuery<List<SistemasDto>>
+public sealed record GetSistemasQuery : IQuery<List<SistemaDto>>
 {
     
 }

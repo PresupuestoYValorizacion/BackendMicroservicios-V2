@@ -5,7 +5,7 @@ using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Sistemas.GetSistemasByDependencia;
 
-internal sealed class GetSistemasByDependenciaQueryHandler : IQueryHandler<GetSistemasByDependenciaQuery, List<SistemasDto>?>
+internal sealed class GetSistemasByDependenciaQueryHandler : IQueryHandler<GetSistemasByDependenciaQuery, List<SistemaDto>?>
 {
     private readonly ISistemaRepository _sistemaRepository;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ internal sealed class GetSistemasByDependenciaQueryHandler : IQueryHandler<GetSi
         _mapper = mapper;
     }
 
-    public async Task<Result<List<SistemasDto>?>> Handle(GetSistemasByDependenciaQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<SistemaDto>?>> Handle(GetSistemasByDependenciaQuery request, CancellationToken cancellationToken)
     {
         var sistemaId = Guid.Parse(request.Dependencia!);
 
@@ -27,13 +27,13 @@ internal sealed class GetSistemasByDependenciaQueryHandler : IQueryHandler<GetSi
 
         if(sistemaExists is null)
         {
-            return Result.Failure<List<SistemasDto>>(SistemaErrors.SistemaNotFound);
+            return Result.Failure<List<SistemaDto>>(SistemaErrors.SistemaNotFound);
         }
 
         var sistemas = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaExists.Id!,cancellationToken);
 
-        var sistemasDto = _mapper.Map<List<SistemasDto>>(sistemas);
+        var SistemaDto = _mapper.Map<List<SistemaDto>>(sistemas);
 
-        return sistemasDto!;
+        return SistemaDto!;
     }
 }

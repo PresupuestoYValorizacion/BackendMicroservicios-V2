@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240822215732_InitialTenant")]
+    [Migration("20240825055538_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -414,17 +414,13 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("Nivel")
-                        .IsRequired()
+                    b.Property<int>("Nivel")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("Tipo")
-                        .HasColumnType("int");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -434,8 +430,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.HasKey("Id");
 
                     b.HasIndex("Dependencia");
-
-                    b.HasIndex("Tipo");
 
                     b.ToTable("sistemas", (string)null);
                 });
@@ -583,13 +577,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "DependenciaModel")
+                        .WithMany("Sistemas")
                         .HasForeignKey("Dependencia");
 
-                    b.HasOne("MsAcceso.Domain.Root.Parametros.Parametro", null)
-                        .WithMany()
-                        .HasForeignKey("Tipo");
+                    b.Navigation("DependenciaModel");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Users.User", b =>
@@ -606,6 +598,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Navigation("PersonaJuridica");
 
                     b.Navigation("PersonaNatural");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
+                {
+                    b.Navigation("Sistemas");
                 });
 #pragma warning restore 612, 618
         }

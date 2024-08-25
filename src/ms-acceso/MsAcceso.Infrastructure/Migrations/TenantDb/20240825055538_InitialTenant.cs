@@ -71,6 +71,28 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "sistemas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Dependencia = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Logo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Nivel = table.Column<int>(type: "int", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sistemas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sistemas_sistemas_Dependencia",
+                        column: x => x.Dependencia,
+                        principalTable: "sistemas",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "personas",
                 columns: table => new
                 {
@@ -96,29 +118,68 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "sistemas",
+                name: "menus_opciones",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Dependencia = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Nivel = table.Column<int>(type: "int", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Tipo = table.Column<int>(type: "int", nullable: true),
+                    OpcionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_sistemas", x => x.Id);
+                    table.PrimaryKey("PK_menus_opciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_sistemas_parametros_Tipo",
-                        column: x => x.Tipo,
-                        principalTable: "parametros",
+                        name: "FK_menus_opciones_opciones_OpcionId",
+                        column: x => x.OpcionId,
+                        principalTable: "opciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_sistemas_sistemas_Dependencia",
-                        column: x => x.Dependencia,
+                        name: "FK_menus_opciones_sistemas_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "sistemas",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rols",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SistemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_rols_sistemas_SistemaId",
+                        column: x => x.SistemaId,
+                        principalTable: "sistemas",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "empresas_sistemas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmpresaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SistemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_empresas_sistemas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_empresas_sistemas_personas_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "personas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_empresas_sistemas_sistemas_SistemaId",
+                        column: x => x.SistemaId,
                         principalTable: "sistemas",
                         principalColumn: "Id");
                 });
@@ -178,73 +239,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         name: "FK_users_personas_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "personas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "empresas_sistemas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmpresaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SistemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_empresas_sistemas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_empresas_sistemas_personas_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "personas",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_empresas_sistemas_sistemas_SistemaId",
-                        column: x => x.SistemaId,
-                        principalTable: "sistemas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "menus_opciones",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OpcionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_menus_opciones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_menus_opciones_opciones_OpcionId",
-                        column: x => x.OpcionId,
-                        principalTable: "opciones",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_menus_opciones_sistemas_MenuId",
-                        column: x => x.MenuId,
-                        principalTable: "sistemas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "rols",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SistemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_rols_sistemas_SistemaId",
-                        column: x => x.SistemaId,
-                        principalTable: "sistemas",
                         principalColumn: "Id");
                 });
 
@@ -409,11 +403,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "IX_sistemas_Dependencia",
                 table: "sistemas",
                 column: "Dependencia");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_sistemas_Tipo",
-                table: "sistemas",
-                column: "Tipo");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_Email",

@@ -34,12 +34,9 @@ internal sealed class SistemaConfiguration : IEntityTypeConfiguration<Sistema>
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        builder.HasOne<Sistema>()
-                .WithMany()
-                .HasForeignKey(sistema => sistema.Dependencia);
+        builder.HasOne(sistema => sistema.DependenciaModel)
+            .WithMany(s => s.Sistemas)
+            .HasForeignKey(sistema => sistema.Dependencia);
                 
-        builder.HasOne<Parametro>()
-                .WithMany()
-                .HasForeignKey(sistema => sistema.Tipo);;
     }
 }
