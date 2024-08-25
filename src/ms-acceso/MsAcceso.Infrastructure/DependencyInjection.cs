@@ -21,6 +21,7 @@ using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Infrastructure.Repositories;
 using MsAcceso.Domain.Root.Sistemas;
+using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 
@@ -85,6 +86,7 @@ public static class DependencyInjection
 
         services.AddScoped<IPersonaRepository, PersonaRepository>();
         services.AddScoped<ISistemaRepository, SistemaRepository>();
+        services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 
         services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
