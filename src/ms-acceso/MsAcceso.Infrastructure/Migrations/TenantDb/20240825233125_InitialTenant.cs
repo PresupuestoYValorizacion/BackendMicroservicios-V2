@@ -84,19 +84,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "rols",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "sistemas",
                 columns: table => new
                 {
@@ -144,6 +131,31 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "rols",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    TipoRolId = table.Column<int>(type: "int", nullable: true),
+                    LicenciaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_rols_licencias_LicenciaId",
+                        column: x => x.LicenciaId,
+                        principalTable: "licencias",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_rols_parametros_TipoRolId",
+                        column: x => x.TipoRolId,
+                        principalTable: "parametros",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "menus_opciones",
                 columns: table => new
                 {
@@ -162,30 +174,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_menus_opciones_sistemas_MenuId",
-                        column: x => x.MenuId,
-                        principalTable: "sistemas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "rols_permisos",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols_permisos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_rols_permisos_rols_RolId",
-                        column: x => x.RolId,
-                        principalTable: "rols",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_rols_permisos_sistemas_MenuId",
                         column: x => x.MenuId,
                         principalTable: "sistemas",
                         principalColumn: "Id");
@@ -225,6 +213,30 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         principalTable: "personas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rols_permisos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols_permisos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_rols_permisos_rols_RolId",
+                        column: x => x.RolId,
+                        principalTable: "rols",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_rols_permisos_sistemas_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "sistemas",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -323,8 +335,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     { 1, null, true, null, null, 0, "ESTADO DE SOLICITUDES", null },
                     { 2, null, true, null, null, 0, "TIPO DE PERSONA", null },
                     { 5, null, true, null, null, 0, "TIPO DE ASUNTO", null },
+                    { 9, null, true, null, null, 0, "TIPO DE ROL", null },
                     { 3, null, true, 2, null, 1, "NATURAL", "1" },
                     { 4, null, true, 2, null, 1, "JURIDICA", "2" },
+                    { 10, null, true, 9, null, 1, "LICENCIA", "1" },
+                    { 11, null, true, 9, null, 1, "ADMINISTRADOR", "2" },
                     { 6, "DNI", true, 3, null, 2, "DOCUMENTO NACIONAL DE IDENTIDAD", "1" },
                     { 7, "RUC", true, 4, null, 2, "REGISTRO UNICO DE CONTRIBUYENTES", "1" },
                     { 8, "CE", true, 3, null, 2, "CARNET DE EXTRANJERIA", "2" }
@@ -354,6 +369,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "IX_personas_TipoId",
                 table: "personas",
                 column: "TipoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rols_LicenciaId",
+                table: "rols",
+                column: "LicenciaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rols_TipoRolId",
+                table: "rols",
+                column: "TipoRolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_rols_permisos_MenuId",
@@ -435,9 +460,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "rols_permisos");
 
             migrationBuilder.DropTable(
-                name: "licencias");
-
-            migrationBuilder.DropTable(
                 name: "users");
 
             migrationBuilder.DropTable(
@@ -448,6 +470,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             migrationBuilder.DropTable(
                 name: "rols");
+
+            migrationBuilder.DropTable(
+                name: "licencias");
 
             migrationBuilder.DropTable(
                 name: "parametros");

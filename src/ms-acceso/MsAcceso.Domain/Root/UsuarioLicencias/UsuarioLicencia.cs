@@ -1,6 +1,5 @@
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Licencia;
-using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Shared;
 

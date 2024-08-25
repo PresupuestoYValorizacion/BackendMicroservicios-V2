@@ -1,7 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MsAcceso.Domain.Root.Licencia;
+using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Domain.Shared;

@@ -1,7 +1,7 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Domain.Root.Licencia;
+namespace MsAcceso.Domain.Root.Licencias;
 
 
 public sealed class Licencia : Entity<LicenciaId>

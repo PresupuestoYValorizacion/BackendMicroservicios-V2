@@ -23,7 +23,14 @@ internal sealed class RolConfiguration : IEntityTypeConfiguration<Rol>
         builder.Property(rol => rol.Activo)
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
-    
 
+        builder
+              .HasOne(p => p.TipoRol)
+              .WithMany()
+              .HasForeignKey(rol => rol.TipoRolId);
+
+        builder.HasOne(p => p.Licencia)
+                  .WithMany()
+                  .HasForeignKey(rol => rol.LicenciaId);
     }
 }

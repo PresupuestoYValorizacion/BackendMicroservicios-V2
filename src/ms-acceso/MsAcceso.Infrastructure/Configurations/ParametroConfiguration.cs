@@ -51,7 +51,11 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
             Parametro.Create(new ParametroId(5), "TIPO DE ASUNTO", null, null, null, 0, null),
             Parametro.Create(new ParametroId(6), "DOCUMENTO NACIONAL DE IDENTIDAD", "DNI", null, new ParametroId(3), 2, "1"),
             Parametro.Create(new ParametroId(7), "REGISTRO UNICO DE CONTRIBUYENTES", "RUC", null, new ParametroId(4), 2, "1"),
-            Parametro.Create(new ParametroId(8), "CARNET DE EXTRANJERIA", "CE", null, new ParametroId(3), 2, "2")
+            Parametro.Create(new ParametroId(8), "CARNET DE EXTRANJERIA", "CE", null, new ParametroId(3), 2, "2"),
+            Parametro.Create(new ParametroId(9), "TIPO DE ROL", null, null, null, 0, null),
+            Parametro.Create(new ParametroId(10), "LICENCIA", null, null, new ParametroId(9), 1, "1"),
+            Parametro.Create(new ParametroId(11), "ADMINISTRADOR", null, null, new ParametroId(9),1, "2")
+
 
 
         );

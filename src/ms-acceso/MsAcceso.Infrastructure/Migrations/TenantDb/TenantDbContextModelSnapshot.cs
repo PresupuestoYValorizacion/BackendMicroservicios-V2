@@ -61,7 +61,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("auditorias", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.Licencia.Licencia", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Root.Licencias.Licencia", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -257,6 +257,31 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                             Nivel = 2,
                             Nombre = "CARNET DE EXTRANJERIA",
                             Valor = "2"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "TIPO DE ROL"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Activo = true,
+                            Dependencia = 9,
+                            Nivel = 1,
+                            Nombre = "LICENCIA",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Activo = true,
+                            Dependencia = 9,
+                            Nivel = 1,
+                            Nombre = "ADMINISTRADOR",
+                            Valor = "2"
                         });
                 });
 
@@ -372,12 +397,22 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("LicenciaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TipoRolId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LicenciaId");
+
+                    b.HasIndex("TipoRolId");
 
                     b.ToTable("rols", (string)null);
                 });
@@ -564,6 +599,21 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("RolPermisoId");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Rols.Rol", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Licencias.Licencia", "Licencia")
+                        .WithMany()
+                        .HasForeignKey("LicenciaId");
+
+                    b.HasOne("MsAcceso.Domain.Root.Parametros.Parametro", "TipoRol")
+                        .WithMany()
+                        .HasForeignKey("TipoRolId");
+
+                    b.Navigation("Licencia");
+
+                    b.Navigation("TipoRol");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "DependenciaModel")
@@ -590,7 +640,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.UsuarioLicencias.UsuarioLicencia", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Licencia.Licencia", null)
+                    b.HasOne("MsAcceso.Domain.Root.Licencias.Licencia", null)
                         .WithMany()
                         .HasForeignKey("LicenciaId");
 
