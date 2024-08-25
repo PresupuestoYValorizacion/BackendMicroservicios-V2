@@ -42,5 +42,9 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                    .WithMany()
                    .HasForeignKey(user => user.EmpresaId);
 
+             builder.HasOne(p => p.Rol)
+                       .WithMany()
+                       .HasForeignKey(user => user.RolId);
+
     }
 }

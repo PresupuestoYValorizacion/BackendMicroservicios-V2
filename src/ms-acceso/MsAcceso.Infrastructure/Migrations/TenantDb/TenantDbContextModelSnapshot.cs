@@ -364,29 +364,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("rols_permisos_opciones", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.RolUsers.RolUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("RolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("rols_usuarios", (string)null);
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Root.Rols.Rol", b =>
                 {
                     b.Property<Guid>("Id")
@@ -400,12 +377,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("SistemaId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SistemaId");
 
                     b.ToTable("rols", (string)null);
                 });
@@ -470,6 +442,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<Guid?>("RolId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -481,6 +456,8 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .IsUnique();
 
                     b.HasIndex("EmpresaId");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("users", (string)null);
                 });
@@ -587,24 +564,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("RolPermisoId");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.RolUsers.RolUser", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Root.Rols.Rol", null)
-                        .WithMany()
-                        .HasForeignKey("RolId");
-
-                    b.HasOne("MsAcceso.Domain.Root.Users.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Root.Rols.Rol", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
-                        .HasForeignKey("SistemaId");
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "DependenciaModel")
@@ -620,7 +579,13 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .WithMany()
                         .HasForeignKey("EmpresaId");
 
+                    b.HasOne("MsAcceso.Domain.Root.Rols.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId");
+
                     b.Navigation("Empresa");
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.UsuarioLicencias.UsuarioLicencia", b =>

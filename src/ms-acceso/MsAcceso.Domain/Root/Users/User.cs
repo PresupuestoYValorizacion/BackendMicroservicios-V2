@@ -1,6 +1,7 @@
 
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Shared;
 
 
@@ -16,7 +17,8 @@ public sealed class User : Entity<UserId>
         string username,
         string password,
         string connectionString,
-        PersonaId empresaId
+        PersonaId empresaId,
+        RolId rolId
         ): base(id)
     {
         Username = username;
@@ -24,6 +26,7 @@ public sealed class User : Entity<UserId>
         Password = password;
         ConnectionString = connectionString;
         EmpresaId = empresaId;
+        RolId = rolId;
     }
 
     public string? Email {get; private set;} 
@@ -31,7 +34,9 @@ public sealed class User : Entity<UserId>
     public string? Password {get; private set;}
     public string? ConnectionString {get; private set;}
     public PersonaId? EmpresaId {get; private set;}
+    public RolId? RolId {get; private set;}
     public Persona? Empresa { get; private set;}
+    public Rol? Rol { get; private set;}
 
     public static User Create(
         UserId userId,
@@ -39,10 +44,11 @@ public sealed class User : Entity<UserId>
         string email,
         string password,
         string connectionString,
-        PersonaId empresaId
+        PersonaId empresaId,
+        RolId rolId
     )
     {
-        var user = new User(userId, email, username, password,connectionString, empresaId);
+        var user = new User(userId, email, username, password,connectionString, empresaId, rolId);
 
         return user;
     }

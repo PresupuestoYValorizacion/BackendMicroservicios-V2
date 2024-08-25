@@ -5,6 +5,7 @@ using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
 
 
@@ -99,7 +100,8 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
             email,
             passwordHash,
             connectionString,
-            empresaId!
+            empresaId!,
+            new RolId(Guid.NewGuid())
         );
         
         _userRepository.Add(user);

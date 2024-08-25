@@ -9,25 +9,21 @@ public sealed class Rol : Entity<RolId>
 
     private Rol(
         RolId id,
-        string nombre,
-        SistemaId sistemaId
+        string nombre
         ): base(id)
     {
         Nombre = nombre;
-        SistemaId = sistemaId;
     }
     
 
     public string? Nombre {get; private set;}
-    public SistemaId? SistemaId {get; private set;}
 
 
     public static Rol Create(
-        string nombre,
-        SistemaId sistemaId
+        string nombre
     )
     {
-        var rol = new Rol(RolId.New(), nombre, sistemaId);
+        var rol = new Rol(RolId.New(), nombre);
 
         return rol;
     }

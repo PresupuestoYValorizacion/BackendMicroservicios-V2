@@ -11,7 +11,6 @@ using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.Rols;
-using MsAcceso.Domain.Root.RolUsers;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.Users;
 
@@ -36,7 +35,6 @@ namespace MsAcceso.Infrastructure.Tenants
         public DbSet<RolPermiso> RolPermisos { get; set; }
         public DbSet<RolPermisoOpcion> RolPermisoOpcions { get; set; }
         public DbSet<Rol> Rols { get; set; }
-        public DbSet<RolUser> RolUsers { get; set; }
         public DbSet<Sistema> Sistemas { get; set; }
         public DbSet<PersonaNatural> PersonasNaturales { get; set; }
         public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
