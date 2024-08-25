@@ -168,8 +168,7 @@ public class UsersController : ControllerBase
     )
     {
         var command = new DesactiveUserCommand(
-            new UserId(request.Id),
-            request.UsuarioModificacion
+            new UserId(request.Id)
         );
 
         var result = await _sender.Send(command, cancellationToken);

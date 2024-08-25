@@ -6,6 +6,5 @@ namespace MsAcceso.Application.Users.DesactiveUser;
 
 
 public sealed record DesactiveUserCommand(
-    UserId Id,
-    Guid UsuarioModificacion
+    UserId Id
     ) : ICommand<Guid>;

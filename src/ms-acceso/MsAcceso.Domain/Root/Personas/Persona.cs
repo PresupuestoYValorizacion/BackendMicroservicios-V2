@@ -2,6 +2,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Domain.Root.Personas;
 
@@ -53,6 +54,12 @@ public sealed class Persona : Entity<PersonaId>
         TipoId = tipoId;
         TipoDocumentoId = tipoDocumentoId;
         NumeroDocumento = numeroDocumento;
+        return Result.Success();
+    }
+
+    public Result Desactive()
+    {
+        Activo = new Activo(false);
         return Result.Success();
     }
 }
