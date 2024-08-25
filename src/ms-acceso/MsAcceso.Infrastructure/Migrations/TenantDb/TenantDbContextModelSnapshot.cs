@@ -61,7 +61,7 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("auditorias", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.EmpresasSistemas.EmpresaSistema", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Root.Licencia.Licencia", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -69,19 +69,34 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("EmpresaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SistemaId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaId");
+                    b.ToTable("licencias", (string)null);
 
-                    b.HasIndex("SistemaId");
-
-                    b.ToTable("empresas_sistemas", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb"),
+                            Activo = true,
+                            Nombre = "ENTERPRISE"
+                        },
+                        new
+                        {
+                            Id = new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065"),
+                            Activo = true,
+                            Nombre = "PROFESIONAL"
+                        },
+                        new
+                        {
+                            Id = new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc"),
+                            Activo = true,
+                            Nombre = "EDUCACIONAL"
+                        });
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.MenuOpciones.MenuOpcion", b =>
@@ -470,15 +485,33 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.EmpresasSistemas.EmpresaSistema", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Root.UsuarioLicencias.UsuarioLicencia", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Personas.Persona", null)
-                        .WithMany()
-                        .HasForeignKey("EmpresaId");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
-                        .HasForeignKey("SistemaId");
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LicenciaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LicenciaId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("usuario_licencia", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.MenuOpciones.MenuOpcion", b =>
@@ -588,6 +621,17 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("EmpresaId");
 
                     b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.UsuarioLicencias.UsuarioLicencia", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Licencia.Licencia", null)
+                        .WithMany()
+                        .HasForeignKey("LicenciaId");
+
+                    b.HasOne("MsAcceso.Domain.Root.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>

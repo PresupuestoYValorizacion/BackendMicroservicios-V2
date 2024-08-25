@@ -33,6 +33,19 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "licencias",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_licencias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "opciones",
                 columns: table => new
                 {
@@ -161,30 +174,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "empresas_sistemas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmpresaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SistemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_empresas_sistemas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_empresas_sistemas_personas_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "personas",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_empresas_sistemas_sistemas_SistemaId",
-                        column: x => x.SistemaId,
-                        principalTable: "sistemas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "personas_juridicas",
                 columns: table => new
                 {
@@ -291,6 +280,32 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "usuario_licencia",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LicenciaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_usuario_licencia", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_usuario_licencia_licencias_LicenciaId",
+                        column: x => x.LicenciaId,
+                        principalTable: "licencias",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_usuario_licencia_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "rols_permisos_opciones",
                 columns: table => new
                 {
@@ -315,6 +330,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.InsertData(
+                table: "licencias",
+                columns: new[] { "Id", "Activo", "Nombre" },
+                values: new object[,]
+                {
+                    { new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065"), true, "PROFESIONAL" },
+                    { new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc"), true, "EDUCACIONAL" },
+                    { new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb"), true, "ENTERPRISE" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "parametros",
                 columns: new[] { "Id", "Abreviatura", "Activo", "Dependencia", "Descripcion", "Nivel", "Nombre", "Valor" },
                 values: new object[,]
@@ -328,16 +353,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     { 7, "RUC", true, 4, null, 2, "REGISTRO UNICO DE CONTRIBUYENTES", "1" },
                     { 8, "CE", true, 3, null, 2, "CARNET DE EXTRANJERIA", "2" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_empresas_sistemas_EmpresaId",
-                table: "empresas_sistemas",
-                column: "EmpresaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_empresas_sistemas_SistemaId",
-                table: "empresas_sistemas",
-                column: "SistemaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_menus_opciones_MenuId",
@@ -414,6 +429,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "IX_users_EmpresaId",
                 table: "users",
                 column: "EmpresaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuario_licencia_LicenciaId",
+                table: "usuario_licencia",
+                column: "LicenciaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuario_licencia_UserId",
+                table: "usuario_licencia",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -421,9 +446,6 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
         {
             migrationBuilder.DropTable(
                 name: "auditorias");
-
-            migrationBuilder.DropTable(
-                name: "empresas_sistemas");
 
             migrationBuilder.DropTable(
                 name: "menus_opciones");
@@ -441,10 +463,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "rols_usuarios");
 
             migrationBuilder.DropTable(
+                name: "usuario_licencia");
+
+            migrationBuilder.DropTable(
                 name: "opciones");
 
             migrationBuilder.DropTable(
                 name: "rols_permisos");
+
+            migrationBuilder.DropTable(
+                name: "licencias");
 
             migrationBuilder.DropTable(
                 name: "users");

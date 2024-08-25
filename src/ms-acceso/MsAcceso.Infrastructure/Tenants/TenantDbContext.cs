@@ -2,7 +2,6 @@
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Auditorias;
-using MsAcceso.Domain.Root.EmpresasSistemas;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
@@ -15,7 +14,6 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.RolUsers;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.Users;
-using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Infrastructure.Tenants
 {
@@ -33,7 +31,6 @@ namespace MsAcceso.Infrastructure.Tenants
         public DbSet<Parametro> Parametros { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Auditoria> Auditorias { get; set; }
-        public DbSet<EmpresaSistema> EmpresaSistemas { get; set; }
         public DbSet<MenuOpcion> MenuOpcions { get; set; }
         public DbSet<Opcion> Opcions { get; set; }
         public DbSet<RolPermiso> RolPermisos { get; set; }

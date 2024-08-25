@@ -53,6 +53,7 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
             Parametro.Create(new ParametroId(7), "REGISTRO UNICO DE CONTRIBUYENTES", "RUC", null, new ParametroId(4), 2, "1"),
             Parametro.Create(new ParametroId(8), "CARNET DE EXTRANJERIA", "CE", null, new ParametroId(3), 2, "2")
 
+
         );
     }
 }
