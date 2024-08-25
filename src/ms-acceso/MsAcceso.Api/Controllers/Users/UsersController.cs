@@ -16,6 +16,8 @@ using MsAcceso.Domain.Root.Users;
 using MsAcceso.Application.Users.ValidateIdUsuario;
 using MsAcceso.Application.Parametros.GetUserById;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Application.Users.UpdatePersona;
+using MsAcceso.Domain.Root.Personas;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -135,7 +137,7 @@ public class UsersController : ControllerBase
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpPut("update")]
+    [HttpPut("update-user")]
     public async Task<IActionResult> UpdateUser(
         [FromBody] UpdateUserRequest request,
         CancellationToken cancellationToken
@@ -223,6 +225,34 @@ public class UsersController : ControllerBase
         var results = await _sender.Send(request);
 
         return Ok(results);
+    }
+
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPut("update-persona")]
+    public async Task<IActionResult> UpdatePersona(
+        [FromBody] UpdatePersonaRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new UpdatePersonaCommand(
+            new PersonaId(request.Id),
+            new ParametroId(request.TipoId),
+            new ParametroId(request.TipoDocumentoId),
+            request.NumeroDocumento,
+            request.RazonSocial,
+            request.NombreCompleto
+        );
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
     }
 
 }

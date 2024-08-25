@@ -7,30 +7,30 @@ namespace MsAcceso.Domain.Root.Personas;
 
 public sealed class Persona : Entity<PersonaId>
 {
-    private Persona(){}
+    private Persona() { }
 
     private Persona(
         PersonaId id,
         ParametroId tipo,
         ParametroId tipoDocumento,
         string numeroDocumento
-        ): base( id )
+        ) : base(id)
     {
         TipoId = tipo;
         TipoDocumentoId = tipoDocumento;
         NumeroDocumento = numeroDocumento;
     }
 
-    public ParametroId? TipoId {get; private set;}
-    
-    public ParametroId? TipoDocumentoId {get; private set;}
+    public ParametroId? TipoId { get; private set; }
 
-    public Parametro? Tipo {get; private set;}
-    
-    public Parametro? TipoDocumento {get; private set;}
-    public string? NumeroDocumento {get; private set;}
-    public PersonaNatural? PersonaNatural {get; private set;}    
-    public PersonaJuridica? PersonaJuridica {get; private set;}    
+    public ParametroId? TipoDocumentoId { get; private set; }
+
+    public Parametro? Tipo { get; private set; }
+
+    public Parametro? TipoDocumento { get; private set; }
+    public string? NumeroDocumento { get; private set; }
+    public PersonaNatural? PersonaNatural { get; private set; }
+    public PersonaJuridica? PersonaJuridica { get; private set; }
 
 
     public static Persona Create(
@@ -45,4 +45,14 @@ public sealed class Persona : Entity<PersonaId>
         return persona;
     }
 
+    public Result Update(
+        ParametroId tipoId,
+        ParametroId tipoDocumentoId,
+        string numeroDocumento)
+    {
+        TipoId = tipoId;
+        TipoDocumentoId = tipoDocumentoId;
+        NumeroDocumento = numeroDocumento;
+        return Result.Success();
+    }
 }

@@ -44,7 +44,7 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate": "/api/v1/users/update",
+      "DownstreamPathTemplate": "/api/v1/users/update-user",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -52,7 +52,24 @@
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/users/update",
+      "UpstreamPathTemplate": "/users/update-user",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/update-persona",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/update-persona",
       "UpstreamHttpMethod": [ "PUT" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",
