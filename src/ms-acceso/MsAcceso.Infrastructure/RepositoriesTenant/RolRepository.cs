@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Tenants;
@@ -17,5 +18,10 @@ internal sealed class RolRepository : RepositoryTenant<Rol, RolId>, IRolReposito
     {
         return await DbContext.Set<Rol>()
              .FirstOrDefaultAsync(x => x.LicenciaId == id && x.Activo == new Activo(true), cancellationToken);
+    }
+
+    public async Task<List<Rol>> GetRolesByTipoAsync(ParametroId TipoId, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Rol>().Where(x => x.TipoRolId == TipoId).ToListAsync(cancellationToken);
     }
 }
