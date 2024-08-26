@@ -22,6 +22,6 @@ internal sealed class RolRepository : RepositoryTenant<Rol, RolId>, IRolReposito
 
     public async Task<List<Rol>> GetRolesByTipoAsync(ParametroId TipoId, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<Rol>().Where(x => x.TipoRolId == TipoId).ToListAsync(cancellationToken);
+        return await DbContext.Set<Rol>().Where(x => x.TipoRolId == TipoId && x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
 }

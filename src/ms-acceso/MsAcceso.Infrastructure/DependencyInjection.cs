@@ -91,6 +91,8 @@ public static class DependencyInjection
         
         services.AddScoped<IRolRepository, RolRepository>();
 
+        services.AddScoped<ILicenciaRepository, LicenciaRepository>();
+
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 
         services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
