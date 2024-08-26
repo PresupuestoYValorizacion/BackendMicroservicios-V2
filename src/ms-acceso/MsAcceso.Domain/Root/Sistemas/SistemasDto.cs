@@ -1,3 +1,5 @@
+using MsAcceso.Domain.Root.Opciones;
+
 namespace MsAcceso.Domain.Root.Sistemas;
 
 public class SistemaDto
@@ -9,4 +11,6 @@ public class SistemaDto
     public int? Nivel {get; set;}
     public string? Url {get; set;}
     public List<SistemaDto>? Childrens {get; set;}
+    public List<OpcionDto>? Opciones { get; set; } 
+
 }

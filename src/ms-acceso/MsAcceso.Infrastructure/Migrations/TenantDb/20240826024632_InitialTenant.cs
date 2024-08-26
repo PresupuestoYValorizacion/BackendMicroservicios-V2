@@ -160,21 +160,21 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OpcionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OpcionesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MenusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_menus_opciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_menus_opciones_opciones_OpcionId",
-                        column: x => x.OpcionId,
+                        name: "FK_menus_opciones_opciones_OpcionesId",
+                        column: x => x.OpcionesId,
                         principalTable: "opciones",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_menus_opciones_sistemas_MenuId",
-                        column: x => x.MenuId,
+                        name: "FK_menus_opciones_sistemas_MenusId",
+                        column: x => x.MenusId,
                         principalTable: "sistemas",
                         principalColumn: "Id");
                 });
@@ -346,14 +346,14 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_menus_opciones_MenuId",
+                name: "IX_menus_opciones_MenusId",
                 table: "menus_opciones",
-                column: "MenuId");
+                column: "MenusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_menus_opciones_OpcionId",
+                name: "IX_menus_opciones_OpcionesId",
                 table: "menus_opciones",
-                column: "OpcionId");
+                column: "OpcionesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_parametros_Dependencia",

@@ -107,17 +107,17 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("MenuId")
+                    b.Property<Guid?>("MenusId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("OpcionId")
+                    b.Property<Guid?>("OpcionesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MenuId");
+                    b.HasIndex("MenusId");
 
-                    b.HasIndex("OpcionId");
+                    b.HasIndex("OpcionesId");
 
                     b.ToTable("menus_opciones", (string)null);
                 });
@@ -530,11 +530,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 {
                     b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
                         .WithMany()
-                        .HasForeignKey("MenuId");
+                        .HasForeignKey("MenusId");
 
                     b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", null)
                         .WithMany()
-                        .HasForeignKey("OpcionId");
+                        .HasForeignKey("OpcionesId");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Parametros.Parametro", b =>

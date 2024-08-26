@@ -15,12 +15,12 @@ public sealed class MenuOpcion : Entity<MenuOpcionId>
         SistemaId menuId
         ): base( id )
     {
-        OpcionId = opcionId;
-        MenuId = menuId;
+        OpcionesId = opcionId;
+        MenusId = menuId;
     }
     
-    public OpcionId? OpcionId { get; set; }
-    public SistemaId? MenuId{ get; set; }
+    public OpcionId? OpcionesId { get; set; }
+    public SistemaId? MenusId{ get; set; }
 
     public static MenuOpcion Create(
         OpcionId opcionId,
@@ -33,7 +33,7 @@ public sealed class MenuOpcion : Entity<MenuOpcionId>
 
     public Result Update(OpcionId opcionId)
     {
-        OpcionId = (opcionId is not null) ? opcionId : OpcionId;
+        OpcionesId = (opcionId is not null) ? opcionId : OpcionesId;
         return Result.Success();
     }
 

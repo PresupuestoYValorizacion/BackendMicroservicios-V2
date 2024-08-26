@@ -9,8 +9,8 @@ public class MenuOpcionProfile : Profile
     {
         CreateMap<MenuOpcion,MenuOpcionDto>()
         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
-        .ForMember(dest => dest.OpcionId, opt => opt.MapFrom(src => src.OpcionId!.Value.ToString()))
-        .ForMember(dest => dest.SistemaId, opt => opt.MapFrom(src => src.MenuId!.Value.ToString()));
+        .ForMember(dest => dest.OpcionId, opt => opt.MapFrom(src => src.OpcionesId!.Value.ToString()))
+        .ForMember(dest => dest.SistemaId, opt => opt.MapFrom(src => src.MenusId!.Value.ToString()));
 
     }
 }

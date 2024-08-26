@@ -1,4 +1,5 @@
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Domain.Root.Opciones;
@@ -22,6 +23,8 @@ public sealed class Opcion : Entity<OpcionId>
     public string? Nombre { get; private set; }
     public string? Logo { get; private set; }
     public string? Abreviatura { get; private set; }
+    public List<Sistema>? Menus { get; set; } 
+
 
     public static Opcion Create(
         string Nombre,

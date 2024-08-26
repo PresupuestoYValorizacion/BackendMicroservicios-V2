@@ -17,16 +17,16 @@ internal sealed class MenusOpcionsConfiguration : IEntityTypeConfiguration<MenuO
         builder.Property(menuOpcion => menuOpcion.Id)
         .HasConversion(menuOpcionId => menuOpcionId!.Value, value => new MenuOpcionId(value));
 
-         builder.Property(menuOpcion => menuOpcion.Activo)
-        .IsRequired()
-        .HasConversion(estado => estado!.Value, value => new Activo(value));
+        builder.Property(menuOpcion => menuOpcion.Activo)
+       .IsRequired()
+       .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.HasOne<Opcion>()
                 .WithMany()
-                .HasForeignKey(menuOpcion => menuOpcion.OpcionId);
+                .HasForeignKey(menuOpcion => menuOpcion.OpcionesId);
 
         builder.HasOne<Sistema>()
                 .WithMany()
-                .HasForeignKey(menuOpcion => menuOpcion.MenuId);
+                .HasForeignKey(menuOpcion => menuOpcion.MenusId);
     }
 }

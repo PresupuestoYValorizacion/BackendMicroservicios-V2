@@ -1,4 +1,6 @@
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.MenuOpciones;
+using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 
@@ -31,7 +33,9 @@ public sealed class Sistema : Entity<SistemaId>
     public string? Logo {get; private set;}
     public int Nivel {get; private set;}
     public string? Url {get; private set;}
-    public List<Sistema> ? Sistemas { get; set; }
+    public List<Sistema>? Sistemas { get; set; }
+    public List<Opcion>? Opciones { get; set; } 
+
 
     public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, string url)
     {

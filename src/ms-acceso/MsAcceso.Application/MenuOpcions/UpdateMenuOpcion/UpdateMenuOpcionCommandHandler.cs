@@ -41,7 +41,7 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
             return Result.Failure<Guid>(OpcionErrors.NotFound);
         }
 
-        var menuId = menuOpcion.MenuId;
+        var menuId = menuOpcion.MenusId;
         var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(opcionExists.Id!,menuId!,cancellationToken);
 
         if(menuOpcionExists){
