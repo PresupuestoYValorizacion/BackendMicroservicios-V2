@@ -38,11 +38,12 @@ internal sealed class UserRepository : RepositoryTenant<User, UserId>, IUserRepo
     )
     {
         var user = await DbContext.Set<User>()
-        .Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento)
+        .Include(u => u.Empresa).ThenInclude(e => e!.TipoDocumento)
         .Include(u => u.Empresa).ThenInclude(e => e!.Tipo)
-        .Include(e => e.Empresa).ThenInclude(e => e!.PersonaJuridica)
-        .Include(e => e.Empresa).ThenInclude(e => e!.PersonaNatural)
-        .Include(e => e.UsuarioLicencias) 
+        .Include(u => u.Empresa).ThenInclude(e => e!.PersonaJuridica)
+        .Include(u => u.Empresa).ThenInclude(e => e!.PersonaNatural)
+        .Include(u => u.Rol)
+        .Include(u => u.UsuarioLicencias) 
         .FirstOrDefaultAsync(x => x.Id == Id && x.Activo == new Activo(true), cancellationToken);
 
         if (user != null && user.UsuarioLicencias != null)

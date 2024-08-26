@@ -1,6 +1,7 @@
 
 
 using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 
 namespace MsAcceso.Domain.Root.Users;
@@ -11,6 +12,9 @@ public class UserDto
     public string? Username { get; set; }
     public PersonaDto? Empresa { get; set; }
     public string? EmpresaId { get; set; }
-    public UsuarioLicenciaDto? UsuarioLicencia { get; set; }
+    public string? RolId { get; set; }
+    public bool? IsAdmin { get; set; }
+    public RolDto? Rol { get; set; }
+    public UsuarioLicenciaDto? Licencia { get; set; }
 
 }

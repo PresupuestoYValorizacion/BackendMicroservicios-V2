@@ -14,7 +14,9 @@ namespace MsAcceso.Application.Mappers
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username!))
             .ForMember(dest => dest.Empresa, opt => opt.MapFrom(src => src.Empresa!))
             .ForMember(dest => dest.EmpresaId, opt => opt.MapFrom(src => src.EmpresaId!.Value!))
-            .ForMember(dest => dest.UsuarioLicencia, opt => opt.MapFrom(src => src.UsuarioLicencias != null && src.UsuarioLicencias.Any() ? src.UsuarioLicencias.First() : null))
+            .ForMember(dest => dest.RolId, opt => opt.MapFrom(src => src.RolId!.Value!))
+            .ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(src => src.UsuarioLicencias != null && src.UsuarioLicencias.Count > 0 ? false : true))
+            .ForMember(dest => dest.Licencia, opt => opt.MapFrom(src => src.UsuarioLicencias != null && src.UsuarioLicencias.Count > 0 ? src.UsuarioLicencias.First() : null))
             ;
 
 
