@@ -17,98 +17,121 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
     private readonly IPersonaRepository _personaRepository;
     private readonly IPersonaNaturalRepository _personaNaturalRepository;
     private readonly IPersonaJuridicaRepository _personaJuridicaRepository;
+    private readonly IRolRepository _rolRepository;
     private readonly IUnitOfWorkTenant _unitOfWork;
     private readonly ITenantProvider _tenantProvider;
 
-    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWorkTenant unitOfWork, IPersonaRepository personaRepository,  IPersonaNaturalRepository personaNaturalRepository, IPersonaJuridicaRepository personaJuridicaRepository,ITenantProvider tenantProvider)
+    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWorkTenant unitOfWork, IPersonaRepository personaRepository, IPersonaNaturalRepository personaNaturalRepository, IPersonaJuridicaRepository personaJuridicaRepository, IRolRepository rolRepository, ITenantProvider tenantProvider)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
         _personaRepository = personaRepository;
         _personaJuridicaRepository = personaJuridicaRepository;
         _personaNaturalRepository = personaNaturalRepository;
+        _rolRepository = rolRepository;
         _tenantProvider = tenantProvider;
     }
 
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
 
-        var email = request.Email;
-        
-        var userExists = await _userRepository.IsUserExists(email,cancellationToken);
+        var validationResult = await ValidateUserAndPersonaAsync(request, cancellationToken);
+        if (validationResult.IsFailure)
+            return validationResult;
 
-        if (userExists)
+        var persona = await CreateAndSavePersonaAsync(request, cancellationToken);
+
+        var empresaValidationResult = await ValidateEmpresaAsync(persona.Id!, cancellationToken);
+        if (empresaValidationResult.IsFailure)
+            return empresaValidationResult;
+
+        var user = await CreateAndSaveUserAsync(request, persona.Id!, cancellationToken);
+
+        return Result.Success(user.Id!.Value, Message.Create);
+    }
+
+    private async Task<Result<Guid>> ValidateUserAndPersonaAsync(RegisterUserCommand request, CancellationToken cancellationToken)
+    {
+        if (await _userRepository.IsUserExists(request.Email, cancellationToken))
         {
             return Result.Failure<Guid>(UserErrors.AlreadyExists);
         }
 
-        var personaExists = await _personaRepository.NumeroDocumentoExists(request.NumeroDocumento);
-
-        if (personaExists){
+        if (await _personaRepository.NumeroDocumentoExists(request.NumeroDocumento))
+        {
             return Result.Failure<Guid>(PersonaErrors.AlreadyExists);
         }
 
-        var persona = Persona.Create(PersonaId.New(), request.TipoId,request.TipoDocumentoId,request.NumeroDocumento);
+        return Result.Success(Guid.Empty,"");
+    }
 
+    private async Task<Persona> CreateAndSavePersonaAsync(RegisterUserCommand request, CancellationToken cancellationToken)
+    {
+        var persona = Persona.Create(PersonaId.New(), request.TipoId, request.TipoDocumentoId, request.NumeroDocumento);
         _personaRepository.Add(persona);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-
-        if(request.TipoId == new ParametroId(TipoPersona.Natural)){
-
+        if (request.TipoId == new ParametroId(TipoPersona.Natural))
+        {
             var personaNatural = PersonaNatural.Create(persona.Id!, request.NombreCompleto);
-
             _personaNaturalRepository.Add(personaNatural);
-
-            await _unitOfWork.SaveChangesAsync();
-
-        }else if(request.TipoId == new ParametroId(TipoPersona.Juridico) ){
-            
+        }
+        else if (request.TipoId == new ParametroId(TipoPersona.Juridico))
+        {
             var personaJuridica = PersonaJuridica.Create(persona.Id!, request.RazonSocial);
-
             _personaJuridicaRepository.Add(personaJuridica);
-
-            await _unitOfWork.SaveChangesAsync();
         }
 
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return persona;
+    }
 
-
-
-        var empresaId = persona.Id;
-
-        var empresaExist = await _personaRepository.IsEmpresaExists(empresaId!,cancellationToken);
-
-        if (!empresaExist)
+    private async Task<Result<Guid>> ValidateEmpresaAsync(PersonaId empresaId, CancellationToken cancellationToken)
+    {
+        if (!await _personaRepository.IsEmpresaExists(empresaId, cancellationToken))
         {
             return Result.Failure<Guid>(UserErrors.EmpresaNotExists);
         }
-        
 
+        return Result.Success(Guid.Empty,"");
+    }
 
+    private async Task<User> CreateAndSaveUserAsync(RegisterUserCommand request, PersonaId empresaId, CancellationToken cancellationToken)
+    {
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
-
         var userId = UserId.New();
+        User user;
 
+        if (request.IsAdmin)
+        {
+            user = User.Create(
+                userId,
+                request.Username,
+                request.Email,
+                passwordHash,
+                string.Empty,
+                empresaId,
+                request.RolId!
+            );
+        }
+        else
+        {
+            var connectionString = await _tenantProvider.Create(true, userId.Value);
+            var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
 
-        var connectionString= await _tenantProvider.Create(true, userId.Value);
+            user = User.Create(
+                userId,
+                request.Username,
+                request.Email,
+                passwordHash,
+                connectionString,
+                empresaId,
+                rol?.Id!
+            );
+        }
 
-        var user = User.Create(
-            userId,
-            request.Username,
-            email,
-            passwordHash,
-            connectionString,
-            empresaId!,
-            new RolId(Guid.NewGuid())
-        );
-        
         _userRepository.Add(user);
-
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(user.Id!.Value, Message.Create);
-         
+        return user;
     }
 }

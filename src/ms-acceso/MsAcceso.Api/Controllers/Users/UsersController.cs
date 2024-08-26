@@ -18,6 +18,8 @@ using MsAcceso.Application.Parametros.GetUserById;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Application.Users.UpdatePersona;
 using MsAcceso.Domain.Root.Personas;
+using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Rols;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -102,7 +104,10 @@ public class UsersController : ControllerBase
             new ParametroId(request.TipoDocumentoId),
             request.NumeroDocumento,
             request.RazonSocial,
-            request.NombreCompleto
+            request.NombreCompleto,
+            request.IsAdmin,
+            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
 
         var result = await _sender.Send(command, cancellationToken);

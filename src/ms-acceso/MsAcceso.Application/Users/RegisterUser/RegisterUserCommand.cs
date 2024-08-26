@@ -1,7 +1,9 @@
 
 
 using MsAcceso.Application.Abstractions.Messaging;
+using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.Rols;
 
 namespace MsAcceso.Application.Users.RegisterUser;
 
@@ -13,5 +15,8 @@ public sealed record RegisterUserCommand(
     ParametroId TipoDocumentoId,
     string NumeroDocumento,
     string RazonSocial,
-    string NombreCompleto
+    string NombreCompleto,
+    bool IsAdmin,
+    LicenciaId LicenciaId,
+    RolId RolId
     ) : ICommand<Guid>;
