@@ -28,11 +28,11 @@ internal sealed class UsuarioLicenciaConfiguration : IEntityTypeConfiguration<Us
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        builder.HasOne<User>()
-                       .WithMany()
+        builder.HasOne(ul => ul.User)
+                       .WithMany(u=> u.UsuarioLicencias)
                        .HasForeignKey(usuarioLicencia => usuarioLicencia.UserId);
 
-        builder.HasOne<Licencia>()
+        builder.HasOne(ul => ul.Licencia)
                 .WithMany()
                 .HasForeignKey(usuarioLicencia => usuarioLicencia.LicenciaId);
     }

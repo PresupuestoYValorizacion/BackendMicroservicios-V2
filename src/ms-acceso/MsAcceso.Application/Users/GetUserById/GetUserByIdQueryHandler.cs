@@ -25,7 +25,8 @@ internal sealed class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, 
     {
         var user = await _userRepository.GetByIdUserIncludes(new UserId(request.Id), cancellationToken);
 
-        if(user is null){
+        if (user is null)
+        {
             return Result.Failure<UserDto>(UserErrors.NotFound)!;
         }
 

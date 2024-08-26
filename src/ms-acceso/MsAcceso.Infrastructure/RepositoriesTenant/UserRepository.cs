@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Users;
+using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
@@ -36,10 +37,24 @@ internal sealed class UserRepository : RepositoryTenant<User, UserId>, IUserRepo
         CancellationToken cancellationToken = default
     )
     {
-        return await DbContext.Set<User>().Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento).Include(u => u.Empresa)
-                .ThenInclude(e => e!.Tipo).Include(e => e.Empresa).ThenInclude(e => e!.PersonaJuridica)
-                .Include(e => e.Empresa).ThenInclude(e => e!.PersonaNatural)
-                .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
+        var user = await DbContext.Set<User>()
+        .Include(e => e.Empresa).ThenInclude(e => e!.TipoDocumento)
+        .Include(u => u.Empresa).ThenInclude(e => e!.Tipo)
+        .Include(e => e.Empresa).ThenInclude(e => e!.PersonaJuridica)
+        .Include(e => e.Empresa).ThenInclude(e => e!.PersonaNatural)
+        .Include(e => e.UsuarioLicencias) 
+        .FirstOrDefaultAsync(x => x.Id == Id && x.Activo == new Activo(true), cancellationToken);
+
+        if (user != null && user.UsuarioLicencias != null)
+        {
+            user.UsuarioLicencias = user.UsuarioLicencias!
+            .Where(ul => ul.Activo == new Activo(true) && ul.FechaFin > DateTime.Now)
+            .OrderByDescending(ul => ul.FechaFin)
+            .Take(1)
+            .ToList();
+        }
+
+        return user;
     }
 
     public async Task<bool> ValidateIdUsuarioExists(Guid idUsuario, CancellationToken cancellationToken = default)

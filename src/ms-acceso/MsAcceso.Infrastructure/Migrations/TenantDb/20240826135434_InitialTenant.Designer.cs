@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240826024632_InitialTenant")]
+    [Migration("20240826135434_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -643,13 +643,17 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.UsuarioLicencias.UsuarioLicencia", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Licencias.Licencia", null)
+                    b.HasOne("MsAcceso.Domain.Root.Licencias.Licencia", "Licencia")
                         .WithMany()
                         .HasForeignKey("LicenciaId");
 
-                    b.HasOne("MsAcceso.Domain.Root.Users.User", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Users.User", "User")
+                        .WithMany("UsuarioLicencias")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Licencia");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>
@@ -662,6 +666,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
                     b.Navigation("Sistemas");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Users.User", b =>
+                {
+                    b.Navigation("UsuarioLicencias");
                 });
 #pragma warning restore 612, 618
         }
