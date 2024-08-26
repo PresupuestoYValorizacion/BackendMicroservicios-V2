@@ -25,6 +25,8 @@ using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.UsuarioLicencias;
 
 namespace MsAcceso.Infrastructure;
 
@@ -92,6 +94,7 @@ public static class DependencyInjection
         services.AddScoped<IRolRepository, RolRepository>();
 
         services.AddScoped<ILicenciaRepository, LicenciaRepository>();
+        services.AddScoped<IUsuarioLicenciaRepository, UsuarioLicenciaRepository>();
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 

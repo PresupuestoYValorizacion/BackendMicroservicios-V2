@@ -7,6 +7,7 @@ using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
+using MsAcceso.Domain.Root.UsuarioLicencias;
 
 
 namespace MsAcceso.Application.Users.RegisterUser;
@@ -18,10 +19,19 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
     private readonly IPersonaNaturalRepository _personaNaturalRepository;
     private readonly IPersonaJuridicaRepository _personaJuridicaRepository;
     private readonly IRolRepository _rolRepository;
+    private readonly IUsuarioLicenciaRepository _usuarioLicenciaRepository;
     private readonly IUnitOfWorkTenant _unitOfWork;
     private readonly ITenantProvider _tenantProvider;
 
-    public RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWorkTenant unitOfWork, IPersonaRepository personaRepository, IPersonaNaturalRepository personaNaturalRepository, IPersonaJuridicaRepository personaJuridicaRepository, IRolRepository rolRepository, ITenantProvider tenantProvider)
+    public RegisterUserCommandHandler(
+        IUserRepository userRepository, 
+        IUnitOfWorkTenant unitOfWork, 
+        IPersonaRepository personaRepository, 
+        IPersonaNaturalRepository personaNaturalRepository, 
+        IPersonaJuridicaRepository personaJuridicaRepository,
+         IRolRepository rolRepository, 
+         IUsuarioLicenciaRepository usuarioLicenciaRepository,
+         ITenantProvider tenantProvider)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
@@ -29,6 +39,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         _personaJuridicaRepository = personaJuridicaRepository;
         _personaNaturalRepository = personaNaturalRepository;
         _rolRepository = rolRepository;
+        _usuarioLicenciaRepository = usuarioLicenciaRepository;
         _tenantProvider = tenantProvider;
     }
 
@@ -39,13 +50,12 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         if (validationResult.IsFailure)
             return validationResult;
 
-        var persona = await CreateAndSavePersonaAsync(request, cancellationToken);
-
-        var empresaValidationResult = await ValidateEmpresaAsync(persona.Id!, cancellationToken);
-        if (empresaValidationResult.IsFailure)
-            return empresaValidationResult;
+        var persona = CreateAndSavePersona(request);
 
         var user = await CreateAndSaveUserAsync(request, persona.Id!, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
 
         return Result.Success(user.Id!.Value, Message.Create);
     }
@@ -65,7 +75,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         return Result.Success(Guid.Empty,"");
     }
 
-    private async Task<Persona> CreateAndSavePersonaAsync(RegisterUserCommand request, CancellationToken cancellationToken)
+    private Persona CreateAndSavePersona(RegisterUserCommand request)
     {
         var persona = Persona.Create(PersonaId.New(), request.TipoId, request.TipoDocumentoId, request.NumeroDocumento);
         _personaRepository.Add(persona);
@@ -81,18 +91,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
             _personaJuridicaRepository.Add(personaJuridica);
         }
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return persona;
-    }
-
-    private async Task<Result<Guid>> ValidateEmpresaAsync(PersonaId empresaId, CancellationToken cancellationToken)
-    {
-        if (!await _personaRepository.IsEmpresaExists(empresaId, cancellationToken))
-        {
-            return Result.Failure<Guid>(UserErrors.EmpresaNotExists);
-        }
-
-        return Result.Success(Guid.Empty,"");
     }
 
     private async Task<User> CreateAndSaveUserAsync(RegisterUserCommand request, PersonaId empresaId, CancellationToken cancellationToken)
@@ -100,6 +99,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
         var userId = UserId.New();
         User user;
+        UsuarioLicencia licenciaUser;
 
         if (request.IsAdmin)
         {
@@ -118,6 +118,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
             var connectionString = await _tenantProvider.Create(true, userId.Value);
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
 
+
             user = User.Create(
                 userId,
                 request.Username,
@@ -127,10 +128,13 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
                 empresaId,
                 rol?.Id!
             );
+
+            licenciaUser = UsuarioLicencia.Create(request.LicenciaId, userId,DateTime.Parse("2024-08-26 14:30:00.000"),DateTime.Parse("2024-08-30 14:30:00.000"));
+             
+            _usuarioLicenciaRepository.Add(licenciaUser);   
         }
 
         _userRepository.Add(user);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return user;
     }
