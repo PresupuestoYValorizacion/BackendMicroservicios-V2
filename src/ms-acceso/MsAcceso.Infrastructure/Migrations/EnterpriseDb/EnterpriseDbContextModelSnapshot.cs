@@ -22,6 +22,24 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.Presupuestos.Presupuesto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("presupuestos", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.Users.User", b =>
                 {
                     b.Property<Guid>("Id")

@@ -5,6 +5,7 @@ using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.Pruebas;
+using MsAcceso.Domain.Tenant.Presupuestos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -26,6 +27,9 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkApplication
 
     public DbSet<Prueba> Pruebas { get; set; }
 
+    public DbSet<Presupuesto> Presupuestos { get; set; }
+
+
     // On Model Creating - multitenancy query filter, fires once on app start
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -43,6 +47,19 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkApplication
         .IsRequired()
         .HasConversion(prueba => prueba!.Value, value => new Activo(value));
 
+         builder.Entity<Presupuesto>().ToTable("presupuestos");
+        builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
+        .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
+        .IsRequired()
+        .HasMaxLength(100);
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
+        .IsRequired()
+        .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
 
     }
 

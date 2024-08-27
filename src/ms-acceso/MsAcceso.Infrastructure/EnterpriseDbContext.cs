@@ -4,6 +4,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
+using MsAcceso.Domain.Tenant.Presupuestos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -26,6 +27,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
     // Application DbSets -- create for entity types to be applied to all databases
     // public DbSet<Product> Products { get; set; }
     public DbSet<User> UsersTenants { get; set; }
+    public DbSet<Presupuesto> Presupuestos { get; set; }
 
     // On Model Creating - multitenancy query filter, fires once on app start
     protected override void OnModelCreating(ModelBuilder builder)
@@ -54,6 +56,20 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
 
 
         builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
+
+        builder.Entity<Presupuesto>().ToTable("presupuestos");
+        builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
+        .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
+        .IsRequired()
+        .HasMaxLength(100);
+
+        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
+        .IsRequired()
+        .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
     }
 
     // On Configuring -- dynamic connection string, fires on every request
