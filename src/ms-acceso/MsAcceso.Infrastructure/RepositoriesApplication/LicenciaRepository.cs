@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class LicenciaRepository : RepositoryTenant<Licencia, LicenciaId>, ILicenciaRepository
+internal sealed class LicenciaRepository : RepositoryApplication<Licencia, LicenciaId>, ILicenciaRepository
 {
     public LicenciaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

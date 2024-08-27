@@ -4,9 +4,9 @@ using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class MenuOpcionRepository : RepositoryTenant<MenuOpcion, MenuOpcionId>, IMenuOpcionRepository
+internal sealed class MenuOpcionRepository : RepositoryApplication<MenuOpcion, MenuOpcionId>, IMenuOpcionRepository
 {
     public MenuOpcionRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

@@ -4,9 +4,9 @@ using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class UsuarioLicenciaRepository : RepositoryTenant<UsuarioLicencia, UsuarioLicenciaId>, IUsuarioLicenciaRepository
+internal sealed class UsuarioLicenciaRepository : RepositoryApplication<UsuarioLicencia, UsuarioLicenciaId>, IUsuarioLicenciaRepository
 {
     public UsuarioLicenciaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

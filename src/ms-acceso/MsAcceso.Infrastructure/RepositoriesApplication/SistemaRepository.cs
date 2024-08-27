@@ -3,9 +3,9 @@ using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class SistemaRepository : RepositoryTenant<Sistema, SistemaId>, ISistemaRepository
+internal sealed class SistemaRepository : RepositoryApplication<Sistema, SistemaId>, ISistemaRepository
 {
     public SistemaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

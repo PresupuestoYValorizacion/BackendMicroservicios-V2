@@ -2,7 +2,6 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Extensions;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
@@ -12,9 +11,9 @@ internal abstract class RepositoryTenant<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-    protected readonly ApplicationDbContext DbContext;
+    protected readonly EnterpriseDbContext DbContext;
 
-    protected RepositoryTenant(ApplicationDbContext dbContext)
+    protected RepositoryTenant(EnterpriseDbContext dbContext)
     {
         DbContext = dbContext;
     }
@@ -25,7 +24,7 @@ where TEntityId : class
     )
     {
         return await DbContext.Set<TEntity>()
-        .FirstOrDefaultAsync(x => x.Id == id && x.Activo == new Activo(true), cancellationToken);
+        .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
 
@@ -100,39 +99,5 @@ where TEntityId : class
         };
 
     }
-
-}
-
-
-
-internal abstract class RepositoryTenant<TEntity>
-where TEntity : class
-{
-    protected readonly ApplicationDbContext DbContext;
-
-    protected RepositoryTenant(ApplicationDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
-
-
-    public void Add(TEntity entity)
-    {
-        DbContext.Add(entity);
-    }
-
-    public void Update(TEntity entity)
-    {
-        DbContext.Entry(entity).State = EntityState.Modified;
-    }
-
-    public void Delete(TEntity entity)
-    {
-        DbContext.Remove(entity);
-    }
-    
-
-
-
 
 }

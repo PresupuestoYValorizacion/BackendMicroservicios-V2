@@ -3,9 +3,9 @@ using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class ParametroRepository : RepositoryTenant<Parametro, ParametroId>, IParametroRepository, IPaginationParametrosRepository
+internal sealed class ParametroRepository : RepositoryApplication<Parametro, ParametroId>, IParametroRepository, IPaginationParametrosRepository
 {
     public ParametroRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

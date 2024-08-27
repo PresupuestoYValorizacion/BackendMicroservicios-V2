@@ -10,7 +10,7 @@ using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Infrastructure.Tenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
-using MsAcceso.Infrastructure.RepositoriesTenant;
+using MsAcceso.Infrastructure.RepositoriesApplication;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;

@@ -5,9 +5,9 @@ using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class RolRepository : RepositoryTenant<Rol, RolId>, IRolRepository
+internal sealed class RolRepository : RepositoryApplication<Rol, RolId>, IRolRepository
 {
     public RolRepository(ApplicationDbContext dbContext) : base(dbContext)
     {

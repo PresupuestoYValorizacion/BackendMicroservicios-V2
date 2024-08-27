@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasNaturales;
 
-namespace MsAcceso.Infrastructure.RepositoriesTenant;
+namespace MsAcceso.Infrastructure.RepositoriesApplication;
 
-internal sealed class PersonaNaturalRepository : RepositoryTenant<PersonaNatural>, IPersonaNaturalRepository
+internal sealed class PersonaNaturalRepository : RepositoryApplication<PersonaNatural>, IPersonaNaturalRepository
 {
     public PersonaNaturalRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
