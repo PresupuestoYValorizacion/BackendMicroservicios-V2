@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Infrastructure.Service;
-using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Tenant.Users;
@@ -8,7 +7,7 @@ using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Infrastructure;
 
-public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
+public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
 {
     private readonly ICurrentTenantService _currentTenantService;
     public Guid? CurrentTenantId { get; set; }
@@ -16,7 +15,7 @@ public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
 
 
     // Constructor 
-    public ApplicationDbContext(ICurrentTenantService currentTenantService, DbContextOptions<ApplicationDbContext> options) : base(options)
+    public EnterpriseDbContext(ICurrentTenantService currentTenantService, DbContextOptions<EnterpriseDbContext> options) : base(options)
     {
         _currentTenantService = currentTenantService;
         CurrentTenantId = _currentTenantService.TenantId;

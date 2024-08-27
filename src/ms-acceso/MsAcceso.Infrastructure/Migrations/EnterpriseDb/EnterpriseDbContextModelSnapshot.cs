@@ -8,10 +8,10 @@ using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.AppDb
+namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EnterpriseDbContext))]
+    partial class EnterpriseDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

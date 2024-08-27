@@ -9,7 +9,6 @@ using MsAcceso.Infrastructure.Tenants;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Infrastructure.Tenant;
-using MsAcceso.Domain.Repository;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
 using MsAcceso.Infrastructure.RepositoriesTenant;
@@ -61,7 +60,11 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("ConnectionString") 
              ?? throw new ArgumentNullException(nameof(configuration));
 
-        services.AddDbContext<ApplicationDbContext>(options => {
+        services.AddDbContext<EnterpriseDbContext>(options => {
+            options.UseSqlServer(connectionString);
+        });
+
+        services.AddDbContext<LicenciaDbContext>(options => {
             options.UseSqlServer(connectionString);
         });
 
@@ -98,7 +101,9 @@ public static class DependencyInjection
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 
-        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<EnterpriseDbContext>());
+        
+        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<LicenciaDbContext>());
 
         services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<TenantDbContext>());
 

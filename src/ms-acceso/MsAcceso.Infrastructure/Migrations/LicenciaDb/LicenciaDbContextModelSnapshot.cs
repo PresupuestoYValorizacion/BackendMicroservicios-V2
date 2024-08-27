@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.AppDb
+namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240826135600_initialApp")]
-    partial class initialApp
+    [DbContext(typeof(LicenciaDbContext))]
+    partial class LicenciaDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.Users.User", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.Pruebas.Prueba", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -33,27 +30,14 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("Username")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("user-tenant", (string)null);
+                    b.ToTable("pruebas", (string)null);
                 });
 #pragma warning restore 612, 618
         }

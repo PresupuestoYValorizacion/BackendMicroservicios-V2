@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240826135434_InitialTenant")]
+    [Migration("20240827163621_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />

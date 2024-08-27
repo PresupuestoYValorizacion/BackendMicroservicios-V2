@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.AppDb
+namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     /// <inheritdoc />
     public partial class initialApp : Migration

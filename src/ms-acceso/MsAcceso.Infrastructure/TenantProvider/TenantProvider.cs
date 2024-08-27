@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsAcceso.Application.Abstractions.Tenant;
-using MsAcceso.Domain.Entity;
 using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.Tenant;
@@ -36,7 +35,7 @@ public sealed class TenantProvider : ITenantProvider
         try
         {
             using IServiceScope scopeTenant = _serviceProvider.CreateScope();
-            ApplicationDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            EnterpriseDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
             dbContext.Database.SetConnectionString(newConnectionString);
 
             if (dbContext.Database.GetPendingMigrations().Any())
@@ -67,7 +66,7 @@ public sealed class TenantProvider : ITenantProvider
         {
             // Crea un nuevo alcance para el contexto del tenant
             using IServiceScope scopeTenant = _serviceProvider.CreateScope();
-            ApplicationDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            EnterpriseDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
             dbContext.Database.SetConnectionString(targetConnectionString);
 
             // Verifica si la base de datos existe

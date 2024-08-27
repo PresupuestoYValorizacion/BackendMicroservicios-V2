@@ -11,9 +11,9 @@ internal abstract class RepositoryApplication<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-    protected readonly ApplicationDbContext DbContext;
+    protected readonly EnterpriseDbContext DbContext;
 
-    protected RepositoryApplication(ApplicationDbContext dbContext)
+    protected RepositoryApplication(EnterpriseDbContext dbContext)
     {
         DbContext = dbContext;
     }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Infrastructure;
 using MsAcceso.Infrastructure.Tenants;
@@ -35,7 +34,7 @@ namespace MsAcceso.Extensions
 
                 // Application Db Context (app - per tenant)
                 using IServiceScope scopeApplication = services.BuildServiceProvider().CreateScope();
-                ApplicationDbContext dbContext = scopeApplication.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                EnterpriseDbContext dbContext = scopeApplication.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
                 dbContext.Database.SetConnectionString(connectionString);
                 if (dbContext.Database.GetPendingMigrations().Any())
                 {

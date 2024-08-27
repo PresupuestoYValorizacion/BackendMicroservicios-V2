@@ -15,7 +15,7 @@ public static class ApplicationBuilderExtensions
             var loggerFactory = service.GetRequiredService<ILoggerFactory>();
 
             try{
-                var context = service.GetRequiredService<ApplicationDbContext>();
+                var context = service.GetRequiredService<EnterpriseDbContext>();
                 await context.Database.MigrateAsync();
             }
             catch(Exception ex)
