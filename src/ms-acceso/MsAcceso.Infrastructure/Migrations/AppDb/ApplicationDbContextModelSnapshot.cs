@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MsAcceso.Infrastructure.Tenants;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.TenantDb
+namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
-    [DbContext(typeof(TenantDbContext))]
-    [Migration("20240827170145_InitialTenant")]
-    partial class InitialTenant
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

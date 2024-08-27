@@ -10,7 +10,7 @@ namespace MsAcceso.Infrastructure.Repositories;
 internal sealed class OpcionRepository : RepositoryTenant<Opcion, OpcionId>, IOpcionRepository, IPaginationOpcionRepository
 {
 
-    public OpcionRepository(TenantDbContext dbContext) : base(dbContext)
+    public OpcionRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
 
     }

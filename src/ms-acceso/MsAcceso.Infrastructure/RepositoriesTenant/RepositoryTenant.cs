@@ -13,9 +13,9 @@ internal abstract class RepositoryTenant<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-    protected readonly TenantDbContext DbContext;
+    protected readonly ApplicationDbContext DbContext;
 
-    protected RepositoryTenant(TenantDbContext dbContext)
+    protected RepositoryTenant(ApplicationDbContext dbContext)
     {
         DbContext = dbContext;
     }
@@ -109,9 +109,9 @@ where TEntityId : class
 internal abstract class RepositoryTenant<TEntity>
 where TEntity : class
 {
-    protected readonly TenantDbContext DbContext;
+    protected readonly ApplicationDbContext DbContext;
 
-    protected RepositoryTenant(TenantDbContext dbContext)
+    protected RepositoryTenant(ApplicationDbContext dbContext)
     {
         DbContext = dbContext;
     }

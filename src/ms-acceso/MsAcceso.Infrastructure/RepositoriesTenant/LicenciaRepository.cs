@@ -8,7 +8,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class LicenciaRepository : RepositoryTenant<Licencia, LicenciaId>, ILicenciaRepository
 {
-    public LicenciaRepository(TenantDbContext dbContext) : base(dbContext)
+    public LicenciaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

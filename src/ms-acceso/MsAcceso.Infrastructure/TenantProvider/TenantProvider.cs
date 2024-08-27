@@ -10,13 +10,13 @@ namespace MsAcceso.Infrastructure.Tenant;
 
 public sealed class TenantProvider : ITenantProvider
 {
-    private readonly TenantDbContext _context; // database context
+    private readonly ApplicationDbContext _context; // database context
     private readonly IConfiguration _configuration;
 
     private readonly IServiceProvider _serviceProvider;
 
 
-    public TenantProvider(TenantDbContext context, IConfiguration configuration, IServiceProvider serviceProvider)
+    public TenantProvider(ApplicationDbContext context, IConfiguration configuration, IServiceProvider serviceProvider)
     {
         _context = context;
         _configuration = configuration;

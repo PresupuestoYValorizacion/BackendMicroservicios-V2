@@ -68,7 +68,7 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
 
-        services.AddDbContext<TenantDbContext>(options => {
+        services.AddDbContext<ApplicationDbContext>(options => {
             options.UseSqlServer(connectionString);
         });
 
@@ -105,7 +105,7 @@ public static class DependencyInjection
         
         services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<LicenciaDbContext>());
 
-        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<TenantDbContext>());
+        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

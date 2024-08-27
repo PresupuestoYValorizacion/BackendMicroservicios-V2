@@ -6,12 +6,12 @@ namespace MsAcceso.Infrastructure.Service
 {
     public class CurrentTenantService : ICurrentTenantService
     {
-        private readonly TenantDbContext _context;
+        private readonly ApplicationDbContext _context;
         public Guid? TenantId { get; set; }
         public string? ConnectionString { get; set; }
 
 
-        public CurrentTenantService(TenantDbContext context)
+        public CurrentTenantService(ApplicationDbContext context)
         {
             _context = context;
 

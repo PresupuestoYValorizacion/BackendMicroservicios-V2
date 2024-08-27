@@ -8,7 +8,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class PersonaJuridicaRepository : RepositoryTenant<PersonaJuridica>, IPersonaJuridicaRepository
 {
-    public PersonaJuridicaRepository(TenantDbContext dbContext) : base(dbContext)
+    public PersonaJuridicaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

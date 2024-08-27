@@ -8,7 +8,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class ParametroRepository : RepositoryTenant<Parametro, ParametroId>, IParametroRepository, IPaginationParametrosRepository
 {
-    public ParametroRepository(TenantDbContext dbContext) : base(dbContext)
+    public ParametroRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

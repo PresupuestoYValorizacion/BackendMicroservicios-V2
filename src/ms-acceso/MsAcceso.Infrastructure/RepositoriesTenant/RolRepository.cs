@@ -10,7 +10,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class RolRepository : RepositoryTenant<Rol, RolId>, IRolRepository
 {
-    public RolRepository(TenantDbContext dbContext) : base(dbContext)
+    public RolRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

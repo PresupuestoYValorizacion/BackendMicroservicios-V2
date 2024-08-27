@@ -18,10 +18,10 @@ namespace MsAcceso.Infrastructure.Tenants
 {
 
 
-    public class TenantDbContext : DbContext, IUnitOfWorkTenant
+    public class ApplicationDbContext : DbContext, IUnitOfWorkTenant
     {
         // This context is for looking up the tenant when a request comes in.
-        public TenantDbContext(DbContextOptions<TenantDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
         {
         }
@@ -42,7 +42,7 @@ namespace MsAcceso.Infrastructure.Tenants
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfigurationsFromAssembly(typeof(TenantDbContext).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(builder);
 
         }

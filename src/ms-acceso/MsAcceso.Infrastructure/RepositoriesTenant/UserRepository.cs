@@ -9,7 +9,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class UserRepository : RepositoryTenant<User, UserId>, IUserRepository, IPaginationUserRepository
 {
-    public UserRepository(TenantDbContext dbContext) : base(dbContext)
+    public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace MsAcceso.Infrastructure.Migrations.TenantDb
+namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     /// <inheritdoc />
-    public partial class InitialTenant : Migration
+    public partial class initialApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

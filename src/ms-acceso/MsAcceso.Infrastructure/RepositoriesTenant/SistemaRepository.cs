@@ -8,7 +8,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class SistemaRepository : RepositoryTenant<Sistema, SistemaId>, ISistemaRepository
 {
-    public SistemaRepository(TenantDbContext dbContext) : base(dbContext)
+    public SistemaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

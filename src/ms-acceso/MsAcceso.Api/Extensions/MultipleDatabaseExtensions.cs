@@ -13,18 +13,18 @@ namespace MsAcceso.Extensions
 
             // Tenant Db Context (reference context) - get a list of tenants
             using IServiceScope scopeTenant = services.BuildServiceProvider().CreateScope();
-            TenantDbContext tenantDbContext = scopeTenant.ServiceProvider.GetRequiredService<TenantDbContext>();
+            ApplicationDbContext ApplicationDbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            if (tenantDbContext.Database.GetPendingMigrations().Any())
+            if (ApplicationDbContext.Database.GetPendingMigrations().Any())
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Applying BaseDb Migrations.");
                 Console.ResetColor();
-                tenantDbContext.Database.Migrate(); // apply migrations on baseDbContext
+                ApplicationDbContext.Database.Migrate(); // apply migrations on baseDbContext
             }
 
             //TODO : REHACER LA MIGRACION CUANDO YA ESTA CREADO ESTO LO QUE HACES ES REMIGRAR
-            // List<User> tenantsInDb = tenantDbContext.Users.ToList();
+            // List<User> tenantsInDb = ApplicationDbContext.Users.ToList();
 
             // string defaultConnectionString = configuration.GetConnectionString("ConnectionString")!; // read default connection string from appsettings.json
 

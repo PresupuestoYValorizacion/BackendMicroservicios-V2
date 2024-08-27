@@ -9,7 +9,7 @@ namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class MenuOpcionRepository : RepositoryTenant<MenuOpcion, MenuOpcionId>, IMenuOpcionRepository
 {
-    public MenuOpcionRepository(TenantDbContext dbContext) : base(dbContext)
+    public MenuOpcionRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

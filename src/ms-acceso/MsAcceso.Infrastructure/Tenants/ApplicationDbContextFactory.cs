@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 namespace MsAcceso.Infrastructure.Tenants
 
 {
-    public class TenantDbContextFactory : IDesignTimeDbContextFactory<TenantDbContext>
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
-        public TenantDbContext CreateDbContext(string[] args) // neccessary for EF migration designer to run on this context
+        public ApplicationDbContext CreateDbContext(string[] args) // neccessary for EF migration designer to run on this context
         {
 
             // Build the configuration by reading from the appsettings.json file (requires Microsoft.Extensions.Configuration.Json Nuget Package)
@@ -20,9 +20,9 @@ namespace MsAcceso.Infrastructure.Tenants
             string connectionString = configuration.GetConnectionString("ConnectionString")!;
 
 
-            DbContextOptionsBuilder<TenantDbContext> optionsBuilder = new();
+            DbContextOptionsBuilder<ApplicationDbContext> optionsBuilder = new();
             _ = optionsBuilder.UseSqlServer(connectionString);
-            return new TenantDbContext(optionsBuilder.Options);
+            return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
 }
