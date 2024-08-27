@@ -1,12 +1,14 @@
 
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Tenant.Users;
+using MsAcceso.Infrastructure.Service;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
 internal sealed class UserTenantRepository : RepositoryTenant<User,UserId>, IUserTenantRepository
 {
-    public UserTenantRepository(EnterpriseDbContext dbContext) : base(dbContext)
+    public UserTenantRepository(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
+        : base(dbContextFactory, currentTenantService)
     {
     }
 

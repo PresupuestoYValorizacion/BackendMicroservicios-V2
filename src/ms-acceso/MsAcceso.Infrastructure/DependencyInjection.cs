@@ -71,9 +71,12 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
 
+        services.AddScoped<IDbContextFactory, DbContextFactory>();
+
         //BD POR CADA CLIENTE
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
         services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
+        services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
 
 
         //BD GENERAL

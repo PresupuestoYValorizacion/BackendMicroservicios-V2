@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.Extensions;
+using MsAcceso.Infrastructure.Service;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
@@ -11,11 +12,14 @@ internal abstract class RepositoryTenant<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-    protected readonly EnterpriseDbContext DbContext;
+     private readonly IDbContextFactory _dbContextFactory;
+    protected DbContext DbContext { get; private set; }
 
-    protected RepositoryTenant(EnterpriseDbContext dbContext)
+    protected RepositoryTenant(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
     {
-        DbContext = dbContext;
+        _dbContextFactory = dbContextFactory;
+        var licenciaId = currentTenantService.LicenciaId;  // Asumiendo que currentTenantService tiene un RolId
+        DbContext = _dbContextFactory.CreateDbContext(licenciaId!.Value.ToString());
     }
 
     public async Task<TEntity?> GetByIdAsync(

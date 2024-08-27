@@ -1,6 +1,6 @@
 ﻿
 
-using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Domain.Root.Licencias;
 
 namespace MsAcceso.Infrastructure.Service
 {
@@ -8,7 +8,7 @@ namespace MsAcceso.Infrastructure.Service
     {
         string? ConnectionString { get; set; }
         Guid? TenantId { get; set; }
-        RolId? RolId { get; set; }
+        LicenciaId? LicenciaId { get; set; }
         public Task<bool> SetTenant(Guid tenant, Guid rolId);
     }
 }
