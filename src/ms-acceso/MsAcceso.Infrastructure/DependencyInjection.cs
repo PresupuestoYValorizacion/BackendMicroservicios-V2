@@ -10,14 +10,12 @@ using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Infrastructure.Tenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
-using MsAcceso.Infrastructure.RepositoriesApplication;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Infrastructure.Repositories;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.PersonasNaturales;
@@ -25,6 +23,7 @@ using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Infrastructure.RepositoriesTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -106,11 +105,6 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-        // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
-// services.AddSingleton<ISqlConnectionFactory>( _ => new SqlConnectionFactory(connectionString));
-
-        // SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         return services;
     }
 
