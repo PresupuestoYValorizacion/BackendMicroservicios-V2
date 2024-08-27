@@ -91,11 +91,12 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
         {
             await DeactivateLicensesAsync(user.Id!, cancellationToken);
             user.Update(request.Username!, request.Email!, string.Empty, request.RolId!);
-            // TODO: ELIMINAR LA BD DEL USUARIO QUE ANTERIORMENTE ERA LICENCIA
+
+            await _tenantProvider.Delete(user.Id!.Value);
         }
         else
         {
-            var connectionString = await _tenantProvider.Create(true, user.Id!.Value);
+            var connectionString = await _tenantProvider.Create(user.Id!.Value);
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
             user.Update(request.Username!, request.Email!, connectionString, rol?.Id!);
 

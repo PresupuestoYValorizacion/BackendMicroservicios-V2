@@ -1,4 +1,3 @@
-using System.Runtime.Intrinsics.X86;
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Sistemas;
@@ -40,12 +39,11 @@ internal sealed class SistemaRepository : RepositoryTenant<Sistema, SistemaId>, 
     private async Task LoadDependenciesAsync(Sistema system, CancellationToken cancellationToken)
     {
 
-        // Cargar los sistemas hijos
         var prueba = await DbContext.Set<MenuOpcion>().ToListAsync(cancellationToken);
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.Opciones) // Cargar también las opciones relacionadas
+            .Include(x => x.Opciones) 
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
