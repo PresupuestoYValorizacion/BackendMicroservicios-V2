@@ -1,30 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Users;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.Service
 {
     public class CurrentTenantService : ICurrentTenantService
     {
-        private readonly TenantDbContext _context;
+        private readonly ApplicationDbContext _context;
         public Guid? TenantId { get; set; }
         public string? ConnectionString { get; set; }
+        public LicenciaId? LicenciaId { get; set; }
 
-
-        public CurrentTenantService(TenantDbContext context)
+        public CurrentTenantService(ApplicationDbContext context)
         {
             _context = context;
 
         }
-        public async Task<bool> SetTenant(Guid tenant)
+        public async Task<bool> SetTenant(Guid tenant, Guid licenciaId)
         {
 
             var tenantInfo = await _context.Users.Where(x => x.Id == new UserId(tenant)).FirstOrDefaultAsync(); // check if tenant exists
             
-            if (tenantInfo != null)
+            var licencia = await _context.Licencias.Where(x => x.Id == new LicenciaId(licenciaId)).FirstOrDefaultAsync();
+
+            if (tenantInfo != null && licencia != null)
             {
                 TenantId = tenant;
-                ConnectionString = tenantInfo.ConnectionString; // optional connection string per tenant (can be null to use default database)
+                ConnectionString = tenantInfo.ConnectionString; 
+                LicenciaId = licencia!.Id;
                 return true;
             }
             else

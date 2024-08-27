@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Infrastructure;
-using MsAcceso.Infrastructure.Tenants;
 
 
 namespace MsAcceso.Extensions
@@ -14,37 +12,37 @@ namespace MsAcceso.Extensions
 
             // Tenant Db Context (reference context) - get a list of tenants
             using IServiceScope scopeTenant = services.BuildServiceProvider().CreateScope();
-            TenantDbContext tenantDbContext = scopeTenant.ServiceProvider.GetRequiredService<TenantDbContext>();
+            ApplicationDbContext ApplicationDbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            if (tenantDbContext.Database.GetPendingMigrations().Any())
+            if (ApplicationDbContext.Database.GetPendingMigrations().Any())
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Applying BaseDb Migrations.");
                 Console.ResetColor();
-                tenantDbContext.Database.Migrate(); // apply migrations on baseDbContext
+                ApplicationDbContext.Database.Migrate(); // apply migrations on baseDbContext
             }
 
+            //TODO : REHACER LA MIGRACION CUANDO YA ESTA CREADO ESTO LO QUE HACES ES REMIGRAR
+            // List<User> tenantsInDb = ApplicationDbContext.Users.ToList();
 
-            List<User> tenantsInDb = tenantDbContext.Users.ToList();
+            // string defaultConnectionString = configuration.GetConnectionString("ConnectionString")!; // read default connection string from appsettings.json
 
-            string defaultConnectionString = configuration.GetConnectionString("ConnectionString")!; // read default connection string from appsettings.json
+            // foreach (User tenant in tenantsInDb) // loop through all tenants, apply migrations on applicationDbContext
+            // {
+            //     string connectionString = string.IsNullOrEmpty(tenant.ConnectionString) ? defaultConnectionString : tenant.ConnectionString;
 
-            foreach (User tenant in tenantsInDb) // loop through all tenants, apply migrations on applicationDbContext
-            {
-                string connectionString = string.IsNullOrEmpty(tenant.ConnectionString) ? defaultConnectionString : tenant.ConnectionString;
-
-                // Application Db Context (app - per tenant)
-                using IServiceScope scopeApplication = services.BuildServiceProvider().CreateScope();
-                ApplicationDbContext dbContext = scopeApplication.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.SetConnectionString(connectionString);
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"Applying Migrations for '{tenant.Id}' tenant.");
-                    Console.ResetColor();
-                    dbContext.Database.Migrate();
-                }
-            }
+            //     // Application Db Context (app - per tenant)
+            //     using IServiceScope scopeApplication = services.BuildServiceProvider().CreateScope();
+            //     EnterpriseDbContext dbContext = scopeApplication.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
+            //     dbContext.Database.SetConnectionString(connectionString);
+            //     if (dbContext.Database.GetPendingMigrations().Any())
+            //     {
+            //         Console.ForegroundColor = ConsoleColor.Blue;
+            //         Console.WriteLine($"Applying Migrations for '{tenant.Id}' tenant.");
+            //         Console.ResetColor();
+            //         dbContext.Database.Migrate();
+            //     }
+            // }
 
             return services;
         }

@@ -115,7 +115,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         }
         else
         {
-            var connectionString = await _tenantProvider.Create(userId.Value);
+            var connectionString = await _tenantProvider.Create(userId.Value, request.LicenciaId);
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
 
 

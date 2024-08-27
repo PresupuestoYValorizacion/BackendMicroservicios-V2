@@ -2,9 +2,8 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Extensions;
-using MsAcceso.Infrastructure.Tenants;
+using MsAcceso.Infrastructure.Service;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
@@ -13,11 +12,14 @@ internal abstract class RepositoryTenant<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-    protected readonly TenantDbContext DbContext;
+     private readonly IDbContextFactory _dbContextFactory;
+    protected DbContext DbContext { get; private set; }
 
-    protected RepositoryTenant(TenantDbContext dbContext)
+    protected RepositoryTenant(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
     {
-        DbContext = dbContext;
+        _dbContextFactory = dbContextFactory;
+        var licenciaId = currentTenantService.LicenciaId;  // Asumiendo que currentTenantService tiene un RolId
+        DbContext = _dbContextFactory.CreateDbContext(licenciaId!.Value.ToString());
     }
 
     public async Task<TEntity?> GetByIdAsync(
@@ -26,7 +28,7 @@ where TEntityId : class
     )
     {
         return await DbContext.Set<TEntity>()
-        .FirstOrDefaultAsync(x => x.Id == id && x.Activo == new Activo(true), cancellationToken);
+        .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
 
@@ -101,39 +103,5 @@ where TEntityId : class
         };
 
     }
-
-}
-
-
-
-internal abstract class RepositoryTenant<TEntity>
-where TEntity : class
-{
-    protected readonly TenantDbContext DbContext;
-
-    protected RepositoryTenant(TenantDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
-
-
-    public void Add(TEntity entity)
-    {
-        DbContext.Add(entity);
-    }
-
-    public void Update(TEntity entity)
-    {
-        DbContext.Entry(entity).State = EntityState.Modified;
-    }
-
-    public void Delete(TEntity entity)
-    {
-        DbContext.Remove(entity);
-    }
-    
-
-
-
 
 }

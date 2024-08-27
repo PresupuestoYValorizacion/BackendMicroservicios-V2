@@ -5,21 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsAcceso.Application.Abstractions.Clock;
-using MsAcceso.Infrastructure.Tenants;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Infrastructure.Tenant;
-using MsAcceso.Domain.Repository;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
-using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Infrastructure.Repositories;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.PersonasNaturales;
@@ -27,6 +23,8 @@ using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Infrastructure.RepositoriesTenant;
+using MsAcceso.Domain.Tenant.Presupuestos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -61,16 +59,24 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("ConnectionString") 
              ?? throw new ArgumentNullException(nameof(configuration));
 
+        services.AddDbContext<EnterpriseDbContext>(options => {
+            options.UseSqlServer(connectionString);
+        });
+
+        services.AddDbContext<LicenciaDbContext>(options => {
+            options.UseSqlServer(connectionString);
+        });
+
         services.AddDbContext<ApplicationDbContext>(options => {
             options.UseSqlServer(connectionString);
         });
 
-        services.AddDbContext<TenantDbContext>(options => {
-            options.UseSqlServer(connectionString);
-        });
+        services.AddScoped<IDbContextFactory, DbContextFactory>();
 
         //BD POR CADA CLIENTE
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
+        services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
+        services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
 
 
         //BD GENERAL
@@ -98,15 +104,12 @@ public static class DependencyInjection
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 
-        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<EnterpriseDbContext>());
+        
+        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<LicenciaDbContext>());
 
-        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<TenantDbContext>());
+        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-        // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
-// services.AddSingleton<ISqlConnectionFactory>( _ => new SqlConnectionFactory(connectionString));
-
-        // SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         return services;
     }
 
