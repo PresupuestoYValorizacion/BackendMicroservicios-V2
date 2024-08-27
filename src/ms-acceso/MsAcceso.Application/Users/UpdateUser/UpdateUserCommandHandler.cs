@@ -96,7 +96,7 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
         }
         else
         {
-            var connectionString = await _tenantProvider.Create(user.Id!.Value);
+            var connectionString = await _tenantProvider.Create(user.Id!.Value, request.LicenciaId!);
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
             user.Update(request.Username!, request.Email!, connectionString, rol?.Id!);
 

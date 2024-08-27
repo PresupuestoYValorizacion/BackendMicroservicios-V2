@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsAcceso.Application.Abstractions.Tenant;
+using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Users;
 
 namespace MsAcceso.Infrastructure.Tenant;
 
@@ -22,7 +24,7 @@ public sealed class TenantProvider : ITenantProvider
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<string> Create(Guid id)
+    public async Task<string> Create(Guid id, LicenciaId licenciaId)
     {
 
         // Genera una cadena de conexión para la nueva base de datos del tenant
@@ -33,19 +35,46 @@ public sealed class TenantProvider : ITenantProvider
         // Crea una nueva base de datos para el tenant y aplica las migraciones pendientes de ApplicationDbContext
         try
         {
-            using IServiceScope scopeTenant = _serviceProvider.CreateScope();
-            EnterpriseDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
-            dbContext.Database.SetConnectionString(newConnectionString);
+            // var user = await _context.Users.Include(x => x.UsuarioLicencias).Where(x => x.Id == new UserId(id)).FirstOrDefaultAsync();
 
-            if (dbContext.Database.GetPendingMigrations().Any())
+            // var usuarioLicencia = user!.UsuarioLicencias!.First();
+
+            var licencia = await _context.Licencias.Where(x => x.Id == licenciaId).FirstOrDefaultAsync();
+
+            // TODO : CAMBIAR EL IF QUE SEA A UN CAMPO DE LICENCIA COMO TIENE ACCESO A USUARIOS PERSONALIZADOS 
+            // TODO : Y SI TIENE ACCESO A ESTO QUE ENTRE 
+
+            if(licencia!.Id == new LicenciaId(new Guid("ECBDEBFF-CB86-4E74-BD12-F7FBFC165DFB")))
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Applying ApplicationDB Migrations for New '{id}' tenant.");
-                Console.ResetColor();
-                await dbContext.Database.MigrateAsync(); // Nota: Se usa await para llamadas async
+
+                using IServiceScope scopeTenant = _serviceProvider.CreateScope();
+                EnterpriseDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<EnterpriseDbContext>();
+                dbContext.Database.SetConnectionString(newConnectionString);
+
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Applying ApplicationDB Migrations for New '{id}' tenant.");
+                    Console.ResetColor();
+                    await dbContext.Database.MigrateAsync(); // Nota: Se usa await para llamadas async
+                }
+
+
+            }else{
+                using IServiceScope scopeTenant = _serviceProvider.CreateScope();
+                LicenciaDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<LicenciaDbContext>();
+                dbContext.Database.SetConnectionString(newConnectionString);
+
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"Applying ApplicationDB Migrations for New '{id}' tenant.");
+                    Console.ResetColor();
+                    await dbContext.Database.MigrateAsync(); // Nota: Se usa await para llamadas async
+                }
             }
 
-            return newConnectionString; // Retorna la cadena de conexión creada
+            return newConnectionString; 
         }
         catch (Exception ex)
         {

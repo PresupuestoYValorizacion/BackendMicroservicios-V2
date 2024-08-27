@@ -2,6 +2,7 @@
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Auditorias;
+using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
@@ -36,6 +37,7 @@ namespace MsAcceso.Infrastructure
         public DbSet<RolPermisoOpcion> RolPermisoOpcions { get; set; }
         public DbSet<Rol> Rols { get; set; }
         public DbSet<Sistema> Sistemas { get; set; }
+        public DbSet<Licencia> Licencias { get; set; }
         public DbSet<PersonaNatural> PersonasNaturales { get; set; }
         public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
 

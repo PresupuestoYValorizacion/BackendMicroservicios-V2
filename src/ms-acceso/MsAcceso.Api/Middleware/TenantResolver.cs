@@ -14,10 +14,11 @@ namespace MsAcceso.Middleware
         // Get Tenant Id from incoming requests 
         public async Task InvokeAsync(HttpContext context, ICurrentTenantService currentTenantService)
         {
-            context.Request.Headers.TryGetValue("tenant", out var tenantFromHeader); // Tenant Id from incoming request header
-            if (string.IsNullOrEmpty(tenantFromHeader) == false)
+            context.Request.Headers.TryGetValue("tenant", out var tenantId); 
+            context.Request.Headers.TryGetValue("rolId", out var rolId); 
+            if (string.IsNullOrEmpty(tenantId) == false && string.IsNullOrEmpty(rolId) == false)
             {
-                await currentTenantService.SetTenant(new Guid(tenantFromHeader!));
+                await currentTenantService.SetTenant(new Guid(tenantId!), new Guid(rolId!));
             }
 
             await _next(context);

@@ -24,6 +24,7 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Infrastructure.RepositoriesTenant;
+using MsAcceso.Domain.Tenant.Presupuestos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -72,6 +73,7 @@ public static class DependencyInjection
 
         //BD POR CADA CLIENTE
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
+        services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
 
 
         //BD GENERAL
