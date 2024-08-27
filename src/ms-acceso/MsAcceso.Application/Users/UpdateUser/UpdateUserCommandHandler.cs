@@ -1,8 +1,11 @@
 
 
 using MsAcceso.Application.Abstractions.Messaging;
+using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
+using MsAcceso.Domain.Root.UsuarioLicencias;
 
 namespace MsAcceso.Application.Users.UpdateUser;
 
@@ -11,52 +14,124 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
     private readonly IUserRepository _userRepository;
 
     private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly ITenantProvider _tenantProvider;
+    private readonly IRolRepository _rolRepository;
+    private readonly IUsuarioLicenciaRepository _usuarioLicenciaRepository;
 
-    public UpdateUserCommandHandler(IUserRepository userRepository, IUnitOfWorkTenant unitOfWork)
+
+    public UpdateUserCommandHandler(
+        IUserRepository userRepository,
+        ITenantProvider tenantProvider,
+        IRolRepository rolRepository,
+        IUsuarioLicenciaRepository usuarioLicenciaRepository,
+        IUnitOfWorkTenant unitOfWork)
     {
         _userRepository = userRepository;
+        _tenantProvider = tenantProvider;
+        _rolRepository = rolRepository;
+        _usuarioLicenciaRepository = usuarioLicenciaRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
 
-        var user = await _userRepository.GetByIdAsync(request.Id,cancellationToken);
+        var user = await _userRepository.GetByIdUserIncludes(request.Id, cancellationToken);
 
-        if(user is null)
+        if (user is null)
         {
             return Result.Failure<Guid>(UserErrors.NotFound);
         }
 
-        var email = "";
+        var email = request.Email != user.Email! && request.Email is not null
+            ? request.Email
+            : string.Empty;
 
-        if(request.Email != user.Email! && request.Email is not null) 
+        if (!string.IsNullOrEmpty(email))
         {
-            var emailExiste = await _userRepository.IsUserExists(request.Email!, cancellationToken);
-
-            if(emailExiste)
+            var emailExists = await _userRepository.IsUserExists(email, cancellationToken);
+            if (emailExists)
             {
                 return Result.Failure<Guid>(UserErrors.EmailExists);
             }
-
-            email = request.Email;
         }
 
-        var username = "";
+        var username = request.Username != user.Username! && request.Username is not null
+            ? request.Username
+            : string.Empty;
 
-        if(request.Username != user.Username! && request.Username is not null)   
+        bool isAdmin = user.UsuarioLicencias!.Count == 0;
+
+        if (request.IsAdmin != isAdmin)
         {
-            username = request.Username;
+            await HandleAdminChangeAsync(request, user, cancellationToken);
+        }
+        else
+        {
+            await HandleUpdateAsync(request, user, cancellationToken);
         }
 
-
-        user.Update(username, email);
+        user.Update(
+            username,
+            email,
+            user.ConnectionString!,
+            user.RolId!
+        );
 
         _userRepository.Update(user);
-
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(user.Id!.Value, Message.Update);
-         
+
+    }
+
+    private async Task HandleAdminChangeAsync(UpdateUserCommand request, User user, CancellationToken cancellationToken)
+    {
+        if (request.IsAdmin)
+        {
+            await DeactivateLicensesAsync(user.Id!, cancellationToken);
+            user.Update(request.Username!, request.Email!, string.Empty, request.RolId!);
+            // TODO: ELIMINAR LA BD DEL USUARIO QUE ANTERIORMENTE ERA LICENCIA
+        }
+        else
+        {
+            var connectionString = await _tenantProvider.Create(true, user.Id!.Value);
+            var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
+            user.Update(request.Username!, request.Email!, connectionString, rol?.Id!);
+
+            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id,
+                DateTime.Parse("2024-08-26 14:30:00.000"), DateTime.Parse("2024-08-30 14:30:00.000"));
+
+            _usuarioLicenciaRepository.Add(licenciaUser);
+        }
+    }
+
+    private async Task HandleUpdateAsync(UpdateUserCommand request, User user, CancellationToken cancellationToken)
+    {
+        if (request.IsAdmin)
+        {
+            if (request.RolId != user.RolId)
+            {
+                user.Update(request.Username!, request.Email!, string.Empty, request.RolId!);
+            }
+        }
+        else
+        {
+            await DeactivateLicensesAsync(user.Id!, cancellationToken);
+            var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
+            user.Update(request.Username!, request.Email!, user.ConnectionString!, rol?.Id!);
+
+            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id!,
+                DateTime.Parse("2024-08-26 14:30:00.000"), DateTime.Parse("2024-08-30 14:30:00.000"));
+
+            _usuarioLicenciaRepository.Add(licenciaUser);
+        }
+    }
+
+    private async Task DeactivateLicensesAsync(UserId userId, CancellationToken cancellationToken)
+    {
+        var usuarioLicencia = await _usuarioLicenciaRepository.GetByUserAsync(userId, cancellationToken);
+        usuarioLicencia!.Desactive();
+        _usuarioLicenciaRepository.Update(usuarioLicencia!);
     }
 }

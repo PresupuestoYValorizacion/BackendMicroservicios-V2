@@ -3,17 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Utils;
-using MsAcceso.Application.Parametros.DesactiveParametros;
-using MsAcceso.Application.Parametros.DeleteParametros;
-using MsAcceso.Application.Parametros.GetByIdParametro;
-using MsAcceso.Application.Parametros.GetParametroByPagination;
-using MsAcceso.Application.Parametros.RegisterParametros;
-using MsAcceso.Application.Parametros.UpdateParametros;
-using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Parametros;
-using MsAcceso.Application.Parametros.GetSubnivelesById;
-using MsAcceso.Domain.Root.Rols;
-using MsAcceso.Application.Roles.GetRolesByTipo;
 using MsAcceso.Application.Licencias.GetAllLicencias;
 using MsAcceso.Domain.Root.Licencias;
 

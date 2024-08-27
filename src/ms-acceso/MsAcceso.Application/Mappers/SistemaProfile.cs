@@ -14,6 +14,7 @@ public class SistemaProfile : Profile
         .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo))
         .ForMember(dest => dest.Nivel, opt => opt.MapFrom(src => src.Nivel))
         .ForMember(dest => dest.Childrens, opt => opt.MapFrom(src => src.Sistemas))
+        .ForMember(dest => dest.Opciones, opt => opt.MapFrom(src => src.Opciones))
         .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src.Url));
     }
 }

@@ -74,10 +74,16 @@ public sealed class User : Entity<UserId>
         return user;
     }
 
-    public Result Update(string username, string email)
+    public Result Update(
+        string username, 
+        string email, 
+        string connectionString,
+        RolId rolId)
     {
         Username = username.Length > 0 ? username : Username;
         Email = email.Length > 0 ? email : Email;
+        ConnectionString = connectionString;
+        RolId = rolId;
         return Result.Success();
     }
 

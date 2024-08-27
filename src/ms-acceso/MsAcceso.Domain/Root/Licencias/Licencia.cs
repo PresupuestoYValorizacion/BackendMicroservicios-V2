@@ -43,3 +43,4 @@ public sealed class Licencia : Entity<LicenciaId>
         return Result.Success();
     }
 }
+

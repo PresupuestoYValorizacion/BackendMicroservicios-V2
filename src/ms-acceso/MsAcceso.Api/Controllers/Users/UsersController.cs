@@ -151,7 +151,10 @@ public class UsersController : ControllerBase
         var command = new UpdateUserCommand(
             new UserId(request.Id),
             request.Email,
-            request.Username
+            request.Username,
+            request.IsAdmin,
+            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
 
         var result = await _sender.Send(command, cancellationToken);
