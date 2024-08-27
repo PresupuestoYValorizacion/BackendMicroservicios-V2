@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Users;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.Service
 {

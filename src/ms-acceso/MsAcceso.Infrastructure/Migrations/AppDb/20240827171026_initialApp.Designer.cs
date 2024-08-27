@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MsAcceso.Infrastructure.Tenants;
+using MsAcceso.Infrastructure;
 
 #nullable disable
 
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827170716_initialApp")]
+    [Migration("20240827171026_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />

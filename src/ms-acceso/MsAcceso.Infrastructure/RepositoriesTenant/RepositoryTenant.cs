@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Query;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.Extensions;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 

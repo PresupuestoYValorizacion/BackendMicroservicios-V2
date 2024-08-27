@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 

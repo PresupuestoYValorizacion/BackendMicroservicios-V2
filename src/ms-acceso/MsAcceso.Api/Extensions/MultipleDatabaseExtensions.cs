@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Infrastructure;
-using MsAcceso.Infrastructure.Tenants;
 
 
 namespace MsAcceso.Extensions

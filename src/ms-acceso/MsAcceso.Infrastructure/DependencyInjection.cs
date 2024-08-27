@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsAcceso.Application.Abstractions.Clock;
-using MsAcceso.Infrastructure.Tenants;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Infrastructure.Tenant;

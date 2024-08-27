@@ -4,7 +4,6 @@ using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 

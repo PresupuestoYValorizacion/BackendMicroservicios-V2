@@ -3,7 +3,6 @@ using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Infrastructure.RepositoriesTenant;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.Repositories;
 

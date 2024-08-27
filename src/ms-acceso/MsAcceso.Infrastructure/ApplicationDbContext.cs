@@ -14,7 +14,7 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Root.Users;
 
-namespace MsAcceso.Infrastructure.Tenants
+namespace MsAcceso.Infrastructure
 {
 
 

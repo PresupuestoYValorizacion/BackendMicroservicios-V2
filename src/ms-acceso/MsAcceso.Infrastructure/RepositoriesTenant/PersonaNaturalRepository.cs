@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasNaturales;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 

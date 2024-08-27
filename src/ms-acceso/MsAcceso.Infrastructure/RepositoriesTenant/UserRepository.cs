@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Infrastructure.Tenants;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
