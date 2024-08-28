@@ -15,10 +15,11 @@ namespace MsAcceso.Middleware
         public async Task InvokeAsync(HttpContext context, ICurrentTenantService currentTenantService)
         {
             context.Request.Headers.TryGetValue("tenant", out var tenantId); 
-            context.Request.Headers.TryGetValue("licenciaId", out var licenciaId); 
-            if (string.IsNullOrEmpty(tenantId) == false && string.IsNullOrEmpty(licenciaId) == false)
+            context.Request.Headers.TryGetValue("rolId", out var rolId); 
+            
+            if (string.IsNullOrEmpty(tenantId) == false && string.IsNullOrEmpty(rolId) == false)
             {
-                await currentTenantService.SetTenant(new Guid(tenantId!), new Guid(licenciaId!));
+                await currentTenantService.SetTenant(new Guid(tenantId!), new Guid(rolId!));
             }
 
             await _next(context);
