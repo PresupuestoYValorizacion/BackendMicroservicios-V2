@@ -32,7 +32,7 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
 
         if(nombreSistemaExists && sistemaExists.Nombre != request.Nombre)
         {
-            return Result.Failure<Guid>(SistemaErrors.SistemaNameExists);
+            return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
         }
 
         sistemaExists.Update(

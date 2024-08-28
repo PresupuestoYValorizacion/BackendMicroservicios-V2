@@ -10,6 +10,7 @@ public class SistemaDto
     public string? Logo {get; set;}
     public int? Nivel {get; set;}
     public string? Url {get; set;}
+    public bool Activo {get;set;}
     public List<SistemaDto>? Childrens {get; set;}
     public List<OpcionDto>? Opciones { get; set; } 
 

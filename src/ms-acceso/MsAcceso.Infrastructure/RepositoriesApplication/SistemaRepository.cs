@@ -13,7 +13,16 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     public async Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().Where(x => x.Dependencia == Id && x.Activo == new Activo(true)).ToListAsync(cancellationToken);
+        var sistemasDependientes = await DbContext.Set<Sistema>().Where(x => x.Dependencia == Id)
+                                             .Include(x => x.Opciones)
+                                             .ToListAsync(cancellationToken);
+
+        foreach (var system in sistemasDependientes)
+        {
+            await LoadDependenciesAsync(system, cancellationToken);
+        }
+
+        return sistemasDependientes;
     }
 
     public async Task<bool> SistemaExistsByName(string name, CancellationToken cancellationToken)
@@ -24,6 +33,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken)
     {
         var rootSystems = await DbContext.Set<Sistema>().Where(x => x.Dependencia == null)
+                                                         .Include(x => x.Opciones)
                                                          .ToListAsync(cancellationToken);
 
         foreach (var system in rootSystems)
@@ -41,8 +51,8 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         var prueba = await DbContext.Set<MenuOpcion>().ToListAsync(cancellationToken);
 
         var childSystems = await DbContext.Set<Sistema>()
-            .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.Opciones) 
+            .Where(x => x.Dependencia == system.Id)
+            .Include(x => x.Opciones) // Cargar también las opciones relacionadas
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
@@ -52,4 +62,9 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     }
 
+    public async Task<Sistema?> SistemaGetByIdAsync(SistemaId Id, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Sistema>()
+        .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
+    }
 }

@@ -57,7 +57,7 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
 
             if(sistemaDependencia is null)
             {
-                return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
+                return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
             }
 
             var nivel = sistemaDependencia.Nivel + 1; 

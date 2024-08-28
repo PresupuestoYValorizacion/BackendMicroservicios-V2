@@ -9,5 +9,7 @@ public interface ISistemaRepository
     Task<bool> SistemaExistsByName(string name, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken);
+    Task<Sistema?> SistemaGetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
+
 
 }

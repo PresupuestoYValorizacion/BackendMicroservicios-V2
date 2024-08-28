@@ -21,21 +21,24 @@ internal sealed class DeleteSistemasCommandHandler : ICommandHandler<DeleteSiste
     public async Task<Result<Guid>> Handle(DeleteSistemasCommand request, CancellationToken cancellationToken)
     {
         var sistemaId = new SistemaId(Guid.Parse(request.Id));
-        
-        var sistemaExists = await _sistemaRepository.GetByIdAsync(sistemaId,cancellationToken);
 
-        if(sistemaExists is null)
+        var sistemaExists = await _sistemaRepository.SistemaGetByIdAsync(sistemaId, cancellationToken);
+
+        if (sistemaExists is null)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
-        var sistemasDependientes = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaId,cancellationToken);
+        var sistemasDependientes = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaId, cancellationToken);
 
-        foreach(var sistemaDependiente in sistemasDependientes)
+        if (sistemasDependientes.Count > 0)
         {
-            _sistemaRepository.Delete(sistemaDependiente);
+            foreach (var sistemaDependiente in sistemasDependientes)
+            {
+                _sistemaRepository.Delete(sistemaDependiente);
+            }
         }
-        
+
         _sistemaRepository.Delete(sistemaExists);
 
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);

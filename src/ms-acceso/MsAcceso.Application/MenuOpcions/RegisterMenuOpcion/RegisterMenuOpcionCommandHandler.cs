@@ -28,7 +28,7 @@ internal sealed class RegisterMenuOpcionCommandHandler : ICommandHandler<Registe
 
     public async Task<Result<Guid>> Handle(RegisterMenuOpcionCommand request, CancellationToken cancellationToken)
     {
-        var sistemaExists = await _sistemaRepository.GetByIdAsync(request.sistemaId,cancellationToken);
+        var sistemaExists = await _sistemaRepository.SistemaGetByIdAsync(request.sistemaId,cancellationToken);
 
         if(sistemaExists is null)
         {

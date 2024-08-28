@@ -27,7 +27,7 @@ internal sealed class GetMenuOpcionQueryHandler : IQueryHandler<GetMenuOpcionQue
     {
         var menuId = new SistemaId(Guid.Parse(request.SistemaId!));
 
-        var menuExists = await _sistemaRepository.GetByIdAsync(menuId,cancellationToken);
+        var menuExists = await _sistemaRepository.SistemaGetByIdAsync(menuId,cancellationToken);
 
         if(menuExists is null)
         {
