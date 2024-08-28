@@ -44,7 +44,7 @@ public sealed class TenantProvider : ITenantProvider
             // TODO : CAMBIAR EL IF QUE SEA A UN CAMPO DE LICENCIA COMO TIENE ACCESO A USUARIOS PERSONALIZADOS 
             // TODO : Y SI TIENE ACCESO A ESTO QUE ENTRE 
 
-            if(licencia!.Id == new LicenciaId(new Guid("ECBDEBFF-CB86-4E74-BD12-F7FBFC165DFB")))
+            if(licencia!.PermiteCrearUsuarios)
             {
 
                 using IServiceScope scopeTenant = _serviceProvider.CreateScope();

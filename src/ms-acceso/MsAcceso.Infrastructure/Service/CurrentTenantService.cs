@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
 
 namespace MsAcceso.Infrastructure.Service
@@ -16,18 +17,19 @@ namespace MsAcceso.Infrastructure.Service
             _context = context;
 
         }
-        public async Task<bool> SetTenant(Guid tenant, Guid licenciaId)
+        public async Task<bool> SetTenant(Guid tenant, Guid rolId)
         {
 
             var tenantInfo = await _context.Users.Where(x => x.Id == new UserId(tenant)).FirstOrDefaultAsync(); // check if tenant exists
             
-            var licencia = await _context.Licencias.Where(x => x.Id == new LicenciaId(licenciaId)).FirstOrDefaultAsync();
+            var rol = await _context.Rols.Where(x => x.Id == new RolId(rolId)).FirstOrDefaultAsync();
 
-            if (tenantInfo != null && licencia != null)
+
+            if (tenantInfo != null && rol != null)
             {
                 TenantId = tenant;
                 ConnectionString = tenantInfo.ConnectionString; 
-                LicenciaId = licencia!.Id;
+                LicenciaId = rol!.LicenciaId;
                 return true;
             }
             else

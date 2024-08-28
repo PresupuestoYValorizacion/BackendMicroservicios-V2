@@ -28,9 +28,9 @@ internal sealed class LicenciaConfiguration : IEntityTypeConfiguration<Licencia>
 
        
         builder.HasData(
-            Licencia.Create(new LicenciaId(new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb")), "ENTERPRISE"),
-            Licencia.Create(new LicenciaId(new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065")), "PROFESIONAL"),
-            Licencia.Create(new LicenciaId(new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc")), "EDUCACIONAL")
+            Licencia.Create(new LicenciaId(new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb")), "ENTERPRISE",true),
+            Licencia.Create(new LicenciaId(new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065")), "PROFESIONAL",false),
+            Licencia.Create(new LicenciaId(new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc")), "ESTUDIANTE",false)
         );
     }
 }

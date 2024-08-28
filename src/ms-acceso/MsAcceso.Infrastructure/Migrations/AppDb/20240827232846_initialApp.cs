@@ -38,6 +38,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PermiteCrearUsuarios = table.Column<bool>(type: "bit", nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -319,12 +320,12 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             migrationBuilder.InsertData(
                 table: "licencias",
-                columns: new[] { "Id", "Activo", "Nombre" },
+                columns: new[] { "Id", "Activo", "Nombre", "PermiteCrearUsuarios" },
                 values: new object[,]
                 {
-                    { new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065"), true, "PROFESIONAL" },
-                    { new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc"), true, "EDUCACIONAL" },
-                    { new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb"), true, "ENTERPRISE" }
+                    { new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065"), true, "PROFESIONAL", false },
+                    { new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc"), true, "ESTUDIANTE", false },
+                    { new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb"), true, "ENTERPRISE", true }
                 });
 
             migrationBuilder.InsertData(
