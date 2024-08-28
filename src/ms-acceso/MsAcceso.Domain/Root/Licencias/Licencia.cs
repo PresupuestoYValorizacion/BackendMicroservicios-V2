@@ -10,22 +10,26 @@ public sealed class Licencia : Entity<LicenciaId>
 
     private Licencia(
         LicenciaId id,
-        string nombre
+        string nombre,
+        bool permiteCrearUsuarios
         ) : base(id)
     {
+        PermiteCrearUsuarios = permiteCrearUsuarios;
         Nombre = nombre;
     }
 
     public string? Nombre { get; private set; }
 
-
+    public bool PermiteCrearUsuarios { get; private set; }
 
     public static Licencia Create(
         LicenciaId LicenciaId,
-         string nombre
+        string nombre,
+        bool permiteCrearUsuarios
+
     )
     {
-        var licencia = new Licencia(LicenciaId, nombre);
+        var licencia = new Licencia(LicenciaId, nombre,permiteCrearUsuarios);
 
         return licencia;
     }

@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827171026_initialApp")]
+    [Migration("20240827232846_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -77,6 +77,9 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("PermiteCrearUsuarios")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("licencias", (string)null);
@@ -86,19 +89,22 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         {
                             Id = new Guid("ecbdebff-cb86-4e74-bd12-f7fbfc165dfb"),
                             Activo = true,
-                            Nombre = "ENTERPRISE"
+                            Nombre = "ENTERPRISE",
+                            PermiteCrearUsuarios = true
                         },
                         new
                         {
                             Id = new Guid("1a9e887b-aa55-49b8-b9bc-4d7ba609d065"),
                             Activo = true,
-                            Nombre = "PROFESIONAL"
+                            Nombre = "PROFESIONAL",
+                            PermiteCrearUsuarios = false
                         },
                         new
                         {
                             Id = new Guid("e88a6456-3941-4136-b172-7a0d5167c7fc"),
                             Activo = true,
-                            Nombre = "EDUCACIONAL"
+                            Nombre = "ESTUDIANTE",
+                            PermiteCrearUsuarios = false
                         });
                 });
 
