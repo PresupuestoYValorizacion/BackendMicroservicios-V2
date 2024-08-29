@@ -26,27 +26,25 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
 
     public async Task<Result<Guid>> Handle(UpdateMenuOpcionCommand request, CancellationToken cancellationToken)
     {
-        // var menuOpcionId = request.MenuOpcionId;
-        // var menuOpcion = await _menuOpcionRepository.GetByIdAsync(menuOpcionId,cancellationToken);
-
-        // if(menuOpcion is null)
-        // {
-        //     return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionNotFound);
-        // }
 
         var menuId = request.MenuOpcionId;
-        var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.OpcionIdNuevo,menuId!,cancellationToken);
 
-        if(menuOpcionExists)
+        if(request.OpcionIdAntiguo != request.OpcionIdNuevo)
         {
-            return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionExists);            
-        }
+            var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.OpcionIdNuevo,menuId!,cancellationToken);
 
-        var opcionExists = await _opcionRepository.GetByIdAsync(request.OpcionIdNuevo,cancellationToken);
+            if(menuOpcionExists)
+            {
+                return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionExists);            
+            }
 
-        if(opcionExists is null)
-        {
-            return Result.Failure<Guid>(OpcionErrors.NotFound);
+            var opcionExists = await _opcionRepository.GetByIdAsync(request.OpcionIdNuevo,cancellationToken);
+
+            if(opcionExists is null)
+            {
+                return Result.Failure<Guid>(OpcionErrors.NotFound);
+            }
+
         }
 
         var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(request.OpcionIdAntiguo,request.MenuOpcionId, cancellationToken);

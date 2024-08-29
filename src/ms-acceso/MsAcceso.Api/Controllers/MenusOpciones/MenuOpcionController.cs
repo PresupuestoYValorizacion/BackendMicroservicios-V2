@@ -62,11 +62,13 @@ public class MenuOpcionController : ControllerBase
     )
     {
         var menuId = new SistemaId(Guid.Parse(request.MenuOpcionId));
-        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
+        var opcionIdNuevo = new OpcionId(Guid.Parse(request.OpcionIdNuevo));
+        var opcionIdAntiguo = new OpcionId(Guid.Parse(request.OpcionIdAntiguo));
 
         var commmand = new UpdateMenuOpcionCommand(
             menuId,
-            opcionId
+            opcionIdNuevo,
+            opcionIdAntiguo
         );
 
         var result = await _sender.Send(commmand, cancellationToken);
