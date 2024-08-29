@@ -22,7 +22,7 @@ internal sealed class GetSistemasByIdQueryHandler : IQueryHandler<GetSistemasByI
     public async Task<Result<SistemaDto?>> Handle(GetSistemasByIdQuery request, CancellationToken cancellationToken)
     {
         var sistemaId = Guid.Parse(request.Id!);
-        var sistema = await _sistemaRepository.SistemaGetByIdAsync(new SistemaId(sistemaId),cancellationToken);
+        var sistema = await _sistemaRepository.GetByIdAsync(new SistemaId(sistemaId),cancellationToken);
 
         if(sistema is null)
         {

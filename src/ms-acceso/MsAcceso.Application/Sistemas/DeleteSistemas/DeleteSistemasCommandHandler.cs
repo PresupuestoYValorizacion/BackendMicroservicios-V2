@@ -22,7 +22,7 @@ internal sealed class DeleteSistemasCommandHandler : ICommandHandler<DeleteSiste
     {
         var sistemaId = new SistemaId(Guid.Parse(request.Id));
 
-        var sistemaExists = await _sistemaRepository.SistemaGetByIdAsync(sistemaId, cancellationToken);
+        var sistemaExists = await _sistemaRepository.GetByIdAsync(sistemaId, cancellationToken);
 
         if (sistemaExists is null)
         {

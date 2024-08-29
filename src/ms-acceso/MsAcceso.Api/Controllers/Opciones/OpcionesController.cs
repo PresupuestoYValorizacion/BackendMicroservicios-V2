@@ -11,6 +11,8 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Application.Opciones.GetByIdOpcion;
 using MsAcceso.Utils;
+using MsAcceso.Application.Licencias.GetAllLicencias;
+using MsAcceso.Application.Opciones.GetAllOpcionQuery;
 
 namespace MsAcceso.Api.Controllers.Opciones;
 
@@ -127,6 +129,10 @@ public class OpcionesController : ControllerBase
     {
         var results = await _sender.Send(request);
 
+        if(results.IsFailure)
+        {
+            return BadRequest(results);
+        }
         return Ok(results);
     }
 
@@ -138,6 +144,26 @@ public class OpcionesController : ControllerBase
         var request = new GetByIdOpcionQuery { Id = id };
         var results = await _sender.Send(request);
 
+        if(results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-all")]
+    public async Task<ActionResult<List<OpcionDto>>> GetAllOpciones(CancellationToken cancellationToken)
+    {
+        var request = new GetAllOpcionQuery {};
+
+        var results = await _sender.Send(request,cancellationToken);
+
+        if(results.IsFailure)
+        {
+            return BadRequest(results);
+        }
         return Ok(results);
     }
 }

@@ -8,4 +8,5 @@ public interface IOpcionRepository
     void Delete(Opcion opcion);
     Task<Opcion?> GetByIdAsync(OpcionId opcionId, CancellationToken cancellationToken = default);
     Task<bool> OpcionExist(string nombreOpcion, CancellationToken cancellationToken = default);
+    Task<List<Opcion>> GetAllOpcion(CancellationToken cancellationToken);
 }

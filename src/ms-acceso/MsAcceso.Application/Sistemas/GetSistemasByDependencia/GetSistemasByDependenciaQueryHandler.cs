@@ -23,7 +23,7 @@ internal sealed class GetSistemasByDependenciaQueryHandler : IQueryHandler<GetSi
     {
         var sistemaId = Guid.Parse(request.Dependencia!);
 
-        var sistemaExists = await _sistemaRepository.SistemaGetByIdAsync(new SistemaId(sistemaId),cancellationToken);
+        var sistemaExists = await _sistemaRepository.GetByIdAsync(new SistemaId(sistemaId),cancellationToken);
 
         if(sistemaExists is null)
         {

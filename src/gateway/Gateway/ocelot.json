@@ -502,6 +502,22 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate":"/api/v1/opciones/get-all",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/opciones/get-all",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/opciones/get-by-id/{id}",
       "DownstreamHostAndPorts": [
         {
