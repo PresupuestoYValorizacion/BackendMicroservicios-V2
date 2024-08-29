@@ -61,11 +61,11 @@ public class MenuOpcionController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var menuOpcionId = new MenuOpcionId(Guid.Parse(request.MenuOpcionId));
+        var menuId = new SistemaId(Guid.Parse(request.MenuOpcionId));
         var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
 
         var commmand = new UpdateMenuOpcionCommand(
-            menuOpcionId,
+            menuId,
             opcionId
         );
 

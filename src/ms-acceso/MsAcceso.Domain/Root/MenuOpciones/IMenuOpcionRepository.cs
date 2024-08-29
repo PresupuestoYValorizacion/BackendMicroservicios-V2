@@ -10,5 +10,7 @@ public interface IMenuOpcionRepository
     void Delete(MenuOpcion menuOpcion);
     Task<MenuOpcion?> GetByIdAsync(MenuOpcionId menuOpcionId, CancellationToken cancellationToken);
     Task<bool> MenuOpcionExists(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken);
+    Task<MenuOpcion?> GetMenuOpcion(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken);
+
     Task<List<MenuOpcion>> GetAllMenuOpcionsByMenuId(SistemaId sistemaId,CancellationToken cancellationToken);
 }
