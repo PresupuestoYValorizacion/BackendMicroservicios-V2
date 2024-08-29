@@ -6,7 +6,6 @@ namespace MsAcceso.Application.Opciones.DeleteOpciones;
 
 internal class DeleteOpcionCommandHandler : ICommandHandler<DeleteOpcionCommand, Guid>
 {
-
     private readonly IOpcionRepository _opcionRepository;
     private readonly IUnitOfWorkTenant _unitOfWork;
 

@@ -16,4 +16,20 @@ internal sealed class LicenciaRepository : RepositoryTenant<Licencia, LicenciaId
     {
         return await DbContext.Set<Licencia>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
+
+    public async Task<Licencia?> GetByNombre(string nombre, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Licencia>().Where(x => x.Nombre == nombre).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<List<Licencia>> GetAllActive(CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Licencia>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
+    }
+
+    public async Task<bool> LicenciaExists(string licenciaNombre, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Licencia>().AnyAsync(x => x.Nombre == licenciaNombre, cancellationToken);
+    }
+    
 }
