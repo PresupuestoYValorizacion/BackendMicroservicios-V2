@@ -1,7 +1,7 @@
 
 
 using MsAcceso.Application.Abstractions.Messaging;
-
+using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Personas;
@@ -14,6 +14,7 @@ namespace MsAcceso.Application.Users.DeleteUser;
 internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand, Guid>
 {
     private readonly IUserRepository _userRepository;
+    private readonly ITenantProvider _tenantProvider;
 
     private readonly IPersonaRepository _personaRepository;
     private readonly IPersonaNaturalRepository _personaNaturalRepository;
@@ -25,6 +26,7 @@ internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserComma
         IPersonaRepository personaRepository, 
         IPersonaNaturalRepository personaNaturalRepository, 
         IPersonaJuridicaRepository personaJuridicaRepository,
+        ITenantProvider tenantProvider,
         IUnitOfWorkTenant unitOfWork
     )
     {
@@ -32,6 +34,7 @@ internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserComma
         _personaRepository = personaRepository;
         _personaJuridicaRepository = personaJuridicaRepository;
         _personaNaturalRepository = personaNaturalRepository;
+        _tenantProvider = tenantProvider;
         _unitOfWork = unitOfWork;
     }
 
@@ -53,11 +56,15 @@ internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserComma
             _personaJuridicaRepository.DeleteById(userDelete.EmpresaId!);
         }
         
+        
         _personaRepository.Delete(persona!);
 
         _userRepository.Delete(userDelete);
+        
+        await _tenantProvider.Delete(request.Id.Value);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
 
         return Result.Success(request.Id.Value, Message.Delete);
     }

@@ -193,12 +193,12 @@ public class UsersController : ControllerBase
     [ApiVersion(ApiVersions.V1)]
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteUser(
-        Guid Id,
+        Guid id,
         CancellationToken cancellationToken
     )
     {
         var command = new DeleteUserCommand(
-            new UserId(Id)
+            new UserId(id)
         );
 
         var result = await _sender.Send(command, cancellationToken);
