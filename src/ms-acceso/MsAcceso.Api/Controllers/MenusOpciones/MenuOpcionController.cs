@@ -87,10 +87,12 @@ public class MenuOpcionController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var menuOpcionId = new MenuOpcionId(Guid.Parse(request.MenuOpcionId));
+        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
+        var menuId = new SistemaId(Guid.Parse(request.MenuId));
 
         var commmand = new DesactiveMenuOpcionCommand(
-            menuOpcionId
+            menuId,
+            opcionId
         );
 
         var result = await _sender.Send(commmand, cancellationToken);
@@ -102,17 +104,19 @@ public class MenuOpcionController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("delete")]
     [ApiVersion(ApiVersions.V1)]
     public async Task<IActionResult> DeleteMenuOpcion(
-        string id,
+        [FromBody] DeleteMenuOpcionRequest request,
         CancellationToken cancellationToken
     )
     {
-        var menuOpcionId = new MenuOpcionId(Guid.Parse(id));
+        var menuId = new SistemaId(Guid.Parse(request.MenuId));
+        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
 
         var commmand = new DeleteMenuOpcionCommand(
-            menuOpcionId
+            menuId,
+            opcionId
         );
 
         var result = await _sender.Send(commmand, cancellationToken);

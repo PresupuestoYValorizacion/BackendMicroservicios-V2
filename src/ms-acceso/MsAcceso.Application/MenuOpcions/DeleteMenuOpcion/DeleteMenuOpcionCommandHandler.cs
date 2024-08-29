@@ -20,7 +20,7 @@ internal sealed class DeleteMenuOpcionCommandHandler : ICommandHandler<DeleteMen
 
     public async Task<Result<Guid>> Handle(DeleteMenuOpcionCommand request, CancellationToken cancellationToken)
     {
-        var menuOpcion = await _menuOpcionRepository.GetByIdAsync(request.MenuOpcionId,cancellationToken);
+        var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(request.OpcionId,request.MenuId,cancellationToken);
 
         if(menuOpcion is null)
         {

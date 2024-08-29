@@ -4,5 +4,6 @@ using MsAcceso.Domain.Root.MenuOpciones;
 namespace MsAcceso.Application.MenuOpcions.DesactiveMenuOpcions;
 
 public record DesactiveMenuOpcionRequest(
-    string MenuOpcionId   
+    string MenuId,
+    string OpcionId   
 );

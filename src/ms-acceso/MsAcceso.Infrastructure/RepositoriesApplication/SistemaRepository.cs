@@ -33,7 +33,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken)
     {
         var rootSystems = await DbContext.Set<Sistema>().Where(x => x.Dependencia == null && x.Activo == new Activo(true))
-                                                         .Include(x => x.Opciones)
+                                                         .Include(x => x.Opciones!)
                                                          .ToListAsync(cancellationToken);
 
         foreach (var system in rootSystems)
@@ -52,7 +52,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.Opciones) // Cargar también las opciones relacionadas
+            .Include(x => x.Opciones!) // Cargar también las opciones relacionadas
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
