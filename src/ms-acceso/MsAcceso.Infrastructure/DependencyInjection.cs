@@ -98,6 +98,8 @@ public static class DependencyInjection
 
         
         services.AddScoped<IRolRepository, RolRepository>();
+        services.AddScoped<IPaginationRolesRepository, RolRepository>();
+
 
         services.AddScoped<ILicenciaRepository, LicenciaRepository>();
         services.AddScoped<IUsuarioLicenciaRepository, UsuarioLicenciaRepository>();
