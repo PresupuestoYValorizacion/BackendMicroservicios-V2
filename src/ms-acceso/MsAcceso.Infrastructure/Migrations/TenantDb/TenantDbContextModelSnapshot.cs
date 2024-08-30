@@ -343,6 +343,32 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("personas_naturales", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Productos.Producto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("productos", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
                 {
                     b.Property<Guid>("Id")

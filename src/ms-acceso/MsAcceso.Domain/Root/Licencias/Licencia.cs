@@ -17,7 +17,6 @@ public sealed class Licencia : Entity<LicenciaId>
     }
 
     public string? Nombre { get; private set; }
-    public LicenciaId? licenciaId { get; }
 
     public static Licencia Create(
         LicenciaId licenciaId,

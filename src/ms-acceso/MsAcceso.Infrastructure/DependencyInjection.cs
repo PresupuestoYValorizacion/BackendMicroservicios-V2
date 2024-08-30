@@ -27,6 +27,8 @@ using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Domain.Entity;
+using MsAcceso.Domain.Root.Productos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -97,6 +99,8 @@ public static class DependencyInjection
         services.AddScoped<IUsuarioLicenciaRepository, UsuarioLicenciaRepository>();
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
+
+        services.AddScoped<IProductoRepository, ProductoRepository>();
 
         services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

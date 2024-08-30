@@ -1,7 +1,6 @@
 
 using AutoMapper;
 using MsAcceso.Domain.Root.Licencias;
-using MsAcceso.Domain.Root.Rols;
 
 namespace MsAcceso.Application.Mappers
 {

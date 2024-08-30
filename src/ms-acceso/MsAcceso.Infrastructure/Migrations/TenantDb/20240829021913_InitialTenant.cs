@@ -84,6 +84,21 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "productos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Codigo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "sistemas",
                 columns: table => new
                 {
@@ -446,6 +461,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             migrationBuilder.DropTable(
                 name: "personas_naturales");
+
+            migrationBuilder.DropTable(
+                name: "productos");
 
             migrationBuilder.DropTable(
                 name: "rols_permisos_opciones");

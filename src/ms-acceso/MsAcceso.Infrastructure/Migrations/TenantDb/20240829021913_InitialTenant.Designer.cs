@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240826135434_InitialTenant")]
+    [Migration("20240829021913_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -344,6 +344,32 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.HasKey("PersonaId");
 
                     b.ToTable("personas_naturales", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Productos.Producto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("productos", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
