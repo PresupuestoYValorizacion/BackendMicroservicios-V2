@@ -438,14 +438,14 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate":"/api/v1/menu-opciones/delete/{id}",
+      "DownstreamPathTemplate":"/api/v1/menu-opciones/delete",
       "DownstreamHostAndPorts":[
         {
           "Host":"localhost",
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/menu-opciones/delete/{id}",
+      "UpstreamPathTemplate": "/menu-opciones/delete",
       "UpstreamHttpMethod": [ "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",

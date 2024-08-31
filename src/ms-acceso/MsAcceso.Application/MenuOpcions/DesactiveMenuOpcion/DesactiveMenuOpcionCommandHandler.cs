@@ -20,7 +20,10 @@ internal sealed class DesactiveMenuOpcionCommandHandler : ICommandHandler<Desact
 
     public async Task<Result<Guid>> Handle(DesactiveMenuOpcionCommand request, CancellationToken cancellationToken)
     {
-        var menuOpcion = await _menuOpcionRepository.GetByIdAsync(request.MenuOpcionId,cancellationToken);
+        var menuId = request.MenuId;
+        var opcionId = request.OpcionId;
+
+        var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(opcionId,menuId,cancellationToken);
 
         if(menuOpcion is null)
         {
