@@ -1,3 +1,4 @@
+using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 
 namespace MsAcceso.Domain.Root.Sistemas;
@@ -13,5 +14,6 @@ public class SistemaDto
     public bool Activo {get;set;}
     public List<SistemaDto>? Childrens {get; set;}
     public List<OpcionDto>? Opciones { get; set; } 
+    public List<MenuOpcionDto>? MenuOpciones { get; set; } 
 
 }
