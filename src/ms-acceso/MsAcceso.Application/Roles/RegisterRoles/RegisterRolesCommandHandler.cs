@@ -36,20 +36,33 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
             return Result.Failure<Guid>(ParametroErrors.ParametroNotFound);
         }
 
-        if(request.LicenciaId is not null)
+        if(request.LicenciaId is not null && request.LicenciaId != "")
         {
-            var licenciaExists = await _licenciaRepository.GetByIdAsync(request.LicenciaId,cancellationToken);
+            var licenciaId = new LicenciaId(Guid.Parse(request.LicenciaId!));
+
+            var licenciaExists = await _licenciaRepository.GetByIdAsync(licenciaId,cancellationToken);
 
             if(licenciaExists is null)
             {
                 return Result.Failure<Guid>(Error.NotFound);
             }
+
+            var newRolWithLicence = Rol.Create(
+                request.Nombre,
+                request.TipoRolId,
+                licenciaId
+             );
+
+            _rolRepository.Add(newRolWithLicence);
+
+            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+            return Result.Success(newRolWithLicence.Id!.Value, Message.Create);
         }      
 
         var newRol = Rol.Create(
-            request.Nombre,
-            request.TipoRolId,
-            request.LicenciaId
+                request.Nombre,
+                request.TipoRolId,
+                null
         );
 
         _rolRepository.Add(newRol);

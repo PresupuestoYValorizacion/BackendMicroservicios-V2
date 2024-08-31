@@ -91,38 +91,20 @@ public class RolesController : Controller
     )
     {
 
-        if(request.LicenciaId is not null && request.LicenciaId != "")
-        {
-            var command = new RegisterRolesCommand(
-                request.Nombre,
-                new ParametroId(request.TipoRolId),
-                new LicenciaId(Guid.Parse(request.LicenciaId!))
-            );
-
-            var results = await _sender.Send(command,cancellationToken);
-
-            if(results.IsFailure)
-            {
-                return BadRequest(results);
-            }
-
-            return Ok(results);
-        }
-
-        var command2 = new RegisterRolesCommand(
+        var command = new RegisterRolesCommand(
             request.Nombre,
             new ParametroId(request.TipoRolId),
-            null
+            request.LicenciaId
         );
 
-        var results2 = await _sender.Send(command2,cancellationToken);
+        var results = await _sender.Send(command,cancellationToken);
 
-        if(results2.IsFailure)
+        if(results.IsFailure)
         {
-            return BadRequest(results2);
+            return BadRequest(results);
         }
 
-        return Ok(results2);
+        return Ok(results);
 
         
     }
@@ -136,40 +118,21 @@ public class RolesController : Controller
     )
     {
 
-        if(request.LicenciaId is not null && request.LicenciaId != "")
-        {
-            var command = new UpdateRolesCommand(
-                new RolId(Guid.Parse(request.RolId)),
-                request.Nombre,
-                new ParametroId(request.TipoRolId),
-                new LicenciaId(Guid.Parse(request.LicenciaId!))
-            );
-
-            var results = await _sender.Send(command,cancellationToken);
-
-            if(results.IsFailure)
-            {
-                return BadRequest(results);
-            }
-
-            return Ok(results);
-        }
-
-        var command2 = new UpdateRolesCommand(
+        var command = new UpdateRolesCommand(
             new RolId(Guid.Parse(request.RolId)),
             request.Nombre,
             new ParametroId(request.TipoRolId),
-            null
+            request.LicenciaId
         );
 
-        var results2 = await _sender.Send(command2,cancellationToken);
+        var results = await _sender.Send(command,cancellationToken);
 
-        if(results2.IsFailure)
+        if(results.IsFailure)
         {
-            return BadRequest(results2);
+            return BadRequest(results);
         }
 
-        return Ok(results2);
+        return Ok(results);
     }
 
     [AllowAnonymous]

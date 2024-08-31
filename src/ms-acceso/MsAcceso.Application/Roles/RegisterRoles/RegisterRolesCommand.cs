@@ -7,5 +7,5 @@ namespace MsAcceso.Application.Roles.RegisterRoles;
 public sealed record RegisterRolesCommand(
     string Nombre,
     ParametroId TipoRolId,
-    LicenciaId? LicenciaId
+    string? LicenciaId
 ) : ICommand<Guid>;

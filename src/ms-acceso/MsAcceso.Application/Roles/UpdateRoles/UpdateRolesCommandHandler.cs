@@ -29,23 +29,6 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
 
     public async Task<Result<Guid>> Handle(UpdateRolesCommand request, CancellationToken cancellationToken)
     {
-        var tipoRolExists = await _parametroRepository.GetByIdAsync(request.TipoRolId,cancellationToken);
-
-        if(tipoRolExists is null)
-        {
-            return Result.Failure<Guid>(ParametroErrors.ParametroNotFound);
-        }
-
-        if(request.LicenciaId is not null)
-        {
-            var licenciaExists = await _licenciaRepository.GetByIdAsync(request.LicenciaId,cancellationToken);
-
-            if(licenciaExists is null)
-            {
-                return Result.Failure<Guid>(Error.NotFound);
-            }
-        }
-
         var rol = await _rolRepository.GetByIdAsync(request.RolId,cancellationToken);
 
         if(rol is null)
@@ -53,10 +36,41 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             return Result.Failure<Guid>(RolErrors.RolNotExists);
         }
 
+        var tipoRolExists = await _parametroRepository.GetByIdAsync(request.TipoRolId,cancellationToken);
+
+        if(tipoRolExists is null)
+        {
+            return Result.Failure<Guid>(ParametroErrors.ParametroNotFound);
+        }
+
+        if(request.LicenciaId is not null && request.LicenciaId != "")
+        {
+            var licenciaId = new LicenciaId(Guid.Parse(request.LicenciaId!));
+
+            var licenciaExists = await _licenciaRepository.GetByIdAsync(licenciaId,cancellationToken);
+
+            if(licenciaExists is null)
+            {
+                return Result.Failure<Guid>(Error.NotFound);
+            }
+
+            rol.Update(
+                request.Nombre,
+                request.TipoRolId,
+                licenciaId
+            );
+
+            _rolRepository.Update(rol);
+
+            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+
+            return Result.Success(rol.Id!.Value, Message.Update);
+        }   
+
         rol.Update(
             request.Nombre,
             request.TipoRolId,
-            request.LicenciaId
+            null
         );
 
         _rolRepository.Update(rol);
