@@ -87,12 +87,10 @@ public class MenuOpcionController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
-        var menuId = new SistemaId(Guid.Parse(request.MenuId));
+        var menuOpcionId = new MenuOpcionId(Guid.Parse(request.MenuOpcionId));
 
         var commmand = new DesactiveMenuOpcionCommand(
-            menuId,
-            opcionId
+            menuOpcionId
         );
 
         var result = await _sender.Send(commmand, cancellationToken);
@@ -111,12 +109,10 @@ public class MenuOpcionController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var menuId = new SistemaId(Guid.Parse(request.MenuId));
-        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
+        var menuOpcionId = new MenuOpcionId(Guid.Parse(request.MenuOpcionId));
 
         var commmand = new DeleteMenuOpcionCommand(
-            menuId,
-            opcionId
+            menuOpcionId
         );
 
         var result = await _sender.Send(commmand, cancellationToken);

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MsAcceso.Domain.Root.MenuOpciones;
+using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
@@ -42,8 +43,11 @@ internal sealed class SistemaConfiguration : IEntityTypeConfiguration<Sistema>
 
         builder
         .HasMany(e => e.Opciones)
-        .WithMany(e => e.Menus)
-        .UsingEntity<MenuOpcion>();
+        .WithMany()
+        .UsingEntity<MenuOpcion>(
+            o => o.HasOne(o => o.Opcion).WithMany().HasForeignKey(s => s.OpcionesId),
+            s => s.HasOne(s => s.Menu).WithMany(s => s.MenuOpcions).HasForeignKey(s => s.MenusId)
+        );
                 
     }
 }

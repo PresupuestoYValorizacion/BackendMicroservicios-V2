@@ -48,11 +48,12 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     private async Task LoadDependenciesAsync(Sistema system, CancellationToken cancellationToken)
     {
 
-        var prueba = await DbContext.Set<MenuOpcion>().ToListAsync(cancellationToken);
+        // var prueba = await DbContext.Set<MenuOpcion>().ToListAsync(cancellationToken);
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.Opciones!) // Cargar también las opciones relacionadas
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true)))
+            .ThenInclude(x => x.Opcion)
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)

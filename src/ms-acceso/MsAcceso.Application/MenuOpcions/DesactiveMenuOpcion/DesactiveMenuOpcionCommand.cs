@@ -1,10 +1,8 @@
 using MsAcceso.Application.Abstractions.Messaging;
-using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Domain.Root.Sistemas;
+using MsAcceso.Domain.Root.MenuOpciones;
 
 namespace MsAcceso.Application.MenuOpcions.DesactiveMenuOpcions;
 
 public sealed record DesactiveMenuOpcionCommand(
-    SistemaId MenuId,
-    OpcionId OpcionId   
+    MenuOpcionId MenuOpcionId
 ): ICommand<Guid>;

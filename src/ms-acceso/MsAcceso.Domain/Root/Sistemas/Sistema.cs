@@ -35,6 +35,7 @@ public sealed class Sistema : Entity<SistemaId>
     public string? Url {get; private set;}
     public List<Sistema>? Sistemas { get; set; }
     public List<Opcion>? Opciones { get; set; } 
+    public List<MenuOpcion>? MenuOpcions { get; set; } 
 
 
     public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, string url)

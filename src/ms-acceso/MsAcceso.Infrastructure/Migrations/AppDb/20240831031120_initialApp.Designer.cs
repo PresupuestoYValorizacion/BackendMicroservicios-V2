@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827232846_initialApp")]
+    [Migration("20240831031120_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -537,13 +537,17 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.MenuOpciones.MenuOpcion", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "Menu")
+                        .WithMany("MenuOpcions")
                         .HasForeignKey("MenusId");
 
-                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", null)
+                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", "Opcion")
                         .WithMany()
                         .HasForeignKey("OpcionesId");
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Opcion");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Parametros.Parametro", b =>
@@ -671,6 +675,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
+                    b.Navigation("MenuOpcions");
+
                     b.Navigation("Sistemas");
                 });
 

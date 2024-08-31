@@ -534,13 +534,17 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.MenuOpciones.MenuOpcion", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "Menu")
+                        .WithMany("MenuOpcions")
                         .HasForeignKey("MenusId");
 
-                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", null)
+                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", "Opcion")
                         .WithMany()
                         .HasForeignKey("OpcionesId");
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Opcion");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Parametros.Parametro", b =>
@@ -668,6 +672,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
+                    b.Navigation("MenuOpcions");
+
                     b.Navigation("Sistemas");
                 });
 
