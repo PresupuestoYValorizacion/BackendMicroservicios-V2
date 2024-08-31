@@ -27,18 +27,24 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
     public async Task<Result<Guid>> Handle(UpdateMenuOpcionCommand request, CancellationToken cancellationToken)
     {
 
-        var menuId = request.MenuOpcionId;
+        // var menuId = request.MenuOpcionId;
 
-        if(request.OpcionIdAntiguo != request.OpcionIdNuevo)
+        var menuOpcion = await _menuOpcionRepository.GetByIdAsync(request.MenuOpcionId,cancellationToken);
+
+        if (menuOpcion == null){
+            return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionNotFound);
+        }
+
+        if(menuOpcion.OpcionesId != request.OpcionId)
         {
-            var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.OpcionIdNuevo,menuId!,cancellationToken);
+            var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.OpcionId, menuOpcion.MenusId!,cancellationToken);
 
             if(menuOpcionExists)
             {
                 return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionExists);            
             }
 
-            var opcionExists = await _opcionRepository.GetByIdAsync(request.OpcionIdNuevo,cancellationToken);
+            var opcionExists = await _opcionRepository.GetByIdAsync(request.OpcionId,cancellationToken);
 
             if(opcionExists is null)
             {
@@ -47,9 +53,9 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
 
         }
 
-        var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(request.OpcionIdAntiguo,request.MenuOpcionId, cancellationToken);
+        // var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(request.OpcionIdAntiguo,request.MenuOpcionId, cancellationToken);
 
-        menuOpcion!.Update(request.OpcionIdNuevo);
+        menuOpcion!.Update(request.OpcionId);
 
         _menuOpcionRepository.Update(menuOpcion);
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);

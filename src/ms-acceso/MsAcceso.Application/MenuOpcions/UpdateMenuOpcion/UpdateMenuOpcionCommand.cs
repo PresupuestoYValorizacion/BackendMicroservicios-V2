@@ -6,7 +6,6 @@ using MsAcceso.Domain.Root.Sistemas;
 namespace MsAcceso.Application.MenuOpcions.UpdateMenuOpcion;
 
 public sealed record UpdateMenuOpcionCommand(
-    SistemaId MenuOpcionId,
-    OpcionId OpcionIdNuevo,
-    OpcionId OpcionIdAntiguo
+    MenuOpcionId MenuOpcionId,
+    OpcionId OpcionId
 ) : ICommand<Guid>;
