@@ -14,7 +14,7 @@ internal sealed class MenuOpcionRepository : RepositoryApplication<MenuOpcion, M
 
     public async Task<List<MenuOpcion>> GetAllMenuOpcionsByMenuId(SistemaId sistemaId,CancellationToken cancellationToken)
     {
-        return await DbContext.Set<MenuOpcion>().Where(m => m.MenusId == sistemaId && m.Activo == new Activo(true)).ToListAsync(cancellationToken);
+        return await DbContext.Set<MenuOpcion>().Where(m => m.MenusId == sistemaId).ToListAsync(cancellationToken);
     }
     public async Task<MenuOpcion?> GetMenuOpcionById(MenuOpcionId menuOpcionId,CancellationToken cancellationToken)
     {

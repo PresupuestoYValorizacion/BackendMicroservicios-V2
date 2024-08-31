@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.Sistemas.DeleteSistemas;
 using MsAcceso.Application.Sistemas.DesactiveSistemas;
 using MsAcceso.Application.Sistemas.GetSistemas;
-using MsAcceso.Application.Sistemas.GetSistemasByDependencia;
 using MsAcceso.Application.Sistemas.GetSistemasById;
 using MsAcceso.Application.Sistemas.RegisterSistemas;
 using MsAcceso.Application.Sistemas.UpdateSistemas;
@@ -145,22 +144,6 @@ public class SistemasController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-sistemas-by-dependencia/{id}")]
-    [ApiVersion(ApiVersions.V1)]
-    public async Task<ActionResult<PaginationResult<SistemaDto>>> GetSistemasByDependencia(
-        string id,
-        CancellationToken cancellationToken
-        )
-    {
-        var request = new GetSistemasByDependenciaQuery { Dependencia = id};
-        var result = await _sender.Send(request,cancellationToken);
-
-        if(result.IsFailure)
-        {
-            return BadRequest(result);
-        }
-        return Ok(result);
-    }
 }
 
     
