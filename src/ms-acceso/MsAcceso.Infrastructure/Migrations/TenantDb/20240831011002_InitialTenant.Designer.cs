@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240829021913_InitialTenant")]
+    [Migration("20240831011002_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -62,6 +62,28 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.HasKey("Id");
 
                     b.ToTable("auditorias", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.DetalleProductos.DetalleProducto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("FechaCreacion")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("detalle-productos", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Licencias.Licencia", b =>
@@ -372,6 +394,33 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("productos", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Resenias.Resenia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Calificacion")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid?>("ProductoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("resenias", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
                 {
                     b.Property<Guid>("Id")
@@ -555,6 +604,15 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("usuario_licencia", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.DetalleProductos.DetalleProducto", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Productos.Producto", null)
+                        .WithOne("DetalleProducto")
+                        .HasForeignKey("MsAcceso.Domain.Root.DetalleProductos.DetalleProducto", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.MenuOpciones.MenuOpcion", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
@@ -604,6 +662,13 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("MsAcceso.Domain.Root.PersonasNaturales.PersonaNatural", "PersonaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Resenias.Resenia", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Productos.Producto", null)
+                        .WithMany("Resenias")
+                        .HasForeignKey("ProductoId");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
@@ -687,6 +752,13 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Navigation("PersonaJuridica");
 
                     b.Navigation("PersonaNatural");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Productos.Producto", b =>
+                {
+                    b.Navigation("DetalleProducto");
+
+                    b.Navigation("Resenias");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>

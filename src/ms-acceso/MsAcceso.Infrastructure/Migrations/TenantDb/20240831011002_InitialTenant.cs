@@ -171,6 +171,46 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "detalle-productos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_detalle-productos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_detalle-productos_productos_Id",
+                        column: x => x.Id,
+                        principalTable: "productos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "resenias",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Comentario = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Calificacion = table.Column<int>(type: "int", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_resenias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_resenias_productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "productos",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "menus_opciones",
                 columns: table => new
                 {
@@ -386,6 +426,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 column: "TipoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_resenias_ProductoId",
+                table: "resenias",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_rols_LicenciaId",
                 table: "rols",
                 column: "LicenciaId");
@@ -454,6 +499,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "auditorias");
 
             migrationBuilder.DropTable(
+                name: "detalle-productos");
+
+            migrationBuilder.DropTable(
                 name: "menus_opciones");
 
             migrationBuilder.DropTable(
@@ -463,13 +511,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "personas_naturales");
 
             migrationBuilder.DropTable(
-                name: "productos");
+                name: "resenias");
 
             migrationBuilder.DropTable(
                 name: "rols_permisos_opciones");
 
             migrationBuilder.DropTable(
                 name: "usuario_licencia");
+
+            migrationBuilder.DropTable(
+                name: "productos");
 
             migrationBuilder.DropTable(
                 name: "opciones");

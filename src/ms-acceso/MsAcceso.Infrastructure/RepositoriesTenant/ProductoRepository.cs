@@ -14,7 +14,7 @@ internal sealed class ProductoRepository : RepositoryTenant<Producto, ProductoId
 
     public async Task<List<Producto>> GetAll(CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<Producto>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
+        return await DbContext.Set<Producto>().Include(x => x.DetalleProducto).Include(x => x.Resenias).Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
 
     public async Task<bool> ProductoExists(string productoNombre, CancellationToken cancellationToken = default)

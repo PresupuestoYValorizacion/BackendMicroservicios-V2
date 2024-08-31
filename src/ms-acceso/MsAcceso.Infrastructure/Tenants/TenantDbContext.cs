@@ -2,6 +2,7 @@
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Auditorias;
+using MsAcceso.Domain.Root.DetalleProductos;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
@@ -9,6 +10,7 @@ using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.Productos;
+using MsAcceso.Domain.Root.Resenias;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.Rols;
@@ -40,6 +42,8 @@ namespace MsAcceso.Infrastructure.Tenants
         public DbSet<PersonaNatural> PersonasNaturales { get; set; }
         public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<DetalleProducto> DetalleProducto { get; set; }
+        public DbSet<Resenia> Resenia { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

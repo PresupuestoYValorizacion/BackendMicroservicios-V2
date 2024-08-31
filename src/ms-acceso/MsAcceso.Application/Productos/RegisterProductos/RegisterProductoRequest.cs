@@ -1,3 +1,4 @@
+
 namespace MsAcceso.Application.Productos.RegisterProductos;
 
 public record RegisterProductoRequest(

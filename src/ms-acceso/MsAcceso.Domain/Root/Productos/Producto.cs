@@ -1,4 +1,6 @@
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.DetalleProductos;
+using MsAcceso.Domain.Root.Resenias;
 using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Domain.Root.Productos;
@@ -22,7 +24,12 @@ public sealed class Producto : Entity<ProductoId>
     public string? Nombre {get; private set; }
     public string? Codigo {get; private set; }
     public int Cantidad {get; private set; }
-
+    public DetalleProducto? DetalleProducto {get; private set; }
+    public List<Resenia> Resenias { get; } = new List<Resenia>();
+ /* 
+    public List<Categoria> Categorias { get; } = new List<Categoria>();
+    public CategoriaId? CategoriaId { get; private set; }
+*/
     public static Producto Create(
         string nombre,
         string codigo,
