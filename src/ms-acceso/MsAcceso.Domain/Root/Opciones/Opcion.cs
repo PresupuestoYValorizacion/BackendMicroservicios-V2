@@ -23,8 +23,6 @@ public sealed class Opcion : Entity<OpcionId>
     public string? Nombre { get; private set; }
     public string? Logo { get; private set; }
     public string? Abreviatura { get; private set; }
-    public List<Sistema>? Menus { get; set; } 
-
 
     public static Opcion Create(
         string Nombre,

@@ -21,6 +21,8 @@ public sealed class MenuOpcion : Entity<MenuOpcionId>
     
     public OpcionId? OpcionesId { get; set; }
     public SistemaId? MenusId{ get; set; }
+    public Opcion? Opcion{ get; set; }
+    public Sistema? Menu{ get; set; }
 
     public static MenuOpcion Create(
         OpcionId opcionId,

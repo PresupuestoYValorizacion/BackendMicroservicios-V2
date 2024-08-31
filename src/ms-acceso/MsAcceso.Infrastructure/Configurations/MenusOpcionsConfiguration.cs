@@ -21,7 +21,7 @@ internal sealed class MenusOpcionsConfiguration : IEntityTypeConfiguration<MenuO
        .IsRequired()
        .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        builder.HasOne<Opcion>()
+        builder.HasOne(o=> o.Opcion)
                 .WithMany()
                 .HasForeignKey(menuOpcion => menuOpcion.OpcionesId);
 

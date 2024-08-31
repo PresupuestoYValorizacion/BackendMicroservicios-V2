@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
+using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Infrastructure.Configurations;
