@@ -9,6 +9,7 @@ public interface IRolRepository
 
     Task<Rol?> GetByIdAsync(RolId id, CancellationToken cancellationToken = default);
     Task<Rol?> GetByLicenciaAsync(LicenciaId id, CancellationToken cancellationToken = default);
+    Task<Rol?> GetRolByParametroAndLicencia(ParametroId parametroId,LicenciaId id, CancellationToken cancellationToken = default);
     Task<List<Rol>> GetRolesByTipoAsync(ParametroId TipoId, CancellationToken cancellationToken = default);
     void Add(Rol user);
 

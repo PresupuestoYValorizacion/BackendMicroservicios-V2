@@ -20,6 +20,12 @@ internal sealed class RolRepository : RepositoryApplication<Rol, RolId>, IRolRep
              .FirstOrDefaultAsync(x => x.LicenciaId == id && x.Activo == new Activo(true), cancellationToken);
     }
 
+    public async Task<Rol?> GetRolByParametroAndLicencia(ParametroId parametroId, LicenciaId id, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Rol>()
+             .FirstOrDefaultAsync(x => x.TipoRolId == parametroId && x.LicenciaId == id && x.Activo == new Activo(true), cancellationToken);
+    }
+
     public async Task<List<Rol>> GetRolesByTipoAsync(ParametroId TipoId, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<Rol>().Where(x => x.TipoRolId == TipoId && x.Activo == new Activo(true)).ToListAsync(cancellationToken);

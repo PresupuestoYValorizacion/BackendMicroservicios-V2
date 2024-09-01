@@ -43,7 +43,7 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             return Result.Failure<Guid>(ParametroErrors.ParametroNotFound);
         }
 
-        if(request.LicenciaId is not null && request.LicenciaId != "")
+        if(request.TipoRolId.Value == TipoRol.Licencia)
         {
             var licenciaId = new LicenciaId(Guid.Parse(request.LicenciaId!));
 
@@ -52,6 +52,12 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             if(licenciaExists is null)
             {
                 return Result.Failure<Guid>(Error.NotFound);
+            }
+
+            var rolLicenciaExists = await _rolRepository.GetRolByParametroAndLicencia(request.TipoRolId,licenciaId,cancellationToken);
+
+            if(rolLicenciaExists is not null){
+                return Result.Failure<Guid>(RolErrors.AlreadyExists);
             }
 
             rol.Update(
@@ -65,7 +71,7 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 
             return Result.Success(rol.Id!.Value, Message.Update);
-        }   
+        }
 
         rol.Update(
             request.Nombre,
