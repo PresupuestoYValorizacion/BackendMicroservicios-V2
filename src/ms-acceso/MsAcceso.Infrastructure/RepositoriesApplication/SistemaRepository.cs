@@ -43,11 +43,11 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     private async Task<List<Sistema>> LoadDependenciesToDeleteAsync(Sistema sistema, CancellationToken cancellationToken)
     {
 
-         var childSistemas = await DbContext.Set<Sistema>()
-                                        .Where(x => x.Dependencia == sistema.Id && x.Activo == new Activo(true))
-                                        .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true)))
-                                        .ThenInclude(x => x.Opcion)
-                                        .ToListAsync(cancellationToken);
+        var childSistemas = await DbContext.Set<Sistema>()
+                                       .Where(x => x.Dependencia == sistema.Id && x.Activo == new Activo(true))
+                                       .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true)))
+                                       .ThenInclude(x => x.Opcion)
+                                       .ToListAsync(cancellationToken);
 
         return childSistemas;
 
@@ -64,7 +64,8 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken)
     {
         var rootSystems = await DbContext.Set<Sistema>().Where(x => x.Dependencia == null && x.Activo == new Activo(true))
-                                                         .Include(x => x.Opciones!)
+                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                         .ThenInclude(x => x.Opcion)
                                                          .ToListAsync(cancellationToken);
 
         foreach (var system in rootSystems)
@@ -81,7 +82,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true)))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
             .ThenInclude(x => x.Opcion)
             .ToListAsync(cancellationToken);
 
