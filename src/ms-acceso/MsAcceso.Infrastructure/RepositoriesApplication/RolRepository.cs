@@ -35,7 +35,6 @@ internal sealed class RolRepository : RepositoryApplication<Rol, RolId>, IRolRep
     {
          return await DbContext.Set<Rol>()
                     .AnyAsync(x => x.Nombre == nombre && x.Activo == new Activo(true), cancellationToken);
-        // return await DbContext.Set<Licencia>().AnyAsync(x => x.Nombre == nombre,cancellationToken);
 
     }
 }
