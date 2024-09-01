@@ -33,7 +33,7 @@ internal sealed class RolRepository : RepositoryApplication<Rol, RolId>, IRolRep
 
     public async Task<bool> GetByNombreAsync(string nombre, CancellationToken cancellationToken = default)
     {
-         return await DbContext.Set<Licencia>()
+         return await DbContext.Set<Rol>()
                     .AnyAsync(x => x.Nombre == nombre && x.Activo == new Activo(true), cancellationToken);
         // return await DbContext.Set<Licencia>().AnyAsync(x => x.Nombre == nombre,cancellationToken);
 
