@@ -1,5 +1,6 @@
 using AutoMapper;
 using LinqKit;
+using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Abstractions;
@@ -40,7 +41,10 @@ internal sealed class GetRolesByPaginationQueryHandler : IQueryHandler<GetRolesB
 
         var resultPagination = await _paginationRolesRepository.GetPaginationAsync(
                                             predicateB,
-                                            null!,
+                                            r =>
+                                            r.Include(x => x.Licencia!)
+                                            .Include(x => x.TipoRol!)
+                                            ,
                                             request.PageNumber,
                                             request.PageSize,
                                             request.OrderBy!,

@@ -21,9 +21,9 @@ internal sealed class GetMenuOpcionByIdQueryHandler : IQueryHandler<GetMenuOpcio
 
     public async Task<Result<MenuOpcionDto?>> Handle(GetMenuOpcionByIdQuery request, CancellationToken cancellationToken)
     {
-        var menuOpcionId = Guid.Parse(request.Id!);
+        var menuOpcionId = new Guid(request.Id!);
 
-        var menuOpcion = await _menuOpcionRepository.GetByIdAsync(new MenuOpcionId(menuOpcionId),cancellationToken); 
+        var menuOpcion = await _menuOpcionRepository.GetMenuOpcionById(new MenuOpcionId(menuOpcionId),cancellationToken); 
 
         if(menuOpcion is null)
         {

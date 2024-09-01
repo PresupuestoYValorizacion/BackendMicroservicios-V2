@@ -1,5 +1,6 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Sistemas.DesactiveSistemas;
@@ -8,14 +9,18 @@ internal sealed class DesactiveSistemasCommandHandler : ICommandHandler<Desactiv
 {
     private readonly ISistemaRepository _sistemaRepository;
     private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IMenuOpcionRepository _menuOpcionRepository;
+
 
     public DesactiveSistemasCommandHandler(
         ISistemaRepository sistemaRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkTenant unitOfWorkTenant,
+        IMenuOpcionRepository menuOpcionRepository
     )
     {
         _sistemaRepository = sistemaRepository;
         _unitOfWorkTenant = unitOfWorkTenant;
+        _menuOpcionRepository = menuOpcionRepository;
     }
     
     public async Task<Result<Guid>> Handle(DesactiveSistemasCommand request, CancellationToken cancellationToken)
@@ -29,17 +34,26 @@ internal sealed class DesactiveSistemasCommandHandler : ICommandHandler<Desactiv
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
-        var sistemasDependientes = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaExists.Id!,cancellationToken);
+        var sistemas = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaExists.Id!,cancellationToken);
 
-        foreach(var sistemaDependiente in sistemasDependientes)
+        sistemas.Add(sistemaExists);
+
+        foreach(var sistema in sistemas)
         {
-            sistemaDependiente.Desactive();
-            _sistemaRepository.Update(sistemaDependiente);
+            var menusOpciones= await _menuOpcionRepository.GetAllMenuOpcionsByMenuId(sistema.Id!,cancellationToken);
+            
+            if(menusOpciones.Count > 0)
+            {
+                foreach (var menuOpcion in menusOpciones)
+                {
+                    menuOpcion.Desactive();
+                    _menuOpcionRepository.Update(menuOpcion);
+                }
+            }
+
+            sistema.Desactive();
+            _sistemaRepository.Update(sistema);
         }
-
-        sistemaExists.Desactive();
-
-        _sistemaRepository.Update(sistemaExists);
 
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 

@@ -13,17 +13,48 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     public async Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken)
     {
-        var sistemasDependientes = await DbContext.Set<Sistema>().Where(x => x.Dependencia == Id)
+        var dependentSistemas = await DbContext.Set<Sistema>()
+                                             .Where(x => x.Dependencia == Id)
                                              .Include(x => x.Opciones)
                                              .ToListAsync(cancellationToken);
 
-        foreach (var system in sistemasDependientes)
+        var sistemasToProcess = new List<Sistema>(dependentSistemas);
+
+        while (sistemasToProcess.Count > 0)
         {
-            await LoadDependenciesAsync(system, cancellationToken);
+            var sistema = sistemasToProcess[0];
+            sistemasToProcess.RemoveAt(0);
+
+            var childSistemas = await LoadDependenciesToDeleteAsync(sistema, cancellationToken);
+
+            foreach (var childSistema in childSistemas)
+            {
+                if (!dependentSistemas.Any(s => s.Id == childSistema.Id))
+                {
+                    dependentSistemas.Add(childSistema);
+                    sistemasToProcess.Add(childSistema);
+                }
+            }
         }
 
-        return sistemasDependientes;
+        return dependentSistemas!;
     }
+
+    private async Task<List<Sistema>> LoadDependenciesToDeleteAsync(Sistema sistema, CancellationToken cancellationToken)
+    {
+
+         var childSistemas = await DbContext.Set<Sistema>()
+                                        .Where(x => x.Dependencia == sistema.Id && x.Activo == new Activo(true))
+                                        .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true)))
+                                        .ThenInclude(x => x.Opcion)
+                                        .ToListAsync(cancellationToken);
+
+        return childSistemas;
+
+    }
+
+
+
 
     public async Task<bool> SistemaExistsByName(string name, CancellationToken cancellationToken)
     {
@@ -47,8 +78,6 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     private async Task LoadDependenciesAsync(Sistema system, CancellationToken cancellationToken)
     {
-
-        // var prueba = await DbContext.Set<MenuOpcion>().ToListAsync(cancellationToken);
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))

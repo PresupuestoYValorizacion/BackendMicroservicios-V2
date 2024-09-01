@@ -9,5 +9,5 @@ public sealed record UpdateRolesCommand(
     RolId RolId,
     string Nombre,
     ParametroId TipoRolId,
-    string? LicenciaId
+    LicenciaId? LicenciaId
 ) : ICommand<Guid>;

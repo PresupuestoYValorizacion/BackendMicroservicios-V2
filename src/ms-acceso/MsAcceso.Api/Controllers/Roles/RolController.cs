@@ -122,7 +122,7 @@ public class RolesController : Controller
             new RolId(Guid.Parse(request.RolId)),
             request.Nombre,
             new ParametroId(request.TipoRolId),
-            request.LicenciaId
+            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId) : Guid.Empty)
         );
 
         var results = await _sender.Send(command,cancellationToken);

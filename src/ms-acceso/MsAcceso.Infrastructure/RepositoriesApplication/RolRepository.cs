@@ -30,4 +30,12 @@ internal sealed class RolRepository : RepositoryApplication<Rol, RolId>, IRolRep
     {
         return await DbContext.Set<Rol>().Where(x => x.TipoRolId == TipoId && x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
+
+    public async Task<bool> GetByNombreAsync(string nombre, CancellationToken cancellationToken = default)
+    {
+         return await DbContext.Set<Licencia>()
+                    .AnyAsync(x => x.Nombre == nombre && x.Activo == new Activo(true), cancellationToken);
+        // return await DbContext.Set<Licencia>().AnyAsync(x => x.Nombre == nombre,cancellationToken);
+
+    }
 }

@@ -1,5 +1,6 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Sistemas.DeleteSistemas;
@@ -7,15 +8,18 @@ namespace MsAcceso.Application.Sistemas.DeleteSistemas;
 internal sealed class DeleteSistemasCommandHandler : ICommandHandler<DeleteSistemasCommand, Guid>
 {
     private readonly ISistemaRepository _sistemaRepository;
+    private readonly IMenuOpcionRepository _menuOpcionRepository;
     private readonly IUnitOfWorkTenant _unitOfWorkTenant;
 
     public DeleteSistemasCommandHandler(
         ISistemaRepository sistemaRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkTenant unitOfWorkTenant,
+        IMenuOpcionRepository menuOpcionRepository
     )
     {
         _sistemaRepository = sistemaRepository;
         _unitOfWorkTenant = unitOfWorkTenant;
+        _menuOpcionRepository = menuOpcionRepository;
     }
 
     public async Task<Result<Guid>> Handle(DeleteSistemasCommand request, CancellationToken cancellationToken)
@@ -29,17 +33,27 @@ internal sealed class DeleteSistemasCommandHandler : ICommandHandler<DeleteSiste
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
-        var sistemasDependientes = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaId, cancellationToken);
+        var sistemas = await _sistemaRepository.GetAllSistemasBySubnivel(sistemaId, cancellationToken);
 
-        if (sistemasDependientes.Count > 0)
+        sistemas.Add(sistemaExists);
+
+        if (sistemas.Count > 0)
         {
-            foreach (var sistemaDependiente in sistemasDependientes)
+            foreach (var sistema in sistemas)
             {
-                _sistemaRepository.Delete(sistemaDependiente);
+                var menusOpciones= await _menuOpcionRepository.GetAllMenuOpcionsByMenuId(sistema.Id!,cancellationToken);
+                
+                if(menusOpciones.Count > 0)
+                {
+                    foreach (var menuOpcion in menusOpciones)
+                    {
+                        _menuOpcionRepository.Delete(menuOpcion);
+                    }
+                }
+                
+                _sistemaRepository.Delete(sistema);
             }
         }
-
-        _sistemaRepository.Delete(sistemaExists);
 
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 

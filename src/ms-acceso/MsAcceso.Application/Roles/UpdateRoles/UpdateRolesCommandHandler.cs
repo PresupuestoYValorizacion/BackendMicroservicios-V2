@@ -43,18 +43,29 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             return Result.Failure<Guid>(ParametroErrors.ParametroNotFound);
         }
 
-        if(request.TipoRolId.Value == TipoRol.Licencia)
+        if(rol.Nombre != request.Nombre)
         {
-            var licenciaId = new LicenciaId(Guid.Parse(request.LicenciaId!));
+            var nombreExists= await _rolRepository.GetByNombreAsync(request.Nombre,cancellationToken);
 
-            var licenciaExists = await _licenciaRepository.GetByIdAsync(licenciaId,cancellationToken);
+            if(nombreExists)
+            {
+                return Result.Failure<Guid>(RolErrors.AlreadyExists);
+            }
+
+        }
+
+
+        if(request.TipoRolId.Value == TipoRol.Licencia && rol.LicenciaId != request.LicenciaId)
+        {
+
+            var licenciaExists = await _licenciaRepository.GetByIdAsync(request.LicenciaId!,cancellationToken);
 
             if(licenciaExists is null)
             {
                 return Result.Failure<Guid>(Error.NotFound);
             }
 
-            var rolLicenciaExists = await _rolRepository.GetRolByParametroAndLicencia(request.TipoRolId,licenciaId,cancellationToken);
+            var rolLicenciaExists = await _rolRepository.GetRolByParametroAndLicencia(request.TipoRolId,request.LicenciaId!,cancellationToken);
 
             if(rolLicenciaExists is not null){
                 return Result.Failure<Guid>(RolErrors.AlreadyExists);
@@ -63,21 +74,19 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
             rol.Update(
                 request.Nombre,
                 request.TipoRolId,
-                licenciaId
+                request.LicenciaId
             );
 
-            _rolRepository.Update(rol);
-
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
-
-            return Result.Success(rol.Id!.Value, Message.Update);
         }
-
-        rol.Update(
-            request.Nombre,
-            request.TipoRolId,
-            null
-        );
+        else if(request.TipoRolId.Value == TipoRol.Administrador)
+        {
+            rol.Update(
+                request.Nombre,
+                request.TipoRolId,
+                null
+            );
+            
+        }
 
         _rolRepository.Update(rol);
 
