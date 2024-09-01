@@ -31,6 +31,10 @@ public static class UserErrors
         400,
         "La empresa no existe en la base de datos"
     );
+    public static Error UserInUse = new(
+        400,
+        "El usuario esta en uso no puede eliminarlo."
+    );
 
 
 }

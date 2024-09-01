@@ -1,6 +1,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Parametros.DeleteParametros;
 
@@ -20,28 +21,38 @@ internal sealed class DeleteParametrosCommandHandler : ICommandHandler<DeletePar
 
     public async Task<Result<int>> Handle(DeleteParametrosCommand request, CancellationToken cancellationToken)
     {
-        var parametroDelete = await _parametroRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (parametroDelete is null)
+        try
         {
-            return Result.Failure<int>(ParametroErrors.ParametroNotFound);
-        }
+            var parametroDelete = await _parametroRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        var relatedEntities = await _parametroRepository.GetRelatedEntitiesAsync(request.Id.Value, cancellationToken);
-
-        if(relatedEntities.Count > 0){
-
-            foreach (var relatedEntity in relatedEntities)
+            if (parametroDelete is null)
             {
-                _parametroRepository.Delete(relatedEntity);
+                return Result.Failure<int>(ParametroErrors.ParametroNotFound);
             }
+
+            var relatedEntities = await _parametroRepository.GetRelatedEntitiesAsync(request.Id.Value, cancellationToken);
+
+            if(relatedEntities.Count > 0){
+
+                foreach (var relatedEntity in relatedEntities)
+                {
+                    _parametroRepository.Delete(relatedEntity);
+                }
+            }
+
+
+            _parametroRepository.Delete(parametroDelete);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result.Success(1, Message.Delete);
+
+        }
+        catch (Exception ex) when (ExceptionSql.IsForeignKeyViolation(ex))
+        {
+            return Result.Failure<int>(ParametroErrors.ParametroInUse);
+
         }
 
-
-        _parametroRepository.Delete(parametroDelete);
-
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return Result.Success(1, Message.Delete);
     }
 }

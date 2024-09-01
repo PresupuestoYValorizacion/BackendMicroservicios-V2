@@ -1,6 +1,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Roles.DeleteRoles;
 
@@ -20,17 +21,28 @@ internal sealed class DeleteRolesCommandHandler : ICommandHandler<DeleteRolesCom
 
     public async Task<Result<Guid>> Handle(DeleteRolesCommand request, CancellationToken cancellationToken)
     {
-        var rol = await _rolRepository.GetByIdAsync(request.RolId,cancellationToken);
-
-        if(rol is null)
+        try
         {
-            return Result.Failure<Guid>(RolErrors.RolNotExists);
+            var rol = await _rolRepository.GetByIdAsync(request.RolId, cancellationToken);
+
+            if (rol is null)
+            {
+                return Result.Failure<Guid>(RolErrors.RolNotExists);
+            }
+
+            _rolRepository.Delete(rol);
+
+            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+            return Result.Success(rol.Id!.Value, Message.Delete);
         }
+        catch (Exception ex) when (ExceptionSql.IsForeignKeyViolation(ex))
+        {
+            return Result.Failure<Guid>(RolErrors.RolInUse);
 
-        _rolRepository.Delete(rol);
-
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
-
-        return Result.Success(rol.Id!.Value, Message.Delete);
+        }
     }
+
+   
+
+
 }

@@ -19,4 +19,8 @@ public static class RolErrors
         400,
         "El rol no existe en la base de datos"
     );
+    public static Error RolInUse = new(
+        400,
+        "El rol esta en uso no puede eliminarlo"
+    );
 }
