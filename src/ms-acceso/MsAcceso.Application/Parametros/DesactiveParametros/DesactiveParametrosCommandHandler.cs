@@ -20,19 +20,31 @@ internal sealed class DeactiveParametrosCommandHandler : ICommandHandler<Desacti
 
     public async Task<Result<int>> Handle(DesactiveParametrosCommand request, CancellationToken cancellationToken)
     {
-        var parametro = await _parametroRepository.GetByIdAsync(request.Id,cancellationToken);
+        var parametro = await _parametroRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        if(parametro is null)
+        if (parametro is null)
         {
             return Result.Failure<int>(ParametroErrors.ParametroNotFound);
         }
 
-        parametro.Desactive();
+        var entities = await _parametroRepository.GetAllParametrosBySubnivelToDelete(request.Id, cancellationToken);
 
-        _parametroRepository.Update(parametro);
+        entities.Add(parametro);
 
+        if (entities.Count > 0)
+        {
+
+            foreach (var relatedEntity in entities)
+            {
+               relatedEntity.Desactive();
+
+               _parametroRepository.Update(relatedEntity);
+            }
+        }
+
+        
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(parametro.Id!.Value,Message.Desactivate);
+        return Result.Success(parametro.Id!.Value, Message.Desactivate);
     }
 }

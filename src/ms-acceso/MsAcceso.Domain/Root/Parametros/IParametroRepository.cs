@@ -11,4 +11,6 @@ public interface IParametroRepository
     Task<bool> ValorExists(string valor,int dependencia, CancellationToken cancellationToken = default);
     Task<int> GetLastParametroIdAsync(CancellationToken cancellationToken = default);
     Task<List<Parametro>> GetRelatedEntitiesAsync(int parametroId, CancellationToken cancellationToken);
+    Task<List<Parametro>> GetAllParametrosBySubnivelToDelete(ParametroId Id, CancellationToken cancellationToken);
+
 }

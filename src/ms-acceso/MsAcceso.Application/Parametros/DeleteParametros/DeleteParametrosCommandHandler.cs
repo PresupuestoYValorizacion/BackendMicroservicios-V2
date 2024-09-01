@@ -30,18 +30,19 @@ internal sealed class DeleteParametrosCommandHandler : ICommandHandler<DeletePar
                 return Result.Failure<int>(ParametroErrors.ParametroNotFound);
             }
 
-            var relatedEntities = await _parametroRepository.GetRelatedEntitiesAsync(request.Id.Value, cancellationToken);
+            var entities = await _parametroRepository.GetAllParametrosBySubnivelToDelete(request.Id, cancellationToken);
 
-            if(relatedEntities.Count > 0){
+            entities.Add(parametroDelete);
 
-                foreach (var relatedEntity in relatedEntities)
+            if (entities.Count > 0)
+            {
+
+                foreach (var relatedEntity in entities)
                 {
                     _parametroRepository.Delete(relatedEntity);
                 }
             }
 
-
-            _parametroRepository.Delete(parametroDelete);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -37,4 +37,44 @@ internal sealed class ParametroRepository : RepositoryApplication<Parametro, Par
             .Where(p => p.Dependencia == new ParametroId(parametroId))
             .ToListAsync(cancellationToken);
     }
+
+
+     public async Task<List<Parametro>> GetAllParametrosBySubnivelToDelete(ParametroId Id, CancellationToken cancellationToken)
+    {
+        var dependentParametros = await DbContext.Set<Parametro>()
+                                             .Where(x => x.Dependencia == Id)
+                                             .ToListAsync(cancellationToken);
+
+        var parametrosToProcess = new List<Parametro>(dependentParametros);
+
+        while (parametrosToProcess.Count > 0)
+        {
+            var parametro = parametrosToProcess[0];
+            parametrosToProcess.RemoveAt(0);
+
+            var childSistemas = await LoadDependenciesToDeleteAsync(parametro, cancellationToken);
+
+            foreach (var childSistema in childSistemas)
+            {
+                if (!dependentParametros.Any(s => s.Id == childSistema.Id))
+                {
+                    dependentParametros.Add(childSistema);
+                    parametrosToProcess.Add(childSistema);
+                }
+            }
+        }
+
+        return dependentParametros!;
+    }
+
+    private async Task<List<Parametro>> LoadDependenciesToDeleteAsync(Parametro parametro, CancellationToken cancellationToken)
+    {
+
+        var childSistemas = await DbContext.Set<Parametro>()
+                                       .Where(x => x.Dependencia == parametro.Id)
+                                       .ToListAsync(cancellationToken);
+
+        return childSistemas;
+
+    }
 }
