@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MsAcceso.Domain.Root.Categorias;
 using MsAcceso.Domain.Root.DetalleProductos;
+using MsAcceso.Domain.Root.ProductoProductoCategorias;
 using MsAcceso.Domain.Root.Productos;
 using MsAcceso.Domain.Shared;
 
@@ -35,22 +37,18 @@ internal sealed class ProductoConfiguration : IEntityTypeConfiguration<Producto>
             .HasOne(p => p.DetalleProducto)
             .WithOne()
             .HasForeignKey<DetalleProducto>(e => e.Id);
-        
+
         builder
             .HasMany(p => p.Resenias)
             .WithOne()
             .HasForeignKey(r => r.ProductoId);
-/*
+
         builder
             .HasMany(p => p.Categorias)
-            .WithMany(c => c.Productos);
-*/
-        /*
-        builder
-        .HasOne<Categoria>()
-        .WithMany(c => c.Productos)
-        .HasForeignKey(p => p.CategoriaId);
-        */
+            .WithMany()
+            .UsingEntity < ProductoCategoria > (
+                c => c.HasOne < Categoria > (c => c.Categoria).WithMany().HasForeignKey(e => e.CategoriaId),
+                p => p.HasOne < Producto > (p => p.Producto).WithMany(p => p.ProductoCategorias).HasForeignKey(e => e.ProductoId));
 
     }
 }

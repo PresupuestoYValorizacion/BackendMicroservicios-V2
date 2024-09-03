@@ -1,4 +1,5 @@
 
+using MsAcceso.Domain.Root.Categorias;
 using MsAcceso.Domain.Root.DetalleProductos;
 using MsAcceso.Domain.Root.Resenias;
 
@@ -11,7 +12,8 @@ public class ProductoDto
     public int? Cantidad { get; set; } 
     public DetalleProductoDto? DetalleProducto {get; private set; }
     public List<ReseniaDto>? Resenias {get; private set; }
-    //public List<CategoriaDto>? Categorias {get; private set; }
+    public List<CategoriaDto>? Categorias {get; private set; }
+    public List<ProductoCategoriaDto>? ProductoCategorias {get; private set; }
 
 
 }

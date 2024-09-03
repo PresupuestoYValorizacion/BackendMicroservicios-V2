@@ -33,6 +33,19 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "licencias",
                 columns: table => new
                 {
@@ -185,6 +198,32 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     table.ForeignKey(
                         name: "FK_detalle-productos_productos_Id",
                         column: x => x.Id,
+                        principalTable: "productos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "producto-categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_producto-categorias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_producto-categorias_categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_producto-categorias_productos_ProductoId",
+                        column: x => x.ProductoId,
                         principalTable: "productos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -426,6 +465,16 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 column: "TipoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_producto-categorias_CategoriaId",
+                table: "producto-categorias",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_producto-categorias_ProductoId",
+                table: "producto-categorias",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_resenias_ProductoId",
                 table: "resenias",
                 column: "ProductoId");
@@ -511,6 +560,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "personas_naturales");
 
             migrationBuilder.DropTable(
+                name: "producto-categorias");
+
+            migrationBuilder.DropTable(
                 name: "resenias");
 
             migrationBuilder.DropTable(
@@ -518,6 +570,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             migrationBuilder.DropTable(
                 name: "usuario_licencia");
+
+            migrationBuilder.DropTable(
+                name: "categorias");
 
             migrationBuilder.DropTable(
                 name: "productos");

@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure.Tenants;
 namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240831011002_InitialTenant")]
+    [Migration("20240831031910_InitialTenant")]
     partial class InitialTenant
     {
         /// <inheritdoc />
@@ -62,6 +62,24 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.HasKey("Id");
 
                     b.ToTable("auditorias", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Categorias.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categorias", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.DetalleProductos.DetalleProducto", b =>
@@ -368,6 +386,29 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("personas_naturales", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.ProductoProductoCategorias.ProductoCategoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProductoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("producto-categorias", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Productos.Producto", b =>
                 {
                     b.Property<Guid>("Id")
@@ -664,6 +705,25 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.ProductoProductoCategorias.ProductoCategoria", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Categorias.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Root.Productos.Producto", "Producto")
+                        .WithMany("ProductoCategorias")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Producto");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Resenias.Resenia", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Productos.Producto", null)
@@ -757,6 +817,8 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
             modelBuilder.Entity("MsAcceso.Domain.Root.Productos.Producto", b =>
                 {
                     b.Navigation("DetalleProducto");
+
+                    b.Navigation("ProductoCategorias");
 
                     b.Navigation("Resenias");
                 });

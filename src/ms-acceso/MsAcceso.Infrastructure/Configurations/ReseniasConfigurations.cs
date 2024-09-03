@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Root.Resenias;
 using MsAcceso.Domain.Root.Productos;
 using MsAcceso.Domain.Shared;

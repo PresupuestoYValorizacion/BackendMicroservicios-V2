@@ -39,7 +39,7 @@ public class ProductosController : Controller
         );
 
         var result = await _sender.Send(command, cancellationToken);
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
         if (result.IsFailure)
         {
             return BadRequest(result);
