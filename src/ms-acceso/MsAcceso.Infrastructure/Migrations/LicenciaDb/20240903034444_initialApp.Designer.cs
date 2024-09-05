@@ -9,10 +9,10 @@ using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
+namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
-    [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20240831045442_initialApp")]
+    [DbContext(typeof(LicenciaDbContext))]
+    [Migration("20240903034444_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("presupuestos", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.Users.User", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.Pruebas.Prueba", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -51,27 +51,14 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("Username")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("user-tenant", (string)null);
+                    b.ToTable("pruebas", (string)null);
                 });
 #pragma warning restore 612, 618
         }

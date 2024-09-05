@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Root.MenuOpciones;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
@@ -96,6 +97,41 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<Sistema?> SistemaGetByIdAsync(SistemaId Id, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>()
-        .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
     }
+
+    public async Task<List<Sistema>> GetAllSistemasByRol(RolId rolId, CancellationToken cancellationToken)
+    {
+        var rootSystems = await DbContext.Set<Sistema>()
+            .Where(x => x.Dependencia == null && x.Activo == new Activo(true))
+            .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+            .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .ToListAsync(cancellationToken);
+
+        foreach (var system in rootSystems)
+        {
+            await LoadDependenciesByRolAsync(system, rolId, cancellationToken);
+        }
+
+        return rootSystems!;
+    }
+
+    private async Task LoadDependenciesByRolAsync(Sistema system, RolId rolId, CancellationToken cancellationToken)
+    {
+        var childSystems = await DbContext.Set<Sistema>()
+            .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+            .ThenInclude(rp => rp.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .ToListAsync(cancellationToken);
+
+        foreach (var childSystem in childSystems)
+        {
+            await LoadDependenciesByRolAsync(childSystem, rolId, cancellationToken);
+        }
+    }
+
 }

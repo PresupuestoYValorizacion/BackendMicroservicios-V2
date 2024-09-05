@@ -1,3 +1,5 @@
+using MsAcceso.Domain.Root.Rols;
+
 namespace MsAcceso.Domain.Root.Sistemas;
 
 public interface ISistemaRepository
@@ -9,6 +11,7 @@ public interface ISistemaRepository
     Task<bool> SistemaExistsByName(string name, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken);
+    Task<List<Sistema>> GetAllSistemasByRol(RolId Id, CancellationToken cancellationToken);
     Task<Sistema?> SistemaGetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
 
 

@@ -66,6 +66,27 @@ public class RolesController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-sistemas-by-rol/{id}")]
+    public async Task<ActionResult<List<RolDto>>> GetSistemasByRol(
+        string id,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var rolId = new RolId(Guid.Parse(id));
+        var request = new GetAllSistemasByRolQuery { RolId = rolId};
+        var results = await _sender.Send(request,cancellationToken);
+
+        if(results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-pagination")]
     public async Task<ActionResult<PagedResults<RolDto>>> GetRolesByPagination(
         [FromQuery] GetRolesByPaginationQuery request,

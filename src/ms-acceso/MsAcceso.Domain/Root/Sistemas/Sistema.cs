@@ -2,6 +2,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Domain.Root.Sistemas;
@@ -36,6 +37,7 @@ public sealed class Sistema : Entity<SistemaId>
     public List<Sistema>? Sistemas { get; set; }
     public List<Opcion>? Opciones { get; set; } 
     public List<MenuOpcion>? MenuOpcions { get; set; } 
+    public List<RolPermiso>? RolPermisos { get; set; }
 
 
     public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, string url)

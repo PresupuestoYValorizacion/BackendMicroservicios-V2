@@ -1,6 +1,7 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Domain.Root.Rols;
@@ -27,6 +28,7 @@ public sealed class Rol : Entity<RolId>
     public LicenciaId? LicenciaId {get; private set;}
     public Parametro? TipoRol {get; private set;}
     public Licencia? Licencia {get; private set;}
+    public List<RolPermiso>? RolPermisos {get; set;}
 
     public static Rol Create(
         string nombre,

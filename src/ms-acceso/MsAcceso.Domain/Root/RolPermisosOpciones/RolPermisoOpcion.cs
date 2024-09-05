@@ -20,5 +20,8 @@ public sealed class RolPermisoOpcion : Entity<RolPermisoOpcionId>
     
     public RolPermisoId? RolPermisoId { get; set; }
     public OpcionId? OpcionId{ get; set; }
+    public RolPermiso? RolPermiso { get; set; }
+    public Opcion? Opcion{ get; set; }
+
 
 }

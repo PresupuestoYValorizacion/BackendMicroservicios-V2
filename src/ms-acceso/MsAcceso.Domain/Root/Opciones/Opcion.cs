@@ -1,4 +1,5 @@
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
@@ -23,6 +24,7 @@ public sealed class Opcion : Entity<OpcionId>
     public string? Nombre { get; private set; }
     public string? Logo { get; private set; }
     public string? Abreviatura { get; private set; }
+    public List<RolPermisoOpcion>? RolPermisoOpcions { get; set; }
 
     public static Opcion Create(
         string Nombre,

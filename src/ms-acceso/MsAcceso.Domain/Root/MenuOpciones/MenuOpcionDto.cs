@@ -7,5 +7,6 @@ public class MenuOpcionDto
     public string? Id {get; set;}
     public string? OpcionId {get; set;}
     public string? SistemaId {get; set;}
+    public bool? Completed {get; set;}
     public OpcionDto? Opcion {get; set;}
 }
