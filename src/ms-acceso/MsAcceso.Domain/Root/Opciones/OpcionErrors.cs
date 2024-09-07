@@ -13,4 +13,8 @@ public static class OpcionErrors
         400,
         "El nombre de esta opcion ya existe"
     );
+    public static Error OpcionInUse = new(
+        400,
+        "La opcion esta en uso no puede eliminarlo"
+    );
 }

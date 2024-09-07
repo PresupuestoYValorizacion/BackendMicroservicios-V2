@@ -589,24 +589,32 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Sistemas.Sistema", "Menu")
+                        .WithMany("RolPermisos")
                         .HasForeignKey("MenuId");
 
-                    b.HasOne("MsAcceso.Domain.Root.Rols.Rol", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Rols.Rol", "Rol")
+                        .WithMany("RolPermisos")
                         .HasForeignKey("RolId");
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisosOpciones.RolPermisoOpcion", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.Opciones.Opcion", "Opcion")
+                        .WithMany("RolPermisoOpcions")
                         .HasForeignKey("OpcionId");
 
-                    b.HasOne("MsAcceso.Domain.Root.RolPermisos.RolPermiso", null)
-                        .WithMany()
+                    b.HasOne("MsAcceso.Domain.Root.RolPermisos.RolPermiso", "RolPermiso")
+                        .WithMany("RolPermisoOpcions")
                         .HasForeignKey("RolPermisoId");
+
+                    b.Navigation("Opcion");
+
+                    b.Navigation("RolPermiso");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Rols.Rol", b =>
@@ -663,6 +671,11 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Opciones.Opcion", b =>
+                {
+                    b.Navigation("RolPermisoOpcions");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>
                 {
                     b.Navigation("PersonaJuridica");
@@ -670,9 +683,21 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Navigation("PersonaNatural");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.RolPermisos.RolPermiso", b =>
+                {
+                    b.Navigation("RolPermisoOpcions");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Rols.Rol", b =>
+                {
+                    b.Navigation("RolPermisos");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
                     b.Navigation("MenuOpcions");
+
+                    b.Navigation("RolPermisos");
 
                     b.Navigation("Sistemas");
                 });

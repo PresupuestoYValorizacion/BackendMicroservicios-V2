@@ -21,12 +21,12 @@ internal sealed class RolPermisoOpcionConfiguration : IEntityTypeConfiguration<R
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        builder.HasOne<RolPermiso>()
-                .WithMany()
+        builder.HasOne(rpo=>rpo.RolPermiso)
+                .WithMany(rp => rp.RolPermisoOpcions)
                 .HasForeignKey(rolPermisoOpcion => rolPermisoOpcion.RolPermisoId);
 
-        builder.HasOne<Opcion>()
-                .WithMany()
+        builder.HasOne(rpo=>rpo.Opcion)
+                .WithMany(o=>o.RolPermisoOpcions)
                 .HasForeignKey(rolPermisoOpcion => rolPermisoOpcion.OpcionId);
     }
 }

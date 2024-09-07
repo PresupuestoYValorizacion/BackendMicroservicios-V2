@@ -14,5 +14,5 @@ internal sealed class LicenciaRepository : RepositoryApplication<Licencia, Licen
     public async Task<List<Licencia>> GetAll(CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<Licencia>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
-    }
+    }    
 }

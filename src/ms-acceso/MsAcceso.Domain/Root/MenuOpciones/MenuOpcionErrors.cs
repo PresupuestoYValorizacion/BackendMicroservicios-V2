@@ -6,4 +6,5 @@ public class MenuOpcionErrors
 {
     public static Error MenuOpcionNotFound = new Error(400,"Esta opcion de menú no existe.");
     public static Error MenuOpcionExists = new Error(400,"Esta opcion de menú ya existe, ingrese una diferente.");
+    public static Error MenuOpcionInUse = new Error(400,"Esta Opcion de menú esta en uso no puede eliminarlo.");
 }
