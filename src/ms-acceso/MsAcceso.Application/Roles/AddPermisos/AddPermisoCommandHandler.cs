@@ -1,9 +1,7 @@
 using AutoMapper;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.Rols;
