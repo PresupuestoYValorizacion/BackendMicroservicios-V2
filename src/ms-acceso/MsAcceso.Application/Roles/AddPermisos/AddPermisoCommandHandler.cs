@@ -13,7 +13,6 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
 {
 
     private readonly IMapper _mapper;
-    private readonly IRolRepository _rolRepository;
     private readonly ISistemaRepository _sistemaRepository;
 
     private readonly IRolPermisoRepository _rolPermisoRepository;
@@ -23,7 +22,6 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
 
     public AddPermisosCommandHandler(
         IMapper mapper,
-        IRolRepository rolRepository,
         ISistemaRepository sistemaRepository,
         IRolPermisoOpcionRepository rolPermisoOpcionRepository,
         IRolPermisoRepository rolPermisoRepository,
@@ -31,8 +29,6 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
     )
     {
         _mapper = mapper;
-        _rolRepository = rolRepository;
-        _rolRepository = rolRepository;
         _sistemaRepository = sistemaRepository;
         _rolPermisoOpcionRepository = rolPermisoOpcionRepository;
         _rolPermisoRepository = rolPermisoRepository;
