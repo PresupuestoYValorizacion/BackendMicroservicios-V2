@@ -14,6 +14,7 @@ using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Application.Roles.UpdateRoles;
 using MsAcceso.Application.Roles.DesactiveRoles;
 using MsAcceso.Application.Roles.DeleteRoles;
+using MsAcceso.Application.Roles.AddPermisos;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -144,6 +145,30 @@ public class RolesController : Controller
             request.Nombre,
             new ParametroId(request.TipoRolId),
             new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId) : Guid.Empty)
+        );
+
+        var results = await _sender.Send(command,cancellationToken);
+
+        if(results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPut("add-permisos")]
+    public async Task<IActionResult> AddPermisos(
+        [FromBody] AddPermisoRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var command = new AddPermisosCommand(
+            new RolId(Guid.Parse(request.RolId)),
+            request.SistemasRequest
         );
 
         var results = await _sender.Send(command,cancellationToken);

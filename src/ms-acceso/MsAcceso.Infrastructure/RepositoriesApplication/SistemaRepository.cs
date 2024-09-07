@@ -134,4 +134,17 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         }
     }
 
+     public async Task<Sistema?> GetSistemaByIdAndRol(RolId rolId,SistemaId sistemaId, CancellationToken cancellationToken)
+    {
+        var sistema = await DbContext.Set<Sistema>()
+            .Where(x => x.Id == sistemaId && x.Activo == new Activo(true))
+            .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+            .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return sistema!;
+    }
+
 }

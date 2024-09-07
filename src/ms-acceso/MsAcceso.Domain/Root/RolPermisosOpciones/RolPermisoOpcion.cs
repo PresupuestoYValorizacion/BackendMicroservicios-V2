@@ -23,5 +23,25 @@ public sealed class RolPermisoOpcion : Entity<RolPermisoOpcionId>
     public RolPermiso? RolPermiso { get; set; }
     public Opcion? Opcion{ get; set; }
 
+    public static RolPermisoOpcion Create(
+        RolPermisoId rolPermisoId,
+        OpcionId opcionId
+    )
+    {
+        var rolPermisoOpcion = new RolPermisoOpcion(RolPermisoOpcionId.New(),rolPermisoId, opcionId);
+
+        return rolPermisoOpcion;
+    }
+
+    public Result Update(
+        RolPermisoId rolPermisoId,
+        OpcionId opcionId
+    )
+    {
+        RolPermisoId = rolPermisoId;
+        OpcionId = opcionId;
+
+        return Result.Success();
+    }
 
 }

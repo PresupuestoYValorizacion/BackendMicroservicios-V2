@@ -24,4 +24,25 @@ public sealed class RolPermiso : Entity<RolPermisoId>
     public Rol? Rol {get; set; }
     public Sistema? Menu { get; set; }
     public List<RolPermisoOpcion>? RolPermisoOpcions { get; set; }
+
+     public static RolPermiso Create(
+        RolId rolId,
+        SistemaId menuId
+    )
+    {
+        var rolPermiso = new RolPermiso(RolPermisoId.New(),rolId, menuId);
+
+        return rolPermiso;
+    }
+
+    public Result Update(
+        RolId rolId,
+        SistemaId menuId
+    )
+    {
+        RolId = rolId;
+        MenuId = menuId;
+
+        return Result.Success();
+    }
 }
