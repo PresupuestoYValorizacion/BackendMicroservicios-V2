@@ -43,86 +43,82 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
 
     public async Task<Result<Guid>> Handle(AddPermisosCommand request, CancellationToken cancellationToken)
     {
-
         var sistemasRequest = request.SistemasRequest;
 
         if (sistemasRequest.Count > 0)
         {
             foreach (var sistema in sistemasRequest)
             {
+                await ProcesarSistema(sistema, request.RolId, cancellationToken);
+            }
+        }
 
-                var sistemaEncontrado = await _sistemaRepository.GetSistemaByIdAndRol(request.RolId, new SistemaId(sistema.Id), cancellationToken);
+        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        return Result.Success(request.RolId.Value, Message.Update);
+    }
 
-                var sistemaDto = _mapper.Map<SistemaByRolDto>(sistemaEncontrado);
+    // Método recursivo para procesar el sistema y sus childrens
+    private async Task ProcesarSistema(SistemaRequest sistema, RolId rolId, CancellationToken cancellationToken)
+    {
+        var sistemaEncontrado = await _sistemaRepository.GetSistemaByIdAndRol(rolId, new SistemaId(sistema.Id), cancellationToken);
+        var sistemaDto = _mapper.Map<SistemaByRolDto>(sistemaEncontrado);
 
-                RolPermiso? rolPermiso = await _rolPermisoRepository.GetByMenuAndRol(new SistemaId(sistema.Id), request.RolId);
+        RolPermiso? rolPermiso = await _rolPermisoRepository.GetByMenuAndRol(new SistemaId(sistema.Id), rolId);
 
-                if (sistemaDto.Completed != sistema.Completed)
+        // Comparar el estado 'Completed' del sistema
+        if (sistemaDto.Completed != sistema.Completed)
+        {
+            if (rolPermiso == null && sistema.Completed)
+            {
+                rolPermiso = RolPermiso.Create(rolId, new SistemaId(sistema.Id));
+                _rolPermisoRepository.Add(rolPermiso);
+            }
+            else if (!sistema.Completed && rolPermiso != null)
+            {
+                _rolPermisoRepository.Delete(rolPermiso);
+            }
+        }
+
+        // Procesar MenuOpciones
+        if (sistema.Completed && rolPermiso != null)
+        {
+            if (sistema.MenuOpciones.Count > 0)
+            {
+                foreach (var menuOpcion in sistema.MenuOpciones)
                 {
+                    var menuOpcionDto = sistemaDto.MenuOpciones!
+                                        .FirstOrDefault(mo => mo.OpcionId == menuOpcion.OpcionId.ToString());
 
-                    if (rolPermiso is null && sistema.Completed)
+                    if (menuOpcionDto != null)
                     {
-                        rolPermiso = RolPermiso.Create(request.RolId, new SistemaId(sistema.Id));
-
-                        _rolPermisoRepository.Add(rolPermiso);
-
-                    }
-
-                    if (!sistema.Completed && rolPermiso is not null)
-                    {
-                        _rolPermisoRepository.Delete(rolPermiso);
-                    }
-
-                }
-
-                if (sistema.Completed && rolPermiso is not null)
-                {
-
-                    if (sistema.MenuOpciones.Count > 0)
-                    {
-                        foreach (var menuOpcion in sistema.MenuOpciones)
+                        if (menuOpcion.Completed != menuOpcionDto.Completed)
                         {
+                            var rolPermisoOpcion = await _rolPermisoOpcionRepository.GetByOpcionAndRolPermiso(
+                                rolPermiso.Id!, new OpcionId(menuOpcion.OpcionId));
 
-                            var menuOpcionDto = sistemaDto.MenuOpciones!
-                                                .FirstOrDefault(mo => mo.OpcionId == menuOpcion.OpcionId.ToString());
-
-                            if (menuOpcionDto != null)
+                            if (rolPermisoOpcion == null && menuOpcion.Completed)
                             {
-                                // Comparar el estado 'Completed' de cada MenuOpcion
-                                if (menuOpcion.Completed != menuOpcionDto.Completed)
-                                {
-                                    var rolPermisoOpcion = await _rolPermisoOpcionRepository.GetByOpcionAndRolPermiso(
-                                        rolPermiso.Id!, new OpcionId(menuOpcion.OpcionId));
-
-                                    if (rolPermisoOpcion == null && menuOpcion.Completed)
-                                    {
-                                        var newRolPermisoOpcion = RolPermisoOpcion.Create(
-                                            rolPermiso.Id!, new OpcionId(menuOpcion.OpcionId));
-
-                                        _rolPermisoOpcionRepository.Add(newRolPermisoOpcion);
-                                    }
-
-                                    if (!menuOpcion.Completed && rolPermisoOpcion != null)
-                                    {
-                                        _rolPermisoOpcionRepository.Delete(rolPermisoOpcion);
-                                    }
-                                }
+                                var newRolPermisoOpcion = RolPermisoOpcion.Create(
+                                    rolPermiso.Id!, new OpcionId(menuOpcion.OpcionId));
+                                _rolPermisoOpcionRepository.Add(newRolPermisoOpcion);
+                            }
+                            else if (!menuOpcion.Completed && rolPermisoOpcion != null)
+                            {
+                                _rolPermisoOpcionRepository.Delete(rolPermisoOpcion);
                             }
                         }
                     }
-
-
                 }
-
-
             }
-
         }
 
-
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
-
-        return Result.Success(request.RolId.Value, Message.Update);
-
+        // Llamada recursiva para los childrens
+        if (sistema.Childrens.Count > 0)
+        {
+            foreach (var child in sistema.Childrens)
+            {
+                await ProcesarSistema(child, rolId, cancellationToken);
+            }
+        }
     }
 }

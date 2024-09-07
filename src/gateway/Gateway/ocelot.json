@@ -700,6 +700,23 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/roles/add-permisos",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/add-permisos",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/roles/desactive",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
