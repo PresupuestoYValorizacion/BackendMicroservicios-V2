@@ -36,6 +36,14 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
             return Result.Failure<Guid>(SistemaErrors.SistemaNameExists);
         }
 
+        var urlSistema = request.Url;
+        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(urlSistema, cancellationToken);
+
+        if(urlSistemaExists)
+        {
+            return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
+        }
+
         if(request.Dependecia is null || request.Dependecia == ""){
 
             var sistema = Sistema.Create(
