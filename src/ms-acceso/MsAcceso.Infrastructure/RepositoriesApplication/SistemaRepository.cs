@@ -155,4 +155,13 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
                                                          .ToListAsync(cancellationToken);
 
     }
+
+    public async Task<Sistema?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true))
+                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                         .ThenInclude(x => x.Opcion)
+                                                         .FirstOrDefaultAsync(cancellationToken);
+    }
+
 }

@@ -21,6 +21,7 @@ using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Application.Parametros.GetMenusByUser;
+using MsAcceso.Application.Parametros.ValidarAccesoMenu;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -84,6 +85,37 @@ public class UsersController : ControllerBase
         var query = new GetMenusByUserQuery {
             RolId = new RolId(new Guid(rol)),
             Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia 
+        };
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
+
+    }
+
+    [AllowAnonymous]
+    [HttpGet("validar-acceso")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> ValidarAccesoMenu(
+         [FromQuery] string? url,
+        CancellationToken cancellationToken
+    )
+    {
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+
+        if (rol is null)
+        {
+            return BadRequest("Header no existe");
+        }
+
+        var query = new ValidarAccesoMenuQuery {
+            RolId = new RolId(new Guid(rol)),
+            Url = url
         };
 
         var result = await _sender.Send(query, cancellationToken);
