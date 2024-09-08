@@ -2,7 +2,7 @@ namespace MsAcceso.Infrastructure.Authentication;
 
 public static class CustomClaims
 {
-    internal const string Roles = "Roles";
+    internal const string Rol = "Rol";
 
     internal const string Email = "Email";
 } 

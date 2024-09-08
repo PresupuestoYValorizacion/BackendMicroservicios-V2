@@ -26,6 +26,7 @@ public sealed class JwtProvider : IJwtProvider
         var claims = new List<Claim> {
             new Claim(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
             new Claim(CustomClaims.Email,user.Email!),
+            new Claim(CustomClaims.Rol,user.RolId!.Value.ToString()),
         };
 
         var sigingCredentials = new SigningCredentials(

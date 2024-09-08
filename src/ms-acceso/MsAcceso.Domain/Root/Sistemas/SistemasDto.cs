@@ -24,12 +24,13 @@ public class SistemaByRolDto
 {
     public string? Id {get; set;}
     public string? Nombre {get; set;}
+    public string? Dependencia {get; set;}
+
     public string? Logo {get; set;}
     public int? Nivel {get; set;}
     public string? Url {get; set;}
     public List<SistemaByRolDto>? Childrens {get; set;}
     public List<MenuOpcionDto>? MenuOpciones { get; set; } 
-    // public List<RolPermisoDto>? RolPermisos { get; set; } 
     public bool Completed {get; set;}
 
 }

@@ -23,6 +23,7 @@ public class SistemaProfile : Profile
         CreateMap<Sistema,SistemaByRolDto>()
         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
         .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
+        .ForMember(dest => dest.Dependencia, opt => opt.MapFrom(src => src.Dependencia))
         .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo))
         .ForMember(dest => dest.Nivel, opt => opt.MapFrom(src => src.Nivel))
         .ForMember(dest => dest.Childrens, opt => opt.MapFrom(src => src.Sistemas))

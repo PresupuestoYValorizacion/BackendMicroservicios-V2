@@ -147,4 +147,12 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return sistema!;
     }
 
+    public async Task<List<Sistema>> GetAllSistemasByDependencia(SistemaId? depenedencia,CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Sistema>().Where(x => x.Dependencia == depenedencia && x.Activo == new Activo(true))
+                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                         .ThenInclude(x => x.Opcion)
+                                                         .ToListAsync(cancellationToken);
+
+    }
 }

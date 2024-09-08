@@ -20,6 +20,7 @@ using MsAcceso.Application.Users.UpdatePersona;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Application.Parametros.GetMenusByUser;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -63,8 +64,39 @@ public class UsersController : ControllerBase
 
         return Ok(result);
 
+    }
+
+    [AllowAnonymous]
+    [HttpGet("get-menus")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> GetMenusByUser(
+         [FromQuery] string? dependencia,
+        CancellationToken cancellationToken
+    )
+    {
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+
+        if (rol is null)
+        {
+            return BadRequest("Header no existe");
+        }
+
+        var query = new GetMenusByUserQuery {
+            RolId = new RolId(new Guid(rol)),
+            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia 
+        };
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
 
     }
+    
 
 
     [AllowAnonymous]
