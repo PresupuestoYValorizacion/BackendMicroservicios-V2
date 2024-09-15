@@ -1,7 +1,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Root.Rols;
 
-namespace MsAcceso.Application.Parametros.ValidarAccesoMenu;
+namespace MsAcceso.Application.Users.ValidarAccesoMenu;
 
 public sealed record ValidarAccesoMenuQuery : IQuery<bool>
 {

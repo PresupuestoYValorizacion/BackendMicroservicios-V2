@@ -152,15 +152,18 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return await DbContext.Set<Sistema>().Where(x => x.Dependencia == depenedencia && x.Activo == new Activo(true))
                                                          .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
                                                          .ThenInclude(x => x.Opcion)
+                                                         
                                                          .ToListAsync(cancellationToken);
 
     }
 
-    public async Task<Sistema?> GetByUrlAsync(string url, CancellationToken cancellationToken)
+    public async Task<Sistema?> GetByUrlAsync(string url,RolId rolId, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true))
                                                          .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
                                                          .ThenInclude(x => x.Opcion)
+                                                         .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+                                                         .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
                                                          .FirstOrDefaultAsync(cancellationToken);
     }
 

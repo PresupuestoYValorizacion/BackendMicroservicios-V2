@@ -20,8 +20,9 @@ using MsAcceso.Application.Users.UpdatePersona;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Rols;
-using MsAcceso.Application.Parametros.GetMenusByUser;
-using MsAcceso.Application.Parametros.ValidarAccesoMenu;
+using MsAcceso.Application.Users.GetOpcionesSGA;
+using MsAcceso.Application.Users.GetMenusByUser;
+using MsAcceso.Application.Users.ValidarAccesoMenu;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -85,6 +86,37 @@ public class UsersController : ControllerBase
         var query = new GetMenusByUserQuery {
             RolId = new RolId(new Guid(rol)),
             Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia 
+        };
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
+
+    }
+
+    [AllowAnonymous]
+    [HttpGet("get-opciones-sga")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> GetOpcionesSGA(
+         [FromQuery] string? url,
+        CancellationToken cancellationToken
+    )
+    {
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+
+        if (rol is null)
+        {
+            return BadRequest("Header no existe");
+        }
+
+        var query = new GetOpcionesSGAQuery {
+            RolId = new RolId(new Guid(rol)),
+            Url = url 
         };
 
         var result = await _sender.Send(query, cancellationToken);
