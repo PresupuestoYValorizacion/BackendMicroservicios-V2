@@ -35,6 +35,13 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
             return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
         }
 
+        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!, cancellationToken);
+
+        if(urlSistemaExists && sistemaExists.Url != request.Url)
+        {
+            return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
+        }
+
         sistemaExists.Update(
             request.Nombre!,
             request.Logo!,

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
@@ -147,14 +146,9 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return sistema!;
     }
 
-    public async Task<List<Sistema>> GetAllSistemasByDependencia(SistemaId? depenedencia,CancellationToken cancellationToken)
+    public async Task<bool> SistemaExistsByUrl(string url, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().Where(x => x.Dependencia == depenedencia && x.Activo == new Activo(true))
-                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
-                                                         .ThenInclude(x => x.Opcion)
-                                                         
-                                                         .ToListAsync(cancellationToken);
-
+        return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Activo == new Activo(true), cancellationToken);
     }
 
     public async Task<Sistema?> GetByUrlAsync(string url,RolId rolId, CancellationToken cancellationToken)
