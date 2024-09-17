@@ -25,6 +25,11 @@ internal sealed class MenuOpcionRepository : RepositoryApplication<MenuOpcion, M
     {
         return await DbContext.Set<MenuOpcion>().AnyAsync(m => m.OpcionesId == opcionId && m.MenusId == sistemaId && m.Activo == new Activo(true) , cancellationToken);
     }
+    public async Task<int> GetCountOpcionesByMenu(SistemaId? sistemaId,CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<MenuOpcion>().CountAsync(x => x.MenusId == sistemaId && x.Activo == new Activo(true),cancellationToken);
+        
+    }
 
     public async Task<MenuOpcion?> GetMenuOpcion(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken)
     {

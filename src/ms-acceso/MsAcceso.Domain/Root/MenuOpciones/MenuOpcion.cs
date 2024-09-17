@@ -12,24 +12,36 @@ public sealed class MenuOpcion : Entity<MenuOpcionId>
     private MenuOpcion(
         MenuOpcionId id,
         OpcionId opcionId,
-        SistemaId menuId
+        SistemaId menuId,
+        bool tieneUrl, 
+        string url,
+        int orden
         ): base( id )
     {
         OpcionesId = opcionId;
         MenusId = menuId;
+        Url = url;
+        TieneUrl = tieneUrl;
+        Orden = orden;
     }
     
     public OpcionId? OpcionesId { get; set; }
     public SistemaId? MenusId{ get; set; }
+    public bool TieneUrl { get; set; }
+    public string? Url { get; set; }
+    public int Orden { get; set; }
     public Opcion? Opcion{ get; set; }
     public Sistema? Menu{ get; set; }
 
     public static MenuOpcion Create(
         OpcionId opcionId,
-        SistemaId sistemaId
+        SistemaId sistemaId,
+        bool tieneUrl,
+        string url,
+        int orden
     )
     {
-        var menuOpcion = new MenuOpcion(MenuOpcionId.New(),opcionId,sistemaId);
+        var menuOpcion = new MenuOpcion(MenuOpcionId.New(),opcionId,sistemaId, tieneUrl, url, orden);
         return menuOpcion;
     }
 

@@ -119,6 +119,15 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Property<Guid?>("OpcionesId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TieneUrl")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenusId");

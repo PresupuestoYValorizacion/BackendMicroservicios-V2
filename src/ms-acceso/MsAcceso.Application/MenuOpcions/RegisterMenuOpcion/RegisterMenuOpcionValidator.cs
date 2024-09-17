@@ -7,6 +7,8 @@ public sealed class RegisterMenuOpcionValidator : AbstractValidator<RegisterMenu
 {
     public RegisterMenuOpcionValidator()
     {
-        RuleFor(m => m.opcionId).NotEmpty().WithMessage("No se puede registrar sin elegir una opcion");
+        RuleFor(m => m.OpcionId).NotEmpty().WithMessage("No se puede registrar sin elegir una opcion");
+        
+        RuleFor(m => m.SistemaId).NotEmpty().WithMessage("No se puede registrar sin elegir un menu");
     }
 }

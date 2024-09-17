@@ -13,4 +13,6 @@ public interface IMenuOpcionRepository
     Task<MenuOpcion?> GetMenuOpcion(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken);
     Task<MenuOpcion?> GetMenuOpcionById(MenuOpcionId menuOpcionId,CancellationToken cancellationToken);
     Task<List<MenuOpcion>> GetAllMenuOpcionsByMenuId(SistemaId sistemaId,CancellationToken cancellationToken);
+    Task<int> GetCountOpcionesByMenu(SistemaId? sistemaId,CancellationToken cancellationToken);
+
 }

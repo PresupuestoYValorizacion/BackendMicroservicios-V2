@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240917032102_initialApp")]
+    [Migration("20240917211412_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -121,6 +121,15 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
                     b.Property<Guid?>("OpcionesId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TieneUrl")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -5,6 +5,8 @@ using MsAcceso.Domain.Root.Sistemas;
 namespace MsAcceso.Application.MenuOpcions.RegisterMenuOpcion;
 
 public sealed record RegisterMenuOpcionCommand(
-    OpcionId opcionId,
-    SistemaId sistemaId
+    OpcionId OpcionId,
+    SistemaId SistemaId,
+    bool TieneUrl,
+    string Url
 ) : ICommand<Guid>;

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MsAcceso.Domain.Root.MenuOpciones;
-using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Domain.Shared;
 
@@ -20,6 +19,12 @@ internal sealed class MenusOpcionsConfiguration : IEntityTypeConfiguration<MenuO
         builder.Property(menuOpcion => menuOpcion.Activo)
        .IsRequired()
        .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+       builder.Property(sistema => sistema.TieneUrl);
+
+       builder.Property(sistema => sistema.Url);
+
+        builder.Property(sistema => sistema.Orden);
 
         builder.HasOne(o=> o.Opcion)
                 .WithMany()

@@ -28,20 +28,21 @@ public class MenuOpcionController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("register/{id}")]
+    [HttpPost("register")]
     [ApiVersion(ApiVersions.V1)]
     public async Task<IActionResult> CreateMenuOpcion(
-        string id,
         [FromBody] RegisterMenuOpcionRequest request,
         CancellationToken cancellationToken
     )
     {
-        var menuId = new SistemaId(Guid.Parse(id));
-        var opcionId = new OpcionId(Guid.Parse(request.opcionId));
+        var menuId = new SistemaId(Guid.Parse(request.SistemaId));
+        var opcionId = new OpcionId(Guid.Parse(request.OpcionId));
 
         var commmand = new RegisterMenuOpcionCommand(
             opcionId,
-            menuId
+            menuId,
+            request.TieneUrl,
+            request.Url
         );
 
         var result = await _sender.Send(commmand, cancellationToken);

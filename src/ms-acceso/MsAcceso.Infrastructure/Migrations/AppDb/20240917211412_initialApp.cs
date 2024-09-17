@@ -164,6 +164,9 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OpcionesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     MenusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TieneUrl = table.Column<bool>(type: "bit", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Orden = table.Column<int>(type: "int", nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

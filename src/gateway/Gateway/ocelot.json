@@ -469,14 +469,14 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate":"/api/v1/menu-opciones/register/{id}",
+      "DownstreamPathTemplate":"/api/v1/menu-opciones/register",
       "DownstreamHostAndPorts":[
         {
           "Host":"localhost",
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/menu-opciones/register/{id}",
+      "UpstreamPathTemplate": "/menu-opciones/register",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",

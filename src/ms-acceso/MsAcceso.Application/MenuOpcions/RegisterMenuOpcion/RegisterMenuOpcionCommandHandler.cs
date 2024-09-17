@@ -28,34 +28,41 @@ internal sealed class RegisterMenuOpcionCommandHandler : ICommandHandler<Registe
 
     public async Task<Result<Guid>> Handle(RegisterMenuOpcionCommand request, CancellationToken cancellationToken)
     {
-        if(request.opcionId is null){
+        if(request.OpcionId is null){
             return Result.Failure<Guid>(Error.NullValue);
         }
 
-        var sistemaExists = await _sistemaRepository.GetByIdAsync(request.sistemaId,cancellationToken);
+        var sistemaExists = await _sistemaRepository.GetByIdAsync(request.SistemaId,cancellationToken);
 
         if(sistemaExists is null)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
-        var opcionExists = await _opcionRepository.GetByIdAsync(request.opcionId,cancellationToken);
+        var opcionExists = await _opcionRepository.GetByIdAsync(request.OpcionId,cancellationToken);
 
         if(opcionExists is null)
         {
             return Result.Failure<Guid>(OpcionErrors.NotFound);
         }
 
-        var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.opcionId,request.sistemaId,cancellationToken);
+        var menuOpcionExists = await _menuOpcionRepository.MenuOpcionExists(request.OpcionId,request.SistemaId,cancellationToken);
 
         if(menuOpcionExists)
         {
             return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionExists);
         }
+        
+        var orden = await _menuOpcionRepository.GetCountOpcionesByMenu(request.SistemaId, cancellationToken);
 
+        orden = (orden == 0) ? 1 : (orden + 1);
+        
         var menuOpcion = MenuOpcion.Create(
-            request.opcionId,
-            request.sistemaId
+            request.OpcionId,
+            request.SistemaId,
+            request.TieneUrl,
+            request.Url,
+            orden
         );
 
         _menuOpcionRepository.Add(menuOpcion);
