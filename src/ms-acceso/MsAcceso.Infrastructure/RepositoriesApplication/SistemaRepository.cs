@@ -64,7 +64,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken)
     {
         var rootSystems = await DbContext.Set<Sistema>().Where(x => x.Dependencia == null && x.Activo == new Activo(true))
-                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)).OrderBy(x => x.Orden))
                                                          .ThenInclude(x => x.Opcion)
                                                          .OrderBy(x => x.Orden)
                                                          .ToListAsync(cancellationToken);
@@ -94,7 +94,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
         var childSystems = await DbContext.Set<Sistema>()
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
-            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)).OrderBy(x => x.Orden))
             .ThenInclude(x => x.Opcion)
             .OrderBy(x => x.Orden)
             .ToListAsync(cancellationToken);
