@@ -84,8 +84,6 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
         var depedenciaNueva = isEmptyGuid ? null : dependencia;
         return await DbContext.Set<Sistema>().Where(x => x.Dependencia == depedenciaNueva && x.Activo == new Activo(true))
-                                                         //  .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
-                                                         //  .ThenInclude(x => x.Opcion)
                                                          .OrderBy(x => x.Orden)
                                                          .ToListAsync(cancellationToken);
 
@@ -164,9 +162,9 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return sistema!;
     }
 
-    public async Task<bool> SistemaExistsByUrl(string url, CancellationToken cancellationToken)
+    public async Task<bool> SistemaExistsByUrl(string url, SistemaId? dependencia, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Activo == new Activo(true), cancellationToken);
+        return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Dependencia == dependencia && x.Activo == new Activo(true), cancellationToken);
     }
 
     public async Task<Sistema?> GetByUrlAsync(string url, RolId rolId, CancellationToken cancellationToken)
@@ -179,14 +177,9 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
                                                          .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<int> GetSistemasWithoutDependencies(CancellationToken cancellationToken)
+    public async Task<int> GetCountSistemasByDependencia(SistemaId? dependencia,CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == null && x.Activo == new Activo(true));
-    }
-
-    public async Task<int> GetSistemasWithDependencies(SistemaId Id, CancellationToken cancellationToken)
-    {
-        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == Id && x.Activo == new Activo(true));
+        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == dependencia && x.Activo == new Activo(true),cancellationToken);
     }
 
     public async Task<Sistema?> GetByOrdenAsync(int orden, SistemaId dependencia, CancellationToken cancellationToken)
@@ -194,4 +187,5 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
          return await DbContext.Set<Sistema>().Where(x => x.Orden == orden && x.Dependencia == dependencia && x.Activo == new Activo(true))
                                                          .FirstOrDefaultAsync(cancellationToken);
     }
+
 }

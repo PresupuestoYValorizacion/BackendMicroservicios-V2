@@ -4,5 +4,6 @@ public record RegisterSistemasRequest(
     string Nombre,
     string Logo,
     string Url,
-    string? Dependecia
+    string? Dependecia,
+    int Nivel
 );

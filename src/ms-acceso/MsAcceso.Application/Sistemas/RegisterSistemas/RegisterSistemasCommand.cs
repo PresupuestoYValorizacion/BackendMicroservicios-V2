@@ -6,5 +6,6 @@ public sealed record RegisterSistemasCommand(
     string Nombre,
     string Logo,
     string Url,
-    string? Dependecia
+    string? Dependecia,
+    int Nivel
 ): ICommand<Guid>;

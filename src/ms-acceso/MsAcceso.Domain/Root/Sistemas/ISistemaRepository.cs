@@ -11,9 +11,8 @@ public interface ISistemaRepository
     void Update(Sistema sistema);
     void Delete(Sistema sistema);
     Task<bool> SistemaExistsByName(string name, CancellationToken cancellationToken);
-    Task<int> GetSistemasWithoutDependencies(CancellationToken cancellationToken);
-    Task<int> GetSistemasWithDependencies(SistemaId Id,CancellationToken cancellationToken);
-    Task<bool> SistemaExistsByUrl(string url, CancellationToken cancellationToken);
+    Task<int> GetCountSistemasByDependencia(SistemaId? dependencia,CancellationToken cancellationToken);
+    Task<bool> SistemaExistsByUrl(string url, SistemaId? dependencia, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasByRol(RolId Id, CancellationToken cancellationToken);

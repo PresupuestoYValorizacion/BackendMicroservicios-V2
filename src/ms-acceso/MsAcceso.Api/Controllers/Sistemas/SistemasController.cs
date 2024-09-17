@@ -41,7 +41,8 @@ public class SistemasController : ControllerBase
             request.Nombre,
             request.Logo,
             request.Url,
-            request.Dependecia
+            request.Dependecia,
+            request.Nivel
         );
 
         var result = await _sender.Send(command,cancellationToken);

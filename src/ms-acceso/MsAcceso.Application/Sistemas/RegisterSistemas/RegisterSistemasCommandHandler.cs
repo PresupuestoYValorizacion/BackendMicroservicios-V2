@@ -1,6 +1,5 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Sistemas.RegisterSistemas;
@@ -31,67 +30,40 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
         var nombreSistema = request.Nombre;
         var nombreSistemaExists = await _sistemaRepository.SistemaExistsByName(nombreSistema, cancellationToken);
 
-        if(nombreSistemaExists)
+        if (nombreSistemaExists)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaNameExists);
         }
 
         var urlSistema = request.Url;
-        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(urlSistema, cancellationToken);
 
-        if(urlSistemaExists)
+
+        var dependencia = request.Dependecia != null ? new SistemaId(new Guid(request.Dependecia)) : null;
+    
+        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(urlSistema, dependencia, cancellationToken);
+
+        if (urlSistemaExists)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
         }
 
-        if(request.Dependecia is null || request.Dependecia == ""){
+        var orden = await _sistemaRepository.GetCountSistemasByDependencia(dependencia, cancellationToken);
 
-            var orden = await _sistemaRepository.GetSistemasWithoutDependencies(cancellationToken);
+        orden = (orden == 0) ? 1 : (orden + 1);
 
-            orden = (orden == 0) ? 1 : (orden+1);
-
-            var sistema = Sistema.Create(
-                null,
+        var sistema = Sistema.Create(
+                dependencia,
                 nombreSistema,
                 request.Logo,
-                0,
+                request.Nivel,
                 orden,
                 request.Url
             );
 
-            _sistemaRepository.Add(sistema);
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        _sistemaRepository.Add(sistema);
+        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(sistema.Id!.Value, Message.Create);
-        }else{
+        return Result.Success(sistema.Id!.Value, Message.Create);
 
-            var idDependencia = Guid.Parse(request.Dependecia);
-            var sistemaDependencia = await _sistemaRepository.GetByIdAsync(new SistemaId(idDependencia), cancellationToken);
-
-            if(sistemaDependencia is null)
-            {
-                return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
-            }
-
-            var nivel = sistemaDependencia.Nivel + 1;
-
-            var orden = await _sistemaRepository.GetSistemasWithDependencies(new SistemaId(idDependencia),cancellationToken); 
-
-            orden = (orden == 0) ? 1 : (orden+1);
-
-            var sistema = Sistema.Create(
-                sistemaDependencia.Id,
-                nombreSistema,
-                request.Logo,
-                nivel,
-                orden,
-                request.Url
-            );
-
-            _sistemaRepository.Add(sistema);
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
-
-            return Result.Success(sistema.Id!.Value, Message.Create);
-        }
     }
 }

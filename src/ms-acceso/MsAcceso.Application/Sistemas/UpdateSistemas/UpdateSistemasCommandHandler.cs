@@ -28,18 +28,25 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
-        var nombreSistemaExists = await _sistemaRepository.SistemaExistsByName(request.Nombre!, cancellationToken);
-
-        if (nombreSistemaExists && sistemaExists.Nombre != request.Nombre)
+        if(sistemaExists.Nombre != request.Nombre)
         {
-            return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
+            var nombreSistemaExists = await _sistemaRepository.SistemaExistsByName(request.Nombre!, cancellationToken);
+
+            if (nombreSistemaExists )
+            {
+                return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
+            }
+
         }
 
-        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!, cancellationToken);
-
-        if (urlSistemaExists && sistemaExists.Url != request.Url)
+        if(sistemaExists.Url != request.Url)
         {
-            return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
+            var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!,sistemaExists.Dependencia!, cancellationToken);
+
+            if (urlSistemaExists )
+            {
+                return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
+            }
         }
 
         if (request.EsIntercambio)
