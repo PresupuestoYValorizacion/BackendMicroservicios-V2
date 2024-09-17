@@ -34,7 +34,7 @@ internal sealed class GetOpcionesSGAQueryHandler : IQueryHandler<GetOpcionesSGAQ
 
         var menuOpcionDtos = _mapper.Map<List<MenuOpcionDto>>(sistema!.MenuOpcions);
 
-        var menuOpcionesCompletadas = menuOpcionDtos.Where(m => m.Completed == true).ToList();
+        var menuOpcionesCompletadas = menuOpcionDtos.Where(m => m.Completed == true).OrderBy(x => x.Orden).ToList();
 
         return menuOpcionesCompletadas!;
     }
