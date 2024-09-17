@@ -30,8 +30,8 @@ internal class RegisterOpcionCommandHandler : ICommandHandler<RegisterOpcionComm
         
         var opcion = Opcion.Create(
             request.Nombre,
-            request.Logo,
-            request.Abreviatura
+            request.Icono,
+            request.Tooltip
         );
 
         _opcionRepository.Add(opcion);

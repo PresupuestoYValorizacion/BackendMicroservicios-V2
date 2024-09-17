@@ -4,5 +4,5 @@ namespace MsAcceso.Application.Opciones.RegisterOpciones;
 
 public sealed record RegisterOpcionCommand(
     string Nombre, 
-    string Logo, 
-    string Abreviatura): ICommand<Guid>;
+    string Icono, 
+    string Tooltip): ICommand<Guid>;

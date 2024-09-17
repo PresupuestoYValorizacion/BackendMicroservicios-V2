@@ -35,8 +35,8 @@ internal class UpdateOpcionCommandHandler : ICommandHandler<UpdateOpcionCommand,
         }
 
         opcion.Update(request.Nombre,
-                      request.Logo,
-                      request.Abreviatura); 
+                      request.Icono,
+                      request.Tooltip); 
 
 
         _opcionRepository.Update(opcion);

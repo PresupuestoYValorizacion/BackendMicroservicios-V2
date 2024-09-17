@@ -12,39 +12,39 @@ public sealed class Opcion : Entity<OpcionId>
     private Opcion(
         OpcionId id,
         string nombre,
-        string logo,
-        string abreviatura
+        string icono,
+        string tooltip
     ) : base(id)
     {
         Nombre = nombre;
-        Logo = logo;
-        Abreviatura = abreviatura;
+        Icono = icono;
+        Tooltip = tooltip;
     }
 
     public string? Nombre { get; private set; }
-    public string? Logo { get; private set; }
-    public string? Abreviatura { get; private set; }
+    public string? Icono { get; private set; }
+    public string? Tooltip { get; private set; }
     public List<RolPermisoOpcion>? RolPermisoOpcions { get; set; }
 
     public static Opcion Create(
         string Nombre,
-        string Logo,
+        string Icono,
         string Abreviatura
     )
     {
-        var opcion = new Opcion(OpcionId.New(),Nombre,Logo,Abreviatura);
+        var opcion = new Opcion(OpcionId.New(),Nombre,Icono,Abreviatura);
         return opcion;
     }
 
     public Result Update(
         string nombre,
-        string logo,
-        string abreviatura
+        string icono,
+        string tooltip
     )
     {
         Nombre = (nombre.Length > 0) ? nombre : Nombre;
-        Logo   = (logo.Length > 0) ? logo : Logo;
-        Abreviatura = (abreviatura.Length > 0) ? abreviatura : Abreviatura;
+        Icono   = icono;
+        Tooltip =  tooltip;
 
         return Result.Success();
     }

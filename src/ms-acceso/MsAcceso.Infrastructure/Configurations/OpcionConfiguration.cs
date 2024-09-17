@@ -21,13 +21,11 @@ internal sealed class OpcionConfiguration : IEntityTypeConfiguration<Opcion>
         .IsRequired()
         .HasMaxLength(100);
 
-        builder.Property(opcion => opcion.Logo)
-        .IsRequired()
+        builder.Property(opcion => opcion.Icono)
         .HasMaxLength(100);
 
-        builder.Property(opcion => opcion.Abreviatura)
-        .IsRequired()
-        .HasMaxLength(100);
+        builder.Property(opcion => opcion.Tooltip)
+        .HasMaxLength(40);
 
         builder.Property(parametro => parametro.Activo)
         .IsRequired()
