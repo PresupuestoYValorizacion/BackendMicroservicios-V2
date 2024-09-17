@@ -9,6 +9,7 @@ public interface IMenuOpcionRepository
     void Update(MenuOpcion menuOpcion);
     void Delete(MenuOpcion menuOpcion);
     Task<MenuOpcion?> GetByIdAsync(MenuOpcionId menuOpcionId, CancellationToken cancellationToken);
+    Task<MenuOpcion?> GetByOrdenAsync(int orden, SistemaId sistemaId, CancellationToken cancellationToken);
     Task<bool> MenuOpcionExists(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken);
     Task<MenuOpcion?> GetMenuOpcion(OpcionId opcionId, SistemaId sistemaId, CancellationToken cancellationToken);
     Task<MenuOpcion?> GetMenuOpcionById(MenuOpcionId menuOpcionId,CancellationToken cancellationToken);

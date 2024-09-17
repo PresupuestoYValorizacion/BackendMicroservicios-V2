@@ -7,5 +7,9 @@ namespace MsAcceso.Application.MenuOpcions.UpdateMenuOpcion;
 
 public sealed record UpdateMenuOpcionCommand(
     MenuOpcionId MenuOpcionId,
-    OpcionId OpcionId
+    OpcionId OpcionId,
+     bool TieneUrl,
+    string Url,
+    int Orden,
+    bool EsIntercambio
 ) : ICommand<Guid>;

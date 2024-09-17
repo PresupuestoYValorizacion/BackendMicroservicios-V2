@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.MenuOpcions.DeleteMenuOpcion;
 using MsAcceso.Application.MenuOpcions.DesactiveMenuOpcions;
 using MsAcceso.Application.MenuOpcions.GetMenuOpcionById;
+using MsAcceso.Application.MenuOpcions.GetMenuOpcionesBySistema;
 using MsAcceso.Application.MenuOpcions.RegisterMenuOpcion;
 using MsAcceso.Application.MenuOpcions.UpdateMenuOpcion;
 using MsAcceso.Domain.Root.MenuOpciones;
@@ -66,7 +67,11 @@ public class MenuOpcionController : ControllerBase
 
         var commmand = new UpdateMenuOpcionCommand(
             menuOpcionId,
-            opcionId
+            opcionId,
+            request.TieneUrl,
+            request.Url,
+            request.Orden,
+            request.EsIntercambio
         );
 
         var result = await _sender.Send(commmand, cancellationToken);
@@ -130,6 +135,24 @@ public class MenuOpcionController : ControllerBase
     )
     {
         var request = new GetMenuOpcionByIdQuery{ Id = id };
+
+        var result = await _sender.Send(request, cancellationToken);
+
+        if(result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+        return Ok(result);
+    }
+
+    [HttpGet("get-by-menu/{menuId}")]
+    [ApiVersion(ApiVersions.V1)]
+    public async Task<ActionResult<MenuOpcionDto>> GetMenuOpcionByMenu(
+        string menuId,
+        CancellationToken cancellationToken
+    )
+    {
+        var request = new GetMenuOpcionesBySistemaQuery(new SistemaId(new Guid(menuId))) ;
 
         var result = await _sender.Send(request, cancellationToken);
 

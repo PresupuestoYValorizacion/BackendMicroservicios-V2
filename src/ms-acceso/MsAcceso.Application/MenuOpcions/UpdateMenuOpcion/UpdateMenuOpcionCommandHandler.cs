@@ -1,9 +1,7 @@
-using MediatR;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.MenuOpcions.UpdateMenuOpcion;
 
@@ -53,11 +51,28 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
 
         }
 
-        // var menuOpcion = await _menuOpcionRepository.GetMenuOpcion(request.OpcionIdAntiguo,request.MenuOpcionId, cancellationToken);
+        if(request.EsIntercambio)
+        {
+            var menuOpcionIntercambio = await _menuOpcionRepository.GetByOrdenAsync(request.Orden, menuOpcion.MenusId!, cancellationToken);
 
-        menuOpcion!.Update(request.OpcionId);
+            if (menuOpcionIntercambio is null)
+            {
+                return Result.Failure<Guid>(MenuOpcionErrors.MenuOpcionIntercambioNotFound);
+            }
+
+            menuOpcionIntercambio.UpdateOrden(menuOpcion.Orden);
+
+            _menuOpcionRepository.Update(menuOpcionIntercambio);
+        }
+        menuOpcion!.Update(
+            request.OpcionId, 
+            request.TieneUrl,
+            request.Url,
+            request.Orden
+        );
 
         _menuOpcionRepository.Update(menuOpcion);
+
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 
         return Result.Success(menuOpcion.Id!.Value, Message.Update);

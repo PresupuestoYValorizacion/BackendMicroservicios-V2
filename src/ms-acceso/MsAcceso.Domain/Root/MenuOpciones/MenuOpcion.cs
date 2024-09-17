@@ -45,9 +45,18 @@ public sealed class MenuOpcion : Entity<MenuOpcionId>
         return menuOpcion;
     }
 
-    public Result Update(OpcionId opcionId)
+    public Result Update(OpcionId opcionId, bool tieneUrl, string url, int orden)
     {
         OpcionesId = (opcionId is not null) ? opcionId : OpcionesId;
+        TieneUrl = tieneUrl;
+        Url = url;
+        Orden = orden;
+        return Result.Success();
+    }
+
+    public Result UpdateOrden(int orden)
+    {
+        Orden = orden;
         return Result.Success();
     }
 
