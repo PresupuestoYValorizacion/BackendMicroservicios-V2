@@ -160,4 +160,13 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
                                                          .FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<int> GetSistemasWithoutDependencies(CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == null && x.Activo == new Activo(true));
+    }
+
+    public async Task<int> GetSistemasWithDependencies(SistemaId Id, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == Id && x.Activo == new Activo(true));
+    }
 }

@@ -4,5 +4,6 @@ public record UpdateSistemasRequest(
     string Id,
     string? Nombre,
     string? Logo,
-    string? Url
+    string? Url,
+    int? Orden
 );

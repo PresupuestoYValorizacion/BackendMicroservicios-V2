@@ -28,6 +28,9 @@ internal sealed class SistemaConfiguration : IEntityTypeConfiguration<Sistema>
         builder.Property(sistema => sistema.Nivel)
         .IsRequired();
 
+        builder.Property(sistema => sistema.Orden)
+        .IsRequired();
+
         builder.Property(sistema => sistema.Url)
         .IsRequired()
         .HasMaxLength(100);

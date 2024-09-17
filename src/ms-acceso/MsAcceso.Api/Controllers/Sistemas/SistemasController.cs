@@ -65,7 +65,8 @@ public class SistemasController : ControllerBase
             new SistemaId(sistemaId),
             request.Nombre,
             request.Logo,
-            request.Url
+            request.Url,
+            request.Orden
         );
 
         var result = await _sender.Send(command,cancellationToken);

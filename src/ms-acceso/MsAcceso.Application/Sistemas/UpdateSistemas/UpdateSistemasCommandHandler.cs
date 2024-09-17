@@ -42,10 +42,13 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
             return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
         }
 
+        //TODO: 
+
         sistemaExists.Update(
             request.Nombre!,
             request.Logo!,
-            request.Url!
+            request.Url!,
+            request.Orden!
         );
 
         _sistemaRepository.Update(sistemaExists);

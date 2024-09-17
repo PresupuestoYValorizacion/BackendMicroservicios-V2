@@ -46,11 +46,16 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
 
         if(request.Dependecia is null || request.Dependecia == ""){
 
+            var orden = await _sistemaRepository.GetSistemasWithoutDependencies(cancellationToken);
+
+            orden = (orden == 0) ? 1 : (orden+1);
+
             var sistema = Sistema.Create(
                 null,
                 nombreSistema,
                 request.Logo,
                 0,
+                orden,
                 request.Url
             );
 
@@ -68,13 +73,18 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
                 return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
             }
 
-            var nivel = sistemaDependencia.Nivel + 1; 
+            var nivel = sistemaDependencia.Nivel + 1;
+
+            var orden = await _sistemaRepository.GetSistemasWithDependencies(new SistemaId(idDependencia),cancellationToken); 
+
+            orden = (orden == 0) ? 1 : (orden+1);
 
             var sistema = Sistema.Create(
                 sistemaDependencia.Id,
                 nombreSistema,
                 request.Logo,
                 nivel,
+                orden,
                 request.Url
             );
 

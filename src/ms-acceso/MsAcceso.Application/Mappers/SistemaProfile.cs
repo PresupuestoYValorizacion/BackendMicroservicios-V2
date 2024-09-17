@@ -13,6 +13,7 @@ public class SistemaProfile : Profile
         .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
         .ForMember(dest => dest.Logo, opt => opt.MapFrom(src => src.Logo))
         .ForMember(dest => dest.Nivel, opt => opt.MapFrom(src => src.Nivel))
+        .ForMember(dest => dest.Orden, opt => opt.MapFrom(src => src.Orden))
         .ForMember(dest => dest.Childrens, opt => opt.MapFrom(src => src.Sistemas))
         .ForMember(dest => dest.Opciones, opt => opt.MapFrom(src => src.Opciones))
         .ForMember(dest => dest.MenuOpciones, opt => opt.MapFrom(src => src.MenuOpcions))

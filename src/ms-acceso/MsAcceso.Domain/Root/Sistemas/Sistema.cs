@@ -17,6 +17,7 @@ public sealed class Sistema : Entity<SistemaId>
         string nombre,
         string logo,
         int nivel,
+        int orden,
         string url,
         ParametroId? tipo
     ): base(id)
@@ -25,6 +26,7 @@ public sealed class Sistema : Entity<SistemaId>
         Nombre = nombre;
         Logo = logo;
         Nivel = nivel;
+        Orden = orden;
         Url = url;
     }
 
@@ -33,6 +35,7 @@ public sealed class Sistema : Entity<SistemaId>
     public string? Nombre {get; private set;}
     public string? Logo {get; private set;}
     public int Nivel {get; private set;}
+    public int? Orden {get; private set;}
     public string? Url {get; private set;}
     public List<Sistema>? Sistemas { get; set; }
     public List<Opcion>? Opciones { get; set; } 
@@ -40,17 +43,18 @@ public sealed class Sistema : Entity<SistemaId>
     public List<RolPermiso>? RolPermisos { get; set; }
 
 
-    public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, string url)
+    public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, int orden, string url)
     {
-        var sistema = new Sistema(SistemaId.New(),dependencia,nombre,logo,nivel,url, null);
+        var sistema = new Sistema(SistemaId.New(),dependencia,nombre,logo,nivel, orden,url, null);
         return sistema;
     }
 
-    public Result Update(string nombre, string logo,string url)
+    public Result Update(string nombre, string logo,string url, int? orden)
     {
         Nombre = (nombre.Length > 0 ) ? nombre : Nombre;
         Logo = (logo.Length > 0 ) ? logo : Logo;
         Url = (url.Length > 0 ) ? url : Url;
+        Orden = (orden > 0) ? orden : Orden;
 
         return Result.Success();
     }

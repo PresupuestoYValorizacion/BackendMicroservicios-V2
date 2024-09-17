@@ -7,5 +7,6 @@ public sealed record UpdateSistemasCommand(
     SistemaId Id,
     string? Nombre,
     string? Logo,
-    string? Url
+    string? Url,
+    int? Orden
 ) : ICommand<Guid>;
