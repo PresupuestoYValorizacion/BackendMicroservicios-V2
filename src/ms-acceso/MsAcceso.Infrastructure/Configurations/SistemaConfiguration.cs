@@ -23,7 +23,7 @@ internal sealed class SistemaConfiguration : IEntityTypeConfiguration<Sistema>
 
         builder.Property(sistema => sistema.Logo)
         .IsRequired()
-        .HasMaxLength(100);
+        .HasMaxLength(200);
 
         builder.Property(sistema => sistema.Nivel)
         .IsRequired();

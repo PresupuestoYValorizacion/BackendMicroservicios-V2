@@ -66,6 +66,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         var rootSystems = await DbContext.Set<Sistema>().Where(x => x.Dependencia == null && x.Activo == new Activo(true))
                                                          .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
                                                          .ThenInclude(x => x.Opcion)
+                                                         .OrderBy(x => x.Orden)
                                                          .ToListAsync(cancellationToken);
 
         foreach (var system in rootSystems)
@@ -84,6 +85,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true))
             .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
             .ThenInclude(x => x.Opcion)
+            .OrderBy(x => x.Orden)
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
@@ -107,6 +109,8 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
             .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
             .ThenInclude(mo => mo.Opcion)
+            .OrderBy(x => x.Orden) 
+
             .ToListAsync(cancellationToken);
 
         foreach (var system in rootSystems)
@@ -125,6 +129,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .ThenInclude(mo => mo.Opcion)
             .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
             .ThenInclude(rp => rp.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .OrderBy(x => x.Orden) 
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
@@ -133,7 +138,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         }
     }
 
-     public async Task<Sistema?> GetSistemaByIdAndRol(RolId rolId,SistemaId sistemaId, CancellationToken cancellationToken)
+    public async Task<Sistema?> GetSistemaByIdAndRol(RolId rolId, SistemaId sistemaId, CancellationToken cancellationToken)
     {
         var sistema = await DbContext.Set<Sistema>()
             .Where(x => x.Id == sistemaId && x.Activo == new Activo(true))
@@ -151,7 +156,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Activo == new Activo(true), cancellationToken);
     }
 
-    public async Task<Sistema?> GetByUrlAsync(string url,RolId rolId, CancellationToken cancellationToken)
+    public async Task<Sistema?> GetByUrlAsync(string url, RolId rolId, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true))
                                                          .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))

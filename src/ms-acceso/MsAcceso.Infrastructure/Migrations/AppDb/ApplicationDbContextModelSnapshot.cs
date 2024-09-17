@@ -286,6 +286,40 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Nivel = 1,
                             Nombre = "ADMINISTRADOR",
                             Valor = "2"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "PERIODO DE LICENCIAS"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Activo = true,
+                            Dependencia = 12,
+                            Nivel = 1,
+                            Nombre = "1 MES",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Activo = true,
+                            Dependencia = 12,
+                            Nivel = 1,
+                            Nombre = "6 MESES",
+                            Valor = "2"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Activo = true,
+                            Dependencia = 12,
+                            Nivel = 1,
+                            Nombre = "12 MESES",
+                            Valor = "3"
                         });
                 });
 
@@ -434,8 +468,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
                     b.Property<string>("Logo")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Nivel")
                         .HasColumnType("int");
@@ -445,7 +479,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Orden")
+                    b.Property<int?>("Orden")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
