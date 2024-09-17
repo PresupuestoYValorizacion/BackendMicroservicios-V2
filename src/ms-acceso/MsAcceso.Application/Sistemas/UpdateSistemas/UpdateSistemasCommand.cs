@@ -8,5 +8,6 @@ public sealed record UpdateSistemasCommand(
     string? Nombre,
     string? Logo,
     string? Url,
-    int? Orden
+    int Orden,
+    bool EsIntercambio
 ) : ICommand<Guid>;

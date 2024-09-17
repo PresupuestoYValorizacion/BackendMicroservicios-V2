@@ -6,6 +6,7 @@ public interface ISistemaRepository
 {
     Task<Sistema?> GetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
     Task<Sistema?> GetByUrlAsync(string url,RolId rolId, CancellationToken cancellationToken);
+    Task<Sistema?> GetByOrdenAsync(int orden,SistemaId dependencia, CancellationToken cancellationToken);
     void Add(Sistema sistema);
     void Update(Sistema sistema);
     void Delete(Sistema sistema);
@@ -16,6 +17,7 @@ public interface ISistemaRepository
     Task<List<Sistema>> GetAllSistemas(CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasByRol(RolId Id, CancellationToken cancellationToken);
+    Task<List<Sistema>> GetSistemasByDependencia(SistemaId dependencia, CancellationToken cancellationToken);
     Task<Sistema?> SistemaGetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
     Task<Sistema?> GetSistemaByIdAndRol(RolId rolId,SistemaId sistemaId, CancellationToken cancellationToken);
 

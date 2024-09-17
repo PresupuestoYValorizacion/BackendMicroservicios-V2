@@ -59,6 +59,14 @@ public sealed class Sistema : Entity<SistemaId>
         return Result.Success();
     }
 
+    public Result UpdateOrden(int? orden)
+    {
+        Orden = orden;
+
+        return Result.Success();
+    }
+
+
     public Result Desactive()
     {
         Activo = new Activo(false);

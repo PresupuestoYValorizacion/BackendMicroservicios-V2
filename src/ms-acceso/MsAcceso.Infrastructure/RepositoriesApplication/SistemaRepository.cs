@@ -78,6 +78,19 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     }
 
+    public async Task<List<Sistema>> GetSistemasByDependencia(SistemaId dependencia, CancellationToken cancellationToken)
+    {
+        bool isEmptyGuid = dependencia.Value == Guid.Empty;
+
+        var depedenciaNueva = isEmptyGuid ? null : dependencia;
+        return await DbContext.Set<Sistema>().Where(x => x.Dependencia == depedenciaNueva && x.Activo == new Activo(true))
+                                                         //  .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                         //  .ThenInclude(x => x.Opcion)
+                                                         .OrderBy(x => x.Orden)
+                                                         .ToListAsync(cancellationToken);
+
+    }
+
     private async Task LoadDependenciesAsync(Sistema system, CancellationToken cancellationToken)
     {
 
@@ -109,7 +122,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
             .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
             .ThenInclude(mo => mo.Opcion)
-            .OrderBy(x => x.Orden) 
+            .OrderBy(x => x.Orden)
 
             .ToListAsync(cancellationToken);
 
@@ -129,7 +142,7 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .ThenInclude(mo => mo.Opcion)
             .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
             .ThenInclude(rp => rp.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
-            .OrderBy(x => x.Orden) 
+            .OrderBy(x => x.Orden)
             .ToListAsync(cancellationToken);
 
         foreach (var childSystem in childSystems)
@@ -174,5 +187,11 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<int> GetSistemasWithDependencies(SistemaId Id, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == Id && x.Activo == new Activo(true));
+    }
+
+    public async Task<Sistema?> GetByOrdenAsync(int orden, SistemaId dependencia, CancellationToken cancellationToken)
+    {
+         return await DbContext.Set<Sistema>().Where(x => x.Orden == orden && x.Dependencia == dependencia && x.Activo == new Activo(true))
+                                                         .FirstOrDefaultAsync(cancellationToken);
     }
 }

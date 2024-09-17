@@ -5,5 +5,6 @@ public record UpdateSistemasRequest(
     string? Nombre,
     string? Logo,
     string? Url,
-    int? Orden
+    int Orden,
+    bool EsIntercambio
 );

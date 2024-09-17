@@ -17,32 +17,46 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
         _sistemaRepository = sistemaRepository;
         _unitOfWorkTenant = unitOfWorkTenant;
     }
-    
+
     public async Task<Result<Guid>> Handle(UpdateSistemasCommand request, CancellationToken cancellationToken)
     {
 
-        var sistemaExists = await _sistemaRepository.GetByIdAsync(request.Id,cancellationToken);
+        var sistemaExists = await _sistemaRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        if(sistemaExists is null)
+        if (sistemaExists is null)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaNotFound);
         }
 
         var nombreSistemaExists = await _sistemaRepository.SistemaExistsByName(request.Nombre!, cancellationToken);
 
-        if(nombreSistemaExists && sistemaExists.Nombre != request.Nombre)
+        if (nombreSistemaExists && sistemaExists.Nombre != request.Nombre)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaNotAvailable);
         }
 
         var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!, cancellationToken);
 
-        if(urlSistemaExists && sistemaExists.Url != request.Url)
+        if (urlSistemaExists && sistemaExists.Url != request.Url)
         {
             return Result.Failure<Guid>(SistemaErrors.SistemaUrlExists);
         }
 
-        //TODO: 
+        if (request.EsIntercambio)
+        {
+
+            var sistemaIntercambio = await _sistemaRepository.GetByOrdenAsync(request.Orden, sistemaExists.Dependencia!, cancellationToken);
+
+            if (sistemaIntercambio is null)
+            {
+                return Result.Failure<Guid>(SistemaErrors.SistemaIntercambioNotFound);
+            }
+
+            sistemaIntercambio.UpdateOrden(sistemaExists.Orden);
+
+            _sistemaRepository.Update(sistemaIntercambio);
+
+        }
 
         sistemaExists.Update(
             request.Nombre!,
@@ -52,6 +66,7 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
         );
 
         _sistemaRepository.Update(sistemaExists);
+
         await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
 
         return Result.Success(sistemaExists.Id!.Value, Message.Update);

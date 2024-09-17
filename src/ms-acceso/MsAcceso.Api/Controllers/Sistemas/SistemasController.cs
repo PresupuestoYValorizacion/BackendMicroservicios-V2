@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.Sistemas.DeleteSistemas;
 using MsAcceso.Application.Sistemas.DesactiveSistemas;
 using MsAcceso.Application.Sistemas.GetSistemas;
+using MsAcceso.Application.Sistemas.GetSistemasByDependencia;
 using MsAcceso.Application.Sistemas.GetSistemasById;
 using MsAcceso.Application.Sistemas.RegisterSistemas;
 using MsAcceso.Application.Sistemas.UpdateSistemas;
@@ -66,7 +67,8 @@ public class SistemasController : ControllerBase
             request.Nombre,
             request.Logo,
             request.Url,
-            request.Orden
+            request.Orden,
+            request.EsIntercambio
         );
 
         var result = await _sender.Send(command,cancellationToken);
@@ -120,6 +122,24 @@ public class SistemasController : ControllerBase
     public async Task<ActionResult<PaginationResult<SistemaDto>>> GetSistemas(CancellationToken cancellationToken)
     {
         var request = new GetSistemasQuery {};
+        var result = await _sender.Send(request,cancellationToken);
+
+        if(result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+        return Ok(result);
+    }
+
+    [HttpGet("get-sistemas-by-dependencia/{dependencia}")]
+    [ApiVersion(ApiVersions.V1)]
+    public async Task<ActionResult<List<SistemaDto>>> GetSistemasByDependencia(string dependencia, CancellationToken cancellationToken)
+    {
+
+        var request = new GetSistemasByDependenciaQuery {
+            Dependencia = new SistemaId(dependencia == "null"  ? Guid.Empty :  new Guid(dependencia))
+        };
+
         var result = await _sender.Send(request,cancellationToken);
 
         if(result.IsFailure)
