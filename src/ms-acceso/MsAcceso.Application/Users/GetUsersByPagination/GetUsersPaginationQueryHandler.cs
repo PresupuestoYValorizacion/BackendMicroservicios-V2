@@ -36,6 +36,7 @@ internal sealed class GetUsersByPaginationQueryHandler : IQueryHandler<GetUsersB
             searchPredicate = searchPredicate.Or(p => p.Empresa!.NumeroDocumento!.Contains(request.Search));
             searchPredicate = searchPredicate.Or(p => p.Empresa!.PersonaNatural!.NombreCompleto!.Contains(request.Search));
             searchPredicate = searchPredicate.Or(p => p.Empresa!.PersonaJuridica!.RazonSocial!.Contains(request.Search));
+            searchPredicate = searchPredicate.Or(p => p.Rol!.Nombre!.Contains(request.Search));
 
             predicateB = predicateB.And(searchPredicate);
         }
@@ -48,9 +49,10 @@ internal sealed class GetUsersByPaginationQueryHandler : IQueryHandler<GetUsersB
                                         .Include(x => x.Empresa!)
                                         .ThenInclude(x => x.Tipo!)
                                         .Include(x => x.Empresa!)
-                                        .ThenInclude(x => x.PersonaNatural!)
+                                        .ThenInclude(x => x.PersonaNatural)
                                         .Include(x => x.Empresa!)
-                                        .ThenInclude(x => x.PersonaJuridica!)
+                                        .ThenInclude(x => x.PersonaJuridica)
+                                        .Include(x => x.Rol)!
                                         ,
                                         request.PageNumber,
                                         request.PageSize,

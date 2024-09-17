@@ -30,13 +30,13 @@ internal class UpdateOpcionCommandHandler : ICommandHandler<UpdateOpcionCommand,
         
         var opcionExists = await _opcionRepository.OpcionExist(request.Nombre,cancellationToken);
 
-        if(opcion.Nombre != request.Nombre && opcionExists){
+        if(!string.Equals(opcion.Nombre, request.Nombre, StringComparison.OrdinalIgnoreCase) && opcionExists){
             return Result.Failure<Guid>(OpcionErrors.OpcionExists);
         }
 
         opcion.Update(request.Nombre,
-                      request.Logo,
-                      request.Abreviatura); 
+                      request.Icono,
+                      request.Tooltip); 
 
 
         _opcionRepository.Update(opcion);

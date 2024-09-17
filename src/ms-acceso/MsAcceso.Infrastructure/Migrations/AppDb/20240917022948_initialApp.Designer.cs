@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240903034431_initialApp")]
+    [Migration("20240917022948_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -136,16 +136,10 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Abreviatura")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Logo")
-                        .IsRequired()
+                    b.Property<string>("Icono")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -153,6 +147,10 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Tooltip")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
@@ -475,8 +473,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid?>("EmpresaId")
                         .HasColumnType("uniqueidentifier");

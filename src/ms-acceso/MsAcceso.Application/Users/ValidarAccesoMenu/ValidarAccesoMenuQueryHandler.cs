@@ -2,10 +2,9 @@ using AutoMapper;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.RolPermisos;
-using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 
-namespace MsAcceso.Application.Parametros.ValidarAccesoMenu;
+namespace MsAcceso.Application.Users.ValidarAccesoMenu;
 
 internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAccesoMenuQuery, bool>
 {
@@ -26,20 +25,34 @@ internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAcces
     }
 
     public async Task<Result<bool>> Handle(ValidarAccesoMenuQuery request, CancellationToken cancellationToken)
-    {
+    {   
 
-        var sistema = await _sistemaRepository.GetByUrlAsync(request.Url!, cancellationToken);
+        string url = request.Url!;
 
+        url = url.Trim('/');
+
+        if(!url.Contains("http"))
+        {
+            string[] partesUrl = url!.Split('/');
+
+            url = "/"+ partesUrl[0];
+        }
+
+        //TODO VALIDAR CON EL PARTES URL SI EXISTE LA OPCION PERO PRIMERO VERIFICAR SI NO ES UN SUBNIVEL DE
+        //TODO REPENTE SE HACE UNA FUNCION RECURISVA 
+
+
+        var sistema = await _sistemaRepository.GetByUrlAsync(url,request.RolId!, cancellationToken);
+        
 
         if(sistema is null)
         {
             return Result.Failure<bool>(SistemaErrors.SistemaNotFound);
         }
 
-        var existePermiso = await _rolPermisoRepository.GetByMenuAndRol(sistema.Id!, request.RolId!, cancellationToken);
+        var existePermiso = sistema.RolPermisos!.Any(x => x.RolId == request.RolId);
 
-
-        return existePermiso is not null;
+        return existePermiso;
 
     }
 

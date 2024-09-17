@@ -32,8 +32,8 @@ internal sealed class GetOpcionByPaginationQueryHandler : IQueryHandler<GetOpcio
             var searchPredicate = PredicateBuilder.New<Opcion>(false);
 
             searchPredicate = searchPredicate.Or(o => o.Nombre!.Contains(request.Search));
-            searchPredicate = searchPredicate.Or(o => o.Logo!.Contains(request.Search));
-            searchPredicate = searchPredicate.Or(o => o.Abreviatura!.Contains(request.Search));
+            searchPredicate = searchPredicate.Or(o => o.Icono!.Contains(request.Search));
+            searchPredicate = searchPredicate.Or(o => o.Tooltip!.Contains(request.Search));
 
             predicateB = predicateB.And(searchPredicate);
         }

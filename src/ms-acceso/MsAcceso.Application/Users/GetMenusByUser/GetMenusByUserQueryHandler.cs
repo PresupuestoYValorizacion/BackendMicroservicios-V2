@@ -5,7 +5,7 @@ using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 
-namespace MsAcceso.Application.Parametros.GetMenusByUser;
+namespace MsAcceso.Application.Users.GetMenusByUser;
 
 internal sealed class GetMenusByUserQueryHandler : IQueryHandler<GetMenusByUserQuery, List<SistemaByRolDto>>
 {

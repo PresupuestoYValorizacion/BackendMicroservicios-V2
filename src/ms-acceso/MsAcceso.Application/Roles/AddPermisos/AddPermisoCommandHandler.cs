@@ -51,7 +51,6 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
         return Result.Success(request.RolId.Value, Message.Update);
     }
 
-    // Método recursivo para procesar el sistema y sus childrens
     private async Task ProcesarSistema(SistemaRequest sistema, RolId rolId, CancellationToken cancellationToken)
     {
         var sistemaEncontrado = await _sistemaRepository.GetSistemaByIdAndRol(rolId, new SistemaId(sistema.Id), cancellationToken);

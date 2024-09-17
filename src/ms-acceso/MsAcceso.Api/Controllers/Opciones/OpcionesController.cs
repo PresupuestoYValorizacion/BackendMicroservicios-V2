@@ -39,8 +39,8 @@ public class OpcionesController : ControllerBase
     {
         var command = new RegisterOpcionCommand(
             request.Nombre,
-            request.Logo,
-            request.Abreviatura
+            request.Icono,
+            request.Tooltip
         );
 
         var result = await _sender.Send(command,cancellationToken);
@@ -64,8 +64,8 @@ public class OpcionesController : ControllerBase
         var command = new UpdateOpcionCommand(
             new OpcionId(request.Id),
             request.Nombre,
-            request.Logo,
-            request.Abreviatura
+            request.Icono,
+            request.Tooltip
         );
 
         var result = await _sender.Send(command,cancellationToken);

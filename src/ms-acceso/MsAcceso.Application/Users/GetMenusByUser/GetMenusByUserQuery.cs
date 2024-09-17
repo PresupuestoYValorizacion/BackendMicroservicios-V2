@@ -2,7 +2,7 @@ using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 
-namespace MsAcceso.Application.Parametros.GetMenusByUser;
+namespace MsAcceso.Application.Users.GetMenusByUser;
 
 public sealed record GetMenusByUserQuery : IQuery<List<SistemaByRolDto>>
 {

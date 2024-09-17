@@ -52,8 +52,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Abreviatura = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Icono = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Tooltip = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -245,7 +245,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     ConnectionString = table.Column<string>(type: "nvarchar(max)", nullable: true),

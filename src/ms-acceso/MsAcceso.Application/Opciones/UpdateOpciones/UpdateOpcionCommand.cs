@@ -6,5 +6,5 @@ namespace MsAcceso.Application.Opciones.UpdateOpciones;
 public sealed record UpdateOpcionCommand(
     OpcionId Id,
     string Nombre, 
-    string Logo, 
-    string Abreviatura): ICommand<Guid>;
+    string Icono, 
+    string Tooltip): ICommand<Guid>;
