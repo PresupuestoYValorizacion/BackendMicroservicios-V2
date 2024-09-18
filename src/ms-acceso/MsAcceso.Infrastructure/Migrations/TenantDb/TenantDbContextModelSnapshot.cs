@@ -79,6 +79,29 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.ToTable("categorias", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Ciudadanos.Ciudadano", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nacionalidad")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ciudadanos", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.DetalleProductos.DetalleProducto", b =>
                 {
                     b.Property<Guid>("Id")
@@ -323,6 +346,24 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                             Nombre = "ADMINISTRADOR",
                             Valor = "2"
                         });
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Pasaportes.Pasaporte", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NroSerie")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("pasaportes", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>
@@ -669,6 +710,15 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         .HasForeignKey("Dependencia");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Pasaportes.Pasaporte", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Root.Ciudadanos.Ciudadano", null)
+                        .WithOne("Pasaporte")
+                        .HasForeignKey("MsAcceso.Domain.Root.Pasaportes.Pasaporte", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Root.Parametros.Parametro", "TipoDocumento")
@@ -802,6 +852,11 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                     b.Navigation("Licencia");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Ciudadanos.Ciudadano", b =>
+                {
+                    b.Navigation("Pasaporte");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Personas.Persona", b =>

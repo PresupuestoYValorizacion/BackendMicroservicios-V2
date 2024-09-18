@@ -29,6 +29,7 @@ using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Domain.Entity;
 using MsAcceso.Domain.Root.Productos;
+using MsAcceso.Domain.Root.Ciudadanos;
 
 namespace MsAcceso.Infrastructure;
 
@@ -105,6 +106,8 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<TenantDbContext>());
+
+        services.AddScoped<ICiudadanoRepository, CiudadanoRepository>();
 
         // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

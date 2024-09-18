@@ -3,10 +3,12 @@ using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Auditorias;
 using MsAcceso.Domain.Root.Categorias;
+using MsAcceso.Domain.Root.Ciudadanos;
 using MsAcceso.Domain.Root.DetalleProductos;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.Pasaportes;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
@@ -48,6 +50,8 @@ namespace MsAcceso.Infrastructure.Tenants
         public DbSet<Resenia> Resenia { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<ProductoCategoria> ProductoCategoria { get; set; }
+        public DbSet<Ciudadano> Ciudadanos { get; set; }
+        public DbSet<Pasaporte> Paraportes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

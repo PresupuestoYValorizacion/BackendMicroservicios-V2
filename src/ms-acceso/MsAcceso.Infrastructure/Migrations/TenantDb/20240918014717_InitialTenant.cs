@@ -46,6 +46,20 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "ciudadanos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Nacionalidad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ciudadanos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "licencias",
                 columns: table => new
                 {
@@ -131,6 +145,25 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                         column: x => x.Dependencia,
                         principalTable: "sistemas",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "pasaportes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NroSerie = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_pasaportes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_pasaportes_ciudadanos_Id",
+                        column: x => x.Id,
+                        principalTable: "ciudadanos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -554,6 +587,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
                 name: "menus_opciones");
 
             migrationBuilder.DropTable(
+                name: "pasaportes");
+
+            migrationBuilder.DropTable(
                 name: "personas_juridicas");
 
             migrationBuilder.DropTable(
@@ -570,6 +606,9 @@ namespace MsAcceso.Infrastructure.Migrations.TenantDb
 
             migrationBuilder.DropTable(
                 name: "usuario_licencia");
+
+            migrationBuilder.DropTable(
+                name: "ciudadanos");
 
             migrationBuilder.DropTable(
                 name: "categorias");

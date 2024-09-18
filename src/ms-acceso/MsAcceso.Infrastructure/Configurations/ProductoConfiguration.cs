@@ -34,9 +34,9 @@ internal sealed class ProductoConfiguration : IEntityTypeConfiguration<Producto>
         .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder
-            .HasOne(p => p.DetalleProducto)
-            .WithOne()
-            .HasForeignKey<DetalleProducto>(e => e.Id);
+        .HasOne(p => p.DetalleProducto)
+        .WithOne()
+        .HasForeignKey<DetalleProducto>(e => e.Id);
 
         builder
             .HasMany(p => p.Resenias)
