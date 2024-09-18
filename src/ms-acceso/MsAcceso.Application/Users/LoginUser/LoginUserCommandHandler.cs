@@ -7,6 +7,7 @@ using MsAcceso.Application.Abstractions.Authentication;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Users;
 using AutoMapper;
+using MsAcceso.Domain.Root.Parametros;
 
 internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginUserResponse?>
 {   
@@ -39,8 +40,15 @@ internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginU
             return Result.Failure<LoginUserResponse>(UserErrors.InvalidCredentials)!;
         }
 
+
         var userDto = _mapper.Map<UserDto>(user);
 
+        if(user.Rol!.TipoRolId == new ParametroId(TipoRol.Licencia))
+        {
+            //TODO : REALIZAR EL SETEO DE LA LICENCIA DE FECHA INICIO Y FECHA FIN 
+            // if(userDto.Licencia)
+            Console.Write("sdsdsds");
+        }
         var token = await _jwtProvider.Generate(user);
 
         return LoginUserResponse.Create(token, userDto);
