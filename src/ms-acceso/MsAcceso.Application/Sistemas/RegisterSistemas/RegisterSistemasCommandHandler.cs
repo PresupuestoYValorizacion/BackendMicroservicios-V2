@@ -40,7 +40,7 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
 
         var dependencia = request.Dependecia != null ? new SistemaId(new Guid(request.Dependecia)) : null;
     
-        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(urlSistema, dependencia, cancellationToken);
+        var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(urlSistema, cancellationToken);
 
         if (urlSistemaExists)
         {

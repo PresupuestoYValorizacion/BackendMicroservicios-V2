@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.RolPermisos;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Users.ValidarAccesoMenu;
@@ -25,36 +27,77 @@ internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAcces
     }
 
     public async Task<Result<bool>> Handle(ValidarAccesoMenuQuery request, CancellationToken cancellationToken)
-    {   
+    {
 
         string url = request.Url!;
 
         url = url.Trim('/');
 
-        if(!url.Contains("http"))
+        bool containsHttp = url.Contains("http");
+
+        if (!containsHttp)
         {
             string[] partesUrl = url!.Split('/');
 
-            url = "/"+ partesUrl[0];
+            url = "/" + partesUrl[0];
         }
 
-        //TODO VALIDAR CON EL PARTES URL SI EXISTE LA OPCION PERO PRIMERO VERIFICAR SI NO ES UN SUBNIVEL DE
-        //TODO REPENTE SE HACE UNA FUNCION RECURISVA 
+        var sistema = await _sistemaRepository.GetByUrlAsync(url, request.RolId!, cancellationToken);
 
-
-        var sistema = await _sistemaRepository.GetByUrlAsync(url,request.RolId!, cancellationToken);
-        
-
-        if(sistema is null)
+        if (sistema is null)
         {
             return Result.Failure<bool>(SistemaErrors.SistemaNotFound);
         }
 
-        var existePermiso = sistema.RolPermisos!.Any(x => x.RolId == request.RolId);
+        bool existePermiso = false;
+
+        if (!containsHttp)
+        {
+            string[] partesUrl = request.Url!.Trim('/').Split('/');
+            existePermiso = VerificarPermisoRecursivo(sistema, request.RolId!, partesUrl, 0);
+
+        }
+        else
+        {
+            existePermiso = sistema.RolPermisos!.Any(x => x.RolId == request.RolId!);
+
+        }
+
 
         return existePermiso;
 
     }
 
+    private static bool VerificarPermisoRecursivo(Sistema sistema, RolId rolId, string[] partesUrl, int nivelActual)
+    {
+        bool tienePermiso = sistema.RolPermisos!.Any(x => x.RolId == rolId);
+
+        if (!tienePermiso)
+        {
+            return false;
+        }
+
+        if (nivelActual == partesUrl.Length - 1)
+        {
+            return true;
+        }
+
+        string siguienteParte = "/" + partesUrl[nivelActual +1];
+
+        var subsistema = sistema.Sistemas?.FirstOrDefault(x => x.Url == siguienteParte);
+        if (subsistema != null)
+        {
+            return VerificarPermisoRecursivo(subsistema, rolId, partesUrl, nivelActual + 1);
+        }
+
+        var opcion = sistema.MenuOpcions?.FirstOrDefault(x => x.Url == siguienteParte);
+        if (opcion != null)
+        {
+            
+            return true;
+        }
+
+        return false;
+    }
 
 }

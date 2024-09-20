@@ -46,6 +46,7 @@ internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginU
         if(user.Rol!.TipoRolId == new ParametroId(TipoRol.Licencia))
         {
             //TODO : REALIZAR EL SETEO DE LA LICENCIA DE FECHA INICIO Y FECHA FIN 
+            
             // if(userDto.Licencia)
             Console.Write("sdsdsds");
         }

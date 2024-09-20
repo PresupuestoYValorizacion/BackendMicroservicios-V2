@@ -162,30 +162,37 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         return sistema!;
     }
 
-    public async Task<bool> SistemaExistsByUrl(string url, SistemaId? dependencia, CancellationToken cancellationToken)
+    public async Task<bool> SistemaExistsByUrl(string url, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Dependencia == dependencia && x.Activo == new Activo(true), cancellationToken);
+        return await DbContext.Set<Sistema>().AnyAsync(x => x.Url == url && x.Activo == new Activo(true), cancellationToken);
     }
 
     public async Task<Sistema?> GetByUrlAsync(string url, RolId rolId, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true))
-                                                         .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
-                                                         .ThenInclude(x => x.Opcion)
-                                                         .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
-                                                         .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
-                                                         .FirstOrDefaultAsync(cancellationToken);
+        var system = await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true))
+                                                 .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                 .ThenInclude(x => x.Opcion)
+                                                 .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+                                                 .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+                                                 .FirstOrDefaultAsync(cancellationToken);
+        if (system is not null)
+        {
+            await LoadDependenciesByRolAsync(system!, rolId, cancellationToken);
+        }
+
+        return system;
+
     }
 
-    public async Task<int> GetCountSistemasByDependencia(SistemaId? dependencia,CancellationToken cancellationToken)
+    public async Task<int> GetCountSistemasByDependencia(SistemaId? dependencia, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == dependencia && x.Activo == new Activo(true),cancellationToken);
+        return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == dependencia && x.Activo == new Activo(true), cancellationToken);
     }
 
     public async Task<Sistema?> GetByOrdenAsync(int orden, SistemaId dependencia, CancellationToken cancellationToken)
     {
-         return await DbContext.Set<Sistema>().Where(x => x.Orden == orden && x.Dependencia == dependencia && x.Activo == new Activo(true))
-                                                         .FirstOrDefaultAsync(cancellationToken);
+        return await DbContext.Set<Sistema>().Where(x => x.Orden == orden && x.Dependencia == dependencia && x.Activo == new Activo(true))
+                                                        .FirstOrDefaultAsync(cancellationToken);
     }
 
 }

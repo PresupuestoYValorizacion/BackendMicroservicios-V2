@@ -41,7 +41,7 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
 
         if(sistemaExists.Url != request.Url)
         {
-            var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!,sistemaExists.Dependencia!, cancellationToken);
+            var urlSistemaExists = await _sistemaRepository.SistemaExistsByUrl(request.Url!, cancellationToken);
 
             if (urlSistemaExists )
             {
