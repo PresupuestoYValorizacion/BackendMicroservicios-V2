@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Microsoft.VisualBasic;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.RolPermisos;
@@ -53,8 +54,10 @@ internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAcces
 
         if (!containsHttp)
         {
+            var sistemaDto = _mapper.Map<SistemaByRolDto>(sistema);
+
             string[] partesUrl = request.Url!.Trim('/').Split('/');
-            existePermiso = VerificarPermisoRecursivo(sistema, request.RolId!, partesUrl, 0);
+            existePermiso = VerificarPermisoRecursivo(sistemaDto, request.RolId!, partesUrl, 0);
 
         }
         else
@@ -68,9 +71,9 @@ internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAcces
 
     }
 
-    private static bool VerificarPermisoRecursivo(Sistema sistema, RolId rolId, string[] partesUrl, int nivelActual)
+    private static bool VerificarPermisoRecursivo(SistemaByRolDto sistema, RolId rolId, string[] partesUrl, int nivelActual)
     {
-        bool tienePermiso = sistema.RolPermisos!.Any(x => x.RolId == rolId);
+        bool tienePermiso = sistema.Completed;
 
         if (!tienePermiso)
         {
@@ -84,13 +87,13 @@ internal sealed class ValidarAccesoMenuQueryHandler : IQueryHandler<ValidarAcces
 
         string siguienteParte = "/" + partesUrl[nivelActual +1];
 
-        var subsistema = sistema.Sistemas?.FirstOrDefault(x => x.Url == siguienteParte);
+        var subsistema = sistema.Childrens?.FirstOrDefault(x => x.Url == siguienteParte);
         if (subsistema != null)
         {
             return VerificarPermisoRecursivo(subsistema, rolId, partesUrl, nivelActual + 1);
         }
 
-        var opcion = sistema.MenuOpcions?.FirstOrDefault(x => x.Url == siguienteParte);
+        var opcion = sistema.MenuOpciones?.FirstOrDefault(x => x.Url == siguienteParte && x.Completed == true);
         if (opcion != null)
         {
             
