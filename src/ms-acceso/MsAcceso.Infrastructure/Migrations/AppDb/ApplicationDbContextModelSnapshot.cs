@@ -319,7 +319,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Dependencia = 12,
                             Nivel = 1,
                             Nombre = "6 MESES",
-                            Valor = "2"
+                            Valor = "6"
                         },
                         new
                         {
@@ -328,7 +328,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Dependencia = 12,
                             Nivel = 1,
                             Nombre = "12 MESES",
-                            Valor = "3"
+                            Valor = "12"
                         });
                 });
 
@@ -565,12 +565,17 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.Property<Guid?>("LicenciaId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("PeriodoLicenciaId")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LicenciaId");
+
+                    b.HasIndex("PeriodoLicenciaId");
 
                     b.HasIndex("UserId");
 
@@ -707,11 +712,17 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         .WithMany()
                         .HasForeignKey("LicenciaId");
 
+                    b.HasOne("MsAcceso.Domain.Root.Parametros.Parametro", "PeriodoLicencia")
+                        .WithMany()
+                        .HasForeignKey("PeriodoLicenciaId");
+
                     b.HasOne("MsAcceso.Domain.Root.Users.User", "User")
                         .WithMany("UsuarioLicencias")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Licencia");
+
+                    b.Navigation("PeriodoLicencia");
 
                     b.Navigation("User");
                 });
