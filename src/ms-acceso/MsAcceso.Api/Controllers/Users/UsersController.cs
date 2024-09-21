@@ -202,6 +202,7 @@ public class UsersController : ControllerBase
             request.RazonSocial,
             request.NombreCompleto,
             request.IsAdmin,
+            new ParametroId(request.PeriodoLicenciaId),
             new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
             new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
@@ -249,6 +250,7 @@ public class UsersController : ControllerBase
             request.Email,
             request.Username,
             request.IsAdmin,
+            new ParametroId(request.PeriodoLicenciaId),
             new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
             new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
