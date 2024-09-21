@@ -1,5 +1,6 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Shared;
 
@@ -14,44 +15,44 @@ public sealed class UsuarioLicencia : Entity<UsuarioLicenciaId>
         UsuarioLicenciaId id,
         LicenciaId licenciaId,
         UserId userId,
-        DateTime fechaInicio,
-        DateTime fechaFin
+        ParametroId periodoLicenciaId
         ) : base(id)
     {
         UserId = userId;
         LicenciaId = licenciaId;
-        FechaInicio = fechaInicio;
-        FechaFin = fechaFin;
-
+        PeriodoLicenciaId = periodoLicenciaId;
     }
 
     public UserId? UserId { get; private set; }
     public LicenciaId? LicenciaId { get; private set; }
+    public ParametroId? PeriodoLicenciaId { get; private set; }
     public DateTime? FechaInicio { get; private set; }
     public DateTime? FechaFin { get; private set; }
 
     public User? User { get; private set; }
     public Licencia? Licencia { get; private set; }
-
+    public Parametro? PeriodoLicencia { get; set;} 
 
     public static UsuarioLicencia Create(
         LicenciaId licenciaId,
         UserId userId,
-        DateTime fechaInicio,
-        DateTime fechaFin
+        ParametroId periodoLicenciaId
     )
     {
-        var usuarioLicencia = new UsuarioLicencia(UsuarioLicenciaId.New(), licenciaId, userId, fechaInicio, fechaFin);
+        var usuarioLicencia = new UsuarioLicencia(UsuarioLicenciaId.New(), licenciaId, userId, periodoLicenciaId);
 
         return usuarioLicencia;
     }
 
-    // public Result Update(
-    //     string nombre)
-    // {
-    //     Nombre = nombre;
-    //     return Result.Success();
-    // }
+    public Result Update(
+        DateTime fechaInicio,
+        DateTime fechaFin
+    )
+    {
+        FechaInicio = fechaInicio;
+        FechaFin = fechaFin;
+        return Result.Success();
+    }
 
     public Result Desactive()
     {
