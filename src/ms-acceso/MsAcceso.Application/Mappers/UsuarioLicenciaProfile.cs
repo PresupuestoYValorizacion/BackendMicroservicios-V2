@@ -11,6 +11,7 @@ namespace MsAcceso.Application.Mappers
             CreateMap<UsuarioLicencia, UsuarioLicenciaDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId!.Value!))
             .ForMember(dest => dest.LicenciaId, opt => opt.MapFrom(src => src.LicenciaId!.Value!))
+            .ForMember(dest => dest.PeriodoLicenciaId, opt => opt.MapFrom(src => src.PeriodoLicenciaId!.Value!))
             .ForMember(dest => dest.FechaInicio, opt => opt.MapFrom(src => src.FechaInicio!))
             .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => src.FechaFin!))
             ;
