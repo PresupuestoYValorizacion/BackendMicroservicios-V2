@@ -43,9 +43,10 @@ internal sealed class UserRepository : RepositoryApplication<User, UserId>, IUse
         if (user != null && user.UsuarioLicencias != null)
         {
             user.UsuarioLicencias = user.UsuarioLicencias!
-            .Where(ul => ul.Activo == new Activo(true) && ul.FechaFin > DateTime.Now)
-            .OrderByDescending(ul => ul.FechaFin)
-            .Take(1)
+            .Where(ul => ul.Activo == new Activo(true) && 
+                    ((ul.FechaFin > DateTime.Now) || (ul.FechaInicio == null && ul.FechaFin == null)))
+            .OrderByDescending(ul => ul.FechaFin)  // Ordenar por FechaFin, nulls quedan al final
+            .Take(1)  // Tomar solo la primera licencia válida
             .ToList();
         }
 
