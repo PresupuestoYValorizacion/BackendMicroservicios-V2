@@ -1,6 +1,7 @@
-namespace MsAcceso.Domain.Shared;
+namespace MsAcceso.Domain.Root.Rols.Request;
 
-public record PaginationParams
+
+public class GetRolesByPaginationRequest
 {
     private const int MaxPageSize = 50;
 
@@ -19,4 +20,5 @@ public record PaginationParams
 
     public string? Search {get;set;} 
 
+    public bool IsAdmin {get;set;}
 }

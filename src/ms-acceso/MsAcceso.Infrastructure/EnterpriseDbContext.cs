@@ -5,6 +5,10 @@ using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.Presupuestos;
+using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Domain.Tenant.RolPermisosTenant;
+using MsAcceso.Domain.Tenant.RolsTenant;
+using MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -26,50 +30,100 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
 
     // Application DbSets -- create for entity types to be applied to all databases
     // public DbSet<Product> Products { get; set; }
-    public DbSet<User> UsersTenants { get; set; }
-    public DbSet<Presupuesto> Presupuestos { get; set; }
+    // public DbSet<User> UsersTenants { get; set; }
+    // public DbSet<Presupuesto> Presupuestos { get; set; }
+    public DbSet<RolTenant> Rols { get; set; }
+    public DbSet<RolPermisoTenant> RolsPermisos { get; set; }
+    public DbSet<RolPermisoOpcionTenant> RolsPermisoOpcions { get; set; }
 
     // On Model Creating - multitenancy query filter, fires once on app start
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<User>().ToTable("user-tenant");
-        builder.Entity<User>().HasKey(user => user.Id);
+        // builder.ApplyConfigurationsFromAssembly(typeof(EnterpriseDbContext).Assembly);
+        // base.OnModelCreating(builder);
 
-        builder.Entity<User>().Property(user => user.Id)
-        .HasConversion(userId => userId!.Value, value => new UserId(value));
+        builder.Entity<RolPermisoOpcionTenant>().ToTable("rols_permisos_opciones");
+        builder.Entity<RolPermisoOpcionTenant>().HasKey(rolPermisoOpcion => rolPermisoOpcion.Id);
 
-        builder.Entity<User>().Property(user => user.Username)
+        builder.Entity<RolPermisoOpcionTenant>().Property(rolPermisoOpcion => rolPermisoOpcion.Id)
+        .HasConversion(rolPermisoOpcionId => rolPermisoOpcionId!.Value, value => new RolPermisoOpcionTenantId(value));
+
+         builder.Entity<RolPermisoOpcionTenant>().Property(rolPermisoOpcion => rolPermisoOpcion.Activo)
+        .IsRequired()
+        .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+        builder.Entity<RolPermisoOpcionTenant>().HasOne(rpo=>rpo.RolPermiso)
+                .WithMany(rp => rp.RolPermisoOpcions)
+                .HasForeignKey(rolPermisoOpcion => rolPermisoOpcion.RolPermisoId);
+
+         builder.Entity<RolPermisoTenant>().ToTable("rols_permisos");
+        builder.Entity<RolPermisoTenant>().HasKey(rolPermiso => rolPermiso.Id);
+
+        builder.Entity<RolPermisoTenant>().Property(rolPermiso => rolPermiso.Id)
+        .HasConversion(rolPermisoId => rolPermisoId!.Value, value => new RolPermisoTenantId(value));
+
+        builder.Entity<RolPermisoTenant>().Property(rolPermiso => rolPermiso.Activo)
+        .IsRequired()
+        .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+        builder.Entity<RolPermisoTenant>().HasOne(rp=> rp.Rol)
+                .WithMany(r=>r.RolPermisos)
+                .HasForeignKey(rolPermiso => rolPermiso.RolId);
+
+                
+
+        builder.Entity<RolTenant>().ToTable("rols");
+        builder.Entity<RolTenant>().HasKey(rol => rol.Id);
+
+        builder.Entity<RolTenant>().Property(rol => rol.Id)
+        .HasConversion(rolId => rolId!.Value, value => new RolTenantId(value));
+
+        builder.Entity<RolTenant>().Property(rol => rol.Nombre)
         .IsRequired()
         .HasMaxLength(100);
 
-        builder.Entity<User>().Property(user => user.Email)
+        builder.Entity<RolTenant>().Property(rol => rol.Activo)
         .IsRequired()
-        .HasMaxLength(400);
+        .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        builder.Entity<User>().Property(user => user.Password)
-        .IsRequired()
-        .HasMaxLength(2000);
+        // builder.Entity<User>().ToTable("user-tenant");
+        // builder.Entity<User>().HasKey(user => user.Id);
 
-        builder.Entity<User>().Property(user => user.Activo)
-        .IsRequired()
-        .HasConversion(user => user!.Value, value => new Activo(value));
+        // builder.Entity<User>().Property(user => user.Id)
+        // .HasConversion(userId => userId!.Value, value => new UserId(value));
+
+        // builder.Entity<User>().Property(user => user.Username)
+        // .IsRequired()
+        // .HasMaxLength(100);
+
+        // builder.Entity<User>().Property(user => user.Email)
+        // .IsRequired()
+        // .HasMaxLength(400);
+
+        // builder.Entity<User>().Property(user => user.Password)
+        // .IsRequired()
+        // .HasMaxLength(2000);
+
+        // builder.Entity<User>().Property(user => user.Activo)
+        // .IsRequired()
+        // .HasConversion(user => user!.Value, value => new Activo(value));
 
 
-        builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
+        // builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
 
-        builder.Entity<Presupuesto>().ToTable("presupuestos");
-        builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
+        // builder.Entity<Presupuesto>().ToTable("presupuestos");
+        // builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
-        .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
+        // .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
-        .IsRequired()
-        .HasMaxLength(100);
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
+        // .IsRequired()
+        // .HasMaxLength(100);
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
-        .IsRequired()
-        .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
+        // .IsRequired()
+        // .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
     }
 
     // On Configuring -- dynamic connection string, fires on every request
