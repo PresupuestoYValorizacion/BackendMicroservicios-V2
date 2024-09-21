@@ -1,6 +1,7 @@
 
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Root.Licencias;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
 
@@ -11,6 +12,7 @@ public sealed record UpdateUserCommand(
     string? Email, 
     string? Username,
     bool IsAdmin,
+    ParametroId PeriodoLicenciaId,
     LicenciaId LicenciaId,
     RolId RolId
 ) : ICommand<Guid>;
