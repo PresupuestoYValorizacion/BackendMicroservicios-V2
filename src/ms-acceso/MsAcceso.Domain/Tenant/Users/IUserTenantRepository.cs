@@ -1,20 +1,18 @@
 
-using MsAcceso.Domain.Tenant.UsersTenant;
-
 namespace MsAcceso.Domain.Tenant.Users;
 
 public interface IUserTenantRepository
 {
 
-    Task<UserTenant?> GetByIdAsync(UserTenantId id, CancellationToken cancellationToken = default);
+    Task<User?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
 
-    void Add(UserTenant user);
+    void Add(User user);
 
-    void Update(UserTenant user);
+    void Update(User user);
     
-    void Delete(UserTenant user);
+    void Delete(User user);
 
-    Task<UserTenant?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
+    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
 
     Task<bool> IsUserExists(
         string email, 

@@ -93,4 +93,12 @@ public sealed class User : Entity<UserId>
         return Result.Success();
     }
 
+    public void FiltrarLicenciasActivas()
+    {
+        UsuarioLicencias = UsuarioLicencias!
+            .Where(ul => ul.Activo == new Activo(true) && ul.FechaFin > DateTime.Now)
+            .OrderByDescending(ul => ul.FechaFin)
+            .Take(1)
+            .ToList();
+    }
 }
