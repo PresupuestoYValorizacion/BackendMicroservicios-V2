@@ -24,10 +24,9 @@ public sealed class JwtProvider : IJwtProvider
         var userFounded = await _userRepository.GetByIdAsync(user.Id!);
 
         var claims = new List<Claim> {
-            new(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
-            new(CustomClaims.Email,user.Email!),
-            new(CustomClaims.Rol,user.RolId!.Value.ToString()),
-            new(CustomClaims.Tenant,user.Id!.Value.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
+            new Claim(CustomClaims.Email,user.Email!),
+            new Claim(CustomClaims.Rol,user.RolId!.Value.ToString()),
         };
 
         var sigingCredentials = new SigningCredentials(

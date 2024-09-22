@@ -27,8 +27,6 @@ using MsAcceso.Infrastructure.RepositoriesTenant;
 using MsAcceso.Domain.Tenant.Presupuestos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.RolPermisos;
-using MsAcceso.Domain.Tenant.RolsTenant;
-using MsAcceso.Application.Tenant.Paginations;
 
 namespace MsAcceso.Infrastructure;
 
@@ -81,8 +79,6 @@ public static class DependencyInjection
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
         services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
         services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
-        services.AddScoped<IRolTenantRepository, RolTenantRepository>();
-        services.AddScoped<IPaginationRolesTenantRepository, RolTenantRepository>();
 
 
         //BD GENERAL

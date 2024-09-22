@@ -15,9 +15,6 @@ using MsAcceso.Application.Roles.UpdateRoles;
 using MsAcceso.Application.Roles.DesactiveRoles;
 using MsAcceso.Application.Roles.DeleteRoles;
 using MsAcceso.Application.Roles.AddPermisos;
-using MsAcceso.Domain.Root.Rols.Request;
-using MsAcceso.Application.Tenant.Roles.GetRolesByPaginationTenant;
-using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -93,27 +90,16 @@ public class RolesController : Controller
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-pagination")]
     public async Task<ActionResult<PagedResults<RolDto>>> GetRolesByPagination(
-        [FromQuery] GetRolesByPaginationRequest request,
+        [FromQuery] GetRolesByPaginationQuery request,
         CancellationToken cancellationToken
     )
     {
-        object query ;
-        if(request.IsAdmin)
-        {
-           query     = new GetRolesByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+        var results = await _sender.Send(request,cancellationToken);
 
-        }else
+        if(results.IsFailure)
         {
-           query     = new GetRolesByPaginationTenantQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
-
+            return BadRequest(results);
         }
-
-        var results = await _sender.Send(query,cancellationToken);
-
-        // if(results.IsFailure)
-        // {
-        //     return BadRequest(results);
-        // }
 
         return Ok(results);
     }

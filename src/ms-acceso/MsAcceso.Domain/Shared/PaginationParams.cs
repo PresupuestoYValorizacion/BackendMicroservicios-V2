@@ -18,5 +18,4 @@ public record PaginationParams
     public bool OrderAsc {get;set;} = true;
 
     public string? Search {get;set;} 
-
 }
