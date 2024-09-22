@@ -14,8 +14,8 @@ namespace MsAcceso.Middleware
         // Get Tenant Id from incoming requests 
         public async Task InvokeAsync(HttpContext context, ICurrentTenantService currentTenantService)
         {
-            context.Request.Headers.TryGetValue("tenant", out var tenantId); 
-            context.Request.Headers.TryGetValue("rolId", out var rolId); 
+            context.Request.Headers.TryGetValue("Tenant", out var tenantId); 
+            context.Request.Headers.TryGetValue("Rol", out var rolId); 
             
             if (string.IsNullOrEmpty(tenantId) == false && string.IsNullOrEmpty(rolId) == false)
             {
