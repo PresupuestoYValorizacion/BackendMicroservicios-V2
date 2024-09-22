@@ -129,7 +129,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
                 rol?.Id!
             );
 
-            licenciaUser = UsuarioLicencia.Create(request.LicenciaId, userId,DateTime.Parse("2024-08-26 14:30:00.000"),DateTime.Parse("2024-08-30 14:30:00.000"));
+            licenciaUser = UsuarioLicencia.Create(request.LicenciaId, userId,request.PeriodoLicenciaId);
              
             _usuarioLicenciaRepository.Add(licenciaUser);   
         }

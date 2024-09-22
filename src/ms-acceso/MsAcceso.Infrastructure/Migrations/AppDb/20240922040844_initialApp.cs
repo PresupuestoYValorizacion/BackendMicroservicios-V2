@@ -303,6 +303,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LicenciaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PeriodoLicenciaId = table.Column<int>(type: "int", nullable: true),
                     FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FechaFin = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
@@ -314,6 +315,11 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                         name: "FK_usuario_licencia_licencias_LicenciaId",
                         column: x => x.LicenciaId,
                         principalTable: "licencias",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_usuario_licencia_parametros_PeriodoLicenciaId",
+                        column: x => x.PeriodoLicenciaId,
+                        principalTable: "parametros",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_usuario_licencia_users_UserId",
@@ -347,8 +353,8 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     { 10, null, true, 9, null, 1, "LICENCIA", "1" },
                     { 11, null, true, 9, null, 1, "ADMINISTRADOR", "2" },
                     { 13, null, true, 12, null, 1, "1 MES", "1" },
-                    { 14, null, true, 12, null, 1, "6 MESES", "2" },
-                    { 15, null, true, 12, null, 1, "12 MESES", "3" },
+                    { 14, null, true, 12, null, 1, "6 MESES", "6" },
+                    { 15, null, true, 12, null, 1, "12 MESES", "12" },
                     { 6, "DNI", true, 3, null, 2, "DOCUMENTO NACIONAL DE IDENTIDAD", "1" },
                     { 7, "RUC", true, 4, null, 2, "REGISTRO UNICO DE CONTRIBUYENTES", "1" },
                     { 8, "CE", true, 3, null, 2, "CARNET DE EXTRANJERIA", "2" }
@@ -434,6 +440,11 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 name: "IX_usuario_licencia_LicenciaId",
                 table: "usuario_licencia",
                 column: "LicenciaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuario_licencia_PeriodoLicenciaId",
+                table: "usuario_licencia",
+                column: "PeriodoLicenciaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_usuario_licencia_UserId",

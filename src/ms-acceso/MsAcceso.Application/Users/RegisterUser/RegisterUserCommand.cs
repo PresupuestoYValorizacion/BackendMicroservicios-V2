@@ -17,6 +17,7 @@ public sealed record RegisterUserCommand(
     string RazonSocial,
     string NombreCompleto,
     bool IsAdmin,
+    ParametroId PeriodoLicenciaId,
     LicenciaId LicenciaId,
     RolId RolId
     ) : ICommand<Guid>;

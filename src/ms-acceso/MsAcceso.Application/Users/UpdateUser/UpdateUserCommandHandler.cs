@@ -3,6 +3,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Application.Abstractions.Tenant;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.UsuarioLicencias;
@@ -100,8 +101,7 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
             user.Update(request.Username!, request.Email!, connectionString, rol?.Id!);
 
-            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id,
-                DateTime.Parse("2024-08-26 14:30:00.000"), DateTime.Parse("2024-08-30 14:30:00.000"));
+            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id,request.PeriodoLicenciaId);
 
             _usuarioLicenciaRepository.Add(licenciaUser);
         }
@@ -122,8 +122,7 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
             user.Update(request.Username!, request.Email!, user.ConnectionString!, rol?.Id!);
 
-            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id!,
-                DateTime.Parse("2024-08-26 14:30:00.000"), DateTime.Parse("2024-08-30 14:30:00.000"));
+            var licenciaUser = UsuarioLicencia.Create(request.LicenciaId, user.Id!,request.PeriodoLicenciaId);
 
             _usuarioLicenciaRepository.Add(licenciaUser);
         }

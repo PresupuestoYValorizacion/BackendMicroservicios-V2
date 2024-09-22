@@ -10,5 +10,6 @@ public record RegisterUserRequest(
     string RazonSocial, 
     string NombreCompleto,
     bool IsAdmin,
+    int PeriodoLicenciaId,
     string? LicenciaId,
     string? RolId);

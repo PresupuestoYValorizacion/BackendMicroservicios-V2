@@ -57,8 +57,8 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
             Parametro.Create(new ParametroId(11), "ADMINISTRADOR", null, null, new ParametroId(9),1, "2"),
             Parametro.Create(new ParametroId(12), "PERIODO DE LICENCIAS", null, null, null,0, null),
             Parametro.Create(new ParametroId(13), "1 MES", null, null, new ParametroId(12),1, "1"),
-            Parametro.Create(new ParametroId(14), "6 MESES", null, null, new ParametroId(12),1, "2"),
-            Parametro.Create(new ParametroId(15), "12 MESES", null, null, new ParametroId(12),1, "3")
+            Parametro.Create(new ParametroId(14), "6 MESES", null, null, new ParametroId(12),1, "6"),
+            Parametro.Create(new ParametroId(15), "12 MESES", null, null, new ParametroId(12),1, "12")
 
 
 

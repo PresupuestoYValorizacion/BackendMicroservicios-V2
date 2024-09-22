@@ -35,5 +35,10 @@ internal sealed class UsuarioLicenciaConfiguration : IEntityTypeConfiguration<Us
         builder.HasOne(ul => ul.Licencia)
                 .WithMany()
                 .HasForeignKey(usuarioLicencia => usuarioLicencia.LicenciaId);
+        
+        builder
+              .HasOne(ul => ul.PeriodoLicencia)
+              .WithMany()
+              .HasForeignKey(usuarioLicencia => usuarioLicencia.PeriodoLicenciaId);
     }
 }
