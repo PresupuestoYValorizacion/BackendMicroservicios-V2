@@ -1,6 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
-using MsAcceso.Application.Paginations;
+using MsAcceso.Application.Root.Paginations;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Utils;
-using MsAcceso.Application.Licencias.GetAllLicencias;
+using MsAcceso.Application.Root.Licencias.GetAllLicencias;
 using MsAcceso.Domain.Root.Licencias;
 
 namespace MsAcceso.Api.Controllers.Parametros;

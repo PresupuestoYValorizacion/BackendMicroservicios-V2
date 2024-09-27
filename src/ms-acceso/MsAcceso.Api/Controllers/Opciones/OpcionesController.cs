@@ -2,17 +2,16 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MsAcceso.Application.Opciones.DesactiveOpciones;
-using MsAcceso.Application.Opciones.DeleteOpciones;
-using MsAcceso.Application.Opciones.GetOpcionByPagination;
-using MsAcceso.Application.Opciones.RegisterOpciones;
-using MsAcceso.Application.Opciones.UpdateOpciones;
+using MsAcceso.Application.Root.Opciones.DesactiveOpciones;
+using MsAcceso.Application.Root.Opciones.DeleteOpciones;
+using MsAcceso.Application.Root.Opciones.GetOpcionByPagination;
+using MsAcceso.Application.Root.Opciones.RegisterOpciones;
+using MsAcceso.Application.Root.Opciones.UpdateOpciones;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Opciones;
-using MsAcceso.Application.Opciones.GetByIdOpcion;
+using MsAcceso.Application.Root.Opciones.GetByIdOpcion;
 using MsAcceso.Utils;
-using MsAcceso.Application.Licencias.GetAllLicencias;
-using MsAcceso.Application.Opciones.GetAllOpcionQuery;
+using MsAcceso.Application.Root.Opciones.GetAllOpcionQuery;
 
 namespace MsAcceso.Api.Controllers.Opciones;
 

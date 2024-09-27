@@ -2,7 +2,7 @@ using AutoMapper;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Abstractions.Messaging;
-using MsAcceso.Application.Paginations;
+using MsAcceso.Application.Root.Paginations;
 using MsAcceso.Application.Tenant.Paginations;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Rols;
