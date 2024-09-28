@@ -15,9 +15,9 @@ using MsAcceso.Application.Roles.UpdateRoles;
 using MsAcceso.Application.Roles.DesactiveRoles;
 using MsAcceso.Application.Roles.DeleteRoles;
 using MsAcceso.Application.Roles.AddPermisos;
-using MsAcceso.Domain.Root.Rols.Request;
 using MsAcceso.Application.Tenant.Roles.GetRolesByPaginationTenant;
 using MsAcceso.Domain.Shared;
+using MsAcceso.Domain.Shared.Request;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -93,7 +93,7 @@ public class RolesController : Controller
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-pagination")]
     public async Task<ActionResult<PagedResults<RolDto>>> GetRolesByPagination(
-        [FromQuery] GetRolesByPaginationRequest request,
+        [FromQuery] GetByPaginationRequest request,
         CancellationToken cancellationToken
     )
     {

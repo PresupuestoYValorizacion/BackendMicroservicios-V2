@@ -31,8 +31,6 @@ public sealed class Parametro : Entity<ParametroId>
     public ParametroId? Dependencia { get; private set; }
     public string? Valor {get; private set;}
     public int? Nivel { get; private set; }
-
-    public static Parametro New() => new Parametro();
  
     public static Parametro Create(
         ParametroId Id,

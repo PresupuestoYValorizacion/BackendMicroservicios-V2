@@ -1,5 +1,5 @@
 
-namespace MsAcceso.Domain.Root.Personas;
+namespace MsAcceso.Domain.Tenant.PersonasTenant;
 public class PersonaTenantDto
 {
     public string? Id { get; set; }
@@ -8,8 +8,8 @@ public class PersonaTenantDto
     public string? NumeroDocumento { get; set; }
     public string? TipoDocumentoId { get; set; }
     public string? TipoId { get; set; }
-    public PersonaNaturalDto? PersonaNatural { get; set; }
-    public PersonaJuridicaDto? PersonaJuridica { get; set; }
+    public PersonaNaturalTenantDto? PersonaNatural { get; set; }
+    public PersonaJuridicaTenantDto? PersonaJuridica { get; set; }
 
 }
 

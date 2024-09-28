@@ -1,7 +1,5 @@
 
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Personas;
-using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.RolsTenant;
@@ -33,10 +31,13 @@ public sealed class UserTenant : Entity<UserTenantId>
     public string? Email { get; private set; }
     public string? Username { get; private set; }
     public string? Password { get; private set; }
+
+    //TODO : ELIMINAR ESTO
     public string? ConnectionString { get; private set; }
     public PersonaTenantId? PersonaId { get; private set; }
     public RolTenantId? RolId { get; private set; }
     public PersonaTenant? Persona { get; private set; }
+
     public RolTenant? Rol { get; private set; }
 
     public static UserTenant Create(

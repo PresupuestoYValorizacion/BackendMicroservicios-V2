@@ -8,6 +8,7 @@ using MsAcceso.Domain.Root.PersonasNaturales;
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Domain.Shared;
 
 
 namespace MsAcceso.Application.Users.RegisterUser;

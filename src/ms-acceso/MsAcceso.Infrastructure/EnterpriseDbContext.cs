@@ -149,6 +149,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
         // builder.Entity<PersonaTenant>().HasOne(p => p.TipoDocumento)
         //         .WithMany()
         //         .HasForeignKey(persona => persona.TipoDocumentoId);
+      
 
         builder.Entity<PersonaTenant>().HasOne(p => p.PersonaNatural)
             .WithOne()

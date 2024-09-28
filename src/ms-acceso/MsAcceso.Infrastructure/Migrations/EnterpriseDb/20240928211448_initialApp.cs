@@ -16,8 +16,8 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TipoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoDocumentoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoId = table.Column<int>(type: "int", nullable: true),
+                    TipoDocumentoId = table.Column<int>(type: "int", nullable: true),
                     NumeroDocumento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },

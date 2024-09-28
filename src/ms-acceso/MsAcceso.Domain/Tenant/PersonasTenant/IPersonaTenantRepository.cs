@@ -1,4 +1,3 @@
-using MsAcceso.Domain.Root.Personas;
 
 namespace MsAcceso.Domain.Tenant.PersonasTenant;
 

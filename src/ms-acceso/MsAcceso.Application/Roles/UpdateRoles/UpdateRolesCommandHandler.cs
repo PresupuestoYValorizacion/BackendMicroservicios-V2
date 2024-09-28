@@ -3,6 +3,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Rols;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Roles.UpdateRoles;
 

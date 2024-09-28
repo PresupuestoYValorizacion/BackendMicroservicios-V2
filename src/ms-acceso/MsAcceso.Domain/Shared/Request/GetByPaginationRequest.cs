@@ -1,7 +1,7 @@
-namespace MsAcceso.Domain.Root.Rols.Request;
+namespace MsAcceso.Domain.Shared.Request;
 
 
-public class GetRolesByPaginationRequest
+public class GetByPaginationRequest
 {
     private const int MaxPageSize = 50;
 

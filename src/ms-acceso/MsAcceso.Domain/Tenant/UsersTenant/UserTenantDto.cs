@@ -1,20 +1,18 @@
 
 
-using MsAcceso.Domain.Root.Personas;
-using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Domain.Tenant.PersonasTenant;
+using MsAcceso.Domain.Tenant.RolsTenant;
 
 namespace MsAcceso.Domain.Tenant.UsersTenant;
-public class UserDto
+public class UserTenantDto
 {
     public string? Id { get; set; }
     public string? Email { get; set; }
     public string? Username { get; set; }
-    public PersonaDto? Empresa { get; set; }
+    public PersonaTenantDto? Empresa { get; set; }
     public string? EmpresaId { get; set; }
     public string? RolId { get; set; }
-    public bool? IsAdmin { get; set; }
-    public RolDto? Rol { get; set; }
-    public UsuarioLicenciaDto? Licencia { get; set; }
+    public RolTenantDto? Rol { get; set; }
 
 }

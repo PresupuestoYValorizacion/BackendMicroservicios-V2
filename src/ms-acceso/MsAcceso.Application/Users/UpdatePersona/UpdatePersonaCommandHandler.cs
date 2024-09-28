@@ -4,6 +4,7 @@ using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Root.PersonasJuridicas;
 using MsAcceso.Domain.Root.PersonasNaturales;
+using MsAcceso.Domain.Shared;
 
 
 namespace MsAcceso.Application.Users.UpdatePersona;

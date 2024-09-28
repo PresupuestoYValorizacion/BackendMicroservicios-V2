@@ -78,11 +78,12 @@ public static class DependencyInjection
         services.AddScoped<IDbContextFactory, DbContextFactory>();
 
         //BD POR CADA CLIENTE
-        services.AddScoped<IUserTenantRepository, UserTenantRepository>();
         services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
         services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
         services.AddScoped<IRolTenantRepository, RolTenantRepository>();
         services.AddScoped<IPaginationRolesTenantRepository, RolTenantRepository>();
+        services.AddScoped<IUserTenantRepository, UserTenantRepository>();
+        services.AddScoped<IPaginationUsersTenantRepository, UserTenantRepository>();
 
 
         //BD GENERAL

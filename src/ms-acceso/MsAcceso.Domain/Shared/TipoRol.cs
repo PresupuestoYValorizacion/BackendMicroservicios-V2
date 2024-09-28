@@ -1,3 +1,5 @@
+namespace MsAcceso.Domain.Shared;
+
 public static class TipoRol
 {
     public const int Licencia = 10;

@@ -1,3 +1,6 @@
+
+namespace MsAcceso.Domain.Shared;
+
 public static class TipoPersona
 {
     public const int Natural = 3;

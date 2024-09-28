@@ -142,6 +142,11 @@
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
       },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |"
+      },
       "SwaggerKey": "acceso"
     },
     {

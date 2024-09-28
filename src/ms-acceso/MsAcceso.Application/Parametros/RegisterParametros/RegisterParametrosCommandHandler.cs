@@ -40,7 +40,7 @@ internal sealed class RegisterParametrosCommandHandler : ICommandHandler<Registe
 
         //*Validar si Dependencia existe
 
-        var dependenciaExists = Parametro.New();
+        Parametro? dependenciaExists = null;
 
         if(request.Dependencia != 0)
         {
