@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Tenant.UsersTenant;
 using MsAcceso.Infrastructure.Service;
+using MsAcceso.Application.Tenant.Paginations;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
-internal sealed class UserTenantRepository : RepositoryTenant<UserTenant,UserTenantId>, IUserTenantRepository
+internal sealed class UserTenantRepository : RepositoryTenant<UserTenant,UserTenantId>, IUserTenantRepository, IPaginationUsersTenantRepository
 {
     public UserTenantRepository(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
         : base(dbContextFactory, currentTenantService)

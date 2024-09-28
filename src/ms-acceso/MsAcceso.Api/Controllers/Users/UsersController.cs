@@ -23,6 +23,8 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Application.Root.Users.GetOpcionesSGA;
 using MsAcceso.Application.Root.Users.GetMenusByUser;
 using MsAcceso.Application.Root.Users.ValidarAccesoMenu;
+using MsAcceso.Domain.Shared.Request;
+using MsAcceso.Application.Tenant.Users.GetUsersByPaginationTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -312,11 +314,23 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-pagination")]
-    public async Task<ActionResult<PaginationResult<UserDto>>> GetPaginationVehiculo(
-            [FromQuery] GetUsersByPaginationQuery request
+    public async Task<ActionResult<PaginationResult<UserDto>>> GetPaginationUsers(
+            [FromQuery] GetByPaginationRequest request
         )
     {
-        var resultados = await _sender.Send(request);
+         object query ;
+
+        if(request.IsAdmin)
+        {
+           query     = new GetUsersByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+
+        }else
+        {
+           query     = new GetUsersByPaginationTenantQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+
+        }
+
+        var resultados = await _sender.Send(query);
 
         return Ok(resultados);
     }

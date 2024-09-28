@@ -5,7 +5,7 @@ using MsAcceso.Domain.Abstractions;
 namespace MsAcceso.Domain.Tenant.PersonasTenant;
 
 
-public static class PersonaErrors
+public static class PersonaTenantErrors
 {
 
     public static Error NotFound = new(

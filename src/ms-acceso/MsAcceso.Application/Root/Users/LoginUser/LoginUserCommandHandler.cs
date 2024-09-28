@@ -7,6 +7,7 @@ using MsAcceso.Domain.Root.Users;
 using AutoMapper;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.UsuarioLicencias;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Root.Users.LoginUser;
 

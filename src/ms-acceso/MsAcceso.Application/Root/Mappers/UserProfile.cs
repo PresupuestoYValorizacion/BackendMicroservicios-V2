@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using MsAcceso.Domain.Root.Users;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Application.Root.Mappers
 {

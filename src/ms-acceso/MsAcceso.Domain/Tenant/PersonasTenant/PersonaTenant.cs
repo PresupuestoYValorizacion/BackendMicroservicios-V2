@@ -1,10 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
-using MsAcceso.Domain.Tenant.PersonasTenant;
 
-namespace MsAcceso.Domain.Root.Personas;
+namespace MsAcceso.Domain.Tenant.PersonasTenant;
 
 public sealed class PersonaTenant : Entity<PersonaTenantId>
 {
@@ -12,8 +13,8 @@ public sealed class PersonaTenant : Entity<PersonaTenantId>
 
     private PersonaTenant(
         PersonaTenantId id,
-        string tipo,
-        string tipoDocumento,
+        int tipo,
+        int tipoDocumento,
         string numeroDocumento
         ) : base(id)
     {
@@ -22,13 +23,15 @@ public sealed class PersonaTenant : Entity<PersonaTenantId>
         NumeroDocumento = numeroDocumento;
     }
 
-    public string? TipoId { get; private set; }
+    public int? TipoId { get; private set; }
 
-    public string? TipoDocumentoId { get; private set; }
+    public int? TipoDocumentoId { get; private set; }
 
-    // public Parametro? Tipo { get; private set; }
-
-    // public Parametro? TipoDocumento { get; private set; }
+    [NotMapped]
+    public Parametro? Tipo { get; set; }
+    
+    [NotMapped]
+    public Parametro? TipoDocumento { get; set; }
     public string? NumeroDocumento { get; private set; }
     public PersonaNaturalTenant? PersonaNatural { get; private set; }
     public PersonaJuridicaTenant? PersonaJuridica { get; private set; }
@@ -36,8 +39,8 @@ public sealed class PersonaTenant : Entity<PersonaTenantId>
 
     public static PersonaTenant Create(
         PersonaTenantId personaId,
-        string tipoId,
-        string tipoDocumentoId,
+        int tipoId,
+        int tipoDocumentoId,
         string numeroDocumento
     )
     {
@@ -47,8 +50,8 @@ public sealed class PersonaTenant : Entity<PersonaTenantId>
     }
 
     public Result Update(
-        string tipoId,
-        string tipoDocumentoId,
+        int tipoId,
+        int tipoDocumentoId,
         string numeroDocumento)
     {
         TipoId = tipoId;

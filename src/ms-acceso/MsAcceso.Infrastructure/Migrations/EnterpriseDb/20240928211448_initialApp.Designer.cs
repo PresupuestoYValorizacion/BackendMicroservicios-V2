@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20240926032308_initialApp")]
+    [Migration("20240928211448_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -24,30 +24,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("MsAcceso.Domain.Root.Personas.PersonaTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NumeroDocumento")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TipoDocumentoId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TipoId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("personas", (string)null);
-                });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", b =>
                 {
@@ -77,6 +53,30 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("PersonaId");
 
                     b.ToTable("personas_naturales", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NumeroDocumento")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("TipoDocumentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("personas", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
@@ -185,7 +185,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Personas.PersonaTenant", null)
+                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", null)
                         .WithOne("PersonaJuridica")
                         .HasForeignKey("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", "PersonaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -194,7 +194,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasNaturalesTenant.PersonaNaturalTenant", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Personas.PersonaTenant", null)
+                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", null)
                         .WithOne("PersonaNatural")
                         .HasForeignKey("MsAcceso.Domain.Tenant.PersonasNaturalesTenant.PersonaNaturalTenant", "PersonaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -221,7 +221,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
                 {
-                    b.HasOne("MsAcceso.Domain.Root.Personas.PersonaTenant", "Persona")
+                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", "Persona")
                         .WithMany()
                         .HasForeignKey("PersonaId");
 
@@ -234,7 +234,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Rol");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Root.Personas.PersonaTenant", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", b =>
                 {
                     b.Navigation("PersonaJuridica");
 
