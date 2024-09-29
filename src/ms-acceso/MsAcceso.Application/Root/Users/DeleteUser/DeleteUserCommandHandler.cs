@@ -20,7 +20,7 @@ internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserComma
     private readonly IPersonaRepository _personaRepository;
     private readonly IPersonaNaturalRepository _personaNaturalRepository;
     private readonly IPersonaJuridicaRepository _personaJuridicaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeleteUserCommandHandler(
         IUserRepository userRepository,
@@ -28,7 +28,7 @@ internal sealed class DeleteUserCommandHandler : ICommandHandler<DeleteUserComma
         IPersonaNaturalRepository personaNaturalRepository, 
         IPersonaJuridicaRepository personaJuridicaRepository,
         ITenantProvider tenantProvider,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _userRepository = userRepository;

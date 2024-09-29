@@ -8,11 +8,11 @@ internal class UpdateOpcionCommandHandler : ICommandHandler<UpdateOpcionCommand,
 {
 
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdateOpcionCommandHandler(
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWork)
+        IUnitOfWorkApplication unitOfWork)
     {
         _opcionRepository = opcionRepository;
         _unitOfWork = unitOfWork;

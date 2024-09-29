@@ -8,11 +8,11 @@ internal class RegisterOpcionCommandHandler : ICommandHandler<RegisterOpcionComm
 {
 
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public RegisterOpcionCommandHandler(
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _opcionRepository = opcionRepository;

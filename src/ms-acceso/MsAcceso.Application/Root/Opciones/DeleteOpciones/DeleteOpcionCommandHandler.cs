@@ -9,11 +9,11 @@ internal class DeleteOpcionCommandHandler : ICommandHandler<DeleteOpcionCommand,
 {
 
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeleteOpcionCommandHandler(
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _opcionRepository = opcionRepository;

@@ -7,11 +7,11 @@ namespace MsAcceso.Application.Root.Parametros.RegisterParametros;
 internal sealed class RegisterParametrosCommandHandler : ICommandHandler<RegisterParametrosCommand, int>
 {
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public RegisterParametrosCommandHandler(
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _parametroRepository = parametroRepository;

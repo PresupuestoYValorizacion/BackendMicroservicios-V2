@@ -11,19 +11,19 @@ internal sealed class RegisterMenuOpcionCommandHandler : ICommandHandler<Registe
     private readonly IMenuOpcionRepository _menuOpcionRepository;
     private readonly ISistemaRepository _sistemaRepository;
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public RegisterMenuOpcionCommandHandler(
         IMenuOpcionRepository menuOpcionRepository,
         ISistemaRepository sistemaRepository,
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _menuOpcionRepository = menuOpcionRepository;
         _sistemaRepository = sistemaRepository;
         _opcionRepository = opcionRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(RegisterMenuOpcionCommand request, CancellationToken cancellationToken)
@@ -66,7 +66,7 @@ internal sealed class RegisterMenuOpcionCommandHandler : ICommandHandler<Registe
         );
 
         _menuOpcionRepository.Add(menuOpcion);
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(menuOpcion.Id!.Value, Message.Create);
     }

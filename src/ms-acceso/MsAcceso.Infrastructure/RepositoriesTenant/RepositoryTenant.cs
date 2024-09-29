@@ -47,6 +47,11 @@ where TEntityId : class
         DbContext.Remove(entity);
     }
 
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        return DbContext.SaveChangesAsync(cancellationToken);
+    }
+
 
     public async Task<PagedResults<TEntity, TEntityId>> GetPaginationAsync
       (

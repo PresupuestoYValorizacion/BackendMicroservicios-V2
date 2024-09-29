@@ -8,15 +8,15 @@ namespace MsAcceso.Application.Root.MenuOpcions.DeleteMenuOpcion;
 internal sealed class DeleteMenuOpcionCommandHandler : ICommandHandler<DeleteMenuOpcionCommand, Guid>
 {
     private readonly IMenuOpcionRepository _menuOpcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeleteMenuOpcionCommandHandler(
         IMenuOpcionRepository menuOpcionRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _menuOpcionRepository = menuOpcionRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(DeleteMenuOpcionCommand request, CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ internal sealed class DeleteMenuOpcionCommandHandler : ICommandHandler<DeleteMen
 
             _menuOpcionRepository.Delete(menuOpcion);
 
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success(menuOpcion.Id!.Value, Message.Delete);
 

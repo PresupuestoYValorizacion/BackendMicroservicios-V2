@@ -8,11 +8,11 @@ namespace MsAcceso.Application.Root.Parametros.DeleteParametros;
 internal sealed class DeleteParametrosCommandHandler : ICommandHandler<DeleteParametrosCommand, int>
 {
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeleteParametrosCommandHandler(
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _parametroRepository = parametroRepository;

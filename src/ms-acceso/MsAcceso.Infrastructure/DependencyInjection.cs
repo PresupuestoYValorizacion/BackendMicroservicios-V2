@@ -115,11 +115,11 @@ public static class DependencyInjection
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
 
-        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<EnterpriseDbContext>());
+        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<EnterpriseDbContext>());
         
-        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<LicenciaDbContext>());
+        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<LicenciaDbContext>());
 
-        services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IUnitOfWorkApplication>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         return services;
     }

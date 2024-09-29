@@ -7,11 +7,11 @@ namespace MsAcceso.Application.Root.Opciones.DesactiveOpciones;
 internal sealed class DesactiveOpcionesCommandHandler : ICommandHandler<DesactiveOpcionesCommand, Guid>
 {
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DesactiveOpcionesCommandHandler(
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _opcionRepository = opcionRepository;

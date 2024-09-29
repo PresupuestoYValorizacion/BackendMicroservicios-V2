@@ -9,17 +9,17 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
 {
     private readonly IMenuOpcionRepository _menuOpcionRepository;
     private readonly IOpcionRepository _opcionRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdateMenuOpcionCommandHandler(
         IMenuOpcionRepository menuOpcionRepository,
         IOpcionRepository opcionRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _menuOpcionRepository = menuOpcionRepository;
         _opcionRepository = opcionRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(UpdateMenuOpcionCommand request, CancellationToken cancellationToken)
@@ -73,7 +73,7 @@ internal sealed class UpdateMenuOpcionCommandHandler : ICommandHandler<UpdateMen
 
         _menuOpcionRepository.Update(menuOpcion);
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(menuOpcion.Id!.Value, Message.Update);
     }

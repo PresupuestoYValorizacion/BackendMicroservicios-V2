@@ -13,19 +13,19 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
     private readonly IRolRepository _rolRepository;
     private readonly ILicenciaRepository _licenciaRepository;
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdateRolesCommandHandler(
         IRolRepository rolRepository,
         ILicenciaRepository licenciaRepository,
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _rolRepository = rolRepository;
         _licenciaRepository = licenciaRepository;
         _parametroRepository = parametroRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(UpdateRolesCommand request, CancellationToken cancellationToken)
@@ -91,7 +91,7 @@ internal sealed class UpdateRolesCommandHandler : ICommandHandler<UpdateRolesCom
 
         _rolRepository.Update(rol);
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(rol.Id!.Value, Message.Update);
     }

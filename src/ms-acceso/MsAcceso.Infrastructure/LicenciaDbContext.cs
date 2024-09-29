@@ -9,7 +9,7 @@ using MsAcceso.Domain.Tenant.Presupuestos;
 
 namespace MsAcceso.Infrastructure;
 
-public class LicenciaDbContext : DbContext, IUnitOfWorkApplication
+public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 {
     private readonly ICurrentTenantService _currentTenantService;
     public Guid? CurrentTenantId { get; set; }

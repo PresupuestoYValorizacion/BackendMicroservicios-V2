@@ -7,11 +7,11 @@ namespace MsAcceso.Application.Root.Parametros.DesactiveParametros;
 internal sealed class DeactiveParametrosCommandHandler : ICommandHandler<DesactiveParametrosCommand, int>
 {
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeactiveParametrosCommandHandler(
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWork
+        IUnitOfWorkApplication unitOfWork
     )
     {
         _parametroRepository = parametroRepository;

@@ -5,6 +5,7 @@ using MsAcceso.Application.Abstractions.Authentication;
 using MsAcceso.Domain.Root.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MsAcceso.Domain.Shared;
 
 namespace MsAcceso.Infrastructure.Authentication;
 
@@ -21,13 +22,16 @@ public sealed class JwtProvider : IJwtProvider
 
     public  async Task<string> Generate(User user)
     {
-        var userFounded = await _userRepository.GetByIdAsync(user.Id!);
+        var userFounded = await _userRepository.GetByIdUserIncludes(user.Id!);
+
+        bool isAdmin = userFounded!.Rol!.TipoRolId!.Value == TipoRol.Administrador;
 
         var claims = new List<Claim> {
             new(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
             new(CustomClaims.Email,user.Email!),
             new(CustomClaims.Rol,user.RolId!.Value.ToString()),
             new(CustomClaims.Tenant,user.Id!.Value.ToString()),
+            new(CustomClaims.IsAdmin,isAdmin.ToString()),
         };
 
         var sigingCredentials = new SigningCredentials(

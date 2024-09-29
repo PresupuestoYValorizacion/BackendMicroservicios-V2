@@ -17,7 +17,7 @@ internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginU
     private readonly IUserRepository _userRepository;
     private readonly IUsuarioLicenciaRepository _usuarioLicenciaRepository;
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
     private readonly IJwtProvider _jwtProvider;
 
     private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginU
         IUserRepository userRepository,
         IUsuarioLicenciaRepository usuarioLicenciaRepository,
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWork,
+        IUnitOfWorkApplication unitOfWork,
         IJwtProvider jwtProvider,
         IMapper mapper
     )

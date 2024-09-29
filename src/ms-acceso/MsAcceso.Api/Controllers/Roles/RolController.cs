@@ -17,6 +17,9 @@ using MsAcceso.Application.Root.Roles.DeleteRoles;
 using MsAcceso.Application.Root.Roles.AddPermisos;
 using MsAcceso.Application.Tenant.Roles.GetRolesByPaginationTenant;
 using MsAcceso.Domain.Shared.Request;
+using MsAcceso.Application.Tenant.Roles.GetRolByIdTenant;
+using MsAcceso.Application.Tenant.Roles.RegisterRoleTenant;
+using MsAcceso.Application.Abstractions.Messaging;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -27,11 +30,13 @@ namespace MsAcceso.Api.Controllers.Parametros;
 public class RolesController : Controller
 {
 
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ISender _sender;
 
-    public RolesController(ISender sender)
+    public RolesController(ISender sender, IHttpContextAccessor httpContextAccessor)
     {
         _sender = sender;
+        _httpContextAccessor = httpContextAccessor;
     }
 
 
@@ -55,14 +60,24 @@ public class RolesController : Controller
     )
     {
 
-        var rolId = Guid.Parse(id);
-        var request = new GetRolByIdQuery { RolId = rolId};
-        var results = await _sender.Send(request,cancellationToken);
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
-        if(results.IsFailure)
+        var rolId = Guid.Parse(id);
+
+        object query;
+        if (isAdmin)
         {
-            return BadRequest(results);
+            query = new GetRolByIdQuery { RolId = rolId };
+
         }
+        else
+        {
+            query = new GetRolByIdTenantQuery { RolId = rolId };
+
+        }
+
+
+        var results = await _sender.Send(query, cancellationToken);
 
         return Ok(results);
     }
@@ -77,10 +92,10 @@ public class RolesController : Controller
     {
 
         var rolId = new RolId(Guid.Parse(id));
-        var request = new GetAllSistemasByRolQuery { RolId = rolId};
-        var results = await _sender.Send(request,cancellationToken);
+        var request = new GetAllSistemasByRolQuery { RolId = rolId };
+        var results = await _sender.Send(request, cancellationToken);
 
-        if(results.IsFailure)
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }
@@ -96,23 +111,21 @@ public class RolesController : Controller
         CancellationToken cancellationToken
     )
     {
-        object query ;
-        if(request.IsAdmin)
-        {
-           query     = new GetRolesByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
-        }else
+        object query;
+
+        if (isAdmin)
         {
-           query     = new GetRolesByPaginationTenantQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+            query = new GetRolesByPaginationQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
+        }
+        else
+        {
+            query = new GetRolesByPaginationTenantQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
 
         }
 
-        var results = await _sender.Send(query,cancellationToken);
-
-        // if(results.IsFailure)
-        // {
-        //     return BadRequest(results);
-        // }
+        var results = await _sender.Send(query, cancellationToken);
 
         return Ok(results);
     }
@@ -126,22 +139,34 @@ public class RolesController : Controller
     )
     {
 
-        var command = new RegisterRolesCommand(
-            request.Nombre,
-            new ParametroId(request.TipoRolId),
-            request.LicenciaId
-        );
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
-        var results = await _sender.Send(command,cancellationToken);
+        ICommand<Guid> command;
 
-        if(results.IsFailure)
+        if (isAdmin)
+        {
+            command = new RegisterRolesCommand(
+                        request.Nombre,
+                        new ParametroId(request.TipoRolId),
+                        request.LicenciaId
+                    );
+        }
+        else
+        {
+            command = new RegisterRoleTenantCommand(request.Nombre);
+
+        }
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }
 
         return Ok(results);
 
-        
+
     }
 
     [AllowAnonymous]
@@ -160,9 +185,9 @@ public class RolesController : Controller
             new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId) : Guid.Empty)
         );
 
-        var results = await _sender.Send(command,cancellationToken);
+        var results = await _sender.Send(command, cancellationToken);
 
-        if(results.IsFailure)
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }
@@ -184,9 +209,9 @@ public class RolesController : Controller
             request.SistemasRequest
         );
 
-        var results = await _sender.Send(command,cancellationToken);
+        var results = await _sender.Send(command, cancellationToken);
 
-        if(results.IsFailure)
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }
@@ -207,9 +232,9 @@ public class RolesController : Controller
             new RolId(Guid.Parse(request.RolId))
         );
 
-        var results = await _sender.Send(command,cancellationToken);
+        var results = await _sender.Send(command, cancellationToken);
 
-        if(results.IsFailure)
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }
@@ -230,9 +255,9 @@ public class RolesController : Controller
             new RolId(Guid.Parse(id))
         );
 
-        var results = await _sender.Send(command,cancellationToken);
+        var results = await _sender.Send(command, cancellationToken);
 
-        if(results.IsFailure)
+        if (results.IsFailure)
         {
             return BadRequest(results);
         }

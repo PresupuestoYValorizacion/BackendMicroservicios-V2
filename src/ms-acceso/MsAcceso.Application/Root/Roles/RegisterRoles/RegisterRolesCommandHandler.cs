@@ -13,19 +13,19 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
     private readonly IRolRepository _rolRepository;
     private readonly ILicenciaRepository _licenciaRepository;
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public RegisterRolesCommandHandler(
         IRolRepository rolRepository,
         ILicenciaRepository licenciaRepository,
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _rolRepository = rolRepository;
         _licenciaRepository = licenciaRepository;
         _parametroRepository = parametroRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(RegisterRolesCommand request, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
 
             _rolRepository.Add(newRolWithLicence);
 
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Result.Success(newRolWithLicence.Id!.Value, Message.Create);
         }      
 
@@ -81,7 +81,7 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
 
         _rolRepository.Add(newRol);
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(newRol.Id!.Value, Message.Create);
     }

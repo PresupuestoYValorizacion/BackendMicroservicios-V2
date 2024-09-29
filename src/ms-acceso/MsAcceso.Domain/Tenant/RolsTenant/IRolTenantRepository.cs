@@ -16,6 +16,8 @@ public interface IRolTenantRepository
     
     void Delete(RolTenant user);
 
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
     
 
 }

@@ -8,15 +8,15 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
 {
 
     private readonly ISistemaRepository _sistemaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public RegisterSistemasCommandHandler(
         ISistemaRepository sistemaRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _sistemaRepository = sistemaRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(RegisterSistemasCommand request, CancellationToken cancellationToken)
@@ -61,7 +61,7 @@ internal sealed class RegisterSistemasCommandHandler : ICommandHandler<RegisterS
             );
 
         _sistemaRepository.Add(sistema);
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(sistema.Id!.Value, Message.Create);
 
