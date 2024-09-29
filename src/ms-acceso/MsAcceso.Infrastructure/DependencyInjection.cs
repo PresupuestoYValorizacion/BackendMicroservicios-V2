@@ -5,15 +5,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsAcceso.Application.Abstractions.Clock;
-using MsAcceso.Infrastructure.Service;
 using MsAcceso.Application.Abstractions.Tenant;
+using MsAcceso.Application.Root.Paginations;
+using MsAcceso.Application.Tenant.Paginations;
+using MsAcceso.Infrastructure.Service;
 using MsAcceso.Infrastructure.Tenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Infrastructure.RepositoriesApplication;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Root.Personas;
-using MsAcceso.Application.Paginations;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Root.Opciones;
 using MsAcceso.Domain.Root.Sistemas;
@@ -28,7 +29,6 @@ using MsAcceso.Domain.Tenant.Presupuestos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Tenant.RolsTenant;
-using MsAcceso.Application.Tenant.Paginations;
 
 namespace MsAcceso.Infrastructure;
 
