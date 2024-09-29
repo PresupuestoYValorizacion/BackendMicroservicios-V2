@@ -9,15 +9,12 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
 {
 
     private readonly IRolTenantRepository _rolRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
 
     public RegisterRolesCommandHandler(
-        IRolTenantRepository rolRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IRolTenantRepository rolRepository
     )
     {
         _rolRepository = rolRepository;
-        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(RegisterRoleTenantCommand request, CancellationToken cancellationToken)

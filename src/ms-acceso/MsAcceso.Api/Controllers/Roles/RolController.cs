@@ -20,6 +20,10 @@ using MsAcceso.Domain.Shared.Request;
 using MsAcceso.Application.Tenant.Roles.GetRolByIdTenant;
 using MsAcceso.Application.Tenant.Roles.RegisterRoleTenant;
 using MsAcceso.Application.Abstractions.Messaging;
+using MsAcceso.Application.Tenant.Roles.UpdateRoleTenant;
+using MsAcceso.Domain.Tenant.RolsTenant;
+using MsAcceso.Application.Tenant.Roles.DesactiveRoleTenant;
+using MsAcceso.Application.Tenant.Roles.DeleteRoleTenant;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -176,14 +180,26 @@ public class RolesController : Controller
         [FromBody] UpdateRolesRequest request,
         CancellationToken cancellationToken
     )
-    {
+    {   
 
-        var command = new UpdateRolesCommand(
-            new RolId(Guid.Parse(request.RolId)),
-            request.Nombre,
-            new ParametroId(request.TipoRolId),
-            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId) : Guid.Empty)
-        );
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new UpdateRolesCommand(
+                            new RolId(Guid.Parse(request.RolId)),
+                            request.Nombre,
+                            new ParametroId(request.TipoRolId),
+                            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId) : Guid.Empty)
+                        );
+        }
+        else
+        {
+            command = new UpdateRoleTenantCommand(new RolTenantId(Guid.Parse(request.RolId)),request.Nombre);
+
+        }
 
         var results = await _sender.Send(command, cancellationToken);
 
@@ -228,9 +244,21 @@ public class RolesController : Controller
     )
     {
 
-        var command = new DesactiveRolesCommand(
-            new RolId(Guid.Parse(request.RolId))
-        );
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new DesactiveRolesCommand(
+                            new RolId(Guid.Parse(request.RolId))
+                        );
+        }
+        else
+        {
+            command = new DesactiveRoleTenantCommand(new RolTenantId(Guid.Parse(request.RolId)));
+
+        }
 
         var results = await _sender.Send(command, cancellationToken);
 
@@ -251,9 +279,21 @@ public class RolesController : Controller
     )
     {
 
-        var command = new DeleteRolesCommand(
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new DeleteRolesCommand(
             new RolId(Guid.Parse(id))
         );
+        }
+        else
+        {
+            command = new DeleteRoleTenantCommand(new RolTenantId(Guid.Parse(id)));
+
+        }
 
         var results = await _sender.Send(command, cancellationToken);
 
