@@ -21,12 +21,12 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
     private readonly IPersonaJuridicaRepository _personaJuridicaRepository;
     private readonly IRolRepository _rolRepository;
     private readonly IUsuarioLicenciaRepository _usuarioLicenciaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
     private readonly ITenantProvider _tenantProvider;
 
     public RegisterUserCommandHandler(
         IUserRepository userRepository, 
-        IUnitOfWorkTenant unitOfWork, 
+        IUnitOfWorkApplication unitOfWork, 
         IPersonaRepository personaRepository, 
         IPersonaNaturalRepository personaNaturalRepository, 
         IPersonaJuridicaRepository personaJuridicaRepository,

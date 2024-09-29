@@ -14,7 +14,7 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
 {
     private readonly IUserRepository _userRepository;
 
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
     private readonly ITenantProvider _tenantProvider;
     private readonly IRolRepository _rolRepository;
     private readonly IUsuarioLicenciaRepository _usuarioLicenciaRepository;
@@ -25,7 +25,7 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
         ITenantProvider tenantProvider,
         IRolRepository rolRepository,
         IUsuarioLicenciaRepository usuarioLicenciaRepository,
-        IUnitOfWorkTenant unitOfWork)
+        IUnitOfWorkApplication unitOfWork)
     {
         _userRepository = userRepository;
         _tenantProvider = tenantProvider;

@@ -8,18 +8,18 @@ namespace MsAcceso.Application.Sistemas.DesactiveSistemas;
 internal sealed class DesactiveSistemasCommandHandler : ICommandHandler<DesactiveSistemasCommand, Guid>
 {
     private readonly ISistemaRepository _sistemaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
     private readonly IMenuOpcionRepository _menuOpcionRepository;
 
 
     public DesactiveSistemasCommandHandler(
         ISistemaRepository sistemaRepository,
-        IUnitOfWorkTenant unitOfWorkTenant,
+        IUnitOfWorkApplication unitOfWorkTenant,
         IMenuOpcionRepository menuOpcionRepository
     )
     {
         _sistemaRepository = sistemaRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
         _menuOpcionRepository = menuOpcionRepository;
     }
     
@@ -55,7 +55,7 @@ internal sealed class DesactiveSistemasCommandHandler : ICommandHandler<Desactiv
             _sistemaRepository.Update(sistema);
         }
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(sistemaExists.Id!.Value, Message.Desactivate);
     }

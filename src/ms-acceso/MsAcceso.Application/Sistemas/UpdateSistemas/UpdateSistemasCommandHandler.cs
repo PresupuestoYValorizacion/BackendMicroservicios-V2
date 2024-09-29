@@ -7,15 +7,15 @@ namespace MsAcceso.Application.Sistemas.UpdateSistemas;
 internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSistemasCommand, Guid>
 {
     private readonly ISistemaRepository _sistemaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdateSistemasCommandHandler(
         ISistemaRepository sistemaRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _sistemaRepository = sistemaRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(UpdateSistemasCommand request, CancellationToken cancellationToken)
@@ -74,7 +74,7 @@ internal sealed class UpdateSistemasCommandHandler : ICommandHandler<UpdateSiste
 
         _sistemaRepository.Update(sistemaExists);
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(sistemaExists.Id!.Value, Message.Update);
     }

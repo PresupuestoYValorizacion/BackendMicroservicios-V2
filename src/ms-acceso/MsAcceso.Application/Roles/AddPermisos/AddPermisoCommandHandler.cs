@@ -18,21 +18,21 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
     private readonly IRolPermisoRepository _rolPermisoRepository;
     private readonly IRolPermisoOpcionRepository _rolPermisoOpcionRepository;
 
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public AddPermisosCommandHandler(
         IMapper mapper,
         ISistemaRepository sistemaRepository,
         IRolPermisoOpcionRepository rolPermisoOpcionRepository,
         IRolPermisoRepository rolPermisoRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _mapper = mapper;
         _sistemaRepository = sistemaRepository;
         _rolPermisoOpcionRepository = rolPermisoOpcionRepository;
         _rolPermisoRepository = rolPermisoRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(AddPermisosCommand request, CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ internal sealed class AddPermisosCommandHandler : ICommandHandler<AddPermisosCom
             }
         }
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Success(request.RolId.Value, Message.Update);
     }
 

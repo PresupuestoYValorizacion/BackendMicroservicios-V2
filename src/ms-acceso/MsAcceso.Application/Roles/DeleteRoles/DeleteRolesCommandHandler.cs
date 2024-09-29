@@ -8,15 +8,15 @@ namespace MsAcceso.Application.Roles.DeleteRoles;
 internal sealed class DeleteRolesCommandHandler : ICommandHandler<DeleteRolesCommand, Guid>
 {
     private readonly IRolRepository _rolRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DeleteRolesCommandHandler(
         IRolRepository rolRepository,
-        IUnitOfWorkTenant unitOfWorkTenant
+        IUnitOfWorkApplication unitOfWorkTenant
     )
     {
         _rolRepository = rolRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(DeleteRolesCommand request, CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ internal sealed class DeleteRolesCommandHandler : ICommandHandler<DeleteRolesCom
 
             _rolRepository.Delete(rol);
 
-            await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             return Result.Success(rol.Id!.Value, Message.Delete);
         }
         catch (Exception ex) when (ExceptionSql.IsForeignKeyViolation(ex))

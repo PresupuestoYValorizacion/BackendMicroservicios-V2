@@ -13,12 +13,12 @@ internal class DesactiveUserCommandHandler : ICommandHandler<DesactiveUserComman
 
     private readonly IPersonaRepository _personaRepository;
 
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public DesactiveUserCommandHandler(
         IUserRepository userRepository, 
         IPersonaRepository personaRepository,
-        IUnitOfWorkTenant unitOfWork)
+        IUnitOfWorkApplication unitOfWork)
     {
         _userRepository = userRepository;
         _personaRepository = personaRepository;

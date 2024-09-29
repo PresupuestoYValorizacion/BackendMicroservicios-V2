@@ -14,10 +14,10 @@ internal class UpdatePersonaCommandHandler : ICommandHandler<UpdatePersonaComman
     private readonly IPersonaRepository _personaRepository;
     private readonly IPersonaNaturalRepository _personaNaturalRepository;
     private readonly IPersonaJuridicaRepository _personaJuridicaRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdatePersonaCommandHandler(
-        IUnitOfWorkTenant unitOfWork, 
+        IUnitOfWorkApplication unitOfWork, 
         IPersonaRepository personaRepository, 
         IPersonaNaturalRepository personaNaturalRepository, 
         IPersonaJuridicaRepository personaJuridicaRepository)

@@ -9,7 +9,7 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
 {
 
     private readonly IRolTenantRepository _rolRepository;
-    private readonly IUnitOfWorkTenant _unitOfWorkTenant;
+    private readonly IUnitOfWorkTenant _unitOfWork;
 
     public RegisterRolesCommandHandler(
         IRolTenantRepository rolRepository,
@@ -17,7 +17,7 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
     )
     {
         _rolRepository = rolRepository;
-        _unitOfWorkTenant = unitOfWorkTenant;
+        _unitOfWork = unitOfWorkTenant;
     }
 
     public async Task<Result<Guid>> Handle(RegisterRoleTenantCommand request, CancellationToken cancellationToken)
@@ -36,7 +36,7 @@ internal sealed class RegisterRolesCommandHandler : ICommandHandler<RegisterRole
 
         _rolRepository.Add(newRol);
 
-        await _unitOfWorkTenant.SaveChangesAsync(cancellationToken);
+        await _rolRepository.SaveChangesAsync(cancellationToken);
 
         return Result.Success(newRol.Id!.Value, Message.Create);
     }

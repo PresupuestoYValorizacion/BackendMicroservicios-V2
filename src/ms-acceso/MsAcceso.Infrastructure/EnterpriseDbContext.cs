@@ -29,10 +29,6 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
 
     }
 
-    // Application DbSets -- create for entity types to be applied to all databases
-    // public DbSet<Product> Products { get; set; }
-    // public DbSet<User> UsersTenants { get; set; }
-    // public DbSet<Presupuesto> Presupuestos { get; set; }
     public DbSet<RolTenant> Rols { get; set; }
     public DbSet<RolPermisoTenant> RolsPermisos { get; set; }
     public DbSet<RolPermisoOpcionTenant> RolsPermisoOpcions { get; set; }

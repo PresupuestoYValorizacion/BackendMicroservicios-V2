@@ -7,11 +7,11 @@ namespace MsAcceso.Application.Parametros.UpdateParametros;
 internal sealed class UpdateParametrosCommandHandler : ICommandHandler<UpdateParametrosCommand, int>
 {
     private readonly IParametroRepository _parametroRepository;
-    private readonly IUnitOfWorkTenant _unitOfWork;
+    private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdateParametrosCommandHandler(
         IParametroRepository parametroRepository,
-        IUnitOfWorkTenant unitOfWork)
+        IUnitOfWorkApplication unitOfWork)
         {
             _parametroRepository = parametroRepository;
             _unitOfWork = unitOfWork;
