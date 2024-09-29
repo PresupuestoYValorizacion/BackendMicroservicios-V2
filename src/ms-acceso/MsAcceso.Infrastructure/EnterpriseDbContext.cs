@@ -2,22 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
-using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Domain.Tenant.Presupuestos;
-using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Tenant.RolPermisosTenant;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant;
 using MsAcceso.Domain.Tenant.UsersTenant;
-using MsAcceso.Domain.Root.Personas;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
 
 namespace MsAcceso.Infrastructure;
 
-public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
+public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
 {
     private readonly ICurrentTenantService _currentTenantService;
     public Guid? CurrentTenantId { get; set; }
@@ -179,44 +175,6 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkApplication
         .IsRequired()
         .HasMaxLength(400);
 
-        // builder.Entity<User>().ToTable("user-tenant");
-        // builder.Entity<User>().HasKey(user => user.Id);
-
-        // builder.Entity<User>().Property(user => user.Id)
-        // .HasConversion(userId => userId!.Value, value => new UserId(value));
-
-        // builder.Entity<User>().Property(user => user.Username)
-        // .IsRequired()
-        // .HasMaxLength(100);
-
-        // builder.Entity<User>().Property(user => user.Email)
-        // .IsRequired()
-        // .HasMaxLength(400);
-
-        // builder.Entity<User>().Property(user => user.Password)
-        // .IsRequired()
-        // .HasMaxLength(2000);
-
-        // builder.Entity<User>().Property(user => user.Activo)
-        // .IsRequired()
-        // .HasConversion(user => user!.Value, value => new Activo(value));
-
-
-        // builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
-
-        // builder.Entity<Presupuesto>().ToTable("presupuestos");
-        // builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
-        // .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
-        // .IsRequired()
-        // .HasMaxLength(100);
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
-        // .IsRequired()
-        // .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
     }
 
     // On Configuring -- dynamic connection string, fires on every request

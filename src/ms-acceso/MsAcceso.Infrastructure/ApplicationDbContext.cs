@@ -19,7 +19,7 @@ namespace MsAcceso.Infrastructure
 {
 
 
-    public class ApplicationDbContext : DbContext, IUnitOfWorkTenant
+    public class ApplicationDbContext : DbContext, IUnitOfWorkApplication
     {
         // This context is for looking up the tenant when a request comes in.
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

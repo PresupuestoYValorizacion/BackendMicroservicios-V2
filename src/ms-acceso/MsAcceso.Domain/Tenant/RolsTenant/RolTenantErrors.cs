@@ -3,7 +3,7 @@ using MsAcceso.Domain.Abstractions;
 
 namespace MsAcceso.Domain.Tenant.RolsTenant;
 
-public static class RolErrors
+public static class RolTenantErrors
 {
     public static Error NotFound = new(
         404,
