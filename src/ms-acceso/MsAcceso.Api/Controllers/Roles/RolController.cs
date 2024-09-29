@@ -19,6 +19,7 @@ using MsAcceso.Application.Tenant.Roles.GetRolesByPaginationTenant;
 using MsAcceso.Domain.Shared.Request;
 using MsAcceso.Application.Tenant.Roles.GetRolByIdTenant;
 using MsAcceso.Application.Tenant.Roles.RegisterRoleTenant;
+using MsAcceso.Application.Abstractions.Messaging;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -117,7 +118,6 @@ public class RolesController : Controller
         if (isAdmin)
         {
             query = new GetRolesByPaginationQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
-
         }
         else
         {
@@ -141,7 +141,7 @@ public class RolesController : Controller
 
         bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
-        object command;
+        ICommand<Guid> command;
 
         if (isAdmin)
         {
@@ -158,6 +158,11 @@ public class RolesController : Controller
         }
 
         var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
 
         return Ok(results);
 
