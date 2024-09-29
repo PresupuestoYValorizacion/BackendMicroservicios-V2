@@ -16,7 +16,6 @@ using MsAcceso.Application.Roles.DesactiveRoles;
 using MsAcceso.Application.Roles.DeleteRoles;
 using MsAcceso.Application.Roles.AddPermisos;
 using MsAcceso.Application.Tenant.Roles.GetRolesByPaginationTenant;
-using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Shared.Request;
 
 namespace MsAcceso.Api.Controllers.Parametros;
@@ -28,11 +27,13 @@ namespace MsAcceso.Api.Controllers.Parametros;
 public class RolesController : Controller
 {
 
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ISender _sender;
 
-    public RolesController(ISender sender)
+    public RolesController(ISender sender,  IHttpContextAccessor httpContextAccessor)
     {
         _sender = sender;
+        _httpContextAccessor = httpContextAccessor;
     }
 
 
@@ -97,8 +98,11 @@ public class RolesController : Controller
         CancellationToken cancellationToken
     )
     {
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!); 
+
         object query ;
-        if(request.IsAdmin)
+        
+        if(isAdmin)
         {
            query     = new GetRolesByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
 
@@ -109,11 +113,6 @@ public class RolesController : Controller
         }
 
         var results = await _sender.Send(query,cancellationToken);
-
-        // if(results.IsFailure)
-        // {
-        //     return BadRequest(results);
-        // }
 
         return Ok(results);
     }

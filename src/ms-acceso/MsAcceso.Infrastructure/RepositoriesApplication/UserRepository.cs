@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Paginations;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Root.Users;
 using MsAcceso.Domain.Shared;
 
@@ -40,7 +41,7 @@ internal sealed class UserRepository : RepositoryApplication<User, UserId>, IUse
         .Include(u => u.UsuarioLicencias) 
         .FirstOrDefaultAsync(x => x.Id == Id && x.Activo == new Activo(true), cancellationToken);
 
-        if (user != null && user.UsuarioLicencias != null)
+        if (user != null && user.Rol!.TipoRolId == new ParametroId( TipoRol.Licencia))
         {
             user.UsuarioLicencias = user.UsuarioLicencias!
             .Where(ul => ul.Activo == new Activo(true) && 

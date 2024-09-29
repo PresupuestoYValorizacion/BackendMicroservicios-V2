@@ -318,9 +318,11 @@ public class UsersController : ControllerBase
             [FromQuery] GetByPaginationRequest request
         )
     {
-         object query ;
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!); 
 
-        if(request.IsAdmin)
+        object query ;
+
+        if(isAdmin)
         {
            query     = new GetUsersByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
 
