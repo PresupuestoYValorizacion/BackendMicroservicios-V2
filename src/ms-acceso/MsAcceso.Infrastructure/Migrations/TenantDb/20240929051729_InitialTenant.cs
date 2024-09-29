@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace MsAcceso.Infrastructure.Migrations.AppDb
+namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     /// <inheritdoc />
-    public partial class initialApp : Migration
+    public partial class InitialTenant : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,21 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_auditorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "libros",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Precio = table.Column<double>(type: "float", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_libros", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -457,6 +472,9 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
         {
             migrationBuilder.DropTable(
                 name: "auditorias");
+
+            migrationBuilder.DropTable(
+                name: "libros");
 
             migrationBuilder.DropTable(
                 name: "menus_opciones");

@@ -2,6 +2,7 @@
 using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Auditorias;
+using MsAcceso.Domain.Root.Libros;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Domain.Root.Opciones;
@@ -40,6 +41,8 @@ namespace MsAcceso.Infrastructure
         public DbSet<Licencia> Licencias { get; set; }
         public DbSet<PersonaNatural> PersonasNaturales { get; set; }
         public DbSet<PersonaJuridica> PersonasJuridicas { get; set; }
+        public DbSet<Libro> Libros { get; set; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder builder)

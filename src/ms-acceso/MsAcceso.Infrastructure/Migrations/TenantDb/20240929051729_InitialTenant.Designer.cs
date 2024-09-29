@@ -9,11 +9,11 @@ using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.AppDb
+namespace MsAcceso.Infrastructure.Migrations.TenantDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240929021926_initialApp")]
-    partial class initialApp
+    [Migration("20240929051729_InitialTenant")]
+    partial class InitialTenant
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,33 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.HasKey("Id");
 
                     b.ToTable("auditorias", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Libros.Libro", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double?>("Precio")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("libros", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Licencias.Licencia", b =>
