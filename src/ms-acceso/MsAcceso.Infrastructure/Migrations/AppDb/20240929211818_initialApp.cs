@@ -33,6 +33,21 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Libroes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Precio = table.Column<double>(type: "float", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Libroes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "licencias",
                 columns: table => new
                 {
@@ -457,6 +472,9 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
         {
             migrationBuilder.DropTable(
                 name: "auditorias");
+
+            migrationBuilder.DropTable(
+                name: "Libroes");
 
             migrationBuilder.DropTable(
                 name: "menus_opciones");

@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240929021926_initialApp")]
+    [Migration("20240929211818_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -62,6 +62,32 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.HasKey("Id");
 
                     b.ToTable("auditorias", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Libros.Libro", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double?>("Precio")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Libroes", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Licencias.Licencia", b =>
