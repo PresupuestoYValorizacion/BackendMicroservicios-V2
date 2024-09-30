@@ -3,7 +3,7 @@ using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Sistemas;
 
-namespace MsAcceso.Application.Root.Roles.GetRolesByTipo;
+namespace MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
 
 internal sealed class GetAllSistemasByRolQueryHandler : IQueryHandler<GetAllSistemasByRolQuery, List<SistemaByRolDto>>
 {
@@ -21,7 +21,7 @@ internal sealed class GetAllSistemasByRolQueryHandler : IQueryHandler<GetAllSist
 
     public async Task<Result<List<SistemaByRolDto>>> Handle(GetAllSistemasByRolQuery request, CancellationToken cancellationToken)
     {
-        var sistemas = await _sistemaRepository.GetAllSistemasByRol(request.RolId!,cancellationToken);
+        var sistemas = await _sistemaRepository.GetAllSistemasByRolAndUserRol(request.RolId!,request.UserRolId!,cancellationToken);
 
         var sistemasDto = _mapper.Map<List<SistemaByRolDto>>(sistemas);
 

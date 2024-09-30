@@ -24,6 +24,7 @@ using MsAcceso.Application.Tenant.Roles.UpdateRoleTenant;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Application.Tenant.Roles.DesactiveRoleTenant;
 using MsAcceso.Application.Tenant.Roles.DeleteRoleTenant;
+using MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -95,8 +96,12 @@ public class RolesController : Controller
     )
     {
 
+        string userRol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"]!.ToString();
+
+
         var rolId = new RolId(Guid.Parse(id));
-        var request = new GetAllSistemasByRolQuery { RolId = rolId };
+        var userRolId = new RolId(Guid.Parse(userRol));
+        var request = new GetAllSistemasByRolQuery { RolId = rolId, UserRolId = userRolId };
         var results = await _sender.Send(request, cancellationToken);
 
         if (results.IsFailure)

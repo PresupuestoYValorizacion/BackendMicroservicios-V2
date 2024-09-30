@@ -112,10 +112,29 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
             .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
     }
 
+    public async Task<List<Sistema>> GetAllSistemasByRolAndUserRol(RolId rolId,RolId userRolId, CancellationToken cancellationToken)
+    {
+        var rootSystems = await DbContext.Set<Sistema>()
+            .Where(x => x.Dependencia == null && x.Activo == new Activo(true) && x.RolPermisos!.Any(x => x.RolId == userRolId))
+            .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+            .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .OrderBy(x => x.Orden)
+
+            .ToListAsync(cancellationToken);
+
+        foreach (var system in rootSystems)
+        {
+            await LoadDependenciesByRolAndUserRolAsync(system, rolId,userRolId, cancellationToken);
+        }
+
+        return rootSystems!;
+    }
     public async Task<List<Sistema>> GetAllSistemasByRol(RolId rolId, CancellationToken cancellationToken)
     {
         var rootSystems = await DbContext.Set<Sistema>()
-            .Where(x => x.Dependencia == null && x.Activo == new Activo(true))
+            .Where(x => x.Dependencia == null && x.Activo == new Activo(true) )
             .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
             .ThenInclude(x => x.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
             .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
@@ -130,6 +149,23 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
         }
 
         return rootSystems!;
+    }
+
+    private async Task LoadDependenciesByRolAndUserRolAsync(Sistema system, RolId rolId,RolId userRolId, CancellationToken cancellationToken)
+    {
+        var childSystems = await DbContext.Set<Sistema>()
+            .Where(x => x.Dependencia == system.Id && x.Activo == new Activo(true) && x.RolPermisos!.Any(rp => rp.RolId == userRolId && rp.Activo == new Activo(true) ))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .Include(x => x.RolPermisos!.Where(rp => rp.RolId == rolId && rp.Activo == new Activo(true)))
+            .ThenInclude(rp => rp.RolPermisoOpcions!.Where(rpo => rpo.Activo == new Activo(true)))
+            .OrderBy(x => x.Orden)
+            .ToListAsync(cancellationToken);
+
+        foreach (var childSystem in childSystems)
+        {
+            await LoadDependenciesByRolAndUserRolAsync(childSystem, rolId,userRolId, cancellationToken);
+        }
     }
 
     private async Task LoadDependenciesByRolAsync(Sistema system, RolId rolId, CancellationToken cancellationToken)

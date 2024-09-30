@@ -49,7 +49,7 @@ internal sealed class GetMenusByUserQueryHandler : IQueryHandler<GetMenusByUserQ
         return sistemasFiltrados!;
     }
 
-    public List<SistemaByRolDto> FiltrarCompletados(List<SistemaByRolDto> sistemasDto)
+    public static List<SistemaByRolDto> FiltrarCompletados(List<SistemaByRolDto> sistemasDto)
     {
         var result = new List<SistemaByRolDto>();
 
@@ -82,7 +82,7 @@ internal sealed class GetMenusByUserQueryHandler : IQueryHandler<GetMenusByUserQ
     }
 
 
-    public List<SistemaByRolDto> BuscarPorDependenciaYEstado(List<SistemaByRolDto> sistemasDto, string dependencia)
+    public static List<SistemaByRolDto> BuscarPorDependenciaYEstado(List<SistemaByRolDto> sistemasDto, string dependencia)
     {
         var result = new List<SistemaByRolDto>();
 
