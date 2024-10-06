@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240929051748_initialApp")]
+    [Migration("20241006044922_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />

@@ -33,7 +33,7 @@ internal sealed class GetLibroByPaginationQueryHandler : IQueryHandler<GetLibroB
 
             searchPredicate = searchPredicate.Or(o => o.Nombre!.Contains(request.Search));
             searchPredicate = searchPredicate.Or(o => o.Descripcion!.Contains(request.Search));
-            searchPredicate = searchPredicate.Or(o => o.Precio!.Value.Equals(request.Search));
+            searchPredicate = searchPredicate.Or(o => o.Precio.ToString()!.Contains(request.Search));
 
             predicateB = predicateB.And(searchPredicate);
         }

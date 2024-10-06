@@ -23,8 +23,8 @@ public class ExceptionHandlingMiddleware
         {
            await _next(context);
         }
-        catch(Exception exception)
-        {
+        catch(Exception exception){
+            
             _logger.LogError(exception, "Ocurrio una exception: {Message}", exception.Message);
             var exceptionDetails = GetExceptionDetails(exception);
             

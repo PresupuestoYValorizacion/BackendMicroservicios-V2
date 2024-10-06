@@ -7,7 +7,6 @@ namespace MsAcceso.Application.Root.Paginations;
 
 public interface IPaginationOpcionRepository
 {
-
     Task<PagedResults<Opcion,OpcionId>> GetPaginationAsync(
         Expression<Func<Opcion,bool>> predicate,
         Func<IQueryable<Opcion>, IIncludableQueryable<Opcion,object>> includes,
