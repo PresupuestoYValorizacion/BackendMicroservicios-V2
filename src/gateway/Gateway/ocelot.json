@@ -908,6 +908,26 @@
         "IsAdmin": "Claims[IsAdmin] > value > |"
       },
       "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/libros/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/libros/register",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization"
+      },
+      "SwaggerKey": "acceso"
     }
   ],
   "SwaggerEndPoints": [
