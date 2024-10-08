@@ -25,6 +25,7 @@ using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Application.Tenant.Roles.DesactiveRoleTenant;
 using MsAcceso.Application.Tenant.Roles.DeleteRoleTenant;
 using MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
+using MsAcceso.Application.Tenant.Roles.GetAllSistemasByRolTenant;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -95,19 +96,23 @@ public class RolesController : Controller
         CancellationToken cancellationToken
     )
     {
-
-        string userRol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"]!.ToString();
-
-
-        var rolId = new RolId(Guid.Parse(id));
-        var userRolId = new RolId(Guid.Parse(userRol));
-        var request = new GetAllSistemasByRolQuery { RolId = rolId, UserRolId = userRolId };
-        var results = await _sender.Send(request, cancellationToken);
-
-        if (results.IsFailure)
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+        
+        object query;
+        if (isAdmin)
         {
-            return BadRequest(results);
+            query = new GetAllSistemasByRolQuery { RolId = id };
+
         }
+        else
+        {
+            string userRol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"]!.ToString();
+
+            query = new GetAllSistemasByRolTenantQuery { RolId = id, UserRolId = userRol  };
+
+        }
+
+        var results = await _sender.Send(query, cancellationToken);
 
         return Ok(results);
     }

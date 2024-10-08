@@ -1,6 +1,7 @@
 
 using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
+using MsAcceso.Domain.Tenant.RolsTenant;
 
 namespace MsAcceso.Domain.Tenant.RolPermisosTenant;
 
@@ -15,6 +16,9 @@ public interface IRolPermisoTenantRepository
     void Update(RolPermisoTenant rolPermiso);
     
     void Delete(RolPermisoTenant rolPermiso);
+
+    Task<bool> ValidarPermisoMenu(string menuId, RolTenantId rolId ,  CancellationToken cancellationToken = default);
+
 
     
 

@@ -6,7 +6,6 @@ namespace MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
 
 public sealed record GetAllSistemasByRolQuery : IQuery<List<SistemaByRolDto>>
 {
-    public RolId? RolId { get; set; }
-    public RolId? UserRolId { get; set; }
+    public string? RolId { get; set; }
 
 }

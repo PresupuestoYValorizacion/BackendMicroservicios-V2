@@ -1,6 +1,7 @@
 using AutoMapper;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
@@ -21,7 +22,15 @@ internal sealed class GetAllSistemasByRolQueryHandler : IQueryHandler<GetAllSist
 
     public async Task<Result<List<SistemaByRolDto>>> Handle(GetAllSistemasByRolQuery request, CancellationToken cancellationToken)
     {
-        var sistemas = await _sistemaRepository.GetAllSistemasByRolAndUserRol(request.RolId!,request.UserRolId!,cancellationToken);
+        var rolId = new RolId(Guid.Parse(request.RolId!));
+
+        List<Sistema> sistemas = await _sistemaRepository.GetAllSistemasByRol(rolId, cancellationToken);
+
+        foreach(var sistema in sistemas)
+        {
+            
+        }
+
 
         var sistemasDto = _mapper.Map<List<SistemaByRolDto>>(sistemas);
 

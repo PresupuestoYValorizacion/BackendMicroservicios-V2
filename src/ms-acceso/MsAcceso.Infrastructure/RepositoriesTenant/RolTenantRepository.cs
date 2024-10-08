@@ -21,4 +21,11 @@ internal sealed class RolTenantRepository : RepositoryTenant<RolTenant, RolTenan
 
     }
 
+    public async Task<bool> ValidarAcceso(RolTenantId id, string sistemaId, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<RolTenant>()
+                    .Include(x => x.RolPermisos)
+                    .AnyAsync(x => x.RolPermisos!.Any(x => x.MenuId == sistemaId && x.RolId == id) && x.Activo == new Activo(true), cancellationToken);
+
+    }
 }

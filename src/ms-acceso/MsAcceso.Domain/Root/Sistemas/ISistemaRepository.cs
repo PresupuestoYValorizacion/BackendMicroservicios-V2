@@ -17,6 +17,7 @@ public interface ISistemaRepository
     Task<List<Sistema>> GetAllSistemasBySubnivel(SistemaId Id, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasByRolAndUserRol(RolId Id,RolId userRolId, CancellationToken cancellationToken);
     Task<List<Sistema>> GetAllSistemasByRol(RolId Id, CancellationToken cancellationToken);
+    Task<List<Sistema>> GetAllSistemasByUserRol(RolId UserRolId, CancellationToken cancellationToken);
     Task<List<Sistema>> GetSistemasByDependencia(SistemaId dependencia, CancellationToken cancellationToken);
     Task<Sistema?> SistemaGetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
     Task<Sistema?> GetSistemaByIdAndRol(RolId rolId,SistemaId sistemaId, CancellationToken cancellationToken);

@@ -1,6 +1,7 @@
 
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Domain.Tenant.RolsTenant;
 
@@ -17,6 +18,9 @@ public interface IRolTenantRepository
     void Delete(RolTenant user);
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+    Task<bool> ValidarAcceso(RolTenantId id, string sistemaId, CancellationToken cancellationToken = default);
+
 
     
 

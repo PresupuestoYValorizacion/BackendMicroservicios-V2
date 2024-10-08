@@ -18,8 +18,7 @@ public sealed class Sistema : Entity<SistemaId>
         string logo,
         int nivel,
         int orden,
-        string url,
-        ParametroId? tipo
+        string url
     ): base(id)
     {
         Dependencia = dependencia;
@@ -45,7 +44,7 @@ public sealed class Sistema : Entity<SistemaId>
 
     public static Sistema Create(SistemaId? dependencia, string nombre, string logo, int nivel, int orden, string url)
     {
-        var sistema = new Sistema(SistemaId.New(),dependencia,nombre,logo,nivel, orden,url, null);
+        var sistema = new Sistema(SistemaId.New(),dependencia,nombre,logo,nivel, orden,url);
         return sistema;
     }
 
