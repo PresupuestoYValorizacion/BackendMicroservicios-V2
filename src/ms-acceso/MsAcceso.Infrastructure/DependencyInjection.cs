@@ -30,6 +30,7 @@ using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Domain.Tenant.RolPermisosTenant;
+using MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -86,6 +87,7 @@ public static class DependencyInjection
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
         services.AddScoped<IPaginationUsersTenantRepository, UserTenantRepository>();
         services.AddScoped<IRolPermisoTenantRepository, RolPermisoTenantRepository>();
+        services.AddScoped<IRolPermisoOpcionTenantRepository, RolPermisoOpcionTenantRepository>();
 
 
         //BD GENERAL

@@ -26,12 +26,6 @@ internal sealed class GetAllSistemasByRolQueryHandler : IQueryHandler<GetAllSist
 
         List<Sistema> sistemas = await _sistemaRepository.GetAllSistemasByRol(rolId, cancellationToken);
 
-        foreach(var sistema in sistemas)
-        {
-            
-        }
-
-
         var sistemasDto = _mapper.Map<List<SistemaByRolDto>>(sistemas);
 
         return sistemasDto!;

@@ -17,9 +17,12 @@ internal sealed class RolPermisoTenantRepository : RepositoryTenant<RolPermisoTe
     {
     }
 
-    public Task<RolPermisoTenant?> GetByMenuAndRol(SistemaId menuId, RolId rolId, CancellationToken cancellationToken = default)
+    public async Task<RolPermisoTenant?> GetByMenuAndRol(string menuId, RolTenantId rolId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await DbContext.Set<RolPermisoTenant>()
+                    .Where(x => x.MenuId == menuId && x.RolId == rolId && x.Activo == new Activo(true))
+                    .FirstOrDefaultAsync(cancellationToken)
+                    ;
     }
 
     public async Task<bool> ValidarPermisoMenu(string menuId, RolTenantId rolId, CancellationToken cancellationToken = default)

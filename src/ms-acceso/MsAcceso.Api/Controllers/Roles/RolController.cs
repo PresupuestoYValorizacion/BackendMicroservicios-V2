@@ -26,6 +26,7 @@ using MsAcceso.Application.Tenant.Roles.DesactiveRoleTenant;
 using MsAcceso.Application.Tenant.Roles.DeleteRoleTenant;
 using MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
 using MsAcceso.Application.Tenant.Roles.GetAllSistemasByRolTenant;
+using MsAcceso.Application.Tenant.Roles.AddPermisosTenant;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -97,7 +98,7 @@ public class RolesController : Controller
     )
     {
         bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
-        
+
         object query;
         if (isAdmin)
         {
@@ -108,7 +109,7 @@ public class RolesController : Controller
         {
             string userRol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"]!.ToString();
 
-            query = new GetAllSistemasByRolTenantQuery { RolId = id, UserRolId = userRol  };
+            query = new GetAllSistemasByRolTenantQuery { RolId = id, UserRolId = userRol };
 
         }
 
@@ -190,7 +191,7 @@ public class RolesController : Controller
         [FromBody] UpdateRolesRequest request,
         CancellationToken cancellationToken
     )
-    {   
+    {
 
         bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
@@ -207,7 +208,7 @@ public class RolesController : Controller
         }
         else
         {
-            command = new UpdateRoleTenantCommand(new RolTenantId(Guid.Parse(request.RolId)),request.Nombre);
+            command = new UpdateRoleTenantCommand(new RolTenantId(Guid.Parse(request.RolId)), request.Nombre);
 
         }
 
@@ -230,10 +231,27 @@ public class RolesController : Controller
     )
     {
 
-        var command = new AddPermisosCommand(
-            new RolId(Guid.Parse(request.RolId)),
-            request.SistemasRequest
-        );
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new AddPermisosCommand(
+                        new RolId(Guid.Parse(request.RolId)),
+                        request.SistemasRequest
+                    );
+
+        }
+        else
+        {
+
+            command = new AddPermisosTenantCommand (
+                        new RolTenantId(Guid.Parse(request.RolId)),
+                        request.SistemasRequest
+                    );
+
+        }
 
         var results = await _sender.Send(command, cancellationToken);
 

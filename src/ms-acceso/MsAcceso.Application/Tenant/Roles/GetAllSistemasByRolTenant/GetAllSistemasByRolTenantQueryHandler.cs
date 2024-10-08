@@ -14,7 +14,7 @@ internal sealed class GetAllSistemasByRolTenantQueryHandler : IQueryHandler<GetA
     private readonly ISistemaRepository _sistemaRepository;
     private readonly IRolTenantRepository _rolTenantRepository;
     private readonly IRolPermisoTenantRepository _rolPermisoTenantRepository;
-    // private readonly IRolPermisoOpcionTenantRepository _rolPermisoOpcionTenantRepository;
+    private readonly IRolPermisoOpcionTenantRepository _rolPermisoOpcionTenantRepository;
 
     private readonly IMapper _mapper;
 
@@ -22,7 +22,7 @@ internal sealed class GetAllSistemasByRolTenantQueryHandler : IQueryHandler<GetA
         ISistemaRepository sistemaRepository,
         IRolTenantRepository rolTenantRepository,
         IRolPermisoTenantRepository rolPermisoTenantRepository,
-        // IRolPermisoOpcionTenantRepository rolPermisoOpcionTenantRepository,
+        IRolPermisoOpcionTenantRepository rolPermisoOpcionTenantRepository,
 
         IMapper mapper
     )
@@ -30,7 +30,7 @@ internal sealed class GetAllSistemasByRolTenantQueryHandler : IQueryHandler<GetA
         _sistemaRepository = sistemaRepository;
         _rolTenantRepository = rolTenantRepository;
         _rolPermisoTenantRepository = rolPermisoTenantRepository;
-        // _rolPermisoOpcionTenantRepository = rolPermisoOpcionTenantRepository;
+        _rolPermisoOpcionTenantRepository = rolPermisoOpcionTenantRepository;
         _mapper = mapper;
     }
 
@@ -40,11 +40,11 @@ internal sealed class GetAllSistemasByRolTenantQueryHandler : IQueryHandler<GetA
 
         var rolId = new RolTenantId(Guid.Parse(request.RolId!));
 
-        List<Sistema> sistemas = await _sistemaRepository.GetAllSistemasByUserRol(userRolId!, cancellationToken);     
+        List<Sistema> sistemas = await _sistemaRepository.GetAllSistemasByUserRol(userRolId!, cancellationToken);
 
         var sistemasDto = _mapper.Map<List<SistemaByRolDto>>(sistemas);
 
-        foreach( var sistema in sistemasDto)
+        foreach (var sistema in sistemasDto)
         {
             await ProcessSistemaRecursive(sistema, rolId, cancellationToken);
         }
@@ -55,16 +55,19 @@ internal sealed class GetAllSistemasByRolTenantQueryHandler : IQueryHandler<GetA
 
     async Task ProcessSistemaRecursive(SistemaByRolDto sistema, RolTenantId rolId, CancellationToken cancellationToken)
     {
-        // Cambiar a este metodo que devuelva un ROlpermiso entidad
-        var rolPermiso =  await _rolPermisoTenantRepository.ValidarPermisoMenu(sistema.Id!, rolId, cancellationToken);
-        
-       sistema.Completed  =  rolPermiso != null;
-       
-        // foreach(var menuOpcion in sistema.MenuOpciones!)
-        // {
-        //     // menuOpcion.Completed = await _rolPermisoOpcionTenantRepository.ValidarPermisoOpcion(rolPermiso.id, menuOpcion.OpcionId, cancellationToken);
-        // }
-        // Si tiene childrens, aplicar la función recursiva
+        var rolPermiso = await _rolPermisoTenantRepository.GetByMenuAndRol(sistema.Id!, rolId, cancellationToken);
+
+        sistema.Completed = rolPermiso != null;
+
+        var tieneRolPermiso = rolPermiso != null;
+
+        foreach (var menuOpcion in sistema.MenuOpciones!)
+        {
+            menuOpcion.Completed = tieneRolPermiso
+                ? await _rolPermisoOpcionTenantRepository.ValidarPermisoOpcion(rolPermiso!.Id!, menuOpcion.OpcionId!, cancellationToken)
+                : false;
+        }
+
         if (sistema.Childrens != null && sistema.Childrens.Count > 0)
         {
             foreach (var child in sistema.Childrens)

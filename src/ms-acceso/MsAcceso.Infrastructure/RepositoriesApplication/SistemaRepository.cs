@@ -109,7 +109,10 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
     public async Task<Sistema?> SistemaGetByIdAsync(SistemaId Id, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>()
-            .FirstOrDefaultAsync(x => x.Id == Id, cancellationToken);
+            .Where(x => x.Id == Id && x.Activo == new Activo(true))
+            .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+            .ThenInclude(mo => mo.Opcion)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<List<Sistema>> GetAllSistemasByRolAndUserRol(RolId rolId, RolId userRolId, CancellationToken cancellationToken)
