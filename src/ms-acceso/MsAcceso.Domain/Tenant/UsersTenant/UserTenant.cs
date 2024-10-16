@@ -16,14 +16,14 @@ public sealed class UserTenant : Entity<UserTenantId>
         string email,
         string username,
         string password,
-        string connectionString,
+        // string connectionString,
         PersonaTenantId personaId,
         RolTenantId rolId) : base(id)
     {
         Username = username;
         Email = email;
         Password = password;
-        ConnectionString = connectionString;
+        // ConnectionString = connectionString;
         PersonaId = personaId;
         RolId = rolId;
     }
@@ -33,7 +33,7 @@ public sealed class UserTenant : Entity<UserTenantId>
     public string? Password { get; private set; }
 
     //TODO : ELIMINAR ESTO
-    public string? ConnectionString { get; private set; }
+    // public string? ConnectionString { get; private set; }
     public PersonaTenantId? PersonaId { get; private set; }
     public RolTenantId? RolId { get; private set; }
     public PersonaTenant? Persona { get; private set; }
@@ -45,12 +45,13 @@ public sealed class UserTenant : Entity<UserTenantId>
         string username,
         string email,
         string password,
-        string connectionString,
+        // string connectionString,
         PersonaTenantId empresaId,
         RolTenantId rolId
     )
     {
-        var user = new UserTenant(userId, email, username, password, connectionString, empresaId, rolId);
+        // var user = new UserTenant(userId, email, username, password, connectionString, empresaId, rolId);
+        var user = new UserTenant(userId, email, username, password, empresaId, rolId);
 
         return user;
     }
@@ -63,7 +64,7 @@ public sealed class UserTenant : Entity<UserTenantId>
     {
         Username = username.Length > 0 ? username : Username;
         Email = email.Length > 0 ? email : Email;
-        ConnectionString = connectionString;
+        // ConnectionString = connectionString;
         RolId = rolId;
         return Result.Success();
     }
