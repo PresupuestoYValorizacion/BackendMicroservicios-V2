@@ -1,8 +1,7 @@
 using MsAcceso.Middleware;
-using Microsoft.EntityFrameworkCore;
-using MsAcceso.Infrastructure;
+using MsAcceso.Api.Middleware;
 
-namespace MsAcceso.Extensions;
+namespace MsAcceso.Api.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
@@ -10,6 +9,10 @@ public static class ApplicationBuilderExtensions
     public static void UseCustomExceptionHandler(this IApplicationBuilder app)
     {
         app.UseMiddleware<ExceptionHandlingMiddleware>();
+    }
+    public static void UseSessionValidationHandler(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<SessionValidationMiddleware>();
     }
 
     public static IApplicationBuilder UseRequestContextLogging(

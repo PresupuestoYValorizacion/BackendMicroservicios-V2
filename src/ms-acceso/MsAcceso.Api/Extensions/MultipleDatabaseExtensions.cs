@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MsAcceso.Domain.Root.Users;
 using MsAcceso.Infrastructure;
 
 
-namespace MsAcceso.Extensions
+namespace MsAcceso.Api.Extensions
 {
     public static class MultipleDatabaseExtensions
     {
@@ -13,8 +12,7 @@ namespace MsAcceso.Extensions
             // Tenant Db Context (reference context) - get a list of tenants
             using IServiceScope scopeTenant = services.BuildServiceProvider().CreateScope();
             ApplicationDbContext ApplicationDbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-            if (ApplicationDbContext.Database.GetPendingMigrations().Any())
+   
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Applying BaseDb Migrations.");

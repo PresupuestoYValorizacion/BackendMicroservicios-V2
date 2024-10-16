@@ -85,6 +85,21 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "sesiones",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JwtToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastActivity = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sesiones", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "sistemas",
                 columns: table => new
                 {
@@ -469,6 +484,9 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
 
             migrationBuilder.DropTable(
                 name: "rols_permisos_opciones");
+
+            migrationBuilder.DropTable(
+                name: "sesiones");
 
             migrationBuilder.DropTable(
                 name: "usuario_licencia");

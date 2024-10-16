@@ -31,6 +31,7 @@ using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Domain.Tenant.RolPermisosTenant;
 using MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant;
+using MsAcceso.Domain.Root.Sesiones;
 
 namespace MsAcceso.Infrastructure;
 
@@ -118,6 +119,7 @@ public static class DependencyInjection
         services.AddScoped<IUsuarioLicenciaRepository, UsuarioLicenciaRepository>();
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
+        services.AddScoped<ISesionRepository, SesionRepository>();
 
         services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<EnterpriseDbContext>());
         

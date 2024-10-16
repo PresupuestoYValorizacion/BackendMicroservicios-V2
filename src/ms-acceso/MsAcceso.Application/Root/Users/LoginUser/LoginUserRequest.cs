@@ -1,3 +1,3 @@
 namespace MsAcceso.Application.Root.Users.LoginUser;
 
-public record LoginUserRequest(string Email, string Password);
+public record LoginUserRequest(string Email, string Password, bool IsForcedSession);

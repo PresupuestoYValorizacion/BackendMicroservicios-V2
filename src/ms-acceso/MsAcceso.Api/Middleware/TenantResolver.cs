@@ -1,7 +1,7 @@
 ﻿
 using MsAcceso.Infrastructure.Service;
 
-namespace MsAcceso.Middleware
+namespace MsAcceso.Api.Middleware
 {
     public class TenantResolver
     {

@@ -464,6 +464,28 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.ToTable("rols", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Root.Sesiones.Sesion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastActivity")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sesiones", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>
                 {
                     b.Property<Guid>("Id")

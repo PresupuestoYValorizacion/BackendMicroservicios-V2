@@ -29,26 +29,6 @@ public sealed class User : Entity<UserId>
         RolId = rolId;
     }
 
-    public User(
-        UserId id,
-        string email,
-        string username,
-        string password,
-        string connectionString,
-        PersonaId empresaId,
-        RolId rolId,
-        List<UsuarioLicencia> usuarioLicencias
-        ) : base(id)
-    {
-        Username = username;
-        Email = email;
-        Password = password;
-        ConnectionString = connectionString;
-        EmpresaId = empresaId;
-        RolId = rolId;
-        UsuarioLicencias = usuarioLicencias;
-    }
-
     public string? Email { get; private set; }
     public string? Username { get; private set; }
     public string? Password { get; private set; }

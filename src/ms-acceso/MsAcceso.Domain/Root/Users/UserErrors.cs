@@ -18,6 +18,11 @@ public static class UserErrors
         "Las credenciales son incorrectas"
     );
 
+    public static Error SessionExistente = new(
+        403,
+        "Ya tiene una sesion activa con esta cuenta"
+    );
+
     public static Error AlreadyExists = new(
         400,
         "El usuario ya existe en la base de datos"

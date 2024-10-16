@@ -1,9 +1,11 @@
 using CleanArchitecture.Application;
 using Microsoft.OpenApi.Models;
+using MsAcceso.Api.Extensions;
+using MsAcceso.Api.Middleware;
 using MsAcceso.Api.OptionsSetup;
 using MsAcceso.Application.Abstractions.Authentication;
 using MsAcceso.Documentation;
-using MsAcceso.Extensions;
+// using MsAcceso.Extensions;
 using MsAcceso.Infrastructure;
 using MsAcceso.Infrastructure.Authentication;
 using MsAcceso.Middleware;
@@ -88,6 +90,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRequestContextLogging();
 app.UseSerilogRequestLogging();
+app.UseSessionValidationHandler();
 app.UseCustomExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();

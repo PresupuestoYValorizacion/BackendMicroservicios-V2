@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240929021926_initialApp")]
+    [Migration("20241014000026_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -465,6 +465,28 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                     b.HasIndex("TipoRolId");
 
                     b.ToTable("rols", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Root.Sesiones.Sesion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastActivity")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sesiones", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Root.Sistemas.Sistema", b =>

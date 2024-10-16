@@ -20,7 +20,7 @@ public sealed class JwtProvider : IJwtProvider
         _userRepository = userRepository;
     }
 
-    public  async Task<string> Generate(User user)
+    public async Task<string> Generate(User user)
     {
         var userFounded = await _userRepository.GetByIdUserIncludes(user.Id!);
 
@@ -49,7 +49,15 @@ public sealed class JwtProvider : IJwtProvider
         );
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-    
+
         return tokenValue;
+    }
+
+    public DateTime GetExpirationTime(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        return jwtToken.ValidTo;
     }
 }

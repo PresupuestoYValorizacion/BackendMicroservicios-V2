@@ -51,13 +51,17 @@ public class UsersController : ControllerBase
     )
     {
         var userEmail = _httpContextAccessor.HttpContext!.Request.Headers["User-Email"].ToString();
+        var token = _httpContextAccessor.HttpContext.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
+
 
         if (userEmail is null)
         {
             return BadRequest("Header no existe");
         }
 
-        var command = new SingInByTokenCommand(userEmail!);
+        var command = new SingInByTokenCommand(userEmail!,token!);
+
+        
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -173,7 +177,7 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new LoginCommand(request.Email, request.Password);
+        var command = new LoginCommand(request.Email, request.Password, request.IsForcedSession);
 
         var result = await _sender.Send(command, cancellationToken);
 
