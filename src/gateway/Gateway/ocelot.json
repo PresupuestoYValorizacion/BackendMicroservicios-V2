@@ -14,6 +14,19 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/users/loginTenant",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/loginTenant",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/users/validate-user-id/{Id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

@@ -28,6 +28,7 @@ using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Application.Tenant.Users.RegisterUsersTenant;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Application.Tenant.Users.GetUserByIdTenant;
+using MsAcceso.Application.Tenant.Users.LoginTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -182,6 +183,27 @@ public class UsersController : ControllerBase
     )
     {
         var command = new LoginCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
+
+    }
+
+    [AllowAnonymous]
+    [HttpPost("loginTenant")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> LoginTenant(
+        [FromBody] LoginUserRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new LoginTenantCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession);
 
         var result = await _sender.Send(command, cancellationToken);
 

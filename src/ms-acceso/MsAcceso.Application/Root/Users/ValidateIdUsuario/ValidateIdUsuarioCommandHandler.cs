@@ -9,31 +9,28 @@ using MsAcceso.Domain.Root.Users;
 
 namespace MsAcceso.Application.Root.Users.ValidateIdUsuario;
 
-internal sealed class ValidateIdUsuarioCommandHandler : ICommandHandler<ValidateIdUsuarioCommand, bool>
+internal sealed class ValidateIdUsuarioCommandHandler : ICommandHandler<ValidateIdUsuarioCommand, string>
 {
 
     private readonly IUserRepository _userRepository;
     
-    private readonly IJwtProvider _jwtProvider;
-    private readonly IMapper _mapper;
-
-    public ValidateIdUsuarioCommandHandler(IUserRepository userRepository, IMapper mapper, IJwtProvider jwtProvider)
+    public ValidateIdUsuarioCommandHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _mapper = mapper;
-        _jwtProvider = jwtProvider;
+       
     }
 
-    public async Task<Result<bool>> Handle(ValidateIdUsuarioCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(ValidateIdUsuarioCommand request, CancellationToken cancellationToken)
     {
 
-        var exists = await _userRepository.ValidateIdUsuarioExists(request.IdUsuario, cancellationToken);
+        var user = await _userRepository.GetByIdAsync( new UserId(request.IdUsuario), cancellationToken);
 
-        if (!exists)
+        if (user == null)
         {
-            return Result.Failure<bool>(UserErrors.NotFound)!;
+            return Result.Failure<string>(UserErrors.NotFound)!;
         }
 
-        return exists;
+
+        return user.RolId!.Value.ToString()!;
     }
 }
