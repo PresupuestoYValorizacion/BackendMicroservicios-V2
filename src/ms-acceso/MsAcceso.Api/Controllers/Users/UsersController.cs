@@ -59,9 +59,9 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var command = new SingInByTokenCommand(userEmail!,token!);
+        var command = new SingInByTokenCommand(userEmail!, token!);
 
-        
+
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -89,9 +89,10 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new GetMenusByUserQuery {
+        var query = new GetMenusByUserQuery
+        {
             RolId = new RolId(new Guid(rol)),
-            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia 
+            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia
         };
 
         var result = await _sender.Send(query, cancellationToken);
@@ -120,9 +121,10 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new GetOpcionesSGAQuery {
+        var query = new GetOpcionesSGAQuery
+        {
             RolId = new RolId(new Guid(rol)),
-            Url = url 
+            Url = url
         };
 
         var result = await _sender.Send(query, cancellationToken);
@@ -151,7 +153,8 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new ValidarAccesoMenuQuery {
+        var query = new ValidarAccesoMenuQuery
+        {
             RolId = new RolId(new Guid(rol)),
             Url = url
         };
@@ -166,7 +169,7 @@ public class UsersController : ControllerBase
         return Ok(result);
 
     }
-    
+
 
 
     [AllowAnonymous]
@@ -209,8 +212,8 @@ public class UsersController : ControllerBase
             request.NombreCompleto,
             request.IsAdmin,
             new ParametroId(request.PeriodoLicenciaId),
-            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
-            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
+            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+            new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
 
         var result = await _sender.Send(command, cancellationToken);
@@ -257,8 +260,8 @@ public class UsersController : ControllerBase
             request.Username,
             request.IsAdmin,
             new ParametroId(request.PeriodoLicenciaId),
-            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
-            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
+            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+            new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
 
         var result = await _sender.Send(command, cancellationToken);
@@ -322,17 +325,26 @@ public class UsersController : ControllerBase
             [FromQuery] GetByPaginationRequest request
         )
     {
-        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!); 
+        bool isAdmin = true;
 
-        object query ;
-
-        if(isAdmin)
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
         {
-           query     = new GetUsersByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
 
-        }else
+        object query;
+
+        if (isAdmin)
         {
-           query     = new GetUsersByPaginationTenantQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+            query = new GetUsersByPaginationQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
+
+        }
+        else
+        {
+            query = new GetUsersByPaginationTenantQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
 
         }
 
