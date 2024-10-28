@@ -18,12 +18,12 @@ internal class RegisterUsersTenantCommandHandler : ICommandHandler<RegisterUsers
     private readonly IPersonaNaturalTenantRepository _personaNaturalTenantRepository;
     private readonly IPersonaJuridicaTenantRepository _personaJuridicaTenantRepository;
     private readonly IRolTenantRepository _rolTenantRepository;
-    private readonly IUnitOfWorkApplication _unitOfWork;
+    // private readonly IUnitOfWorkApplication _unitOfWork;
     // private readonly ITenantProvider _tenantProvider;
 
     public RegisterUsersTenantCommandHandler(
         IUserTenantRepository userTenantRepository,
-        IUnitOfWorkApplication unitOfWork,
+        // IUnitOfWorkApplication unitOfWork,
         IPersonaTenantRepository personaTenantRepository,
         IPersonaNaturalTenantRepository personaNaturalTeantRepository,
         IPersonaJuridicaTenantRepository personaJuridicaTenantRepository,
@@ -32,7 +32,7 @@ internal class RegisterUsersTenantCommandHandler : ICommandHandler<RegisterUsers
     )
     {
         _userTenantRepository = userTenantRepository;
-        _unitOfWork = unitOfWork;
+        // _unitOfWork = unitOfWork;
         _personaTenantRepository = personaTenantRepository;
         _personaJuridicaTenantRepository = personaJuridicaTenantRepository;
         _personaNaturalTenantRepository = personaNaturalTeantRepository;
@@ -50,8 +50,7 @@ internal class RegisterUsersTenantCommandHandler : ICommandHandler<RegisterUsers
 
         var user = await CreateAndSaveUserAsync(request, persona.Id!, cancellationToken);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
+        await _userTenantRepository.SaveChangesAsync(cancellationToken);
 
         return Result.Success(user.Id!.Value, Message.Create);
     }

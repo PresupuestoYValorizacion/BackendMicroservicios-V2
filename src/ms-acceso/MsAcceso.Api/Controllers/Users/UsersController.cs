@@ -1,4 +1,3 @@
-
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +24,10 @@ using MsAcceso.Application.Root.Users.GetMenusByUser;
 using MsAcceso.Application.Root.Users.ValidarAccesoMenu;
 using MsAcceso.Domain.Shared.Request;
 using MsAcceso.Application.Tenant.Users.GetUsersByPaginationTenant;
+using MsAcceso.Application.Abstractions.Messaging;
+using MsAcceso.Application.Tenant.Users.RegisterUsersTenant;
+using MsAcceso.Domain.Tenant.RolsTenant;
+using MsAcceso.Application.Tenant.Users.GetUserByIdTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -59,9 +62,7 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var command = new SingInByTokenCommand(userEmail!,token!);
-
-        
+        var command = new SingInByTokenCommand(Email: userEmail!, Token: token!);
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -89,9 +90,10 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new GetMenusByUserQuery {
+        var query = new GetMenusByUserQuery
+        {
             RolId = new RolId(new Guid(rol)),
-            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia 
+            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia
         };
 
         var result = await _sender.Send(query, cancellationToken);
@@ -120,9 +122,10 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new GetOpcionesSGAQuery {
+        var query = new GetOpcionesSGAQuery
+        {
             RolId = new RolId(new Guid(rol)),
-            Url = url 
+            Url = url
         };
 
         var result = await _sender.Send(query, cancellationToken);
@@ -151,7 +154,8 @@ public class UsersController : ControllerBase
             return BadRequest("Header no existe");
         }
 
-        var query = new ValidarAccesoMenuQuery {
+        var query = new ValidarAccesoMenuQuery
+        {
             RolId = new RolId(new Guid(rol)),
             Url = url
         };
@@ -166,7 +170,7 @@ public class UsersController : ControllerBase
         return Ok(result);
 
     }
-    
+
 
 
     [AllowAnonymous]
@@ -177,7 +181,7 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new LoginCommand(request.Email, request.Password, request.IsForcedSession);
+        var command = new LoginCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession);
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -198,20 +202,51 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new RegisterUserCommand(
+
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new RegisterUserCommand(
+                        request.Email,
+                        request.Username,
+                        request.Password,
+                        new ParametroId(request.TipoId),
+                        new ParametroId(request.TipoDocumentoId),
+                        request.NumeroDocumento,
+                        request.RazonSocial,
+                        request.NombreCompleto,
+                        request.IsAdmin,
+                        new ParametroId(request.PeriodoLicenciaId),
+                        new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+                        new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
+                    );
+        }
+        else
+        {
+            command = new RegisterUsersTenantCommand(
             request.Email,
             request.Username,
             request.Password,
-            new ParametroId(request.TipoId),
-            new ParametroId(request.TipoDocumentoId),
+            request.TipoId,
+            request.TipoDocumentoId,
             request.NumeroDocumento,
             request.RazonSocial,
             request.NombreCompleto,
-            request.IsAdmin,
-            new ParametroId(request.PeriodoLicenciaId),
-            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
-            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
+            new RolTenantId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
+        }
+
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -257,8 +292,8 @@ public class UsersController : ControllerBase
             request.Username,
             request.IsAdmin,
             new ParametroId(request.PeriodoLicenciaId),
-            new LicenciaId(request.LicenciaId!.Length> 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
-            new RolId(request.RolId!.Length> 0 ? new Guid(request.RolId!) : Guid.Empty)
+            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+            new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
         );
 
         var result = await _sender.Send(command, cancellationToken);
@@ -322,17 +357,18 @@ public class UsersController : ControllerBase
             [FromQuery] GetByPaginationRequest request
         )
     {
-        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!); 
+        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
 
-        object query ;
+        object query;
 
-        if(isAdmin)
+        if (isAdmin)
         {
-           query     = new GetUsersByPaginationQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+            query = new GetUsersByPaginationQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
 
-        }else
+        }
+        else
         {
-           query     = new GetUsersByPaginationTenantQuery{ PageNumber= request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search= request.Search, OrderBy = request.OrderBy};
+            query = new GetUsersByPaginationTenantQuery { PageNumber = request.PageNumber, PageSize = request.PageSize, OrderAsc = request.OrderAsc, Search = request.Search, OrderBy = request.OrderBy };
 
         }
 
@@ -346,8 +382,31 @@ public class UsersController : ControllerBase
     [HttpGet("get-by-id/{id}")]
     public async Task<ActionResult<PaginationResult<UserDto>>> GetUserById(Guid id)
     {
-        var request = new GetUserByIdQuery { Id = id };
-        var results = await _sender.Send(request);
+
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+        object query;
+
+
+         if (isAdmin)
+        {
+            query = new GetUserByIdQuery { Id = id };
+
+        }
+        else
+        {
+            query = new GetUserByIdTenantQuery { Id = id };
+
+        }
+
+        var results = await _sender.Send(query);
 
         return Ok(results);
     }

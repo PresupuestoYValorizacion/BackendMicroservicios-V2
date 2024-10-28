@@ -1,7 +1,7 @@
 
 namespace MsAcceso.Domain.Tenant.PersonasTenant;
 
-public interface IPersonaRepository
+public interface IPersonaTenantRepository
 {
 
     Task<PersonaTenant?> GetByIdAsync(PersonaTenantId id, CancellationToken cancellationToken = default);

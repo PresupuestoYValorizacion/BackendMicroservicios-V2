@@ -110,3 +110,40 @@ where TEntityId : class
     }
 
 }
+
+
+internal abstract class RepositoryTenant<TEntity>
+where TEntity : class
+{
+    private readonly IDbContextFactory _dbContextFactory;
+     
+    protected DbContext DbContext { get; private set; }
+
+    protected RepositoryTenant(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
+    {
+        _dbContextFactory = dbContextFactory;
+        var licenciaId = currentTenantService.LicenciaId;  // Asumiendo que currentTenantService tiene un RolId
+        DbContext = _dbContextFactory.CreateDbContext(licenciaId!.Value.ToString());
+    }
+
+
+    public void Add(TEntity entity)
+    {
+        DbContext.Add(entity);
+    }
+
+    public void Update(TEntity entity)
+    {
+        DbContext.Entry(entity).State = EntityState.Modified;
+    }
+
+    public void Delete(TEntity entity)
+    {
+        DbContext.Remove(entity);
+    }
+    
+
+
+
+
+}

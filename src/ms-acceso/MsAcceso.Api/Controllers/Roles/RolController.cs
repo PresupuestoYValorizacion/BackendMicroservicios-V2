@@ -27,6 +27,7 @@ using MsAcceso.Application.Tenant.Roles.DeleteRoleTenant;
 using MsAcceso.Application.Root.Roles.GetAllSistemasByRol;
 using MsAcceso.Application.Tenant.Roles.GetAllSistemasByRolTenant;
 using MsAcceso.Application.Tenant.Roles.AddPermisosTenant;
+using MsAcceso.Application.Tenant.Roles.GetRolesTenant;
 
 namespace MsAcceso.Api.Controllers.Parametros;
 
@@ -52,8 +53,31 @@ public class RolesController : Controller
     [HttpGet("get-by-tipo-rol/{id}")]
     public async Task<ActionResult<List<RolDto>>> GetRolesByTipo(int id)
     {
-        var request = new GetRolesByTipoQuery { TipoRolId = new ParametroId(id) };
-        var results = await _sender.Send(request);
+
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true; 
+            }
+        }
+
+        object query;
+
+        if (isAdmin)
+        {
+            query = new GetRolesByTipoQuery { TipoRolId = new ParametroId(id) };
+
+        }
+        else
+        {
+            query = new GetRolesTenantQuery { };
+
+        }
+
+        var results = await _sender.Send(query);
 
         return Ok(results);
     }
@@ -246,7 +270,7 @@ public class RolesController : Controller
         else
         {
 
-            command = new AddPermisosTenantCommand (
+            command = new AddPermisosTenantCommand(
                         new RolTenantId(Guid.Parse(request.RolId)),
                         request.SistemasRequest
                     );
