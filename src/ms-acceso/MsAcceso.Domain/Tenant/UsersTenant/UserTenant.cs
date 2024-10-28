@@ -16,14 +16,14 @@ public sealed class UserTenant : Entity<UserTenantId>
         string email,
         string username,
         string password,
-        string connectionString,
+        // string connectionString,
         PersonaTenantId personaId,
         RolTenantId rolId) : base(id)
     {
         Username = username;
         Email = email;
         Password = password;
-        ConnectionString = connectionString;
+        // ConnectionString = connectionString;
         PersonaId = personaId;
         RolId = rolId;
     }
@@ -45,19 +45,20 @@ public sealed class UserTenant : Entity<UserTenantId>
         string username,
         string email,
         string password,
-        string connectionString,
+        // string connectionString,
         PersonaTenantId empresaId,
         RolTenantId rolId
     )
     {
-        var user = new UserTenant(userId, email, username, password, connectionString, empresaId, rolId);
+        // var user = new UserTenant(userId, email, username, password, connectionString, empresaId, rolId);
+        var user = new UserTenant(userId, email, username, password, empresaId, rolId);
 
         return user;
     }
 
     public Result Update(
-        string username, 
-        string email, 
+        string username,
+        string email,
         string connectionString,
         RolTenantId rolId)
     {
