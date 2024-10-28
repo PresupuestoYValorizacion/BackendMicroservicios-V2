@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20240929021932_initialApp")]
+    [Migration("20241028194025_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -146,9 +146,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ConnectionString")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
