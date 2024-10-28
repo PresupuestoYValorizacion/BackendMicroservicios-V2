@@ -67,7 +67,15 @@ public class RolesController : Controller
     )
     {
 
-        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
 
         var rolId = Guid.Parse(id);
 
@@ -97,7 +105,15 @@ public class RolesController : Controller
         CancellationToken cancellationToken
     )
     {
-        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
 
         object query;
         if (isAdmin)
