@@ -9,6 +9,7 @@ public interface IRolTenantRepository
 {
 
     Task<RolTenant?> GetByIdAsync(RolTenantId id, CancellationToken cancellationToken = default);
+    Task<List<RolTenant>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<bool> GetByNombreAsync(string nombre, CancellationToken cancellationToken = default);
 
     void Add(RolTenant user);

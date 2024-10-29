@@ -26,5 +26,11 @@ public interface IUserTenantRepository
         CancellationToken cancellationToken = default
     );
     
+    public  Task<UserTenant?> GetByIdUserIncludes(
+        UserTenantId Id,
+        CancellationToken cancellationToken = default
+    );
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
 
 }

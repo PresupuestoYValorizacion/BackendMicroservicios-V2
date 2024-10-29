@@ -14,10 +14,17 @@ internal sealed class RolTenantRepository : RepositoryTenant<RolTenant, RolTenan
     {
     }
 
+    public async Task<List<RolTenant>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<RolTenant>()
+                    .Where(x => x.Activo == new Activo(true))
+                    .ToListAsync(cancellationToken);
+    }
+
     public async Task<bool> GetByNombreAsync(string nombre, CancellationToken cancellationToken = default)
     {
-         return await DbContext.Set<RolTenant>()
-                    .AnyAsync(x => x.Nombre == nombre && x.Activo == new Activo(true), cancellationToken);
+        return await DbContext.Set<RolTenant>()
+                   .AnyAsync(x => x.Nombre == nombre && x.Activo == new Activo(true), cancellationToken);
 
     }
 
