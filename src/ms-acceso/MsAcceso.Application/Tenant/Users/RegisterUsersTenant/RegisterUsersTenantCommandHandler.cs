@@ -103,11 +103,19 @@ internal class RegisterUsersTenantCommandHandler : ICommandHandler<RegisterUsers
             request.Username,
             request.Email,
             passwordHash,
-            // connectionString,
+            //connectionString,
             empresaId,
             rolTenant?.Id!
         );
-
+/*
+        UserTenantId userId,
+        string username,
+        string email,
+        string password,
+        string connectionString,
+        PersonaTenantId empresaId,
+        RolTenantId rolId
+*/
         _userTenantRepository.Add(user);
 
         return user;

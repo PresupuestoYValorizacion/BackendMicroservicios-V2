@@ -52,8 +52,8 @@ public sealed class UserTenant : Entity<UserTenantId>
     }
 
     public Result Update(
-        string username, 
-        string email, 
+        string username,
+        string email,
         string connectionString,
         RolTenantId rolId)
     {
