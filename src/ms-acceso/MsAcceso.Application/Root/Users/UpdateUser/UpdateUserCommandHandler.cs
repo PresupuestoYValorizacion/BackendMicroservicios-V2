@@ -87,7 +87,13 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
     {
         if (request.IsAdmin)
         {
-            await DeactivateLicensesAsync(user.Id!, cancellationToken);
+            var usuarioLicencia = await _usuarioLicenciaRepository.GetByUserAsync(user.Id!, cancellationToken);
+
+            if (usuarioLicencia is not null)
+            {
+                DeactivateLicensesAsync(usuarioLicencia, cancellationToken);
+            }
+            
             user.Update(request.Username!, request.Email!, string.Empty, request.RolId!);
 
             await _tenantProvider.Delete(user.Id!.Value);
@@ -115,7 +121,13 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
         }
         else
         {
-            await DeactivateLicensesAsync(user.Id!, cancellationToken);
+            var usuarioLicencia = await _usuarioLicenciaRepository.GetByUserAsync(user.Id!, cancellationToken);
+
+            if (usuarioLicencia is not null)
+            {
+                DeactivateLicensesAsync(usuarioLicencia, cancellationToken);
+            }
+
             var rol = await _rolRepository.GetByLicenciaAsync(request.LicenciaId!, cancellationToken);
             user.Update(request.Username!, request.Email!, user.ConnectionString!, rol?.Id!);
 
@@ -125,9 +137,9 @@ internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Gui
         }
     }
 
-    private async Task DeactivateLicensesAsync(UserId userId, CancellationToken cancellationToken)
+    private void DeactivateLicensesAsync(UsuarioLicencia usuarioLicencia, CancellationToken cancellationToken)
     {
-        var usuarioLicencia = await _usuarioLicenciaRepository.GetByUserAsync(userId, cancellationToken);
+
         usuarioLicencia!.Desactive();
         _usuarioLicenciaRepository.Update(usuarioLicencia!);
     }
