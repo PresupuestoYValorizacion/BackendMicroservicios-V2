@@ -33,6 +33,7 @@ public sealed class JwtProvider : IJwtProvider
         var userFounded = await _userRepository.GetByIdUserIncludes(user.Id!);
 
         bool isAdmin = userFounded!.Rol!.TipoRolId!.Value == TipoRol.Administrador;
+        bool isTenant = false;
 
         var claims = new List<Claim> {
             new(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
@@ -40,6 +41,7 @@ public sealed class JwtProvider : IJwtProvider
             new(CustomClaims.Rol,user.RolId!.Value.ToString()),
             new(CustomClaims.Tenant,user.Id!.Value.ToString()),
             new(CustomClaims.IsAdmin,isAdmin.ToString()),
+            new(CustomClaims.IsTenant,isTenant.ToString()), // Hace referencia a si su usuario y rol esta en su propia bd
         };
 
         var sigingCredentials = new SigningCredentials(
@@ -66,6 +68,7 @@ public sealed class JwtProvider : IJwtProvider
         // var userFounded = await _userTenantRepository.GetByIdUserIncludes(user.Id!);
 
         bool isAdmin = false;
+        bool isTenant = true;
 
         var claims = new List<Claim> {
             new(JwtRegisteredClaimNames.Sub,user.Id!.Value.ToString()),
@@ -73,6 +76,8 @@ public sealed class JwtProvider : IJwtProvider
             new(CustomClaims.Rol,user.RolId!.Value.ToString()),
             new(CustomClaims.Tenant,user.Id!.Value.ToString()),
             new(CustomClaims.IsAdmin,isAdmin.ToString()),
+            new(CustomClaims.IsTenant,isTenant.ToString()), // Hace referencia a si su usuario y rol esta en su propia bd
+
         };
 
         var sigingCredentials = new SigningCredentials(
