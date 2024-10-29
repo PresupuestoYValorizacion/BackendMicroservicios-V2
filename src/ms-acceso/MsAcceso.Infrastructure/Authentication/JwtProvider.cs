@@ -43,6 +43,8 @@ public sealed class JwtProvider : IJwtProvider
             new(CustomClaims.Tenant,user.Id!.Value.ToString()),
             new(CustomClaims.IsAdmin,isAdmin.ToString()),
             new(CustomClaims.IsTenant,isTenant.ToString()), // Hace referencia a si su usuario y rol esta en su propia bd
+            new(CustomClaims.UserTenantRolId,string.Empty), 
+        
         };
 
         var sigingCredentials = new SigningCredentials(
