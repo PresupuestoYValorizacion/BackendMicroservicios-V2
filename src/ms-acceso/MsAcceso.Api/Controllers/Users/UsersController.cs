@@ -29,6 +29,9 @@ using MsAcceso.Application.Tenant.Users.RegisterUsersTenant;
 using MsAcceso.Domain.Tenant.RolsTenant;
 using MsAcceso.Application.Tenant.Users.GetUserByIdTenant;
 using MsAcceso.Application.Tenant.Users.LoginTenant;
+using MsAcceso.Application.Tenant.Users.GetMenusByUserTenant;
+using MsAcceso.Domain.Tenant.UsersTenant;
+using MsAcceso.Domain.Root.Sistemas;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -84,18 +87,44 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
 
         if (rol is null)
         {
             return BadRequest("Header no existe");
         }
 
-        var query = new GetMenusByUserQuery
+        bool isTenant = false;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsTenant", out var isAdminValue))
         {
-            RolId = new RolId(new Guid(rol)),
-            Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia
-        };
+            if (!bool.TryParse(isAdminValue, out isTenant))
+            {
+                isTenant = false;
+            }
+        }
+        IQuery<List<SistemaByRolDto>> query;
+
+        if (isTenant)
+        {
+            var userTenantRolId = _httpContextAccessor.HttpContext!.Request.Headers["UserTenantRolId"].ToString();
+
+            query = new GetMenusByUserTenantQuery
+            {
+                RolId = rol,
+                UserTenantRolId = userTenantRolId,
+                Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia
+            };
+        }
+        else
+        {
+            query = new GetMenusByUserQuery
+            {
+                RolId = new RolId(new Guid(rol)),
+                Dependencia = string.IsNullOrEmpty(dependencia) ? null : dependencia
+            };
+        }
+
 
         var result = await _sender.Send(query, cancellationToken);
 
@@ -203,7 +232,10 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new LoginTenantCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession);
+        var rolId = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
+        var userTenantId = _httpContextAccessor.HttpContext!.Request.Headers["Tenant"].ToString();
+
+        var command = new LoginTenantCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession, UserTenantRolId: rolId, UserTenantId: userTenantId);
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -425,7 +457,7 @@ public class UsersController : ControllerBase
         object query;
 
 
-         if (isAdmin)
+        if (isAdmin)
         {
             query = new GetUserByIdQuery { Id = id };
 
