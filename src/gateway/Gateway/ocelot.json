@@ -192,7 +192,12 @@
       },
       "AddHeadersToRequest": {
         "Authorization": "Authorization",
-        "User-Email": "Claims[Email] > value > |"
+        "User-Email": "Claims[Email] > value > |",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "UserTenantRolId": "Claims[UserTenantRolId] > value > |",
+        "IsTenant": "Claims[IsTenant] > value > |"
+
       },
       "SwaggerKey": "acceso"
     },
@@ -213,7 +218,10 @@
       },
       "AddHeadersToRequest": {
         "Authorization": "Authorization",
-        "User-Rol": "Claims[Rol] > value > |"
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "UserTenantRolId": "Claims[UserTenantRolId] > value > |",
+        "IsTenant": "Claims[IsTenant] > value > |"
       },
       "SwaggerKey": "acceso"
     },

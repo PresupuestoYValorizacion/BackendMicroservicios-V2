@@ -13,6 +13,7 @@ using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Root.Sesiones;
 using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Tenant.UsersTenant;
+using MsAcceso.Domain.Root.Rols;
 
 namespace MsAcceso.Application.Tenant.Users.LoginTenant;
 
@@ -85,7 +86,7 @@ internal sealed class LoginTenantCommandHandler : ICommandHandler<LoginTenantCom
         var userDto = _mapper.Map<UserTenantDto>(user);
 
         
-        var token = await _jwtProvider.GenerateForTenant(user);
+        var token = await _jwtProvider.GenerateForTenant(user, new RolId(Guid.Parse(request.UserTenantRolId)), request.UserTenantId );
 
         var sesion = Sesion.Create(userDto.Id!, token);
 

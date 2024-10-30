@@ -38,7 +38,7 @@ internal sealed class UserRepository : RepositoryApplication<User, UserId>, IUse
         .Include(u => u.Empresa).ThenInclude(e => e!.PersonaJuridica)
         .Include(u => u.Empresa).ThenInclude(e => e!.PersonaNatural)
         .Include(u => u.Rol)
-        .Include(u => u.UsuarioLicencias) 
+        .Include(u => u.UsuarioLicencias).Where(x => x.Activo == new Activo(true)) 
         .FirstOrDefaultAsync(x => x.Id == Id && x.Activo == new Activo(true), cancellationToken);
 
         if (user != null && user.Rol!.TipoRolId == new ParametroId( TipoRol.Licencia))

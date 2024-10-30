@@ -100,7 +100,10 @@ public class RolesController : Controller
                 isAdmin = true;
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8cf299c915e59141b3f9a34635210a31df8a0cf4
 
         var rolId = Guid.Parse(id);
 
@@ -139,7 +142,10 @@ public class RolesController : Controller
                 isAdmin = true;
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8cf299c915e59141b3f9a34635210a31df8a0cf4
 
         object query;
         if (isAdmin)
@@ -168,7 +174,15 @@ public class RolesController : Controller
         CancellationToken cancellationToken
     )
     {
-        bool isAdmin = bool.Parse(_httpContextAccessor.HttpContext!.Request.Headers["IsAdmin"]!);
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
 
         object query;
 

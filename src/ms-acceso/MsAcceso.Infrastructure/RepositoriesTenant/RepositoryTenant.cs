@@ -12,7 +12,7 @@ internal abstract class RepositoryTenant<TEntity, TEntityId>
 where TEntity : Entity<TEntityId>
 where TEntityId : class
 {
-     private readonly IDbContextFactory _dbContextFactory;
+    private readonly IDbContextFactory _dbContextFactory;
     protected DbContext DbContext { get; private set; }
 
     protected RepositoryTenant(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
