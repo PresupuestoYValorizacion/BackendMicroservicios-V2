@@ -100,11 +100,7 @@ public class RolesController : Controller
                 isAdmin = true;
             }
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 8cf299c915e59141b3f9a34635210a31df8a0cf4
-
+        
         var rolId = Guid.Parse(id);
 
         object query;
@@ -142,10 +138,6 @@ public class RolesController : Controller
                 isAdmin = true;
             }
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 8cf299c915e59141b3f9a34635210a31df8a0cf4
 
         object query;
         if (isAdmin)

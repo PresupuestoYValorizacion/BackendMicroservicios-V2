@@ -10,7 +10,6 @@ namespace MsAcceso.Application.Root.Users.UpdateUser;
 internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, Guid>
 {
     private readonly IUserRepository _userRepository;
-
     private readonly IUnitOfWorkApplication _unitOfWork;
     private readonly ITenantProvider _tenantProvider;
     private readonly IRolRepository _rolRepository;

@@ -15,7 +15,7 @@ public sealed class Persona : Entity<PersonaId>
         ParametroId tipo,
         ParametroId tipoDocumento,
         string numeroDocumento
-        ) : base(id)
+    ) : base(id)
     {
         TipoId = tipo;
         TipoDocumentoId = tipoDocumento;

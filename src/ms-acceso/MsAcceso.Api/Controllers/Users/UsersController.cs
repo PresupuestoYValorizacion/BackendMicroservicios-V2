@@ -32,6 +32,8 @@ using MsAcceso.Application.Tenant.Users.LoginTenant;
 using MsAcceso.Application.Tenant.Users.GetMenusByUserTenant;
 using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Application.Tenant.Users.SingInByTokenTenant;
+using MsAcceso.Application.Tenant.Users.UpdateUsersTenant;
+using MsAcceso.Domain.Tenant.UsersTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -364,15 +366,36 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new UpdateUserCommand(
-            new UserId(request.Id),
-            request.Email,
-            request.Username,
-            request.IsAdmin,
-            new ParametroId(request.PeriodoLicenciaId),
-            new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
-            new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
-        );
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+
+        ICommand<Guid> command;
+
+        if (isAdmin){
+            command = new UpdateUserCommand(
+                new UserId(request.Id),
+                request.Email,
+                request.Username,
+                request.IsAdmin,
+                new ParametroId(request.PeriodoLicenciaId),
+                new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
+                new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
+            );
+        }else{
+            command = new UpdateUsersTenantCommand(
+                new UserTenantId(request.Id),
+                request.Email,
+                request.Username,
+                new RolTenantId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
+            );
+        }
 
         var result = await _sender.Send(command, cancellationToken);
 

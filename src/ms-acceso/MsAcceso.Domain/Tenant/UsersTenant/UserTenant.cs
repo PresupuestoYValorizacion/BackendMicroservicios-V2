@@ -17,7 +17,8 @@ public sealed class UserTenant : Entity<UserTenantId>
         string username,
         string password,
         PersonaTenantId personaId,
-        RolTenantId rolId) : base(id)
+        RolTenantId rolId
+    ) : base(id)
     {
         Username = username;
         Email = email;
@@ -54,7 +55,7 @@ public sealed class UserTenant : Entity<UserTenantId>
     public Result Update(
         string username,
         string email,
-        string connectionString,
+        // string connectionString,
         RolTenantId rolId)
     {
         Username = username.Length > 0 ? username : Username;

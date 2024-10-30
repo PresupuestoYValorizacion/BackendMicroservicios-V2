@@ -7,7 +7,6 @@ public interface IPersonaTenantRepository
     Task<PersonaTenant?> GetByIdAsync(PersonaTenantId id, CancellationToken cancellationToken = default);
 
     void Add(PersonaTenant persona);
-
     void Update(PersonaTenant persona);
     void Delete(PersonaTenant persona);
 

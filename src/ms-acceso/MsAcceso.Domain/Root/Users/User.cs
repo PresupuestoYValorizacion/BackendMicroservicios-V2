@@ -19,7 +19,8 @@ public sealed class User : Entity<UserId>
         string password,
         string connectionString,
         PersonaId empresaId,
-        RolId rolId) : base(id)
+        RolId rolId
+    ) : base(id)
     {
         Username = username;
         Email = email;
