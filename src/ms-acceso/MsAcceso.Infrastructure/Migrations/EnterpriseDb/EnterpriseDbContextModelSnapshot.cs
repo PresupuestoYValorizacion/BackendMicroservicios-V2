@@ -144,9 +144,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ConnectionString")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(200)

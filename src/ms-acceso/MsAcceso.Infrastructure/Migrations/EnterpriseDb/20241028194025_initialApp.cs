@@ -102,7 +102,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    ConnectionString = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)

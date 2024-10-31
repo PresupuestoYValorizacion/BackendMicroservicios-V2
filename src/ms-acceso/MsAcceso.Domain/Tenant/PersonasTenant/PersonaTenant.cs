@@ -16,7 +16,7 @@ public sealed class PersonaTenant : Entity<PersonaTenantId>
         int tipo,
         int tipoDocumento,
         string numeroDocumento
-        ) : base(id)
+    ) : base(id)
     {
         TipoId = tipo;
         TipoDocumentoId = tipoDocumento;

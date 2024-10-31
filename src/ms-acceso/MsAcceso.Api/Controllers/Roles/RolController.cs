@@ -60,7 +60,7 @@ public class RolesController : Controller
         {
             if (!bool.TryParse(isAdminValue, out isAdmin))
             {
-                isAdmin = true; 
+                isAdmin = true;
             }
         }
 
@@ -100,7 +100,7 @@ public class RolesController : Controller
                 isAdmin = true;
             }
         }
-
+        
         var rolId = Guid.Parse(id);
 
         object query;
