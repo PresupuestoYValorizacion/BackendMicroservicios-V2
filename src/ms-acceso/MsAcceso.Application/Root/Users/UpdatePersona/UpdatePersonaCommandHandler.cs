@@ -17,9 +17,9 @@ internal class UpdatePersonaCommandHandler : ICommandHandler<UpdatePersonaComman
     private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdatePersonaCommandHandler(
-        IUnitOfWorkApplication unitOfWork, 
-        IPersonaRepository personaRepository, 
-        IPersonaNaturalRepository personaNaturalRepository, 
+        IUnitOfWorkApplication unitOfWork,
+        IPersonaRepository personaRepository,
+        IPersonaNaturalRepository personaNaturalRepository,
         IPersonaJuridicaRepository personaJuridicaRepository)
     {
         _unitOfWork = unitOfWork;

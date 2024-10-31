@@ -59,6 +59,8 @@ internal class UpdateUsersTenantCommandHandler : ICommandHandler<UpdateUsersTena
 
         _userTenantRepository.Update(userTenant);
 
+        await _userTenantRepository.SaveChangesAsync(cancellationToken);
+
         return Result.Success(userTenant.Id!.Value, Message.Update);
 
     }

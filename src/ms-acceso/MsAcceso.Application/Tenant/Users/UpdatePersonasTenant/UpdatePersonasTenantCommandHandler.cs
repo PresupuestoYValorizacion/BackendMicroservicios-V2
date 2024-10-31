@@ -14,15 +14,13 @@ internal class UpdatePersonasTenantCommandHandler : ICommandHandler<UpdatePerson
     private readonly IPersonaTenantRepository _personaTenantRepository;
     private readonly IPersonaNaturalTenantRepository _personaNaturalTenantRepository;
     private readonly IPersonaJuridicaTenantRepository _personaJuridicaTenantRepository;
-    private readonly IUnitOfWorkApplication _unitOfWork;
+    // private readonly IUnitOfWorkApplication _unitOfWork;
 
     public UpdatePersonasTenantCommandHandler(
-        IUnitOfWorkApplication unitOfWork, 
         IPersonaTenantRepository personaTenantRepository, 
         IPersonaNaturalTenantRepository personaNaturalTenantRepository, 
         IPersonaJuridicaTenantRepository personaJuridicaTenantRepository)
     {
-        _unitOfWork = unitOfWork;
         _personaTenantRepository = personaTenantRepository;
         _personaJuridicaTenantRepository = personaJuridicaTenantRepository;
         _personaNaturalTenantRepository = personaNaturalTenantRepository;
@@ -51,7 +49,7 @@ internal class UpdatePersonasTenantCommandHandler : ICommandHandler<UpdatePerson
         personaTenant.Update(request.TipoId, request.TipoDocumentoId, request.NumeroDocumento);
         _personaTenantRepository.Update(personaTenant);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _personaTenantRepository.SaveChangesAsync(cancellationToken);
 
         return Result.Success(personaTenant.Id!.Value, Message.Update);
     }
@@ -73,7 +71,7 @@ internal class UpdatePersonasTenantCommandHandler : ICommandHandler<UpdatePerson
                 break;
         }
 
-        await _unitOfWork.SaveChangesAsync();
+        await _personaTenantRepository.SaveChangesAsync();
     }
 
     private async Task HandleTipoPersonaUpdate(PersonaTenant persona, UpdatePersonasTenantCommand request)
@@ -93,6 +91,6 @@ internal class UpdatePersonasTenantCommandHandler : ICommandHandler<UpdatePerson
                 break;
         }
 
-        await _unitOfWork.SaveChangesAsync();
+        await _personaTenantRepository.SaveChangesAsync();
     }
 }

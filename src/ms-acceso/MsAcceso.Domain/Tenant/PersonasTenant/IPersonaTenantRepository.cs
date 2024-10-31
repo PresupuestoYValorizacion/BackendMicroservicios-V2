@@ -19,5 +19,6 @@ public interface IPersonaTenantRepository
         string NumeroDocumento, 
         CancellationToken cancellationToken = default
     );
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
 }
