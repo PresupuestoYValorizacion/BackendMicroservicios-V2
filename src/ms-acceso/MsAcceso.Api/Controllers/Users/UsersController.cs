@@ -34,6 +34,7 @@ using MsAcceso.Domain.Root.Sistemas;
 using MsAcceso.Application.Tenant.Users.SingInByTokenTenant;
 using MsAcceso.Application.Tenant.Users.UpdateUsersTenant;
 using MsAcceso.Domain.Tenant.UsersTenant;
+using MsAcceso.Domain.Tenant.PersonasTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -529,7 +530,20 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new UpdatePersonaCommand(
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+        
+        ICommand<Guid> command;
+
+        if (isAdmin){
+            command = new UpdatePersonaCommand(
             new PersonaId(request.Id),
             new ParametroId(request.TipoId),
             new ParametroId(request.TipoDocumentoId),
@@ -537,6 +551,16 @@ public class UsersController : ControllerBase
             request.RazonSocial,
             request.NombreCompleto
         );
+        }else{
+            command = new UpdatePersonasTenantCommand(
+            new PersonaTenantId(request.Id),
+            request.TipoId,
+            request.TipoDocumentoId,
+            request.NumeroDocumento,
+            request.RazonSocial,
+            request.NombreCompleto
+        );
+        }
 
         var result = await _sender.Send(command, cancellationToken);
 
