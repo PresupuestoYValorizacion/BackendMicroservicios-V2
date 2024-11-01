@@ -35,6 +35,8 @@ using MsAcceso.Application.Tenant.Users.SingInByTokenTenant;
 using MsAcceso.Application.Tenant.Users.UpdateUsersTenant;
 using MsAcceso.Domain.Tenant.UsersTenant;
 using MsAcceso.Domain.Tenant.PersonasTenant;
+using MsAcceso.Application.Tenant.Users.DesactiveUserTenant;
+using MsAcceso.Application.Tenant.Users.DeleteUserTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -81,16 +83,16 @@ public class UsersController : ControllerBase
 
         object command;
 
-        if(isTenant)
+        if (isTenant)
         {
             var rol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
             var tenant = _httpContextAccessor.HttpContext!.Request.Headers["Tenant"].ToString();
 
-            command  = new SingInByTokenTenantCommand(Email: userEmail!, Token: token!, RolId: rol, TenantId: tenant);
+            command = new SingInByTokenTenantCommand(Email: userEmail!, Token: token!, RolId: rol, TenantId: tenant);
         }
         else
         {
-            command  = new SingInByTokenCommand(Email: userEmail!, Token: token!);
+            command = new SingInByTokenCommand(Email: userEmail!, Token: token!);
 
         }
 
@@ -379,7 +381,8 @@ public class UsersController : ControllerBase
 
         ICommand<Guid> command;
 
-        if (isAdmin){
+        if (isAdmin)
+        {
             command = new UpdateUserCommand(
                 new UserId(request.Id),
                 request.Email,
@@ -389,7 +392,9 @@ public class UsersController : ControllerBase
                 new LicenciaId(request.LicenciaId!.Length > 0 ? new Guid(request.LicenciaId!) : Guid.Empty),
                 new RolId(request.RolId!.Length > 0 ? new Guid(request.RolId!) : Guid.Empty)
             );
-        }else{
+        }
+        else
+        {
             command = new UpdateUsersTenantCommand(
                 new UserTenantId(request.Id),
                 request.Email,
@@ -416,9 +421,33 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new DesactiveUserCommand(
-            new UserId(request.Id)
-        );
+
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+
+        ICommand<Guid> command;
+
+        if (isAdmin)
+        {
+            command = new DesactiveUserCommand(
+                        new UserId(request.Id)
+                    );
+        }
+
+        else
+        {
+            command = new DesactiveUserTenantCommand(
+                                    new UserTenantId(request.Id)
+                                );
+        }
+
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -438,9 +467,32 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new DeleteUserCommand(
-            new UserId(id)
-        );
+
+        bool isAdmin = true;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsAdmin", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isAdmin))
+            {
+                isAdmin = true;
+            }
+        }
+
+        ICommand<Guid> command;
+
+
+        if (isAdmin)
+        {
+            command = new DeleteUserCommand(
+                        new UserId(id)
+                    );
+        }
+        else
+        {
+            command = new DeleteUserTenantCommand(
+                                    new UserTenantId(id)
+                                );
+        }
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -539,10 +591,11 @@ public class UsersController : ControllerBase
                 isAdmin = true;
             }
         }
-        
+
         ICommand<Guid> command;
 
-        if (isAdmin){
+        if (isAdmin)
+        {
             command = new UpdatePersonaCommand(
             new PersonaId(request.Id),
             new ParametroId(request.TipoId),
@@ -551,7 +604,9 @@ public class UsersController : ControllerBase
             request.RazonSocial,
             request.NombreCompleto
         );
-        }else{
+        }
+        else
+        {
             command = new UpdatePersonasTenantCommand(
             new PersonaTenantId(request.Id),
             request.TipoId,
