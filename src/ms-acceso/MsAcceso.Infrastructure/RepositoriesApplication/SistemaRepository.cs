@@ -276,6 +276,36 @@ internal sealed class SistemaRepository : RepositoryApplication<Sistema, Sistema
 
     }
 
+    public async Task<Sistema?> GetByUrlTenantAsync(string url, RolId UserRolId, CancellationToken cancellationToken)
+    {
+        var system = await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true) && x.RolPermisos!.Any(x => x.RolId == UserRolId))
+                                                 .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                 .ThenInclude(x => x.Opcion)
+                                                 .FirstOrDefaultAsync(cancellationToken);
+        // if (system is not null)
+        // {
+        //     await LoadDependenciesByUserRolAsync(system!, UserRolId, cancellationToken);
+        // }
+
+        return system;
+
+    }
+
+    public async Task<Sistema?> GetByUrlAllTenantAsync(string url, RolId UserRolId, CancellationToken cancellationToken)
+    {
+        var system = await DbContext.Set<Sistema>().Where(x => x.Url == url && x.Activo == new Activo(true) && x.RolPermisos!.Any(x => x.RolId == UserRolId))
+                                                 .Include(x => x.MenuOpcions!.Where(mo => mo.Activo == new Activo(true) && mo.Opcion!.Activo == new Activo(true)))
+                                                 .ThenInclude(x => x.Opcion)
+                                                 .FirstOrDefaultAsync(cancellationToken);
+        if (system is not null)
+        {
+            await LoadDependenciesByUserRolAsync(system!, UserRolId, cancellationToken);
+        }
+
+        return system;
+
+    }
+
     public async Task<int> GetCountSistemasByDependencia(SistemaId? dependencia, CancellationToken cancellationToken)
     {
         return await DbContext.Set<Sistema>().CountAsync(x => x.Dependencia == dependencia && x.Activo == new Activo(true), cancellationToken);

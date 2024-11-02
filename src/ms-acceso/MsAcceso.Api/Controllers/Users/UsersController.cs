@@ -37,6 +37,9 @@ using MsAcceso.Domain.Tenant.UsersTenant;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Application.Tenant.Users.DesactiveUserTenant;
 using MsAcceso.Application.Tenant.Users.DeleteUserTenant;
+using MsAcceso.Domain.Root.MenuOpciones;
+using MsAcceso.Application.Tenant.Users.GetOpcionesSGATenant;
+using MsAcceso.Application.Tenant.Users.ValidarAccesoMenuTenant;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -174,18 +177,46 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+        bool isTenant = false;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsTenant", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isTenant))
+            {
+                isTenant = false;
+            }
+        }
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
 
         if (rol is null)
         {
             return BadRequest("Header no existe");
         }
 
-        var query = new GetOpcionesSGAQuery
+        IQuery<List<MenuOpcionDto>> query;
+
+        if (isTenant)
         {
-            RolId = new RolId(new Guid(rol)),
-            Url = url
-        };
+            var userTenantRolId = _httpContextAccessor.HttpContext!.Request.Headers["UserTenantRolId"].ToString();
+
+            query = new GetOpcionesSGATenantQuery
+            {
+                UserRolId = new RolId(new Guid(rol)),
+                RolId = new RolTenantId(new Guid(userTenantRolId)),
+                Url = url
+            };
+
+        }
+        else
+        {
+
+            query = new GetOpcionesSGAQuery
+            {
+                RolId = new RolId(new Guid(rol)),
+                Url = url
+            };
+        }
+
 
         var result = await _sender.Send(query, cancellationToken);
 
@@ -206,18 +237,46 @@ public class UsersController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var rol = _httpContextAccessor.HttpContext!.Request.Headers["User-Rol"].ToString();
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
 
         if (rol is null)
         {
             return BadRequest("Header no existe");
         }
 
-        var query = new ValidarAccesoMenuQuery
+        bool isTenant = false;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsTenant", out var isAdminValue))
         {
-            RolId = new RolId(new Guid(rol)),
-            Url = url
-        };
+            if (!bool.TryParse(isAdminValue, out isTenant))
+            {
+                isTenant = false;
+            }
+        }
+
+        IQuery<bool> query;
+
+        if (isTenant)
+        {
+
+            var userTenantRolId = _httpContextAccessor.HttpContext!.Request.Headers["UserTenantRolId"].ToString();
+
+            query = new ValidarAccesoMenuTenantQuery
+            {
+                RolId = new RolTenantId(new Guid(userTenantRolId)),
+                UserRolId = new RolId(new Guid(rol)),
+                Url = url
+            };
+        }
+        else
+        {
+            query = new ValidarAccesoMenuQuery
+            {
+                RolId = new RolId(new Guid(rol)),
+                Url = url
+            };
+        }
+
 
         var result = await _sender.Send(query, cancellationToken);
 

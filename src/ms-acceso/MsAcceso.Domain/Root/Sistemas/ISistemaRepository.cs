@@ -6,6 +6,8 @@ public interface ISistemaRepository
 {
     Task<Sistema?> GetByIdAsync(SistemaId Id,CancellationToken cancellationToken);
     Task<Sistema?> GetByUrlAsync(string url,RolId rolId, CancellationToken cancellationToken);
+    Task<Sistema?> GetByUrlTenantAsync(string url,RolId UserRolId, CancellationToken cancellationToken);
+    Task<Sistema?> GetByUrlAllTenantAsync(string url,RolId UserRolId, CancellationToken cancellationToken);
     Task<Sistema?> GetByOrdenAsync(int orden,SistemaId dependencia, CancellationToken cancellationToken);
     void Add(Sistema sistema);
     void Update(Sistema sistema);
