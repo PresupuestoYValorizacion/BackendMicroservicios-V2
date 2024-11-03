@@ -298,6 +298,30 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/users/logout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/users/logout",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "UserId": "Claims[UserId] > value > |",
+        "IsTenant": "Claims[IsTenant] > value > |",
+        "Tenant": "Claims[Tenant] > value > |"
+
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/parametros/get-pagination",
       "DownstreamHostAndPorts": [
         {

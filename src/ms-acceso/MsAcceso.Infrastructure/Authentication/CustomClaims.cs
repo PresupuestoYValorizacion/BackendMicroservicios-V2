@@ -8,4 +8,5 @@ public static class CustomClaims
     internal const string IsAdmin = "IsAdmin";
     internal const string IsTenant = "IsTenant";
     internal const string UserTenantRolId = "UserTenantRolId";
+    internal const string UserId = "UserId";
 } 

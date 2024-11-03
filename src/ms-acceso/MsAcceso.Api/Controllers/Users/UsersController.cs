@@ -40,6 +40,7 @@ using MsAcceso.Application.Tenant.Users.DeleteUserTenant;
 using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Application.Tenant.Users.GetOpcionesSGATenant;
 using MsAcceso.Application.Tenant.Users.ValidarAccesoMenuTenant;
+using MsAcceso.Application.Root.Users.LogoutUser;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -324,6 +325,39 @@ public class UsersController : ControllerBase
         var userTenantId = _httpContextAccessor.HttpContext!.Request.Headers["Tenant"].ToString();
 
         var command = new LoginTenantCommand(Email: request.Email, Password: request.Password, IsForcedSession: request.IsForcedSession, UserTenantRolId: rolId, UserTenantId: userTenantId);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
+
+    }
+
+
+    [AllowAnonymous]
+    [HttpPost("logout")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> Logout(
+        CancellationToken cancellationToken
+    )
+    {
+        bool isTenant = false;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsTenant", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isTenant))
+            {
+                isTenant = false;
+            }
+        }
+        var userId = _httpContextAccessor.HttpContext!.Request.Headers["UserId"].ToString();
+        var tenantId = _httpContextAccessor.HttpContext!.Request.Headers["Tenant"].ToString();
+
+        var command = new LogoutUserCommand(UserId: userId, IsTenant: isTenant, IdTenant: tenantId);
 
         var result = await _sender.Send(command, cancellationToken);
 
