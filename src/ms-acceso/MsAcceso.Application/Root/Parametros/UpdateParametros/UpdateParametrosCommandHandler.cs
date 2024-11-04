@@ -45,7 +45,7 @@ internal sealed class UpdateParametrosCommandHandler : ICommandHandler<UpdatePar
 
         var valorExist = false;
 
-        if(request.Valor!.Length >0 && parametro.Nivel!.Value > 0){
+        if(request.Valor!.Length >0 && parametro.Nivel!.Value > 0 && parametro.Valor != request.Valor){
 
             valorExist = await _parametroRepository.ValorExists(request.Valor, parametro.Dependencia!.Value, cancellationToken);
         }
