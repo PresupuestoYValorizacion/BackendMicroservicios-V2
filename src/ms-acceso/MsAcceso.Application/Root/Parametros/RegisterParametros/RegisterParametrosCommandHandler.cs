@@ -47,7 +47,7 @@ internal sealed class RegisterParametrosCommandHandler : ICommandHandler<Registe
             dependenciaExists = await _parametroRepository.GetByIdAsync(new ParametroId(request.Dependencia),cancellationToken);
         }
 
-        if(dependenciaExists is null)
+        if(dependenciaExists is null && request.Dependencia != 0)
         {
             return Result.Failure<int>(ParametroErrors.DependenciaNotFound);
         }
