@@ -10,6 +10,7 @@ using MsAcceso.Domain.Tenant.UsersTenant;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
+using MsAcceso.Domain.Tenant.Especialidades;
 
 namespace MsAcceso.Infrastructure;
 
@@ -36,6 +37,8 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
     public DbSet<PersonaTenant> Personas { get; set; }
     public DbSet<PersonaJuridicaTenant> PersonaJurdicas { get; set; }
     public DbSet<PersonaNaturalTenant> PersonaNaturales { get; set; }
+
+    public DbSet<Especialidad> Especialidades { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -170,6 +173,22 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PersonaNaturalTenant>().Property(persona => persona.NombreCompleto)
         .IsRequired()
         .HasMaxLength(400);
+        
+
+
+        builder.Entity<Especialidad>().ToTable("especialidades");
+        builder.Entity<Especialidad>().HasKey(especialidad => especialidad.Id);
+
+        builder.Entity<Especialidad>().Property(especialidad => especialidad.Id)
+        .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadId(value));
+
+        builder.Entity<Especialidad>().Property(especialidad => especialidad.Nombre)
+        .IsRequired()
+        .HasMaxLength(100);
+
+        builder.Entity<Especialidad>().Property(especialidad => especialidad.Activo)
+        .IsRequired()
+        .HasConversion(estado => estado!.Value, value => new Activo(value));
 
     }
 

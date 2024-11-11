@@ -35,6 +35,7 @@ using MsAcceso.Domain.Root.Sesiones;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
+using MsAcceso.Domain.Tenant.Especialidades;
 
 namespace MsAcceso.Infrastructure;
 
@@ -95,6 +96,8 @@ public static class DependencyInjection
         services.AddScoped<IPersonaTenantRepository, PersonaTenantRepository>();
         services.AddScoped<IPersonaNaturalTenantRepository, PersonaNaturalTenantRepository>();
         services.AddScoped<IPersonaJuridicaTenantRepository, PersonaJuridicaTenantRepository>();
+
+        services.AddScoped<IEspecialidadRepository, EspecialidadRepository>();
 
 
         //BD GENERAL
