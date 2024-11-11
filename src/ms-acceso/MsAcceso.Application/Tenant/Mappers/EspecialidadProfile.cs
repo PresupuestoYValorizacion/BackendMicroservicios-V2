@@ -1,6 +1,6 @@
 
 using AutoMapper;
-using MsAcceso.Domain.Root.Especialidades;
+using MsAcceso.Domain.Tenant.Especialidades;
 
 namespace MsAcceso.Application.Tenant.Mappers
 {

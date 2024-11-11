@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241028194025_initialApp")]
+    [Migration("20241111202547_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -24,6 +24,24 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.Especialidades.Especialidad", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("especialidades", (string)null);
+                });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", b =>
                 {

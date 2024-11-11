@@ -12,6 +12,19 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "especialidades",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_especialidades", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "personas",
                 columns: table => new
                 {
@@ -170,6 +183,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "especialidades");
+
             migrationBuilder.DropTable(
                 name: "personas_juridicas");
 
