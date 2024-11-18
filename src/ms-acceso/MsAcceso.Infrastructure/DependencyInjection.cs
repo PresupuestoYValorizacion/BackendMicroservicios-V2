@@ -35,7 +35,9 @@ using MsAcceso.Domain.Root.Sesiones;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
-using MsAcceso.Domain.Tenant.Especialidades;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.TitulosTenant;
+using MsAcceso.Domain.Tenant.UbigeosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -97,7 +99,9 @@ public static class DependencyInjection
         services.AddScoped<IPersonaNaturalTenantRepository, PersonaNaturalTenantRepository>();
         services.AddScoped<IPersonaJuridicaTenantRepository, PersonaJuridicaTenantRepository>();
 
-        services.AddScoped<IEspecialidadRepository, EspecialidadRepository>();
+        services.AddScoped<IEspecialidadTenantRepository, EspecialidadTenantRepository>();
+        services.AddScoped<ITituloTenantRepository, TituloTenantRepository>();
+        services.AddScoped<IUbigeoTenantRepository, UbigeoTenantRepository>();
 
 
         //BD GENERAL

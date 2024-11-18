@@ -6,6 +6,9 @@ using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.Pruebas;
 using MsAcceso.Domain.Tenant.Presupuestos;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.TitulosTenant;
+using MsAcceso.Domain.Tenant.UbigeosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -61,6 +64,39 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
         .IsRequired()
         .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
 
+        
+        builder.Entity<EspecialidadTenant>().ToTable("especialidades");
+        builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Id)
+            .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadTenantId(value));
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Nombre)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+
+        builder.Entity<UbigeoTenant>().ToTable("ubigeos");
+        builder.Entity<UbigeoTenant>().HasKey(ubigeo => ubigeo.Id);
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Id)
+            .HasConversion(ubigeoId => ubigeoId!.Value, value => new UbigeoTenantId(value));
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Nombre)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+
+        builder.Entity<UbigeoTenant>().HasOne(u => u.DependenciaModel)
+            .WithMany(u => u.Ubigeos)
+            .HasForeignKey(u => u.Dependencia);
     }
 
     // On Configuring -- dynamic connection string, fires on every request

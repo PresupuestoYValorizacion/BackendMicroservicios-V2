@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
@@ -10,7 +11,9 @@ using MsAcceso.Domain.Tenant.UsersTenant;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
-using MsAcceso.Domain.Tenant.Especialidades;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.TitulosTenant;
+using MsAcceso.Domain.Tenant.UbigeosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -18,7 +21,12 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
 {
     private readonly ICurrentTenantService _currentTenantService;
     public Guid? CurrentTenantId { get; set; }
-    public string CurrentTenantConnectionString { get; set; }
+        public EnterpriseDbContext(string currentTenantConnectionString) 
+        {
+            this.CurrentTenantConnectionString = currentTenantConnectionString;
+   
+        }
+            public string CurrentTenantConnectionString { get; set; }
 
 
     // Constructor 
@@ -38,7 +46,9 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
     public DbSet<PersonaJuridicaTenant> PersonaJurdicas { get; set; }
     public DbSet<PersonaNaturalTenant> PersonaNaturales { get; set; }
 
-    public DbSet<Especialidad> Especialidades { get; set; }
+    public DbSet<EspecialidadTenant> Especialidades { get; set; }
+    public DbSet<TituloTenant> Titulos { get; set; }
+    public DbSet<UbigeoTenant> Ubigeos { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -176,19 +186,67 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         
 
 
-        builder.Entity<Especialidad>().ToTable("especialidades");
-        builder.Entity<Especialidad>().HasKey(especialidad => especialidad.Id);
+        builder.Entity<EspecialidadTenant>().ToTable("especialidades");
+        builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
 
-        builder.Entity<Especialidad>().Property(especialidad => especialidad.Id)
-        .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadId(value));
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Id)
+        .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadTenantId(value));
 
-        builder.Entity<Especialidad>().Property(especialidad => especialidad.Nombre)
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Nombre)
         .IsRequired()
         .HasMaxLength(100);
 
-        builder.Entity<Especialidad>().Property(especialidad => especialidad.Activo)
-        .IsRequired()
-        .HasConversion(estado => estado!.Value, value => new Activo(value));
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+        builder.Entity<EspecialidadTenant>().ToTable("especialidades");
+        builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Id)
+            .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadTenantId(value));
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Nombre)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+        builder.Entity<TituloTenant>().ToTable("titulos");
+        builder.Entity<TituloTenant>().HasKey(titulo => titulo.Id);
+
+        builder.Entity<TituloTenant>().Property(titulo => titulo.Id)
+            .HasConversion(tituloId => tituloId!.Value, value => new TituloTenantId(value));
+
+        builder.Entity<TituloTenant>().Property(titulo => titulo.Nombre)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Entity<TituloTenant>().Property(titulo => titulo.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));       
+
+        builder.Entity<UbigeoTenant>().ToTable("ubigeos");
+        builder.Entity<UbigeoTenant>().HasKey(ubigeo => ubigeo.Id);
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Id)
+            .HasConversion(ubigeoId => ubigeoId!.Value, value => new UbigeoTenantId(value));
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Nombre)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+
+        builder.Entity<UbigeoTenant>().HasOne(u => u.DependenciaModel)
+            .WithMany(u => u.Ubigeos)
+            .HasForeignKey(u => u.Dependencia);
+   
+
 
     }
 

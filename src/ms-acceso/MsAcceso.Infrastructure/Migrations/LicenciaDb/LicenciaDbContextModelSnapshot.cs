@@ -22,6 +22,24 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("especialidades", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.Presupuestos.Presupuesto", b =>
                 {
                     b.Property<Guid>("Id")
@@ -56,6 +74,46 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                     b.HasKey("Id");
 
                     b.ToTable("pruebas", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("Dependencia")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Nivel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Dependencia");
+
+                    b.ToTable("ubigeos", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", "DependenciaModel")
+                        .WithMany("Ubigeos")
+                        .HasForeignKey("Dependencia");
+
+                    b.Navigation("DependenciaModel");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.Navigation("Ubigeos");
                 });
 #pragma warning restore 612, 618
         }

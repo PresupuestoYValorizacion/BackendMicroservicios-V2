@@ -1,8 +1,8 @@
 using MsAcceso.Domain.Abstractions;
 
-namespace MsAcceso.Domain.Tenant.Especialidades;
+namespace MsAcceso.Domain.Tenant.EspecialidadesTenant;
 
-public static class EspecialidadErrors
+public static class EspecialidadTenantErrors
 {
     public static Error NotFound = new Error(
         404,

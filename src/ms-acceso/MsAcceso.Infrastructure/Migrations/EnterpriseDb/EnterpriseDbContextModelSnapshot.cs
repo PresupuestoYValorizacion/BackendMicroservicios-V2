@@ -22,7 +22,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.Especialidades.Especialidad", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -154,6 +154,50 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("rols", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("titulos", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("Dependencia")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Nivel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Dependencia");
+
+                    b.ToTable("ubigeos", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,6 +275,15 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Rol");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", "DependenciaModel")
+                        .WithMany("Ubigeos")
+                        .HasForeignKey("Dependencia");
+
+                    b.Navigation("DependenciaModel");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", "Persona")
@@ -261,6 +314,11 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", b =>
                 {
                     b.Navigation("RolPermisos");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
+                {
+                    b.Navigation("Ubigeos");
                 });
 #pragma warning restore 612, 618
         }

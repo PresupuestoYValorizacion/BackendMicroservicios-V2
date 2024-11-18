@@ -1,14 +1,14 @@
 
 using AutoMapper;
-using MsAcceso.Domain.Tenant.Especialidades;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 
 namespace MsAcceso.Application.Tenant.Mappers
 {
-    public class EspecialidadProfile : Profile
+    public class EspecialidadTenantProfile : Profile
     {
-        public EspecialidadProfile()
+        public EspecialidadTenantProfile()
         {
-            CreateMap<Especialidad, EspecialidadDto>()
+            CreateMap<EspecialidadTenant, EspecialidadTenantDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
             .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre!))
             ;

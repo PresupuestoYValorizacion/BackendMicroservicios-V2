@@ -1,6 +1,6 @@
-namespace MsAcceso.Domain.Tenant.Especialidades;
+namespace MsAcceso.Domain.Tenant.TitulosTenant;
 
-public class EspecialidadDto
+public class TituloTenantDto
 {
     public string? Id { get; set; }
     public string? Nombre { get; set; }

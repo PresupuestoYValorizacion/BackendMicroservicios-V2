@@ -1,14 +1,14 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 
-namespace MsAcceso.Domain.Tenant.Especialidades;
+namespace MsAcceso.Domain.Tenant.EspecialidadesTenant;
 
-public sealed class Especialidad : Entity<EspecialidadId>
+public sealed class EspecialidadTenant : Entity<EspecialidadTenantId>
 {
-    private Especialidad(){}
+    private EspecialidadTenant(){}
 
-    private Especialidad(
-        EspecialidadId id,
+    private EspecialidadTenant(
+        EspecialidadTenantId id,
         string nombre
     ) : base(id)
     {
@@ -17,11 +17,11 @@ public sealed class Especialidad : Entity<EspecialidadId>
 
     public string? Nombre { get; private set; }
 
-    public static Especialidad Create(
+    public static EspecialidadTenant Create(
         string Nombre
     )
     {
-        var opcion = new Especialidad(EspecialidadId.New(), Nombre);
+        var opcion = new EspecialidadTenant(EspecialidadTenantId.New(), Nombre);
         return opcion;
     }
 

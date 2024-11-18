@@ -53,6 +53,39 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "titulos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_titulos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ubigeos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Dependencia = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Nivel = table.Column<int>(type: "int", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ubigeos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ubigeos_ubigeos_Dependencia",
+                        column: x => x.Dependencia,
+                        principalTable: "ubigeos",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "personas_juridicas",
                 columns: table => new
                 {
@@ -164,6 +197,11 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 column: "RolPermisoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ubigeos_Dependencia",
+                table: "ubigeos",
+                column: "Dependencia");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_users_Email",
                 table: "users",
                 column: "Email",
@@ -194,6 +232,12 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             migrationBuilder.DropTable(
                 name: "rols_permisos_opciones");
+
+            migrationBuilder.DropTable(
+                name: "titulos");
+
+            migrationBuilder.DropTable(
+                name: "ubigeos");
 
             migrationBuilder.DropTable(
                 name: "users");
