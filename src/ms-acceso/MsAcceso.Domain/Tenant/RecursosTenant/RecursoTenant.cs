@@ -12,40 +12,40 @@ public sealed class RecursoTenant : Entity<RecursoTenantId>
     private RecursoTenant(
         RecursoTenantId id,
         string nombre,
-        int idTipoRecurso,
-        int idUnidadMedida
+        int tipoRecursoId,
+        int unidadMedidaId
     ) : base(id)
     {
         Nombre = nombre;
-        IdTipoRecurso = idTipoRecurso;
-        IdUnidadMedida = idUnidadMedida;
+        TipoRecursoId = tipoRecursoId;
+        UnidadMedidaId = unidadMedidaId;
     }
 
     public string? Nombre { get; private set; }
-    public int? IdTipoRecurso { get; private set; }
-    public int IdUnidadMedida { get; private set; }
+    public int? TipoRecursoId { get; private set; }
+    public int UnidadMedidaId { get; private set; }
     // public List<PartidaTenant>? Partidas { get; } = [];
     // public List<PartidaRecursoTenant>? PartidasRecursos { get; } = [];
 
     public static RecursoTenant Create(
         string Nombre,
-        int IdTipoRecurso,
-        int IdUnidadMedida
+        int TipoRecursoId,
+        int UnidadMedidaId
     )
     {
-        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, IdTipoRecurso, IdUnidadMedida);
+        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, TipoRecursoId, UnidadMedidaId);
         return recurso;
     }
 
     public Result Update(
         string nombre,
-        int idTipoRecurso,
-        int idUnidadMedida
+        int tipoRecursoId,
+        int unidadMedidaId
     )
     {
         Nombre = (nombre.Length > 0) ? nombre : Nombre;
-        IdTipoRecurso = (idTipoRecurso > 0) ? idTipoRecurso : IdTipoRecurso;
-        IdUnidadMedida = (idUnidadMedida > 0) ? idUnidadMedida : IdUnidadMedida;
+        TipoRecursoId = (tipoRecursoId > 0) ? tipoRecursoId : TipoRecursoId;
+        UnidadMedidaId = (unidadMedidaId > 0) ? unidadMedidaId : UnidadMedidaId;
         return Result.Success();
     }
 

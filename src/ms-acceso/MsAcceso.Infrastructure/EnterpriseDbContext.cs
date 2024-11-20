@@ -18,6 +18,7 @@ using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
+using MsAcceso.Domain.Tenant.PresupuestosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -57,6 +58,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
     public DbSet<PartidaTenant> Partidas {get; set;}
     public DbSet<RecursoTenant> Recursos { get; set; }
     public DbSet<PartidaRecursoTenant> PartidasRecursos { get; set; }
+    public DbSet<PresupuestoTenant> Presupuestos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -289,9 +291,9 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<RecursoTenant>().Property(recurso => recurso.Nombre)
             .IsRequired()
             .HasMaxLength(100);
-        builder.Entity<RecursoTenant>().Property(recurso => recurso.IdTipoRecurso)
+        builder.Entity<RecursoTenant>().Property(recurso => recurso.TipoRecursoId)
             .IsRequired();
-        builder.Entity<RecursoTenant>().Property(recurso => recurso.IdUnidadMedida)
+        builder.Entity<RecursoTenant>().Property(recurso => recurso.UnidadMedidaId)
             .IsRequired();
         builder.Entity<RecursoTenant>().Property(recurso => recurso.Activo)
             .IsRequired()
@@ -318,6 +320,52 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PartidaRecursoTenant>().Property(recurso => recurso.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));   
+// Codigo, Descripcion, ClienteId, UbigeoId, Fecha, Plazodias int, JornadaDiariaId, MonedaId, 
+// PresupuestoBaseCD double, PresupuestoBaseDI double, TotalPresupuestoBase,
+// PresupuestoOfertaCD double, PresupuestoOfertaDI, TotalPresupuestoOferta, 
+// CarpetaPresupuestalId
+        builder.Entity<PresupuestoTenant>().ToTable("presupuestos");
+        builder.Entity<PresupuestoTenant>().HasKey(presupuesto => presupuesto.Id);
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Id)
+            .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoTenantId(value));
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Codigo)
+            .IsRequired()
+            .HasMaxLength(100);
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Descripcion)
+            .IsRequired()
+            .HasMaxLength(100);
+        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.Cliente)
+            .WithMany()
+            .HasForeignKey(presupuesto => presupuesto.ClienteId);
+        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.UbigeoId)
+            .WithOne()
+            .HasForeignKey<UbigeoTenant>(u => u.Id);
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Fecha)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Plazodias)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.JornadaDiariaId)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.MonedaId)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.PresupuestoBaseCD)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.PresupuestoBaseDI)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.TotalPresupuestoBase)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.PresupuestoOfertaCD)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.PresupuestoOfertaDI)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.TotalPresupuestoOferta)
+            .IsRequired();
+        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.CarpetaPresupuestalId)
+            .WithOne()
+            .HasForeignKey<CarpetaPresupuestalTenant>(c => c.Id);    
+        builder.Entity<PresupuestoTenant>().Property(recurso => recurso.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value)); 
     }
 
     // On Configuring -- dynamic connection string, fires on every request
