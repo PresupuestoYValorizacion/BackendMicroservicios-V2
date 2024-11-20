@@ -21,8 +21,8 @@ public sealed class TituloTenant : Entity<TituloTenantId>
         string Nombre
     )
     {
-        var opcion = new TituloTenant(TituloTenantId.New(), Nombre);
-        return opcion;
+        var titulo = new TituloTenant(TituloTenantId.New(), Nombre);
+        return titulo;
     }
 
     public Result Update(

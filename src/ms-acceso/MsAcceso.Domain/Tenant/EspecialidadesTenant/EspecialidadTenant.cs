@@ -21,8 +21,8 @@ public sealed class EspecialidadTenant : Entity<EspecialidadTenantId>
         string Nombre
     )
     {
-        var opcion = new EspecialidadTenant(EspecialidadTenantId.New(), Nombre);
-        return opcion;
+        var especialidad = new EspecialidadTenant(EspecialidadTenantId.New(), Nombre);
+        return especialidad;
     }
 
     public Result Update(

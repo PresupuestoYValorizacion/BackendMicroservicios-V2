@@ -7,7 +7,7 @@ public interface IEspecialidadTenantRepository
     void Update(EspecialidadTenant especialidad);
     void Delete(EspecialidadTenant especialidad);
     Task<EspecialidadTenant?> GetByIdAsync(EspecialidadTenantId especialidadId, CancellationToken cancellationToken = default);
-    Task<bool> EspecialidadTenantExist(string nombreEspecialidadTenant, CancellationToken cancellationToken = default);
+    Task<bool> EspecialidadTenantExist(string nombreEspecialidad, CancellationToken cancellationToken = default);
     Task<List<EspecialidadTenant>> GetAllAsync(CancellationToken cancellationToken);
     
 }

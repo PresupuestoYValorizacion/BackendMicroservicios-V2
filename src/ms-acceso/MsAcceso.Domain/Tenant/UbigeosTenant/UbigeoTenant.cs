@@ -28,8 +28,8 @@ public sealed class UbigeoTenant : Entity<UbigeoTenantId>
 
     public static UbigeoTenant Create(UbigeoTenantId? dependencia, string nombre, int nivel)
     {
-        var sistema = new UbigeoTenant(UbigeoTenantId.New(), dependencia, nombre, nivel);
-        return sistema;
+        var ubigeo = new UbigeoTenant(UbigeoTenantId.New(), dependencia, nombre, nivel);
+        return ubigeo;
     }
 
     public Result Update(string nombre)

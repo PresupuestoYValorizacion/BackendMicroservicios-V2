@@ -1,13 +1,14 @@
 using AutoMapper;
-using MsAcceso.Domain.Tenant.UbigeosTenant;
+using MsAcceso.Domain.Tenant.PartidasTenant;
+
 
 namespace MsAcceso.Application.Tenant.Mappers
 {
-    public class UbigeoTenantProfile : Profile
+    public class PartidaTenantProfile : Profile
     {
-        public UbigeoTenantProfile()
+        public PartidaTenantProfile()
         {
-            CreateMap<UbigeoTenant, UbigeoTenantDto>()
+            CreateMap<PartidaTenant, PartidaTenantDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
             .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre!))
             .ForMember(dest => dest.Dependencia, opt => opt.MapFrom(src => src.Dependencia!.Value.ToString()))

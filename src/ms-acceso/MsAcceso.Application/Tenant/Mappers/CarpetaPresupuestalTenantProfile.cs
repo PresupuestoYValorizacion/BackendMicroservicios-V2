@@ -1,13 +1,13 @@
 using AutoMapper;
-using MsAcceso.Domain.Tenant.UbigeosTenant;
+using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 
 namespace MsAcceso.Application.Tenant.Mappers
 {
-    public class UbigeoTenantProfile : Profile
+    public class CapetaPresupuestalTenantProfile : Profile
     {
-        public UbigeoTenantProfile()
+        public CapetaPresupuestalTenantProfile()
         {
-            CreateMap<UbigeoTenant, UbigeoTenantDto>()
+            CreateMap<CarpetaPresupuestalTenant, CarpetaPresupuestalTenantDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
             .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre!))
             .ForMember(dest => dest.Dependencia, opt => opt.MapFrom(src => src.Dependencia!.Value.ToString()))

@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241118035028_initialApp")]
+    [Migration("20241120030152_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -24,6 +24,32 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("Dependencia")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Nivel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Dependencia");
+
+                    b.ToTable("carpetas_presupuestales", (string)null);
+                });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
                 {
@@ -41,6 +67,73 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("Id");
 
                     b.ToTable("especialidades", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasRecursosTenant.PartidaRecursoTenant", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Cuadrilla")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Parcial")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("PartidaId")
+                        .HasMaxLength(100)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("Precio")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("RecursoId")
+                        .HasMaxLength(100)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartidaId");
+
+                    b.HasIndex("RecursoId");
+
+                    b.ToTable("partida_recurso`", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("Dependencia")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Nivel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Dependencia");
+
+                    b.ToTable("partidas", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", b =>
@@ -95,6 +188,31 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("Id");
 
                     b.ToTable("personas", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IdTipoRecurso")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUnidadMedida")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("recursos", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
@@ -242,6 +360,43 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", "DependenciaModel")
+                        .WithMany("CarpetasPresupuestales")
+                        .HasForeignKey("Dependencia");
+
+                    b.Navigation("DependenciaModel");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasRecursosTenant.PartidaRecursoTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", "Partida")
+                        .WithMany("PartidasRecursos")
+                        .HasForeignKey("PartidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", "Recurso")
+                        .WithMany()
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Partida");
+
+                    b.Navigation("Recurso");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", "DependenciaModel")
+                        .WithMany("Partidas")
+                        .HasForeignKey("Dependencia");
+
+                    b.Navigation("DependenciaModel");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasJuridicasTenant.PersonaJuridicaTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", null)
@@ -300,6 +455,18 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Persona");
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
+                {
+                    b.Navigation("CarpetasPresupuestales");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", b =>
+                {
+                    b.Navigation("Partidas");
+
+                    b.Navigation("PartidasRecursos");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", b =>

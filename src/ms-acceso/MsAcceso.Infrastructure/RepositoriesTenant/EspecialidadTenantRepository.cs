@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Shared;
-//using MsAcceso.Application.Root.Paginations;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Infrastructure.Service;
 
-namespace MsAcceso.Infrastructure.RepositoriesApplication;
+namespace MsAcceso.Infrastructure.RepositoriesTenant;
 
-internal sealed class EspecialidadTenantRepository : RepositoryApplication<EspecialidadTenant, EspecialidadTenantId>, IEspecialidadTenantRepository//, IPaginationEspecialidadTenantRepository
+internal sealed class EspecialidadTenantRepository : RepositoryTenant<EspecialidadTenant, EspecialidadTenantId>, IEspecialidadTenantRepository
 {
 
-    public EspecialidadTenantRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public EspecialidadTenantRepository(IDbContextFactory dbContextFactory, ICurrentTenantService currentTenantService)
+        : base(dbContextFactory, currentTenantService)
     {
-
     }
 
     public async Task<List<EspecialidadTenant>> GetAllAsync(CancellationToken cancellationToken)
@@ -18,8 +18,8 @@ internal sealed class EspecialidadTenantRepository : RepositoryApplication<Espec
         return await DbContext.Set<EspecialidadTenant>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> EspecialidadTenantExist(string nombreEspecialidadTenant, CancellationToken cancellationToken = default)
+    public async Task<bool> EspecialidadTenantExist(string nombreEspecialidad, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<EspecialidadTenant>().AnyAsync(x => x.Nombre == nombreEspecialidadTenant && x.Activo == new Activo(true), cancellationToken);
+        return await DbContext.Set<EspecialidadTenant>().AnyAsync(x => x.Nombre == nombreEspecialidad && x.Activo == new Activo(true), cancellationToken);
     }
 }
