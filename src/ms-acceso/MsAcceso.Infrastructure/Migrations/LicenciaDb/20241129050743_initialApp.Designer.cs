@@ -9,10 +9,10 @@ using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
+namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
-    [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241129023059_initialApp")]
+    [DbContext(typeof(LicenciaDbContext))]
+    [Migration("20241129050743_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -90,6 +90,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("float");
 
                     b.Property<Guid>("PartidaId")
+                        .HasMaxLength(100)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double?>("Precio")
@@ -97,6 +98,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("float");
 
                     b.Property<Guid>("RecursoId")
+                        .HasMaxLength(100)
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -188,7 +190,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("personas", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadesTenant.PresupuestoEspecialidadTenant", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -214,6 +216,112 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasIndex("PresupuestoId");
 
                     b.ToTable("presupuesto_especialidad", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant.PresupuestoEspecialidadTituloPartidaRecursoTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Cuadrilla")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Parcial")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Precio")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("PresupuestoEspecialidadTituloPartidaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RecursoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PresupuestoEspecialidadTituloPartidaId");
+
+                    b.HasIndex("RecursoId");
+
+                    b.ToTable("presupuestos_especialidad_titulos_partidas_recursos", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant.PresupuestoEspecialidadTituloPartidaTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Correlativo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("PartidaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PresupuestoEspecialidadTituloId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartidaId");
+
+                    b.HasIndex("PresupuestoEspecialidadTituloId");
+
+                    b.ToTable("presupuestos_especialidad_titulos_partidas", (string)null);
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Correlativo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("Dependencia")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Nivel")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PresupuestoEspecialidadId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TituloId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TituloTenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Dependencia");
+
+                    b.HasIndex("PresupuestoEspecialidadId");
+
+                    b.HasIndex("TituloId");
+
+                    b.HasIndex("TituloTenantId");
+
+                    b.ToTable("presupuestos_especialidad_titulos", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", b =>
@@ -294,6 +402,24 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("presupuestos", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.Pruebas.Prueba", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("pruebas", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -317,66 +443,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("Id");
 
                     b.ToTable("recursos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OpcionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RolPermisoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolPermisoId");
-
-                    b.ToTable("rols_permisos_opciones", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MenuId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolId");
-
-                    b.ToTable("rols_permisos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("rols", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>
@@ -421,47 +487,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasIndex("Dependencia");
 
                     b.ToTable("ubigeos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<Guid?>("PersonaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("PersonaId");
-
-                    b.HasIndex("RolId");
-
-                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
@@ -519,7 +544,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadesTenant.PresupuestoEspecialidadTenant", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", "Especialidad")
                         .WithMany("PresupuestosEspecialidades")
@@ -536,6 +561,73 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Especialidad");
 
                     b.Navigation("Presupuesto");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant.PresupuestoEspecialidadTituloPartidaRecursoTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant.PresupuestoEspecialidadTituloPartidaTenant", "PresupuestoEspecialidadTituloPartida")
+                        .WithMany()
+                        .HasForeignKey("PresupuestoEspecialidadTituloPartidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", "Recurso")
+                        .WithMany("PresupuestosEspecialidadesTitulosPartidasRecursos")
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PresupuestoEspecialidadTituloPartida");
+
+                    b.Navigation("Recurso");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant.PresupuestoEspecialidadTituloPartidaTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", "Partida")
+                        .WithMany("PresupuestosEspecialidadesTitulosPartidas")
+                        .HasForeignKey("PartidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", "PresupuestoEspecialidadTitulo")
+                        .WithMany()
+                        .HasForeignKey("PresupuestoEspecialidadTituloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Partida");
+
+                    b.Navigation("PresupuestoEspecialidadTitulo");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", "DependenciaModel")
+                        .WithMany("PresupuestosEspecialidadTitulos")
+                        .HasForeignKey("Dependencia");
+
+                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", "PresupuestoEspecialidad")
+                        .WithMany()
+                        .HasForeignKey("PresupuestoEspecialidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", "Titulo")
+                        .WithMany()
+                        .HasForeignKey("TituloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", null)
+                        .WithMany("PresupuestosEspecialidadesTitulos")
+                        .HasForeignKey("TituloTenantId");
+
+                    b.Navigation("DependenciaModel");
+
+                    b.Navigation("PresupuestoEspecialidad");
+
+                    b.Navigation("Titulo");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", b =>
@@ -559,24 +651,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Ubigeo");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", "RolPermiso")
-                        .WithMany("RolPermisoOpcions")
-                        .HasForeignKey("RolPermisoId");
-
-                    b.Navigation("RolPermiso");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", "Rol")
-                        .WithMany("RolPermisos")
-                        .HasForeignKey("RolId");
-
-                    b.Navigation("Rol");
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", "DependenciaModel")
@@ -584,21 +658,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasForeignKey("Dependencia");
 
                     b.Navigation("DependenciaModel");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", "Persona")
-                        .WithMany()
-                        .HasForeignKey("PersonaId");
-
-                    b.HasOne("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", "Rol")
-                        .WithMany()
-                        .HasForeignKey("RolId");
-
-                    b.Navigation("Persona");
-
-                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
@@ -616,6 +675,8 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Partidas");
 
                     b.Navigation("PartidasRecursos");
+
+                    b.Navigation("PresupuestosEspecialidadesTitulosPartidas");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", b =>
@@ -625,14 +686,19 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("PersonaNatural");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", b =>
                 {
-                    b.Navigation("RolPermisoOpcions");
+                    b.Navigation("PresupuestosEspecialidadTitulos");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", b =>
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>
                 {
-                    b.Navigation("RolPermisos");
+                    b.Navigation("PresupuestosEspecialidadesTitulosPartidasRecursos");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>
+                {
+                    b.Navigation("PresupuestosEspecialidadesTitulos");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>

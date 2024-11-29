@@ -2,6 +2,8 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 
 namespace MsAcceso.Domain.Tenant.RecursosTenant;
 
@@ -26,6 +28,9 @@ public sealed class RecursoTenant : Entity<RecursoTenantId>
     public int UnidadMedidaId { get; private set; }
     // public List<PartidaTenant>? Partidas { get; } = [];
     // public List<PartidaRecursoTenant>? PartidasRecursos { get; } = [];
+    public List<PresupuestoEspecialidadTituloPartidaTenant>? PresupuestosEspecialidadesTitulosPartidas { get; } = [];
+    public List<PresupuestoEspecialidadTituloPartidaRecursoTenant> PresupuestosEspecialidadesTitulosPartidasRecursos { get; } = [];
+
 
     public static RecursoTenant Create(
         string Nombre,

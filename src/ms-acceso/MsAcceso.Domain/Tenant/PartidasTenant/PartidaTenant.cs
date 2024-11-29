@@ -1,6 +1,8 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 
 namespace MsAcceso.Domain.Tenant.PartidasTenant;
@@ -28,6 +30,10 @@ public sealed class PartidaTenant : Entity<PartidaTenantId>
     public List<PartidaTenant>? Partidas { get; set; }
     public List<RecursoTenant>? Recursos { get; } = [];
     public List<PartidaRecursoTenant>? PartidasRecursos { get; } = [];
+
+    public List<PresupuestoEspecialidadTituloTenant>? PresupuestosEspecialidadesTitulos { get; } = [];
+    public List<PresupuestoEspecialidadTituloPartidaTenant> PresupuestosEspecialidadesTitulosPartidas { get; } = [];
+
 
 
     public static PartidaTenant Create(

@@ -1,6 +1,6 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Domain.Tenant.PresupuestosEspecialidadesTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 using MsAcceso.Domain.Tenant.PresupuestosTenant;
 
 namespace MsAcceso.Domain.Tenant.EspecialidadesTenant;
