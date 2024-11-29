@@ -14,6 +14,10 @@ using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 using MsAcceso.Domain.Tenant.PresupuestosTenant;
+using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
+using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
+using MsAcceso.Domain.Tenant.PersonasTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadesTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -24,7 +28,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
     public string CurrentTenantConnectionString { get; set; }
 
 
-    // Constructor 
+    // Constructor
     public LicenciaDbContext(ICurrentTenantService currentTenantService, DbContextOptions<LicenciaDbContext> options) : base(options)
     {
         _currentTenantService = currentTenantService;
@@ -35,7 +39,16 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
     public DbSet<Prueba> Pruebas { get; set; }
 
-    public DbSet<Presupuesto> Presupuestos { get; set; }
+    // public DbSet<Presupuesto> Presupuestos { get; set; }
+
+    public DbSet<EspecialidadTenant> Especialidades { get; set; }
+    public DbSet<TituloTenant> Titulos { get; set; }
+    public DbSet<UbigeoTenant> Ubigeos { get; set; }
+    public DbSet<CarpetaPresupuestalTenant> CarpetasPresupuestales {get; set;}
+    public DbSet<PartidaTenant> Partidas {get; set;}
+    public DbSet<RecursoTenant> Recursos { get; set; }
+    public DbSet<PartidaRecursoTenant> PartidasRecursos { get; set; }
+    public DbSet<PresupuestoTenant> Presupuestos { get; set; }
 
 
     // On Model Creating - multitenancy query filter, fires once on app start
@@ -55,34 +68,88 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
         .IsRequired()
         .HasConversion(prueba => prueba!.Value, value => new Activo(value));
 
-         builder.Entity<Presupuesto>().ToTable("presupuestos");
-        builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
+        //  builder.Entity<Presupuesto>().ToTable("presupuestos");
+        // builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
-        .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
+        // .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
+        // .IsRequired()
+        // .HasMaxLength(100);
+
+        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
+        // .IsRequired()
+        // .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
+
+        builder.Entity<PersonaTenant>().ToTable("personas");
+        builder.Entity<PersonaTenant>().HasKey(persona => persona.Id);
+
+        builder.Entity<PersonaTenant>().Property(persona => persona.Id)
+        .HasConversion(personaId => personaId!.Value, value => new PersonaTenantId(value));
+
+        builder.Entity<PersonaTenant>().Property(persona => persona.NumeroDocumento)
         .IsRequired()
         .HasMaxLength(100);
 
-        builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
-        .IsRequired()
-        .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
+        builder.Entity<PersonaTenant>().Property(persona => persona.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-        
+        // builder.Entity<PersonaTenant>().HasOne(p => p.Tipo)
+        //         .WithMany()
+        //         .HasForeignKey(persona => persona.TipoId);
+
+        // builder.Entity<PersonaTenant>().HasOne(p => p.TipoDocumento)
+        //         .WithMany()
+        //         .HasForeignKey(persona => persona.TipoDocumentoId);
+
+
+        builder.Entity<PersonaTenant>().HasOne(p => p.PersonaNatural)
+            .WithOne()
+            .HasForeignKey<PersonaNaturalTenant>(pn => pn.PersonaId);
+
+        builder.Entity<PersonaTenant>().HasOne(p => p.PersonaJuridica)
+            .WithOne()
+            .HasForeignKey<PersonaJuridicaTenant>(pj => pj.PersonaId);
+
+        builder.Entity<PersonaJuridicaTenant>().ToTable("personas_juridicas");
+        builder.Entity<PersonaJuridicaTenant>().HasKey(persona => persona.PersonaId);
+
+        builder.Entity<PersonaJuridicaTenant>().Property(persona => persona.PersonaId)
+        .HasConversion(personaId => personaId!.Value, value => new PersonaTenantId(value));
+
+        builder.Entity<PersonaJuridicaTenant>().Property(persona => persona.RazonSocial)
+        .IsRequired()
+        .HasMaxLength(100);
+
+        builder.Entity<PersonaNaturalTenant>().ToTable("personas_naturales");
+        builder.Entity<PersonaNaturalTenant>().HasKey(persona => persona.PersonaId);
+
+        builder.Entity<PersonaNaturalTenant>().Property(persona => persona.PersonaId)
+        .HasConversion(personaId => personaId!.Value, value => new PersonaTenantId(value));
+
+        builder.Entity<PersonaNaturalTenant>().Property(persona => persona.NombreCompleto)
+        .IsRequired()
+        .HasMaxLength(400);
+
+
         builder.Entity<EspecialidadTenant>().ToTable("especialidades");
         builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
-
         builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Id)
             .HasConversion(especialidadId => especialidadId!.Value, value => new EspecialidadTenantId(value));
-
         builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Nombre)
             .IsRequired()
             .HasMaxLength(100);
-
         builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
+        builder.Entity<EspecialidadTenant>().HasMany(partida => partida.Presupuestos)
+            .WithMany()
+            .UsingEntity<PresupuestoEspecialidadTenant>(
+                p => p.HasOne<PresupuestoTenant>(p => p.Presupuesto).WithMany().HasForeignKey(e => e.PresupuestoId),
+                e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId)
+            );
 
 
         builder.Entity<UbigeoTenant>().ToTable("ubigeos");
@@ -97,7 +164,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
         builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<UbigeoTenant>().HasOne(u => u.DependenciaModel)
             .WithMany(u => u.Ubigeos)
@@ -115,7 +182,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
         builder.Entity<CarpetaPresupuestalTenant>().Property(carpetaPresupuestal => carpetaPresupuestal.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<CarpetaPresupuestalTenant>().HasOne(cPresupuestal => cPresupuestal.DependenciaModel)
             .WithMany(cPresupuestal => cPresupuestal.CarpetasPresupuestales)
@@ -133,11 +200,12 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
         builder.Entity<PartidaTenant>().Property(partida => partida.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<PartidaTenant>().HasOne(partida => partida.DependenciaModel)
             .WithMany(partida => partida.Partidas)
             .HasForeignKey(partida => partida.Dependencia);
+
         builder.Entity<PartidaTenant>().HasMany(partida => partida.Recursos)
             .WithMany()
             .UsingEntity<PartidaRecursoTenant>(
@@ -159,7 +227,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired();
         builder.Entity<RecursoTenant>().Property(recurso => recurso.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));    
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<PartidaRecursoTenant>().ToTable("partida_recurso");
         builder.Entity<PartidaRecursoTenant>().HasKey(pRecurso => pRecurso.Id);
@@ -181,7 +249,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired();
         builder.Entity<PartidaRecursoTenant>().Property(recurso => recurso.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));   
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<PresupuestoTenant>().ToTable("presupuestos");
         builder.Entity<PresupuestoTenant>().HasKey(presupuesto => presupuesto.Id);
@@ -193,12 +261,19 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Descripcion)
             .IsRequired()
             .HasMaxLength(100);
-        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.Cliente)
+
+        builder.Entity<PresupuestoTenant>()
+            .HasOne(presupuesto => presupuesto.Cliente)
             .WithMany()
             .HasForeignKey(presupuesto => presupuesto.ClienteId);
-        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.UbigeoId)
-            .WithOne()
-            .HasForeignKey<UbigeoTenant>(u => u.Id);
+        // builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.Ubigeo)
+        //     .WithOne()
+        //     .HasForeignKey<PresupuestoTenant>(e => e.UbigeoId!.Value)
+        //     .IsRequired();
+        builder.Entity<PresupuestoTenant>()
+            .HasOne(presupuesto => presupuesto.Ubigeo)
+            .WithMany()
+            .HasForeignKey(presupuesto => presupuesto.UbigeoId);
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Fecha)
             .IsRequired();
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Plazodias)
@@ -219,12 +294,32 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired();
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.TotalPresupuestoOferta)
             .IsRequired();
-        builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.CarpetaPresupuestalId)
-            .WithOne()
-            .HasForeignKey<CarpetaPresupuestalTenant>(c => c.Id);    
+        // builder.Entity<UserTenant>()
+        //        .HasOne(p => p.Persona)
+        //        .WithMany()
+        //        .HasForeignKey(user => user.PersonaId);
+        builder.Entity<PresupuestoTenant>()
+            .HasOne(presupuesto => presupuesto.CarpetaPresupuestal)
+            .WithMany()
+            .HasForeignKey(presupuesto => presupuesto.CarpetaPresupuestalId);
         builder.Entity<PresupuestoTenant>().Property(recurso => recurso.Activo)
             .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value)); 
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
+
+        builder.Entity<PresupuestoEspecialidadTenant>().ToTable("presupuesto_especialidad");
+        builder.Entity<PresupuestoEspecialidadTenant>().HasKey(pEspecialidad => pEspecialidad.Id);
+        builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Id)
+            .HasConversion(pEspecialidad => pEspecialidad!.Value, value => new PresupuestoEspecialidadTenantId(value));
+        builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.PresupuestoId)
+            .IsRequired();
+        builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.EspecialidadId)
+            .IsRequired();
+        builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Correlativo)
+            .IsRequired()
+            .HasMaxLength(100);
+        builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));   
     }
 
     // On Configuring -- dynamic connection string, fires on every request

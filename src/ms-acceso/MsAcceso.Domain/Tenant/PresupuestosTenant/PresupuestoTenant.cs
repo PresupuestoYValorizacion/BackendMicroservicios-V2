@@ -50,7 +50,12 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public string? Codigo {get; private set;}
     public string? Descripcion {get; private set;}
     public PersonaTenant? Cliente {get; private set;}
+
+    // [NotMapped]
     public PersonaTenantId? ClienteId {get; private set;}
+    public UbigeoTenant? Ubigeo {get; private set;}
+
+    // [NotMapped]
     public UbigeoTenantId? UbigeoId {get; private set;}
     public DateTime? Fecha {get; private set;}
     public int? Plazodias {get; private set;}
@@ -62,6 +67,9 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public double? PresupuestoOfertaCD {get; private set;}
     public double? PresupuestoOfertaDI {get; private set;}
     public double? TotalPresupuestoOferta {get; private set;}
+    public CarpetaPresupuestalTenant? CarpetaPresupuestal {get; private set;}
+    
+    // [NotMapped]
     public CarpetaPresupuestalTenantId? CarpetaPresupuestalId {get; private set;}
 
     public static PresupuestoTenant Create(

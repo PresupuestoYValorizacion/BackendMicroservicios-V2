@@ -37,7 +37,6 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
     public double? Precio {get; private set;}
     public double? Parcial {get; private set;}
 
-
     public static PartidaRecursoTenant Create(
         PartidaRecursoTenantId Id,
         PartidaTenantId PartidaId,
