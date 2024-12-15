@@ -25,7 +25,6 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Infrastructure.RepositoriesTenant;
-using MsAcceso.Domain.Tenant.Presupuestos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Tenant.RolsTenant;
@@ -35,6 +34,12 @@ using MsAcceso.Domain.Root.Sesiones;
 using MsAcceso.Domain.Tenant.PersonasTenant;
 using MsAcceso.Domain.Tenant.PersonasJuridicasTenant;
 using MsAcceso.Domain.Tenant.PersonasNaturalesTenant;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.TitulosTenant;
+using MsAcceso.Domain.Tenant.UbigeosTenant;
+using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
+using MsAcceso.Domain.Tenant.PartidasTenant;
+using MsAcceso.Domain.Tenant.RecursosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -84,8 +89,6 @@ public static class DependencyInjection
         services.AddScoped<IDbContextFactory, DbContextFactory>();
 
         //BD POR CADA CLIENTE
-        services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
-        services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
         services.AddScoped<IRolTenantRepository, RolTenantRepository>();
         services.AddScoped<IPaginationRolesTenantRepository, RolTenantRepository>();
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();
@@ -96,6 +99,12 @@ public static class DependencyInjection
         services.AddScoped<IPersonaNaturalTenantRepository, PersonaNaturalTenantRepository>();
         services.AddScoped<IPersonaJuridicaTenantRepository, PersonaJuridicaTenantRepository>();
 
+        services.AddScoped<IEspecialidadTenantRepository, EspecialidadTenantRepository>();
+        services.AddScoped<ITituloTenantRepository, TituloTenantRepository>();
+        services.AddScoped<IUbigeoTenantRepository, UbigeoTenantRepository>();
+        services.AddScoped<ICarpetaPresupuestalTenantRepository, CarpetaPresupuestalTenantRepository>();
+        services.AddScoped<IPartidaTenantRepository, PartidaTenantRepository>();
+        services.AddScoped<IRecursoTenantRepository, RecursoTenantRepository>();
 
         //BD GENERAL
         services.AddScoped<IParametroRepository, ParametroRepository>();
