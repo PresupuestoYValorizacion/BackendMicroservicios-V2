@@ -2,10 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MsAcceso.Infrastructure.Service;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Application.Exceptions;
-using MsAcceso.Domain.Tenant.Users;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Domain.Tenant.Pruebas;
-using MsAcceso.Domain.Tenant.Presupuestos;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
 using MsAcceso.Domain.Tenant.UbigeosTenant;
@@ -40,10 +37,6 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
     }
 
-    public DbSet<Prueba> Pruebas { get; set; }
-
-    // public DbSet<Presupuesto> Presupuestos { get; set; }
-
     public DbSet<EspecialidadTenant> Especialidades { get; set; }
     public DbSet<TituloTenant> Titulos { get; set; }
     public DbSet<UbigeoTenant> Ubigeos { get; set; }
@@ -56,35 +49,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
     // On Model Creating - multitenancy query filter, fires once on app start
     protected override void OnModelCreating(ModelBuilder builder)
-    {
-        builder.Entity<Prueba>().ToTable("pruebas");
-        builder.Entity<Prueba>().HasKey(prueba => prueba.Id);
-
-        builder.Entity<Prueba>().Property(prueba => prueba.Id)
-        .HasConversion(pruebaId => pruebaId!.Value, value => new PruebaId(value));
-
-        builder.Entity<Prueba>().Property(prueba => prueba.Nombre)
-        .IsRequired()
-        .HasMaxLength(100);
-
-        builder.Entity<Prueba>().Property(prueba => prueba.Activo)
-        .IsRequired()
-        .HasConversion(prueba => prueba!.Value, value => new Activo(value));
-
-        //  builder.Entity<Presupuesto>().ToTable("presupuestos");
-        // builder.Entity<Presupuesto>().HasKey(presupuesto => presupuesto.Id);
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Id)
-        // .HasConversion(presupuestoId => presupuestoId!.Value, value => new PresupuestoId(value));
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Nombre)
-        // .IsRequired()
-        // .HasMaxLength(100);
-
-        // builder.Entity<Presupuesto>().Property(presupuesto => presupuesto.Activo)
-        // .IsRequired()
-        // .HasConversion(presupuesto => presupuesto!.Value, value => new Activo(value));
-
+    { 
         builder.Entity<PersonaTenant>().ToTable("personas");
         builder.Entity<PersonaTenant>().HasKey(persona => persona.Id);
 

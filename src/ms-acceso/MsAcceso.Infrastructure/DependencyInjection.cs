@@ -25,7 +25,6 @@ using MsAcceso.Domain.Root.Rols;
 using MsAcceso.Domain.Root.Licencias;
 using MsAcceso.Domain.Root.UsuarioLicencias;
 using MsAcceso.Infrastructure.RepositoriesTenant;
-using MsAcceso.Domain.Tenant.Presupuestos;
 using MsAcceso.Domain.Root.RolPermisosOpciones;
 using MsAcceso.Domain.Root.RolPermisos;
 using MsAcceso.Domain.Tenant.RolsTenant;
@@ -90,8 +89,6 @@ public static class DependencyInjection
         services.AddScoped<IDbContextFactory, DbContextFactory>();
 
         //BD POR CADA CLIENTE
-        services.AddScoped<IPresupuestoTenantRepository, PresupuestoTenantRepository>();
-        services.AddScoped<IPruebaTenantRepository, PruebaTenantRepository>();
         services.AddScoped<IRolTenantRepository, RolTenantRepository>();
         services.AddScoped<IPaginationRolesTenantRepository, RolTenantRepository>();
         services.AddScoped<IUserTenantRepository, UserTenantRepository>();

@@ -84,7 +84,6 @@ public sealed class JwtProvider : IJwtProvider
             new(CustomClaims.UserTenantRolId,user.RolId!.Value.ToString()), 
             new(CustomClaims.UserId,user.Id!.Value.ToString())
 
-
         };
 
         var sigingCredentials = new SigningCredentials(
