@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241129050912_initialApp")]
+    [Migration("20241215160810_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -388,16 +388,14 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .IsRequired()
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("UbigeoId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("UbigeoId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarpetaPresupuestalId");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("UbigeoId");
 
                     b.ToTable("presupuestos", (string)null);
                 });
@@ -503,32 +501,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("Id");
 
                     b.ToTable("titulos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("Dependencia")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Nivel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Dependencia");
-
-                    b.ToTable("ubigeos", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
@@ -723,15 +695,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .WithMany()
                         .HasForeignKey("ClienteId");
 
-                    b.HasOne("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", "Ubigeo")
-                        .WithMany()
-                        .HasForeignKey("UbigeoId");
-
                     b.Navigation("CarpetaPresupuestal");
 
                     b.Navigation("Cliente");
-
-                    b.Navigation("Ubigeo");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
@@ -750,15 +716,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasForeignKey("RolId");
 
                     b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", "DependenciaModel")
-                        .WithMany("Ubigeos")
-                        .HasForeignKey("Dependencia");
-
-                    b.Navigation("DependenciaModel");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
@@ -825,11 +782,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
             modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>
                 {
                     b.Navigation("PresupuestosEspecialidadesTitulos");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UbigeosTenant.UbigeoTenant", b =>
-                {
-                    b.Navigation("Ubigeos");
                 });
 #pragma warning restore 612, 618
         }

@@ -329,6 +329,433 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Nivel = 1,
                             Nombre = "12 MESES",
                             Valor = "12"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "TIPO DE IDENTIFICADOR SGO"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Activo = true,
+                            Dependencia = 16,
+                            Nivel = 1,
+                            Nombre = "CLIENTE",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Activo = true,
+                            Dependencia = 16,
+                            Nivel = 1,
+                            Nombre = "PROVEEDOR",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "TIPO DE RECURSO"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Activo = true,
+                            Dependencia = 19,
+                            Nivel = 1,
+                            Nombre = "MANO DE OBRA",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Activo = true,
+                            Dependencia = 19,
+                            Nivel = 1,
+                            Nombre = "SERVICIO",
+                            Valor = "1"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Activo = true,
+                            Dependencia = 19,
+                            Nivel = 1,
+                            Nombre = "MATERIALES",
+                            Valor = "2"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Activo = true,
+                            Dependencia = 19,
+                            Nivel = 1,
+                            Nombre = "CONTRATO",
+                            Valor = "3"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "UBIGEO"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Amazonas"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Áncash"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Apurímac"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Arequipa"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Ayacucho"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Cajamarca"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Callao"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Cusco"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Huancavelica"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Huánuco"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Ica"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Junín"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "La Libertad"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Lambayeque"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Lima"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Loreto"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Madre de Dios"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Moquegua"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Pasco"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Piura"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Puno"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "San Martín"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Tacna"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Tumbes"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Activo = true,
+                            Dependencia = 24,
+                            Nivel = 1,
+                            Nombre = "Ucayali"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Activo = true,
+                            Dependencia = 49,
+                            Nivel = 2,
+                            Nombre = "Coronel Portillo"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Activo = true,
+                            Dependencia = 49,
+                            Nivel = 2,
+                            Nombre = "Atalaya"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Activo = true,
+                            Dependencia = 49,
+                            Nivel = 2,
+                            Nombre = "Padre Abad"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Activo = true,
+                            Dependencia = 49,
+                            Nivel = 2,
+                            Nombre = "Purús"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Callería"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Campoverde"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Iparía"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Masisea"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Yarinacocha"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Nueva Requena"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Activo = true,
+                            Dependencia = 50,
+                            Nivel = 3,
+                            Nombre = "Manantay"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Activo = true,
+                            Dependencia = 51,
+                            Nivel = 3,
+                            Nombre = "Raymondi"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Activo = true,
+                            Dependencia = 51,
+                            Nivel = 3,
+                            Nombre = "Sepahua"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Activo = true,
+                            Dependencia = 51,
+                            Nivel = 3,
+                            Nombre = "Tahuanía"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Activo = true,
+                            Dependencia = 51,
+                            Nivel = 3,
+                            Nombre = "Yurúa"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Activo = true,
+                            Dependencia = 52,
+                            Nivel = 3,
+                            Nombre = "Padre Abad"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Activo = true,
+                            Dependencia = 52,
+                            Nivel = 3,
+                            Nombre = "Irázola"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Activo = true,
+                            Dependencia = 52,
+                            Nivel = 3,
+                            Nombre = "Curimana"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Activo = true,
+                            Dependencia = 53,
+                            Nivel = 3,
+                            Nombre = "Purús"
                         });
                 });
 

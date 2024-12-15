@@ -5,7 +5,6 @@ using MsAcceso.Application.Exceptions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
-using MsAcceso.Domain.Tenant.UbigeosTenant;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
@@ -39,7 +38,6 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
     public DbSet<EspecialidadTenant> Especialidades { get; set; }
     public DbSet<TituloTenant> Titulos { get; set; }
-    public DbSet<UbigeoTenant> Ubigeos { get; set; }
     public DbSet<CarpetaPresupuestalTenant> CarpetasPresupuestales {get; set;}
     public DbSet<PartidaTenant> Partidas {get; set;}
     public DbSet<RecursoTenant> Recursos { get; set; }
@@ -136,24 +134,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
                 t => t.HasOne<TituloTenant>(p => p.Titulo).WithMany(t => t.PresupuestosEspecialidadesTitulos).HasForeignKey(t => t.TituloId)
             );
 
-        builder.Entity<UbigeoTenant>().ToTable("ubigeos");
-        builder.Entity<UbigeoTenant>().HasKey(ubigeo => ubigeo.Id);
-
-        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Id)
-            .HasConversion(ubigeoId => ubigeoId!.Value, value => new UbigeoTenantId(value));
-
-        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Nombre)
-            .IsRequired()
-            .HasMaxLength(100);
-
-        builder.Entity<UbigeoTenant>().Property(ubigeo => ubigeo.Activo)
-            .IsRequired()
-            .HasConversion(estado => estado!.Value, value => new Activo(value));
-
-        builder.Entity<UbigeoTenant>().HasOne(u => u.DependenciaModel)
-            .WithMany(u => u.Ubigeos)
-            .HasForeignKey(u => u.Dependencia);
-
+        
         builder.Entity<CarpetaPresupuestalTenant>().ToTable("carpetas_presupuestales");
         builder.Entity<CarpetaPresupuestalTenant>().HasKey(carpetaPresupuestal => carpetaPresupuestal.Id);
 
@@ -260,14 +241,8 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .HasOne(presupuesto => presupuesto.Cliente)
             .WithMany()
             .HasForeignKey(presupuesto => presupuesto.ClienteId);
-        // builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.Ubigeo)
-        //     .WithOne()
-        //     .HasForeignKey<PresupuestoTenant>(e => e.UbigeoId!.Value)
-        //     .IsRequired();
-        builder.Entity<PresupuestoTenant>()
-            .HasOne(presupuesto => presupuesto.Ubigeo)
-            .WithMany()
-            .HasForeignKey(presupuesto => presupuesto.UbigeoId);
+       
+        
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Fecha)
             .IsRequired();
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Plazodias)

@@ -2,7 +2,6 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.PersonasTenant;
-using MsAcceso.Domain.Tenant.UbigeosTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosTenant;
 
@@ -15,7 +14,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         string codigo,
         string descripcion,
         PersonaTenantId clienteId,
-        UbigeoTenantId ubigeoId,
+        int ubigeoId,
         DateTime fecha,
         int plazodias,
         int jornadaDiariaId,
@@ -50,13 +49,8 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public string? Codigo {get; private set;}
     public string? Descripcion {get; private set;}
     public PersonaTenant? Cliente {get; private set;}
-
-    // [NotMapped]
     public PersonaTenantId? ClienteId {get; private set;}
-    public UbigeoTenant? Ubigeo {get; private set;}
-
-    // [NotMapped]
-    public UbigeoTenantId? UbigeoId {get; private set;}
+    public int? UbigeoId {get; private set;}
     public DateTime? Fecha {get; private set;}
     public int? Plazodias {get; private set;}
     public int? JornadaDiariaId {get; private set;}
@@ -76,7 +70,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         string Codigo,
         string Descripcion,
         PersonaTenantId ClienteId,
-        UbigeoTenantId UbigeoId,
+        int UbigeoId,
         DateTime Fecha,
         int Plazodias,
         int JornadaDiariaId,
@@ -97,8 +91,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public Result Update(
         string codigo,
         string descripcion,
-        // PersonaTenantId clienteId,
-        UbigeoTenantId ubigeoId,
+        int ubigeoId,
         DateTime fecha,
         int plazodias,
         int jornadaDiariaId,
