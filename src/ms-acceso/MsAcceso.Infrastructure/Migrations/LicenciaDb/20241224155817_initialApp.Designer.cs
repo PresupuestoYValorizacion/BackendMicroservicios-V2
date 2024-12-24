@@ -9,10 +9,10 @@ using MsAcceso.Infrastructure;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
+namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
-    [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241224060616_initialApp")]
+    [DbContext(typeof(LicenciaDbContext))]
+    [Migration("20241224155817_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -68,6 +68,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TipoClienteId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TipoDocumentoId")
                         .HasColumnType("int");
 
@@ -118,6 +121,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("float");
 
                     b.Property<Guid>("PartidaId")
+                        .HasMaxLength(100)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double?>("Precio")
@@ -125,6 +129,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("float");
 
                     b.Property<Guid>("RecursoId")
+                        .HasMaxLength(100)
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -320,9 +325,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("bit");
 
                     b.Property<string>("Correlativo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("Dependencia")
                         .HasColumnType("uniqueidentifier");
@@ -388,21 +391,27 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("int");
 
                     b.Property<double?>("PresupuestoBaseCD")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoBaseDI")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoOfertaCD")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoOfertaDI")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("TotalPresupuestoBase")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("TotalPresupuestoOferta")
+                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<int?>("UbigeoId")
@@ -442,66 +451,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("recursos", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OpcionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RolPermisoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolPermisoId");
-
-                    b.ToTable("rols_permisos_opciones", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MenuId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolId");
-
-                    b.ToTable("rols_permisos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("rols", (string)null);
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -518,47 +467,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasKey("Id");
 
                     b.ToTable("titulos", (string)null);
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<Guid?>("PersonaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("PersonaId");
-
-                    b.HasIndex("RolId");
-
-                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
@@ -713,39 +621,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", "RolPermiso")
-                        .WithMany("RolPermisoOpcions")
-                        .HasForeignKey("RolPermisoId");
-
-                    b.Navigation("RolPermiso");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", "Rol")
-                        .WithMany("RolPermisos")
-                        .HasForeignKey("RolId");
-
-                    b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.UsersTenant.UserTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", "Persona")
-                        .WithMany()
-                        .HasForeignKey("PersonaId");
-
-                    b.HasOne("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", "Rol")
-                        .WithMany()
-                        .HasForeignKey("RolId");
-
-                    b.Navigation("Persona");
-
-                    b.Navigation("Rol");
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant.CarpetaPresupuestalTenant", b =>
                 {
                     b.Navigation("CarpetasPresupuestales");
@@ -780,16 +655,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>
                 {
                     b.Navigation("PresupuestosEspecialidadesTitulosPartidasRecursos");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosTenant.RolPermisoTenant", b =>
-                {
-                    b.Navigation("RolPermisoOpcions");
-                });
-
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.RolsTenant.RolTenant", b =>
-                {
-                    b.Navigation("RolPermisos");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", b =>

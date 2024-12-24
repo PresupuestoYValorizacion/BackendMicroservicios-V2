@@ -65,6 +65,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TipoClienteId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TipoDocumentoId")
                         .HasColumnType("int");
 

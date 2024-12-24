@@ -1,7 +1,6 @@
 
-using MsAcceso.Domain.Tenant.ClientesTenant;
 
-namespace MsAcceso.Domain.Tenant.PersonasTenant;
+namespace MsAcceso.Domain.Tenant.ClientesTenant;
 
 public interface IClienteTenantRepository
 {
@@ -11,5 +10,7 @@ public interface IClienteTenantRepository
     void Update(ClienteTenant clienteTenant);
     void Delete(ClienteTenant clienteTenant);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<ClienteTenant?> GetByNumeroDocumento(string numeroDocumento, CancellationToken cancellationToken = default);
+
 
 }
