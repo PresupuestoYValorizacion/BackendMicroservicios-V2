@@ -3,6 +3,7 @@ using LinqKit;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Application.Sgo.Paginations;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 
@@ -11,14 +12,17 @@ namespace MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
 internal sealed class GetClienteByPaginationQueryHandler : IQueryHandler<GetClienteByPaginationQuery, PagedResults<ClienteDto>?>
 {
     private readonly IPaginationClientesRepository _paginationClientesRepository;
+    private readonly IParametroRepository _parametroRepository;
     private readonly IMapper _mapper;
 
     public GetClienteByPaginationQueryHandler(
         IPaginationClientesRepository paginationClientesRepository,
+        IParametroRepository parametroRepository,
         IMapper mapper
     )
     {
         _paginationClientesRepository = paginationClientesRepository;
+        _parametroRepository = parametroRepository;
         _mapper = mapper;
     }
 
@@ -47,6 +51,18 @@ internal sealed class GetClienteByPaginationQueryHandler : IQueryHandler<GetClie
                                         request.PageSize,
                                         request.OrderBy!,
                                         request.OrderAsc);
+
+         var tipoPersonas = await _parametroRepository.GetRelatedEntitiesAsync( ParametroEnum.TipoPersona, cancellationToken);
+         var tipoClientes = await _parametroRepository.GetRelatedEntitiesAsync( ParametroEnum.TipoCliente, cancellationToken);
+
+        foreach(var cliente in resultPagination.Results)
+        {  
+
+            cliente.TipoPersona = tipoPersonas.FirstOrDefault(x => x.Id == new ParametroId(cliente.TipoPersonaId ?? 0));
+            cliente.TipoDocumento = await _parametroRepository.GetByIdAsync(new ParametroId(cliente.TipoDocumentoId ?? 0), cancellationToken);
+            cliente.TipoCliente = tipoClientes.FirstOrDefault(x => x.Id == new ParametroId(cliente.TipoClienteId ?? 0));
+
+        }
 
         var resultsDto = _mapper.Map<List<ClienteDto>>(resultPagination.Results);
 

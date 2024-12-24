@@ -41,6 +41,7 @@ using MsAcceso.Domain.Root.MenuOpciones;
 using MsAcceso.Application.Tenant.Users.GetOpcionesSGATenant;
 using MsAcceso.Application.Tenant.Users.ValidarAccesoMenuTenant;
 using MsAcceso.Application.Root.Users.LogoutUser;
+using MsAcceso.Application.Root.Users.GetOpcionesSGO;
 
 namespace MsAcceso.Api.Controllers.Users;
 
@@ -212,6 +213,66 @@ public class UsersController : ControllerBase
         {
 
             query = new GetOpcionesSGAQuery
+            {
+                RolId = new RolId(new Guid(rol)),
+                Url = url
+            };
+        }
+
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return Unauthorized(result);
+        }
+
+        return Ok(result);
+
+    }
+
+    [AllowAnonymous]
+    [HttpGet("get-opciones-sgo")]
+    [MapToApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> GetOpcionesSGO(
+         [FromQuery] string? url,
+        CancellationToken cancellationToken
+    )
+    {
+        bool isTenant = false;
+
+        if (_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("IsTenant", out var isAdminValue))
+        {
+            if (!bool.TryParse(isAdminValue, out isTenant))
+            {
+                isTenant = false;
+            }
+        }
+        var rol = _httpContextAccessor.HttpContext!.Request.Headers["Rol"].ToString();
+
+        if (rol is null)
+        {
+            return BadRequest("Header no existe");
+        }
+
+        IQuery<List<MenuOpcionDto>> query;
+
+        if (isTenant)
+        {
+            var userTenantRolId = _httpContextAccessor.HttpContext!.Request.Headers["UserTenantRolId"].ToString();
+
+            query = new GetOpcionesSGATenantQuery
+            {
+                UserRolId = new RolId(new Guid(rol)),
+                RolId = new RolTenantId(new Guid(userTenantRolId)),
+                Url = url
+            };
+
+        }
+        else
+        {
+
+            query = new GetOpcionesSGOQuery
             {
                 RolId = new RolId(new Guid(rol)),
                 Url = url
