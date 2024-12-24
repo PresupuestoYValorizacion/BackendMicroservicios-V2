@@ -97,6 +97,7 @@ public static class DependencyInjection
         services.AddScoped<IPersonaTenantRepository, PersonaTenantRepository>();
         services.AddScoped<IPersonaNaturalTenantRepository, PersonaNaturalTenantRepository>();
         services.AddScoped<IPersonaJuridicaTenantRepository, PersonaJuridicaTenantRepository>();
+        services.AddScoped<IClienteTenantRepository, ClienteTenantRepository>();
 
         services.AddScoped<IEspecialidadTenantRepository, EspecialidadTenantRepository>();
         services.AddScoped<ITituloTenantRepository, TituloTenantRepository>();

@@ -228,6 +228,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<TituloTenant>().Property(titulo => titulo.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
+            
         builder.Entity<TituloTenant>().HasMany(titulos => titulos.PresupuestosEspecialidades)
             .WithMany()
             .UsingEntity<PresupuestoEspecialidadTituloTenant>(
