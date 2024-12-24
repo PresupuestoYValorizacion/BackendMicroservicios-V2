@@ -27,7 +27,8 @@ internal sealed class DeleteClienteTenantCommandHandler : ICommandHandler<Delete
                 return Result.Failure<int>(ClienteTenantErrors.ClienteNotFound);
             }
 
-
+            _clienteTenantRepository.Delete(clienteDelete);
+            
             await _clienteTenantRepository.SaveChangesAsync(cancellationToken);
 
             return Result.Success(1, Message.Delete);
