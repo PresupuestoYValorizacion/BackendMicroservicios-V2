@@ -17,6 +17,7 @@ using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant;
+using MsAcceso.Domain.Tenant.ClientesTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -226,6 +227,22 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
 
+        builder.Entity<ClienteTenant>().ToTable("clientes");
+        builder.Entity<ClienteTenant>().HasKey(cliente => cliente.Id);
+        builder.Entity<ClienteTenant>().Property(cliente => cliente.Id)
+            .HasConversion(cliente => cliente!.Value, value => new ClienteTenantId(value));
+        
+        builder.Entity<ClienteTenant>().Property(cliente => cliente.NumeroDocumento)
+        .IsRequired()
+        .HasMaxLength(100);
+
+        builder.Entity<ClienteTenant>().Property(cliente => cliente.Nombre)
+        .HasMaxLength(100);
+
+        builder.Entity<ClienteTenant>().Property(cliente => cliente.Activo)
+        .IsRequired()
+        .HasConversion(estado => estado!.Value, value => new Activo(value));
+
         builder.Entity<PresupuestoTenant>().ToTable("presupuestos");
         builder.Entity<PresupuestoTenant>().HasKey(presupuesto => presupuesto.Id);
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Id)
@@ -300,8 +317,9 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
         //     .IsRequired();
         builder.Entity<PresupuestoEspecialidadTituloTenant>()
             .HasOne(pEspTitulos => pEspTitulos.Titulo)
-            .WithMany() 
+            .WithMany(t => t.PresupuestosEspecialidadesTitulos) 
             .HasForeignKey(pEspTitulos => pEspTitulos.TituloId);
+            
         builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspTitulos => pEspTitulos.Correlativo)
             .IsRequired()
             .HasMaxLength(100);

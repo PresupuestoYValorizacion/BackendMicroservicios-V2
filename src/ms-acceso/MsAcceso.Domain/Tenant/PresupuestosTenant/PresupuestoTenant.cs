@@ -1,7 +1,7 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
-using MsAcceso.Domain.Tenant.PersonasTenant;
+using MsAcceso.Domain.Tenant.ClientesTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosTenant;
 
@@ -13,7 +13,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         PresupuestoTenantId id,
         string codigo,
         string descripcion,
-        PersonaTenantId clienteId,
+        ClienteTenantId clienteId,
         int ubigeoId,
         DateTime fecha,
         int plazodias,
@@ -48,8 +48,8 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
 
     public string? Codigo {get; private set;}
     public string? Descripcion {get; private set;}
-    public PersonaTenant? Cliente {get; private set;}
-    public PersonaTenantId? ClienteId {get; private set;}
+    public ClienteTenant? Cliente {get; private set;}
+    public ClienteTenantId? ClienteId {get; private set;}
     public int? UbigeoId {get; private set;}
     public DateTime? Fecha {get; private set;}
     public int? Plazodias {get; private set;}
@@ -69,7 +69,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public static PresupuestoTenant Create(
         string Codigo,
         string Descripcion,
-        PersonaTenantId ClienteId,
+        ClienteTenantId ClienteId,
         int UbigeoId,
         DateTime Fecha,
         int Plazodias,
@@ -102,12 +102,10 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         double presupuestoOfertaCD,
         double presupuestoOfertaDI,
         double totalPresupuestoOferta
-        // CarpetaPresupuestalTenantId carpetaPresupuestalId
     )
     {
         Codigo = (codigo.Length > 0 ) ? codigo : Codigo;
         Descripcion = (descripcion.Length > 0 ) ? descripcion : Descripcion;
-        // ClienteId = clienteId;
         UbigeoId = ubigeoId;
         Fecha = fecha;
         Plazodias = plazodias;
@@ -119,7 +117,6 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         PresupuestoOfertaCD = presupuestoOfertaCD;
         PresupuestoOfertaDI = presupuestoOfertaDI;
         TotalPresupuestoOferta = totalPresupuestoOferta;
-        // CarpetaPresupuestalId = carpetaPresupuestalId;
         return Result.Success();
     }
 

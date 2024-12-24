@@ -48,6 +48,34 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("carpetas_presupuestales", (string)null);
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.ClientesTenant.ClienteTenant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NumeroDocumento")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("TipoDocumentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoPersonaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("clientes", (string)null);
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -305,9 +333,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<Guid>("TituloId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TituloTenantId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Dependencia");
@@ -315,8 +340,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasIndex("PresupuestoEspecialidadId");
 
                     b.HasIndex("TituloId");
-
-                    b.HasIndex("TituloTenantId");
 
                     b.ToTable("presupuestos_especialidad_titulos", (string)null);
                 });
@@ -362,27 +385,21 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasColumnType("int");
 
                     b.Property<double?>("PresupuestoBaseCD")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoBaseDI")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoOfertaCD")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("PresupuestoOfertaDI")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("TotalPresupuestoBase")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<double?>("TotalPresupuestoOferta")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<int?>("UbigeoId")
@@ -666,14 +683,10 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .IsRequired();
 
                     b.HasOne("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", "Titulo")
-                        .WithMany()
+                        .WithMany("PresupuestosEspecialidadesTitulos")
                         .HasForeignKey("TituloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", null)
-                        .WithMany("PresupuestosEspecialidadesTitulos")
-                        .HasForeignKey("TituloTenantId");
 
                     b.Navigation("DependenciaModel");
 
@@ -688,7 +701,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .WithMany()
                         .HasForeignKey("CarpetaPresupuestalId");
 
-                    b.HasOne("MsAcceso.Domain.Tenant.PersonasTenant.PersonaTenant", "Cliente")
+                    b.HasOne("MsAcceso.Domain.Tenant.ClientesTenant.ClienteTenant", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId");
 
