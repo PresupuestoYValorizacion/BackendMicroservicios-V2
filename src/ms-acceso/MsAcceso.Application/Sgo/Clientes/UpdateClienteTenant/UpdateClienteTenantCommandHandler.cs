@@ -1,6 +1,5 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 
 namespace MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
@@ -25,13 +24,13 @@ internal sealed class UpdateClienteTenantCommandHandler : ICommandHandler<Update
             return Result.Failure<Guid>(ClienteTenantErrors.ClienteNotFound);
         }
 
-        if(cliente.Nombre != request.Nombre){
+        if(cliente.NumeroDocumento != request.NumeroDocumento){
 
             var numeroDocumentoExists = await _clienteTenantRepository.GetByNumeroDocumento(request.NumeroDocumento!,cancellationToken); 
 
             if(numeroDocumentoExists is not null)
             {
-                return Result.Failure<Guid>(ParametroErrors.ParametroExists);
+                return Result.Failure<Guid>(ClienteTenantErrors.ClienteExists);
             }
         }
 

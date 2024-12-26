@@ -25,32 +25,27 @@ internal sealed class CarpetaPresupuestalTenantRepository : RepositoryTenant<Car
 
 
 
-    // public async Task<List<CarpetaPresupuestalTenant>> GetAllCarpetaPresupuestalsBySubnivel(CarpetaPresupuestalTenantId Id, CancellationToken cancellationToken)
-    // {
-    //     var dependentCarpetaPresupuestals = await DbContext.Set<CarpetaPresupuestalTenant>()
-    //                                          .Where(x => x.Dependencia == Id)
-    //                                         //  .Include(x => x.Opciones)
-    //                                          .ToListAsync(cancellationToken);
+    public async Task<List<CarpetaPresupuestalTenant>> GetAllCarpetaPresupuestales(CancellationToken cancellationToken)
+    {
 
-    //     var sistemasToProcess = new List<CarpetaPresupuestalTenant>(dependentCarpetaPresupuestals);
+        var carpetaPresupuestalTenants = await DbContext.Set<CarpetaPresupuestalTenant>()
+                                             .Where(x => x.Activo == new Activo(true))
+                                             .Include(u => u.CarpetasPresupuestales)
+                                             .ToListAsync(cancellationToken);
 
-    //     while (sistemasToProcess.Count > 0)
-    //     {
-    //         var sistema = sistemasToProcess[0];
-    //         sistemasToProcess.RemoveAt(0);
+        return carpetaPresupuestalTenants!;
+    }
 
-    //         // var childCarpetaPresupuestals = await LoadDependenciesToDeleteAsync(sistema, cancellationToken);
+    public async Task<CarpetaPresupuestalTenant?> GetByNombreAsync(string nombre, int nivel, string? dependencia, CancellationToken cancellationToken)
+    {
 
-    //         // foreach (var childCarpetaPresupuestal in childCarpetaPresupuestals)
-    //         // {
-    //         //     if (!dependentCarpetaPresupuestals.Any(s => s.Id == childCarpetaPresupuestal.Id))
-    //         //     {
-    //         //         dependentCarpetaPresupuestals.Add(childCarpetaPresupuestal);
-    //         //         sistemasToProcess.Add(childCarpetaPresupuestal);
-    //         //     }
-    //         // }
-    //     }
+        return await DbContext.Set<CarpetaPresupuestalTenant>().Where(x => x.Activo == new Activo(true) && x.Nombre == nombre && x.Nivel == nivel && (dependencia != null
+                                                                                ? x.Dependencia == new CarpetaPresupuestalTenantId(Guid.Parse(dependencia))
+                                                                                : x.Dependencia == null)).FirstOrDefaultAsync(cancellationToken);
 
-    //     return dependentCarpetaPresupuestals!;
-    // }
+
+
+
+
+    }
 }

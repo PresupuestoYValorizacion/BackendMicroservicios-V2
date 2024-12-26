@@ -15,7 +15,7 @@ internal sealed class ClienteTenantRepository : RepositoryTenant<ClienteTenant,C
 
     public async Task<ClienteTenant?> GetByNumeroDocumento(string numeroDocumento, CancellationToken cancellationToken = default){
 
-        return await DbContext.Set<ClienteTenant>().Where(x => x.Activo == new Activo(true)).FirstOrDefaultAsync(cancellationToken);
+        return await DbContext.Set<ClienteTenant>().Where(x => x.Activo == new Activo(true) && x.NumeroDocumento == numeroDocumento).FirstOrDefaultAsync(cancellationToken);
     }
 
    

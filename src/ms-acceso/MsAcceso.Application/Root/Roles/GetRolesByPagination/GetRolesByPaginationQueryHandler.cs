@@ -17,7 +17,7 @@ internal sealed class GetRolesByPaginationQueryHandler : IQueryHandler<GetRolesB
     public GetRolesByPaginationQueryHandler(
         IPaginationRolesRepository paginationRolesRepository,
         IMapper mapper
-    )
+    ) 
     {
         _paginationRolesRepository = paginationRolesRepository;
         _mapper = mapper;
