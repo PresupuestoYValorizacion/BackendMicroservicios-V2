@@ -13,6 +13,7 @@ public class CarpetaPresupuestalProfile : Profile
         .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
         .ForMember(dest => dest.Nivel, opt => opt.MapFrom(src => src.Nivel))
         .ForMember(dest => dest.Dependencia, opt => opt.MapFrom(src => src.Dependencia!.Value.ToString()))
+        .ForMember(dest => dest.Childrens, opt => opt.MapFrom(src => src.CarpetasPresupuestales))
 
         ;
     }

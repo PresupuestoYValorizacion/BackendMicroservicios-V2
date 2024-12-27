@@ -1172,7 +1172,7 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate": "/api/v1/carpetas-presupuestales/get-pagination",
+      "DownstreamPathTemplate": "/api/v1/carpetas-presupuestales/get-all",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

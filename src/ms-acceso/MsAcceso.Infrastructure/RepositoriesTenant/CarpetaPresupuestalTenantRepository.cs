@@ -29,7 +29,7 @@ internal sealed class CarpetaPresupuestalTenantRepository : RepositoryTenant<Car
     {
 
         var carpetaPresupuestalTenants = await DbContext.Set<CarpetaPresupuestalTenant>()
-                                             .Where(x => x.Activo == new Activo(true))
+                                             .Where(x => x.Activo == new Activo(true) && x.Nivel == 0)
                                              .Include(u => u.CarpetasPresupuestales)
                                              .ToListAsync(cancellationToken);
 
