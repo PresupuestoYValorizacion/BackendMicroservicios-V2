@@ -23,6 +23,7 @@ using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.ProyectosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -199,8 +200,14 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         .IsRequired()
         .HasMaxLength(400);
 
+        builder.Entity<ProyectoTenant>().ToTable("proyectos");
+        builder.Entity<ProyectoTenant>().HasKey(proyecto => proyecto.Id);
+        builder.Entity<ProyectoTenant>().Property(proyecto => proyecto.Id)
+            .HasConversion(proyectoId => proyectoId!.Value, value => new ProyectoTenantId(value));
 
-
+        builder.Entity<ProyectoTenant>().Property(proyecto => proyecto.Activo)
+            .IsRequired()
+            .HasConversion(estado => estado!.Value, value => new Activo(value));
 
         builder.Entity<EspecialidadTenant>().ToTable("especialidades");
         builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
@@ -216,7 +223,8 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .WithMany()
             .UsingEntity<PresupuestoEspecialidadTenant>(
                 p => p.HasOne<PresupuestoTenant>(p => p.Presupuesto).WithMany().HasForeignKey(e => e.PresupuestoId),
-                e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId)
+                e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId),
+                f => f.HasOne<ProyectoTenant>(p => p.Proyecto).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.ProyectoId)
             );
 
         builder.Entity<TituloTenant>().ToTable("titulos");
