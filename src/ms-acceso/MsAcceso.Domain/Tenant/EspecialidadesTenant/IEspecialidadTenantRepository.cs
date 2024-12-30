@@ -9,5 +9,8 @@ public interface IEspecialidadTenantRepository
     Task<EspecialidadTenant?> GetByIdAsync(EspecialidadTenantId especialidadId, CancellationToken cancellationToken = default);
     Task<bool> EspecialidadTenantExist(string nombreEspecialidad, CancellationToken cancellationToken = default);
     Task<List<EspecialidadTenant>> GetAllAsync(CancellationToken cancellationToken);
+    Task<EspecialidadTenant?> GetByNombreAsync(string nombre, CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
     
 }

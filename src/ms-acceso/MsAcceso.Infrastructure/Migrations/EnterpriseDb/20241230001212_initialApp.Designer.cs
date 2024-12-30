@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20241228065533_initialApp")]
+    [Migration("20241230001212_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -95,7 +95,12 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid?>("ProyectoTenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProyectoTenantId");
 
                     b.ToTable("especialidades", (string)null);
                 });
@@ -232,13 +237,10 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("EspecialidadId")
+                    b.Property<Guid?>("EspecialidadId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PresupuestoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProyectoId")
+                    b.Property<Guid?>("PresupuestoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -246,8 +248,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.HasIndex("EspecialidadId");
 
                     b.HasIndex("PresupuestoId");
-
-                    b.HasIndex("ProyectoId");
 
                     b.ToTable("presupuesto_especialidad", (string)null);
                 });
@@ -594,6 +594,15 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("DependenciaModel");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", "ProyectoTenant")
+                        .WithMany("Especialidades")
+                        .HasForeignKey("ProyectoTenantId");
+
+                    b.Navigation("ProyectoTenant");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasRecursosTenant.PartidaRecursoTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", "Partida")
@@ -644,25 +653,15 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", "Especialidad")
                         .WithMany("PresupuestosEspecialidades")
-                        .HasForeignKey("EspecialidadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EspecialidadId");
 
                     b.HasOne("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", "Presupuesto")
                         .WithMany()
-                        .HasForeignKey("PresupuestoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", "Proyecto")
-                        .WithMany("PresupuestosEspecialidades")
-                        .HasForeignKey("ProyectoId");
+                        .HasForeignKey("PresupuestoId");
 
                     b.Navigation("Especialidad");
 
                     b.Navigation("Presupuesto");
-
-                    b.Navigation("Proyecto");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant.PresupuestoEspecialidadTituloPartidaRecursoTenant", b =>
@@ -809,7 +808,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", b =>
                 {
-                    b.Navigation("PresupuestosEspecialidades");
+                    b.Navigation("Especialidades");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>

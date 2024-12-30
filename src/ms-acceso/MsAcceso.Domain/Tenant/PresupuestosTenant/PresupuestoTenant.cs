@@ -63,7 +63,6 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public double? TotalPresupuestoOferta {get; private set;}
     public CarpetaPresupuestalTenant? CarpetaPresupuestal {get; private set;}
     
-    // [NotMapped]
     public CarpetaPresupuestalTenantId? CarpetaPresupuestalId {get; private set;}
 
     public static PresupuestoTenant Create(

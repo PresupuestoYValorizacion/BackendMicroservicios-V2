@@ -209,6 +209,11 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
 
+         builder.Entity<ProyectoTenant>()
+            .HasMany(proyecto => proyecto.Especialidades)
+            .WithOne(esp => esp.ProyectoTenant)
+            .HasForeignKey(e => e.ProyectoTenantId);
+
         builder.Entity<EspecialidadTenant>().ToTable("especialidades");
         builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
         builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Id)
@@ -219,13 +224,18 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<EspecialidadTenant>().Property(especialidad => especialidad.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
-        builder.Entity<EspecialidadTenant>().HasMany(partida => partida.Presupuestos)
+
+        builder.Entity<EspecialidadTenant>().HasMany(especialidad => especialidad.Presupuestos)
             .WithMany()
             .UsingEntity<PresupuestoEspecialidadTenant>(
                 p => p.HasOne<PresupuestoTenant>(p => p.Presupuesto).WithMany().HasForeignKey(e => e.PresupuestoId),
-                e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId),
-                f => f.HasOne<ProyectoTenant>(p => p.Proyecto).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.ProyectoId)
+                e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId)
             );
+
+         builder.Entity<EspecialidadTenant>()
+            .HasOne(esp => esp.ProyectoTenant)
+            .WithMany(proyecto => proyecto.Especialidades)
+            .HasForeignKey(e => e.ProyectoTenantId);
 
         builder.Entity<TituloTenant>().ToTable("titulos");
         builder.Entity<TituloTenant>().HasKey(titulo => titulo.Id);
@@ -413,10 +423,11 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PresupuestoEspecialidadTenant>().HasKey(pEspecialidad => pEspecialidad.Id);
         builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Id)
             .HasConversion(pEspecialidad => pEspecialidad!.Value, value => new PresupuestoEspecialidadTenantId(value));
+            
         builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.PresupuestoId)
-            .IsRequired();
+            .IsRequired(false);
         builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.EspecialidadId)
-            .IsRequired();
+            .IsRequired(false);
         builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Correlativo)
             .IsRequired()
             .HasMaxLength(100);

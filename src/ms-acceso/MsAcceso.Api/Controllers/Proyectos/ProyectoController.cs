@@ -7,23 +7,27 @@ using MsAcceso.Application.Sgo.CarpetasPresupuestales.DeleteCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetByIdCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetCarpetasPresupuestales;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.UpdateCarpetaPresupuestal;
+using MsAcceso.Application.Sgo.Proyectos.CreateEspecialidadTenant;
+using MsAcceso.Application.Sgo.Proyectos.CreateProyectoTenant;
+using MsAcceso.Application.Sgo.Proyectos.GetProyectosTenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.ProyectosTenant;
 using MsAcceso.Utils;
 
-namespace MsAcceso.Api.Controllers.CarpetasPresupuestales;
+namespace MsAcceso.Api.Controllers.Proyectos;
 
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 [ApiVersion(ApiVersions.V2)]
-[Route("api/v{version:apiVersion}/carpetas-presupuestales")]
-public class CarpetasPresupuestalesController : Controller
+[Route("api/v{version:apiVersion}/proyectos")]
+public class ProyectoController : Controller
 {
 
     private readonly ISender _sender;
 
-    public CarpetasPresupuestalesController(ISender sender)
+    public ProyectoController(ISender sender)
     {
         _sender = sender;
     }
@@ -31,14 +35,14 @@ public class CarpetasPresupuestalesController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(
-        [FromBody] CreateCarpetaPresupuestalRequest request,
+    [HttpPost("register-proyecto")]
+    public async Task<IActionResult> RegisterProyecto(
+        [FromBody] CreateProyectoTenantRequest request,
         CancellationToken cancellationToken
     )
     {
 
-        var command = new CreateCarpetaPresupuestalCommand(request.Dependencia, request.Nombre,request.Nivel);
+        var command = new CreateProyectoTenantCommand(request.Nombre);
 
         var results = await _sender.Send(command, cancellationToken);
 
@@ -49,6 +53,27 @@ public class CarpetasPresupuestalesController : Controller
 
         return Ok(results);
 
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPost("register-especialidad")]
+    public async Task<IActionResult> RegisterEspecialidad(
+        [FromBody] CreateEspecialidadTenantRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var command = new CreateEspecialidadTenantCommand(request.Nombre, request.ProyectoId);
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
 
     }
 
@@ -98,10 +123,10 @@ public class CarpetasPresupuestalesController : Controller
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-all")]
-    public async Task<ActionResult<PaginationResult<ClienteDto>>> GetAll(
+    public async Task<ActionResult<PaginationResult<ProyectoTenantDto>>> GetAll(
     )
     {
-        var query =  new GetCarpetasPresupuestalesQuery {  };
+        var query =  new GetProyectosTenantQuery {  };
 
         var results = await _sender.Send(query);
 

@@ -12,32 +12,29 @@ public sealed class PresupuestoEspecialidadTenant : Entity<PresupuestoEspecialid
 
     private PresupuestoEspecialidadTenant(
         PresupuestoEspecialidadTenantId id,
-        PresupuestoTenantId presupuestoId,
+        PresupuestoTenantId? presupuestoId,
         EspecialidadTenantId especialidadId,
         string correlativo
     ) : base(id)
     {
         PresupuestoId = presupuestoId;
         EspecialidadId = especialidadId;
+        // ProyectoId= proyectoId;
         Correlativo = correlativo;
     }
 
     public PresupuestoTenantId? PresupuestoId { get; private set; }
     public EspecialidadTenantId? EspecialidadId { get; private set; }
-    public ProyectoTenantId? ProyectoId { get; private set; }
     public PresupuestoTenant? Presupuesto { get; private set; }
     public EspecialidadTenant? Especialidad { get; private set; }
-    public ProyectoTenant? Proyecto { get; private set; }
     public string? Correlativo { get; private set; }
 
     public static PresupuestoEspecialidadTenant Create(
-        PresupuestoEspecialidadTenantId Id,
-        PresupuestoTenantId PresupuestoId,
         EspecialidadTenantId EspecialidadId,
         string Correlativo
     )
     {
-        var presupuestoEspecialidad = new PresupuestoEspecialidadTenant(Id, PresupuestoId, EspecialidadId, Correlativo);
+        var presupuestoEspecialidad = new PresupuestoEspecialidadTenant(PresupuestoEspecialidadTenantId.New(), null, EspecialidadId, Correlativo);
         return presupuestoEspecialidad;
     }
 

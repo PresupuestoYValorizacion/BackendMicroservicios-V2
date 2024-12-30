@@ -1,5 +1,6 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 
 namespace MsAcceso.Domain.Tenant.ProyectosTenant;
@@ -17,7 +18,7 @@ public sealed class ProyectoTenant : Entity<ProyectoTenantId>
     }
 
     public string? Nombre {get; private set;}
-    public List<PresupuestoEspecialidadTenant>? PresupuestosEspecialidades { get; } = [];
+    public List<EspecialidadTenant>? Especialidades { get; } = [];
     
 
     public static ProyectoTenant Create(
