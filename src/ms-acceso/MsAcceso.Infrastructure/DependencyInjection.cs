@@ -41,6 +41,8 @@ using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 using MsAcceso.Application.Sgo.Paginations;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Root.Reports;
+using MsAcceso.Infrastructure.Reports;
 
 namespace MsAcceso.Infrastructure;
 
@@ -137,6 +139,9 @@ public static class DependencyInjection
 
         services.AddScoped<IMenuOpcionRepository, MenuOpcionRepository>();
         services.AddScoped<ISesionRepository, SesionRepository>();
+
+        // Reportes
+        services.AddTransient<IGenerateReportPdfService,GenerateReportPdfService>();
 
         services.AddScoped<IUnitOfWorkTenant>(sp => sp.GetRequiredService<EnterpriseDbContext>());
         
