@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MsAcceso.Domain.Root.Reports.HojaDePresupuesto;
 
-namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf
-{
-    public record GenerateReporteHojaPresupuestoPdfRequest();
-}
+namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf;
+public record GenerateReporteHojaPresupuestoPdfRequest(
+    string codPresupuesto,
+    string descPresupuesto,
+    string codSubPresupuesto,
+    string descSubPresupuesto,
+    string cliente, 
+    string lugar, 
+    string fechaCosto,
+    List<Titulo> titulos,
+    decimal costoDirecto
+);
+    
