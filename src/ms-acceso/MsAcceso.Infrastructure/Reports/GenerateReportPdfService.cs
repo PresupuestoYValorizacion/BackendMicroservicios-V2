@@ -1,4 +1,5 @@
 ﻿using MsAcceso.Domain.Root.Reports;
+using MsAcceso.Domain.Root.Reports.HojaDePresupuesto;
 using QuestPDF.Companion;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -7,110 +8,12 @@ using System.Globalization;
 
 namespace MsAcceso.Infrastructure.Reports
 {
-    public record HojaPresupuestoData(
-        string codPresupuesto,
-        string descPresupuesto,
-        string codSubPresupuesto,
-        string descSubPresupuesto,
-        string cliente, 
-        string lugar, 
-        string fechaCosto,
-        List<Titulo> titulos,
-        decimal costoDirecto);
-
-    public record Titulo(
-        string item,
-        string descripcion,
-        decimal parcial,
-        List<SubTitulo> subTitulos);
-
-    public record SubTitulo(
-        string item,
-        string descripcion,
-        string unidad,
-        string metrado,
-        decimal precio,
-        decimal parcial);
-
-    public record Partida(
-        string descripcion,
-        string unidad,
-        string cuadrilla,
-        string cantidad,
-        decimal precio,
-        decimal parcial);
 
     internal sealed class GenerateReportPdfService : IGenerateReportPdfService
     {
 
-        public HojaPresupuestoData GetHojaPresupuesto() => new HojaPresupuestoData(
-            codPresupuesto: "HP001",
-            descPresupuesto: "CONSTRUCCIÓN DE EDIFICIO COMERCIAL",
-            codSubPresupuesto: "SP001",
-            descSubPresupuesto: "FUNDACIONES Y ESTRUCTURAS",
-            cliente: "EMPRESA CONSTRUCTORA XYZ S.A.",
-            lugar: "AV. PRINCIPAL 123, CIUDAD",
-            fechaCosto: "2024-01-01",
-            titulos: GetTitulos(),
-            costoDirecto: 16800.00m);
-
-        public List<Titulo> GetTitulos() => new List<Titulo>()
+        public Document GenerateHojaPresupuestoPdf(HojaPresupuesto hojaPresupuesto)
         {
-            new Titulo(
-                "001",
-                "CONSTRUCCIÓN DE CIMIENTOS",
-                // Unidad y metrado están comentados en el modelo de Titulo
-                // Se omiten en esta estructura
-                parcial: 8000.00m, // Costo total del título calculado
-                subTitulos: new List<SubTitulo>
-                {
-                    new SubTitulo(
-                        "001.01",
-                        "EXCAVACIÓN MANUAL",
-                        "M3",
-                        "15.00",
-                        200.00m, // Costo unitario
-                        3000.00m  // Costo total (15.00 * 200.00)
-                    ),
-                    new SubTitulo(
-                        "001.02",
-                        "COLOCACIÓN DE HORMIGÓN",
-                        "M3",
-                        "10.00",
-                        500.00m, // Costo unitario
-                        5000.00m  // Costo total (10.00 * 500.00)
-                    )
-                }
-            ),
-            new Titulo(
-                "002",
-                "ESTRUCTURAS METÁLICAS",
-                parcial: 8800.00m, // Costo total del título calculado
-                subTitulos: new List<SubTitulo>
-                {
-                    new SubTitulo(
-                        "002.01",
-                        "SOLDADURA DE VIGAS PRINCIPALES",
-                        "KG",
-                        "120.00",
-                        15.00m,  // Costo unitario
-                        1800.00m  // Costo total (120.00 * 15.00)
-                    ),
-                    new SubTitulo(
-                        "002.02",
-                        "INSTALACIÓN DE SOPORTES",
-                        "UD",
-                        "20.00",
-                        350.00m, // Costo unitario
-                        7000.00m  // Costo total (20.00 * 350.00)
-                    )
-                }
-            )
-        };
-
-        public Document GenerateHojaPresupuestoPdf()
-        {
-            var hojaPresupuesto = GetHojaPresupuesto();
 
             var report = Document.Create(container => 
             {
@@ -151,21 +54,21 @@ namespace MsAcceso.Infrastructure.Reports
                             });
 
                             table.Cell().Element(CellHeaderStyle).Text("Presupuesto");
-                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.codPresupuesto).ExtraBold();
-                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.descPresupuesto).ExtraBold();
+                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.CodPresupuesto).ExtraBold();
+                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.DescPresupuesto).ExtraBold();
                             table.Cell();
 
                             table.Cell().Element(CellHeaderStyle).Text("SubPresupuesto");
-                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.codSubPresupuesto).ExtraBold();
-                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.descSubPresupuesto).ExtraBold();
+                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.CodSubPresupuesto).ExtraBold();
+                            table.Cell().Element(CellHeaderStyle).Text(hojaPresupuesto.DescSubPresupuesto).ExtraBold();
                             table.Cell();
 
                             table.Cell().Element(CellHeaderStyle).Text("Cliente");
-                            table.Cell().ColumnSpan(2).ExtendHorizontal().Element(CellHeaderStyle).Text(hojaPresupuesto.cliente).ExtraBold();
-                            table.Cell().Element(CellHeaderStyle).Text($"Costo al:     {hojaPresupuesto.fechaCosto}").ExtraBold();
+                            table.Cell().ColumnSpan(2).ExtendHorizontal().Element(CellHeaderStyle).Text(hojaPresupuesto.Cliente).ExtraBold();
+                            table.Cell().Element(CellHeaderStyle).Text($"Costo al:     {hojaPresupuesto.FechaCosto}").ExtraBold();
 
                             table.Cell().Element(CellHeaderStyle).Text("Lugar");
-                            table.Cell().ColumnSpan(2).ExtendHorizontal().Element(CellHeaderStyle).Text(hojaPresupuesto.lugar).ExtraBold();
+                            table.Cell().ColumnSpan(2).ExtendHorizontal().Element(CellHeaderStyle).Text(hojaPresupuesto.Lugar).ExtraBold();
                             table.Cell();
 
                             IContainer CellHeaderStyle(IContainer container) =>
@@ -202,7 +105,7 @@ namespace MsAcceso.Infrastructure.Reports
 
                             uint contTitulos = 0;
 
-                            foreach (var titulo in hojaPresupuesto.titulos)
+                            foreach (var titulo in hojaPresupuesto.Titulos)
                             {
                                 contTitulos++;
 
@@ -227,11 +130,11 @@ namespace MsAcceso.Infrastructure.Reports
                             contTitulos++;
 
                             table.Cell().Row(contTitulos).Column(2).Element(CellStyle).Text("COSTO DIRECTO").ExtraBold(); 
-                            table.Cell().Row(contTitulos).Column(6).AlignRight().Element(CellStyle).Text(hojaPresupuesto.costoDirecto.ToString()).ExtraBold();
+                            table.Cell().Row(contTitulos).Column(6).AlignRight().Element(CellStyle).Text(hojaPresupuesto.CostoDirecto.ToString()).ExtraBold();
                             
                             contTitulos++;
 
-                            var costoDirecto = NumeroAPalabras(hojaPresupuesto.costoDirecto);
+                            var costoDirecto = NumeroAPalabras(hojaPresupuesto.CostoDirecto);
 
                             table.Cell().Row(contTitulos).Column(2).Element(CellStyle).Text($"SON:    {costoDirecto}   NUEVOS SOLES").ExtraBold();
 
@@ -244,7 +147,7 @@ namespace MsAcceso.Infrastructure.Reports
                 });
             });
 
-            report.ShowInCompanion();
+            // report.ShowInCompanion();
 
             return report;
         }
