@@ -1,6 +1,7 @@
 ﻿using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Reports;
+using MsAcceso.Domain.Root.Reports.HojaDePresupuesto;
 using QuestPDF.Fluent;
 
 namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf
@@ -16,9 +17,21 @@ namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf
 
         public async Task<Result<byte[]>> Handle(GenerateReporteHojaPresupuestoPdfCommand request, CancellationToken cancellationToken)
         {
-            var result = _generateReportPdfService.GenerateHojaPresupuestoPdf();
+            var hojaPresupuesto = HojaPresupuesto.Create(
+                request.codPresupuesto,
+                request.descPresupuesto,
+                request.codSubPresupuesto,
+                request.descSubPresupuesto,
+                request.cliente,
+                request.lugar,
+                request.fechaCosto,
+                request.titulos,
+                request.costoDirecto
+            );
 
-            byte[] reportePdf = result.GeneratePdf();
+            var resultPdf = _generateReportPdfService.GenerateHojaPresupuestoPdf(hojaPresupuesto);
+
+            byte[] reportePdf = resultPdf.GeneratePdf();
 
             return Result.Success(reportePdf, Message.Create)!;
         }
