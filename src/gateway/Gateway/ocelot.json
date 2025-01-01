@@ -1262,6 +1262,190 @@
         "IsAdmin": "Claims[IsAdmin] > value > |"
       },
       "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/get-by-id-proyecto/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/get-by-id-proyecto/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/get-by-id-especialidad/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/get-by-id-especialidad/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/get-all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/get-all",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/register-proyecto",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/register-proyecto",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/register-especialidad",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/register-especialidad",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/update",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/delete-proyecto/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/delete-proyecto/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/proyectos/delete-especialidad/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/proyectos/delete-especialidad/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
     }
   ],
   "SwaggerEndPoints": [

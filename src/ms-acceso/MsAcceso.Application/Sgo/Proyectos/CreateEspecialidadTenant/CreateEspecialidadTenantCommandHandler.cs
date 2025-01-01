@@ -38,9 +38,9 @@ internal class CreateEspecialidadTenantCommandHandler : ICommandHandler<CreateEs
 
         _especialidadRepository.Add(newEspecialidad);
 
-        var newPresupuestoEspecialidad = PresupuestoEspecialidadTenant.Create(newEspecialidad.Id!, Guid.NewGuid().ToString());
+        // var newPresupuestoEspecialidad = PresupuestoEspecialidadTenant.Create(newEspecialidad.Id!, Guid.NewGuid().ToString());
 
-        _presupuestoEspecialidadRepository.Add(newPresupuestoEspecialidad);
+        // _presupuestoEspecialidadRepository.Add(newPresupuestoEspecialidad);
 
         await _especialidadRepository.SaveChangesAsync(cancellationToken);
 

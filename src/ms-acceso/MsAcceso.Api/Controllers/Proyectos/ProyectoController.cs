@@ -9,10 +9,16 @@ using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetCarpetasPresupuestales;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.UpdateCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.Proyectos.CreateEspecialidadTenant;
 using MsAcceso.Application.Sgo.Proyectos.CreateProyectoTenant;
+using MsAcceso.Application.Sgo.Proyectos.DeleteEspecialidadTenant;
+using MsAcceso.Application.Sgo.Proyectos.DeleteProyectoTenant;
+using MsAcceso.Application.Sgo.Proyectos.GetByIdEspecialidad;
+using MsAcceso.Application.Sgo.Proyectos.GetByIdProyecto;
 using MsAcceso.Application.Sgo.Proyectos.GetProyectosTenant;
+using MsAcceso.Application.Sgo.Proyectos.UpdateProyectoTenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.ProyectosTenant;
 using MsAcceso.Utils;
 
@@ -80,13 +86,14 @@ public class ProyectoController : Controller
     [HttpPut("update")]
     [ApiVersion(ApiVersions.V1)]
     public async Task<IActionResult> Update(
-        [FromBody] UpdateCarpetaPresupuestalRequest request,
+        [FromBody] UpdateProyectoTenantRequest request,
         CancellationToken cancellationToken
     )
     {
-        var command = new UpdateCarpetaPresupuestalCommand(
+        var command = new UpdateProyectoTenantCommand(
             request.Id,
-            request.Nombre
+            request.Nombre,
+            request.IsProyecto
         );
 
         var result = await _sender.Send(command, cancellationToken);
@@ -99,15 +106,36 @@ public class ProyectoController : Controller
         return Ok(result);
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("delete-proyecto/{id}")]
     [ApiVersion(ApiVersions.V1)]
     public async Task<IActionResult> Delete(
         string Id,
         CancellationToken cancellationToken
     )
     {
-        var command = new DeleteCarpetaPresupuestalCommand(
-            new CarpetaPresupuestalTenantId(Guid.Parse(Id))
+        var command = new DeleteProyectoTenantCommand(
+            new ProyectoTenantId(Guid.Parse(Id))
+        );
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
+    }
+
+    [HttpDelete("delete-especialidad/{id}")]
+    [ApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> DeleteEspecialidad(
+        string Id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new DeleteEspecialidadTenantCommand(
+            new EspecialidadTenantId(Guid.Parse(Id))
         );
 
         var result = await _sender.Send(command, cancellationToken);
@@ -135,10 +163,21 @@ public class ProyectoController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpGet("get-by-id/{id}")]
-    public async Task<ActionResult<ClienteDto>> GetById(string id)
+    [HttpGet("get-by-id-especialidad/{id}")]
+    public async Task<ActionResult<ClienteDto>> GetByIdEspecialidad(string id)
     {
-        var request = new GetByIdCarpetaPresupuestalQuery { Id = id };
+        var request = new GetByIdEspecialidadQuery { Id = id };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-by-id-proyecto/{id}")]
+    public async Task<ActionResult<ClienteDto>> GetByIdProyecto(string id)
+    {
+        var request = new GetByIdProyectoQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);

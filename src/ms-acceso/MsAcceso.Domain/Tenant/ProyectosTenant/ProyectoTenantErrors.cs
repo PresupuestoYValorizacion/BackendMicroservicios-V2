@@ -13,6 +13,11 @@ public static class ProyectoTenantErrors
         400,
         "El nombre de este proyecto ya existe"
     );
+
+     public static Error ProyectoNotExists = new(
+        404,
+        "El proyecto no existe"
+    );
     
     public static Error ProyectoInUse = new(
         400,
