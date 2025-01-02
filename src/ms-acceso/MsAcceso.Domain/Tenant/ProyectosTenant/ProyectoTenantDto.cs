@@ -1,5 +1,4 @@
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
-using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 
 namespace MsAcceso.Domain.Tenant.ProyectosTenant;
 

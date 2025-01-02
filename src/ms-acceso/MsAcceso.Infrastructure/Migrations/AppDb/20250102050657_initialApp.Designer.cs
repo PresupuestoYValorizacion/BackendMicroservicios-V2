@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241230001258_initialApp")]
+    [Migration("20250102050657_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -17143,6 +17143,65 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Dependencia = 2103,
                             Nivel = 3,
                             Nombre = "Papayal"
+                        },
+                        new
+                        {
+                            Id = 2117,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "TIPOS DE MONEDA"
+                        },
+                        new
+                        {
+                            Id = 2118,
+                            Activo = true,
+                            Dependencia = 2117,
+                            Nivel = 1,
+                            Nombre = "SOLES",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2119,
+                            Activo = true,
+                            Dependencia = 2117,
+                            Nivel = 1,
+                            Nombre = "DOLARES",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2120,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "TIPOS DE JORNADA"
+                        },
+                        new
+                        {
+                            Id = 2121,
+                            Activo = true,
+                            Dependencia = 2120,
+                            Nivel = 1,
+                            Nombre = "Jornada estándar (8 horas)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2122,
+                            Activo = true,
+                            Dependencia = 2120,
+                            Nivel = 1,
+                            Nombre = "Jornada nocturna (7 horas)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2123,
+                            Activo = true,
+                            Dependencia = 2120,
+                            Nivel = 1,
+                            Nombre = "Jornada extendida o extra (más de 8 horas)",
+                            Valor = "0"
                         });
                 });
 

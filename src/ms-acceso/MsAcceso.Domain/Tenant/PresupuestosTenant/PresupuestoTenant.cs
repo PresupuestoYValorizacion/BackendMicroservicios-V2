@@ -2,6 +2,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.ProyectosTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosTenant;
 
@@ -70,6 +71,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public CarpetaPresupuestalTenant? CarpetaPresupuestal {get; private set;}
     
     public CarpetaPresupuestalTenantId? CarpetaPresupuestalId {get; private set;}
+    public ProyectoTenant? ProyectoTenant {get; private set;}
 
     public static PresupuestoTenant Create(
         string Codigo,

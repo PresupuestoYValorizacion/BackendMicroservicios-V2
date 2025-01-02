@@ -2284,13 +2284,17 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
 			Parametro.Create(new ParametroId(2114), "Aguas Verdes", null, null, new ParametroId(2103), 3, null),
 			Parametro.Create(new ParametroId(2115), "Matapalo", null, null, new ParametroId(2103), 3, null),
 			Parametro.Create(new ParametroId(2116), "Papayal", null, null, new ParametroId(2103), 3, null),
+
+			// TIPO DE MONEDA
 			Parametro.Create(new ParametroId(2117), "TIPOS DE MONEDA", null, null, null, 0, null),
 			Parametro.Create(new ParametroId(2118), "SOLES", null, null, new ParametroId(2117), 1, "0"),
 			Parametro.Create(new ParametroId(2119), "DOLARES", null, null, new ParametroId(2117), 1, "0"),
+			// TIPO DE JORNADA
+
 			Parametro.Create(new ParametroId(2120), "TIPOS DE JORNADA", null, null, null, 0, null),
 			Parametro.Create(new ParametroId(2121), "Jornada estándar (8 horas)", null, null, new ParametroId(2120), 1, "0"),
 			Parametro.Create(new ParametroId(2122), "Jornada nocturna (7 horas)", null, null, new ParametroId(2120), 1, "0"),
-			Parametro.Create(new ParametroId(2122), "Jornada extendida o extra (más de 8 horas)", null, null, new ParametroId(2120), 1, "0")
+			Parametro.Create(new ParametroId(2123), "Jornada extendida o extra (más de 8 horas)", null, null, new ParametroId(2120), 1, "0")
 
 
 

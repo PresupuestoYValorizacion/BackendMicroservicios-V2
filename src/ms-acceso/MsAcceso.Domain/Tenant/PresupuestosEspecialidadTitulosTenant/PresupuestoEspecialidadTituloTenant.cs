@@ -1,6 +1,6 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
@@ -11,22 +11,22 @@ public sealed class PresupuestoEspecialidadTituloTenant : Entity<PresupuestoEspe
 
     private PresupuestoEspecialidadTituloTenant(
         PresupuestoEspecialidadTituloTenantId id,
-        PresupuestoEspecialidadTenantId presupuestoEspecialidadId,
+        EspecialidadTenantId especialidadId,
         TituloTenantId tituloId,
         PresupuestoEspecialidadTituloTenantId? dependencia,
         int nivel,
         string correlativo
     ) : base(id)
     {
-        PresupuestoEspecialidadId = presupuestoEspecialidadId;
+        EspecialidadId = especialidadId;
         TituloId = tituloId;
         Dependencia = dependencia;
         Nivel = nivel;
         Correlativo = correlativo;
     }
 
-    public PresupuestoEspecialidadTenantId? PresupuestoEspecialidadId {get; private set;}
-    public PresupuestoEspecialidadTenant? PresupuestoEspecialidad {get; private set;}
+    public EspecialidadTenantId? EspecialidadId {get; private set;}
+    public EspecialidadTenant? Especialidad {get; private set;}
     public TituloTenantId?  TituloId {get; private set;}
     public TituloTenant? Titulo {get; private set;}
     public PresupuestoEspecialidadTituloTenantId? Dependencia {get; private set;}
@@ -37,24 +37,24 @@ public sealed class PresupuestoEspecialidadTituloTenant : Entity<PresupuestoEspe
 
     public static PresupuestoEspecialidadTituloTenant Create(
         PresupuestoEspecialidadTituloTenantId Id,
-        PresupuestoEspecialidadTenantId PresupuestoEspecialidadId,
+        EspecialidadTenantId especialidadId,
         TituloTenantId TituloId,
         PresupuestoEspecialidadTituloTenantId? Dependencia,
         int Nivel,
         string Correlativo  
     )
     {
-        var presupuestoEspecialidadTitulo = new PresupuestoEspecialidadTituloTenant(Id, PresupuestoEspecialidadId, TituloId, Dependencia, Nivel, Correlativo);
+        var presupuestoEspecialidadTitulo = new PresupuestoEspecialidadTituloTenant(Id, especialidadId, TituloId, Dependencia, Nivel, Correlativo);
         return presupuestoEspecialidadTitulo;
     }
 
     public Result Update(
-        PresupuestoEspecialidadTenantId presupuestoEspecialidadId,
+        EspecialidadTenantId especialidadTenantId,
         TituloTenantId tituloId,
         string correlativo
     )
     {
-        PresupuestoEspecialidadId = presupuestoEspecialidadId;
+        EspecialidadId = especialidadTenantId;
         TituloId = tituloId;
         Correlativo = (correlativo.Length > 0) ? correlativo : Correlativo;
         return Result.Success();

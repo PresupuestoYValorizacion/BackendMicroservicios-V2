@@ -2,7 +2,6 @@ using MediatR;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
-using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 using MsAcceso.Domain.Tenant.ProyectosTenant;
 
 namespace MsAcceso.Application.Sgo.Proyectos.CreateEspecialidadTenant;
@@ -11,15 +10,12 @@ namespace MsAcceso.Application.Sgo.Proyectos.CreateEspecialidadTenant;
 internal class CreateEspecialidadTenantCommandHandler : ICommandHandler<CreateEspecialidadTenantCommand, Guid>
 {
     private readonly IEspecialidadTenantRepository _especialidadRepository;
-    private readonly IPresupuestoEspecialidadTenantRepository _presupuestoEspecialidadRepository;
 
     public CreateEspecialidadTenantCommandHandler(
-        IEspecialidadTenantRepository especialidadRepository,
-        IPresupuestoEspecialidadTenantRepository presupuestoEspecialidadRepository
+        IEspecialidadTenantRepository especialidadRepository
     )
     {
         _especialidadRepository = especialidadRepository;
-        _presupuestoEspecialidadRepository = presupuestoEspecialidadRepository;
     }
 
     public async Task<Result<Guid>> Handle(CreateEspecialidadTenantCommand request, CancellationToken cancellationToken)
