@@ -1080,6 +1080,29 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/clientes/get-all-clientes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/clientes/get-all-clientes",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/clientes/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

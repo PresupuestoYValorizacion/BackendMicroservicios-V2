@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.Sgo.Clientes.CreateClienteTenant;
 using MsAcceso.Application.Sgo.Clientes.DeleteClienteTenant;
+using MsAcceso.Application.Sgo.Clientes.GetAllClientes;
 using MsAcceso.Application.Sgo.Clientes.GetByIdClienteTenant;
 using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
 using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
@@ -106,6 +107,18 @@ public class ClienteController : Controller
     )
     {
         var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-all-clientes")]
+    public async Task<ActionResult<PaginationResult<ClienteDto>>> GetAllClientes(
+    )
+    {
+        var query = new GetAllClientesQuery();
+        var results = await _sender.Send(query);
 
         return Ok(results);
     }

@@ -11,6 +11,7 @@ public interface IClienteTenantRepository
     void Delete(ClienteTenant clienteTenant);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<ClienteTenant?> GetByNumeroDocumento(string numeroDocumento, CancellationToken cancellationToken = default);
+    Task<List<ClienteTenant>> GetAllAsync(CancellationToken cancellationToken = default);
 
 
 }

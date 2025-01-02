@@ -377,14 +377,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .HasOne(presupuesto => presupuesto.Cliente)
             .WithMany()
             .HasForeignKey(presupuesto => presupuesto.ClienteId);
-        // builder.Entity<PresupuestoTenant>().HasOne(presupuesto => presupuesto.Ubigeo)
-        //     .WithOne()
-        //     .HasForeignKey<PresupuestoTenant>(e => e.UbigeoId!.Value)
-        //     .IsRequired();
-        // builder.Entity<PresupuestoTenant>()
-        //     .HasOne(presupuesto => presupuesto.Ubigeo)
-        //     .WithMany()
-        //     .HasForeignKey(presupuesto => presupuesto.UbigeoId);
+
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Fecha)
             .IsRequired();
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Plazodias)
@@ -407,10 +400,6 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
 
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.TotalPresupuestoOferta);
 
-        // builder.Entity<UserTenant>()
-        //        .HasOne(p => p.Persona)
-        //        .WithMany()
-        //        .HasForeignKey(user => user.PersonaId);
         builder.Entity<PresupuestoTenant>()
             .HasOne(presupuesto => presupuesto.CarpetaPresupuestal)
             .WithMany()
