@@ -103,19 +103,19 @@ namespace MsAcceso.Infrastructure.Reports
                                                                 DefaultCellStyle(container, 1, Colors.White).ShowOnce().PaddingLeft(2);
                             });
 
-                            uint contTitulos = 0;
+                            uint contRows = 0;
 
                             foreach (var titulo in hojaPresupuesto.Titulos)
                             {
-                                contTitulos++;
+                                contRows++;
 
-                                table.Cell().Row(contTitulos).Column(1).Element(CellStyle).AlignLeft().Text(titulo.item);
-                                table.Cell().Row(contTitulos).Column(2).Element(CellStyle).AlignLeft().Text(titulo.descripcion).ExtraBold();
-                                table.Cell().Row(contTitulos).Column(6).Element(CellStyle).AlignRight().Text(titulo.parcial.ToString()).ExtraBold();
+                                table.Cell().Row(contRows).Column(1).Element(CellStyle).AlignLeft().Text(titulo.item);
+                                table.Cell().Row(contRows).Column(2).Element(CellStyle).AlignLeft().Text(titulo.descripcion).ExtraBold();
+                                table.Cell().Row(contRows).Column(6).Element(CellStyle).AlignRight().Text(titulo.parcial.ToString()).ExtraBold();
 
                                 foreach (var subtitulo in titulo.subTitulos)
                                 {
-                                    contTitulos++;
+                                    contRows++;
 
                                     table.Cell().Element(CellStyle).Text(subtitulo.item);
                                     table.Cell().Element(CellStyle).Text(subtitulo.descripcion);
@@ -127,16 +127,23 @@ namespace MsAcceso.Infrastructure.Reports
 
                             }
 
-                            contTitulos++;
+                            contRows++;
 
-                            table.Cell().Row(contTitulos).Column(2).Element(CellStyle).Text("COSTO DIRECTO").ExtraBold(); 
-                            table.Cell().Row(contTitulos).Column(6).AlignRight().Element(CellStyle).Text(hojaPresupuesto.CostoDirecto.ToString()).ExtraBold();
+                            decimal costoDirecto = 0;
+
+                            foreach (var titulo in hojaPresupuesto.Titulos)
+                            {
+                                costoDirecto+= titulo.parcial;
+                            }
+
+                            table.Cell().Row(contRows).Column(2).Element(CellStyle).Text("COSTO DIRECTO").ExtraBold(); 
+                            table.Cell().Row(contRows).Column(6).AlignRight().Element(CellStyle).Text(costoDirecto.ToString()).ExtraBold();
                             
-                            contTitulos++;
+                            contRows++;
 
-                            var costoDirecto = NumeroAPalabras(hojaPresupuesto.CostoDirecto);
+                            var costoDirectoWords = NumeroAPalabras(costoDirecto);
 
-                            table.Cell().Row(contTitulos).Column(2).Element(CellStyle).Text($"SON:    {costoDirecto}   NUEVOS SOLES").ExtraBold();
+                            table.Cell().Row(contRows).Column(2).Element(CellStyle).Text($"SON:    {costoDirectoWords}   NUEVOS SOLES").ExtraBold();
 
                             IContainer CellStyle(IContainer container) =>
                                                                 DefaultCellStyle(container, 0, Colors.White).ShowOnce().PaddingLeft(2).AlignLeft();
