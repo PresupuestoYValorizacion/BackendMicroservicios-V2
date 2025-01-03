@@ -11,6 +11,5 @@ public sealed record GenerateReporteHojaPresupuestoPdfCommand(
     string cliente, 
     string lugar, 
     string fechaCosto,
-    List<Titulo> titulos,
-    decimal costoDirecto
+    List<Titulo> titulos
 ) : ICommand<byte[]>;

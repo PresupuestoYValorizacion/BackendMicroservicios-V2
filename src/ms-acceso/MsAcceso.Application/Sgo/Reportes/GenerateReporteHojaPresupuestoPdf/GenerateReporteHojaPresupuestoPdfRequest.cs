@@ -9,7 +9,6 @@ public record GenerateReporteHojaPresupuestoPdfRequest(
     string cliente, 
     string lugar, 
     string fechaCosto,
-    List<Titulo> titulos,
-    decimal costoDirecto
+    List<Titulo> titulos
 );
     
