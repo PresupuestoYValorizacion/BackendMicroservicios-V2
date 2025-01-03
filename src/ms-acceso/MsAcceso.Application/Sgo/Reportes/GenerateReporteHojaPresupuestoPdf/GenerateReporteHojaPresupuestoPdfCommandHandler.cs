@@ -15,7 +15,7 @@ namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf
             _generateReportPdfService = generateReportPdfService;
         }
 
-        public async Task<Result<byte[]>> Handle(GenerateReporteHojaPresupuestoPdfCommand request, CancellationToken cancellationToken)
+        public Task<Result<byte[]>> Handle(GenerateReporteHojaPresupuestoPdfCommand request, CancellationToken cancellationToken)
         {
             var hojaPresupuesto = HojaPresupuesto.Create(
                 request.codPresupuesto,
@@ -25,15 +25,14 @@ namespace MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf
                 request.cliente,
                 request.lugar,
                 request.fechaCosto,
-                request.titulos,
-                request.costoDirecto
+                request.titulos
             );
 
             var resultPdf = _generateReportPdfService.GenerateHojaPresupuestoPdf(hojaPresupuesto);
 
-            byte[] reportePdf = resultPdf.GeneratePdf();
+            var reportePdf = resultPdf.GeneratePdf();
 
-            return Result.Success(reportePdf, Message.Create)!;
+            return Task.FromResult<Result<byte[]>>(Result.Success(reportePdf, HojaPresupuestoMessage.Create)!);
         }
     }
 }
