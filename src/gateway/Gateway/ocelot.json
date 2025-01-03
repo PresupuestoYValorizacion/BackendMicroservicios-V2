@@ -1262,6 +1262,29 @@
         "IsAdmin": "Claims[IsAdmin] > value > |"
       },
       "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/presupuestos/hoja-presupuesto-pdf",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/presupuestos/hoja-presupuesto-pdf",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
     }
   ],
   "SwaggerEndPoints": [
