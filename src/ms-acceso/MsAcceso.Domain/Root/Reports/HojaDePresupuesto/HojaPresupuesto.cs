@@ -12,8 +12,7 @@ public sealed class HojaPresupuesto
         string cliente, 
         string lugar, 
         string fechaCosto,
-        List<Titulo> titulos,
-        decimal costoDirecto
+        List<Titulo> titulos
     )
     {
         CodPresupuesto = codPresupuesto;
@@ -24,7 +23,6 @@ public sealed class HojaPresupuesto
         Lugar = lugar;
         FechaCosto = fechaCosto;
         Titulos = titulos;
-        CostoDirecto = costoDirecto;
     }
 
     public string CodPresupuesto { get; private set; }
@@ -35,7 +33,6 @@ public sealed class HojaPresupuesto
     public string Lugar {get; private set;}
     public string FechaCosto {get; private set;}
     public List<Titulo> Titulos {get; private set;}
-    public decimal CostoDirecto {get;}
 
     public static HojaPresupuesto Create(
         string codPresupuesto,
@@ -45,8 +42,7 @@ public sealed class HojaPresupuesto
         string cliente, 
         string lugar, 
         string fechaCosto,
-        List<Titulo> titulos,
-        decimal costoDirecto
+        List<Titulo> titulos
     )
     {
 
@@ -58,8 +54,7 @@ public sealed class HojaPresupuesto
             cliente,
             lugar,
             fechaCosto,
-            titulos,
-            costoDirecto
+            titulos
         );
         return nuevoHojaPresupuesto;
     }
