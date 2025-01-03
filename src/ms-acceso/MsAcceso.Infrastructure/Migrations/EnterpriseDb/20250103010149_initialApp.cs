@@ -135,7 +135,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     DepartamentoId = table.Column<int>(type: "int", nullable: true),
                     ProvinciaId = table.Column<int>(type: "int", nullable: true),
                     DistritoId = table.Column<int>(type: "int", nullable: true),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Fecha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Plazodias = table.Column<int>(type: "int", nullable: false),
                     JornadaDiariaId = table.Column<int>(type: "int", nullable: false),
                     MonedaId = table.Column<int>(type: "int", nullable: false),

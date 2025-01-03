@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
     [DbContext(typeof(LicenciaDbContext))]
-    [Migration("20250102050651_initialApp")]
+    [Migration("20250103010227_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -303,9 +303,9 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                     b.Property<int?>("DistritoId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Fecha")
+                    b.Property<string>("Fecha")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("JornadaDiariaId")
                         .IsRequired()

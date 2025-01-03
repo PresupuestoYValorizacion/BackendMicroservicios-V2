@@ -22,6 +22,7 @@ internal sealed class ProyectoTenantRepository : RepositoryTenant<ProyectoTenant
     {
        return await DbContext.Set<ProyectoTenant>().Where(x => x.Activo == new Activo(true))
                     .Include(x => x.Especialidades!)
+                    .Include(x => x.Presupuesto!)
                     .ToListAsync(cancellationToken);
 
     }

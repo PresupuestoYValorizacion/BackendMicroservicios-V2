@@ -354,9 +354,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<int?>("DistritoId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Fecha")
+                    b.Property<string>("Fecha")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("JornadaDiariaId")
                         .IsRequired()

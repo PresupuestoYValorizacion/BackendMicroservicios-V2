@@ -40,6 +40,14 @@ public sealed class ProyectoTenant : Entity<ProyectoTenantId>
         return Result.Success();
     }
 
+     public Result UpdatePresupuesto(
+        PresupuestoTenantId presupuestoId
+    )
+    {
+        PresupuestoId = presupuestoId;
+        return Result.Success();
+    }
+
     public Result Desactive()
     {
         Activo = new Activo(false);

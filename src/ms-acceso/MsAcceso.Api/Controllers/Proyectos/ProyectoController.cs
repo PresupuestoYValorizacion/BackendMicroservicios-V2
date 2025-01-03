@@ -8,6 +8,7 @@ using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetByIdCarpetaPresupuestal
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetCarpetasPresupuestales;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.UpdateCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.Proyectos.CreateEspecialidadTenant;
+using MsAcceso.Application.Sgo.Proyectos.CreatePresupuestoTenant;
 using MsAcceso.Application.Sgo.Proyectos.CreateProyectoTenant;
 using MsAcceso.Application.Sgo.Proyectos.DeleteEspecialidadTenant;
 using MsAcceso.Application.Sgo.Proyectos.DeleteProyectoTenant;
@@ -49,6 +50,47 @@ public class ProyectoController : Controller
     {
 
         var command = new CreateProyectoTenantCommand(request.Nombre);
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+
+    }
+
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPost("register-presupuesto")]
+    public async Task<IActionResult> RegisterPresupuesto(
+        [FromBody] CreatePresupuestoTenantRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var command = new CreatePresupuestoTenantCommand(
+                        request.Codigo, 
+                        request.Descripcion, 
+                        request.ClienteId,
+                        request.DepartamentoId, 
+                        request.ProvinciaId, 
+                        request.DistritoId, 
+                        request.Fecha, 
+                        request.Plazodias, 
+                        request.JornadaDiariaId, 
+                        request.MonedaId, 
+                        request.PresupuestoBaseCD, 
+                        request.PresupuestoBaseCI, 
+                        request.TotalPresupuestoBase, 
+                        request.PresupuestoOfertaCD, 
+                        request.PresupuestoOfertaCD, 
+                        request.TotalPresupuestoOferta, 
+                        request.CarpetaPresupuestalId,
+                        request.ProyectoId);
 
         var results = await _sender.Send(command, cancellationToken);
 

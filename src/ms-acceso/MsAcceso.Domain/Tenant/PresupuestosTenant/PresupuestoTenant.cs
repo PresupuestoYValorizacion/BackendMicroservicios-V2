@@ -18,7 +18,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int departamentoId,
         int provinciaId,
         int distritoId,
-        DateTime fecha,
+        string fecha,
         int plazodias,
         int jornadaDiariaId,
         int monedaId,
@@ -58,7 +58,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public int? DepartamentoId {get; private set;}
     public int? ProvinciaId {get; private set;}
     public int? DistritoId {get; private set;}
-    public DateTime? Fecha {get; private set;}
+    public string? Fecha {get; private set;}
     public int? Plazodias {get; private set;}
     public int? JornadaDiariaId {get; private set;}
     public int? MonedaId {get; private set;}
@@ -80,7 +80,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int DepartamentoId,
         int ProvinciaId,
         int DistritoId,
-        DateTime Fecha,
+        string Fecha,
         int Plazodias,
         int JornadaDiariaId,
         int MonedaId,
@@ -103,7 +103,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int departamentoId,
         int provinciaId,
         int distritoId,
-        DateTime fecha,
+        string fecha,
         int plazodias,
         int jornadaDiariaId,
         int monedaId,
