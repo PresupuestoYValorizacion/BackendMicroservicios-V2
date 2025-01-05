@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.Sgo.Reportes.GenerateReporteHojaPresupuestoPdf;
 using MsAcceso.Utils;
 
-namespace MsAcceso.Api.Controllers.Presupuestos;
+namespace MsAcceso.Api.Controllers.Resumen;
 
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 [ApiVersion(ApiVersions.V2)]
-[Route("api/v{version:apiVersion}/presupuestos")]
-public class PresupuestosController : ControllerBase
+[Route("api/v{version:apiVersion}/resumen")]
+public class ResumenController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public PresupuestosController(ISender sender)
+    public ResumenController(ISender sender)
     {
         _sender = sender;
     }

@@ -1264,7 +1264,7 @@
       "SwaggerKey": "acceso"
     },
     {
-      "DownstreamPathTemplate": "/api/v1/presupuestos/hoja-presupuesto-pdf",
+      "DownstreamPathTemplate": "/api/v1/resumen/hoja-presupuesto-pdf",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -1272,7 +1272,7 @@
           "Port": 5175
         }
       ],
-      "UpstreamPathTemplate": "/presupuestos/hoja-presupuesto-pdf",
+      "UpstreamPathTemplate": "/resumen/hoja-presupuesto-pdf",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",
