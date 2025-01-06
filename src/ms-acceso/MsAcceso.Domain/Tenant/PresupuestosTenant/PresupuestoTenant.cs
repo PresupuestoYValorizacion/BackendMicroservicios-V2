@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
@@ -22,12 +24,12 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int plazodias,
         int jornadaDiariaId,
         int monedaId,
-        double presupuestoBaseCD,
-        double presupuestoBaseDI,
-        double totalPresupuestoBase,
-        double presupuestoOfertaCD,
-        double presupuestoOfertaDI,
-        double totalPresupuestoOferta,
+        double? presupuestoBaseCD,
+        double? presupuestoBaseDI,
+        double? totalPresupuestoBase,
+        double? presupuestoOfertaCD,
+        double? presupuestoOfertaDI,
+        double? totalPresupuestoOferta,
         CarpetaPresupuestalTenantId carpetaPresupuestalId
         
     ): base(id)
@@ -73,6 +75,15 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public CarpetaPresupuestalTenantId? CarpetaPresupuestalId {get; private set;}
     public ProyectoTenant? ProyectoTenant {get; private set;}
 
+    [NotMapped]
+    public Parametro? Departamento { get; set; }
+    
+    [NotMapped]
+    public Parametro? Provincia { get; set; }
+
+    [NotMapped]
+    public Parametro? Distrito { get; set; }
+
     public static PresupuestoTenant Create(
         string Codigo,
         string Descripcion,
@@ -84,12 +95,12 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int Plazodias,
         int JornadaDiariaId,
         int MonedaId,
-        double PresupuestoBaseCD,
-        double PresupuestoBaseDI,
-        double TotalPresupuestoBase,
-        double PresupuestoOfertaCD,
-        double PresupuestoOfertaDI,
-        double TotalPresupuestoOferta,
+        double? PresupuestoBaseCD,
+        double? PresupuestoBaseDI,
+        double? TotalPresupuestoBase,
+        double? PresupuestoOfertaCD,
+        double? PresupuestoOfertaDI,
+        double? TotalPresupuestoOferta,
         CarpetaPresupuestalTenantId CarpetaPresupuestalId
     )
     {
@@ -100,6 +111,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
     public Result Update(
         string codigo,
         string descripcion,
+        ClienteTenantId clienteId,
         int departamentoId,
         int provinciaId,
         int distritoId,
@@ -107,16 +119,19 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         int plazodias,
         int jornadaDiariaId,
         int monedaId,
-        double presupuestoBaseCD,
-        double presupuestoBaseDI,
-        double totalPresupuestoBase,
-        double presupuestoOfertaCD,
-        double presupuestoOfertaDI,
-        double totalPresupuestoOferta
+        double? presupuestoBaseCD,
+        double? presupuestoBaseDI,
+        double? totalPresupuestoBase,
+        double? presupuestoOfertaCD,
+        double? presupuestoOfertaDI,
+        double? totalPresupuestoOferta,
+        CarpetaPresupuestalTenantId carpetaPresupuestalId
+
     )
     {
         Codigo = (codigo.Length > 0 ) ? codigo : Codigo;
         Descripcion = (descripcion.Length > 0 ) ? descripcion : Descripcion;
+        ClienteId = clienteId;
         DepartamentoId = departamentoId;
         ProvinciaId = provinciaId;
         DistritoId = distritoId;
@@ -130,6 +145,7 @@ public sealed class PresupuestoTenant : Entity<PresupuestoTenantId>
         PresupuestoOfertaCD = presupuestoOfertaCD;
         PresupuestoOfertaDI = presupuestoOfertaDI;
         TotalPresupuestoOferta = totalPresupuestoOferta;
+        CarpetaPresupuestalId = carpetaPresupuestalId;
         return Result.Success();
     }
 

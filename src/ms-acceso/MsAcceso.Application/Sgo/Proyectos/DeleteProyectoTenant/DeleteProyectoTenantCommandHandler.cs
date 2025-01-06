@@ -1,6 +1,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
+using MsAcceso.Domain.Tenant.PresupuestosTenant;
 using MsAcceso.Domain.Tenant.ProyectosTenant;
 
 namespace MsAcceso.Application.Sgo.Proyectos.DeleteProyectoTenant;
@@ -8,12 +9,15 @@ namespace MsAcceso.Application.Sgo.Proyectos.DeleteProyectoTenant;
 internal sealed class DeleteProyectoTenantCommandHandler : ICommandHandler<DeleteProyectoTenantCommand, Guid>
 {
     private readonly IProyectoTenantRepository _proyectoRepository;
+    private readonly IPresupuestoTenantRepository _presupuestoRepository;
 
     public DeleteProyectoTenantCommandHandler(
-        IProyectoTenantRepository proyectoRepository
+        IProyectoTenantRepository proyectoRepository,
+        IPresupuestoTenantRepository presupuestoRepository
     )
     {
         _proyectoRepository = proyectoRepository;
+        _presupuestoRepository = presupuestoRepository;
     }
 
     public async Task<Result<Guid>> Handle(DeleteProyectoTenantCommand request, CancellationToken cancellationToken)

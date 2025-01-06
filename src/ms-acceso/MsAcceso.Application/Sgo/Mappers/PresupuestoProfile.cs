@@ -17,6 +17,7 @@ public class PresupuestoProfile : Profile
         .ForMember(dest => dest.DistritoId, opt => opt.MapFrom(src => src.DistritoId))
         .ForMember(dest => dest.Fecha, opt => opt.MapFrom(src => src.Fecha))
         .ForMember(dest => dest.Plazodias, opt => opt.MapFrom(src => src.DistritoId))
+        .ForMember(dest => dest.CarpetaPresupuestalId, opt => opt.MapFrom(src => src.CarpetaPresupuestalId!.Value.ToString()))   
         ;
     }
 }

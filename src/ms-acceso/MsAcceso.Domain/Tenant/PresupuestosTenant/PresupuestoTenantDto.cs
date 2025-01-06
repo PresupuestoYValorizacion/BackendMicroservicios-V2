@@ -1,3 +1,6 @@
+using MsAcceso.Domain.Root.Parametros;
+using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
+using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosTenant;
@@ -8,9 +11,13 @@ public class PresupuestoTenantDto
     public string? Codigo {get;  set;}
     public string? Descripcion {get;  set;}
     public string? ClienteId {get;  set;}
+    public ClienteDto? Cliente {get; set;}
     public int? DepartamentoId {get;  set;}
+    public ParametroDto? Departamento {get; set;}
     public int? ProvinciaId {get;  set;}
+    public ParametroDto? Provincia {get; set;}
     public int? DistritoId {get;  set;}
+    public ParametroDto? Distrito {get; set;}
     public string? Fecha {get;  set;}
     public int? Plazodias {get;  set;}
     public int? JornadaDiariaId {get;  set;}
@@ -22,4 +29,5 @@ public class PresupuestoTenantDto
     public double? PresupuestoOfertaDI {get;  set;}
     public double? TotalPresupuestoOferta {get;  set;}
     public string? CarpetaPresupuestalId {get;  set;}
+    public CarpetaPresupuestalTenantDto? CarpetaPresupuestal {get;  set;}
 }
