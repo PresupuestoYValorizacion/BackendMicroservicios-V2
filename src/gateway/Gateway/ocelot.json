@@ -1286,6 +1286,30 @@
       },
       "SwaggerKey": "acceso"
     },
+
+    {
+      "DownstreamPathTemplate": "/api/v1/resumen/hoja-presupuesto-pdf",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/resumen/hoja-presupuesto-pdf",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
     {
       "DownstreamPathTemplate": "/api/v1/proyectos/get-by-id-proyecto/{id}",
       "DownstreamScheme": "http",

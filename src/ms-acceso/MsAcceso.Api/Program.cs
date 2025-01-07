@@ -62,6 +62,10 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 
+//QuestPdf
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+//QuestPDF.Settings.EnableDebugging = true;
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAndMigrateTenantDatabases(builder.Configuration);
