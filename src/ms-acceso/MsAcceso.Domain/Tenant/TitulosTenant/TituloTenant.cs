@@ -1,6 +1,5 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
-using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 
 namespace MsAcceso.Domain.Tenant.TitulosTenant;
@@ -19,7 +18,6 @@ public sealed class TituloTenant : Entity<TituloTenantId>
 
     public string? Nombre { get; private set; }
 
-    public List<PresupuestoEspecialidadTenant>? PresupuestosEspecialidades { get; } = [];
     public List<PresupuestoEspecialidadTituloTenant>? PresupuestosEspecialidadesTitulos { get; } = [];
 
     public static TituloTenant Create(

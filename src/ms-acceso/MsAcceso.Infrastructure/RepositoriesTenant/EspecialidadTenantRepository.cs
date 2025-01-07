@@ -22,4 +22,10 @@ internal sealed class EspecialidadTenantRepository : RepositoryTenant<Especialid
     {
         return await DbContext.Set<EspecialidadTenant>().AnyAsync(x => x.Nombre == nombreEspecialidad && x.Activo == new Activo(true), cancellationToken);
     }
+
+    public async Task<EspecialidadTenant?> GetByNombreAsync(string nombre, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<EspecialidadTenant>().Where(x => x.Activo == new Activo(true) && x.Nombre == nombre).FirstOrDefaultAsync(cancellationToken);
+
+    }
 }

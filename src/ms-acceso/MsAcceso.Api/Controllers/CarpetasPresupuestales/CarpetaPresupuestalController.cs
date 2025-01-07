@@ -7,17 +7,12 @@ using MsAcceso.Application.Sgo.CarpetasPresupuestales.DeleteCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetByIdCarpetaPresupuestal;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.GetCarpetasPresupuestales;
 using MsAcceso.Application.Sgo.CarpetasPresupuestales.UpdateCarpetaPresupuestal;
-using MsAcceso.Application.Sgo.Clientes.CreateClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.DeleteClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.GetByIdClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
-using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.CarpetasPresupuestalesTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Utils;
 
-namespace MsAcceso.Api.Controllers.Clientes;
+namespace MsAcceso.Api.Controllers.CarpetasPresupuestales;
 
 [ApiController]
 [ApiVersion(ApiVersions.V1)]

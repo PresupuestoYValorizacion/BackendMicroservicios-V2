@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
+namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     /// <inheritdoc />
     public partial class initialApp : Migration
@@ -49,19 +49,6 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "especialidades",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_especialidades", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "partidas",
                 columns: table => new
                 {
@@ -97,19 +84,6 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "proyectos",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_proyectos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "recursos",
                 columns: table => new
                 {
@@ -122,6 +96,19 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_recursos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rols",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,17 +132,19 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                     Codigo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ClienteId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UbigeoId = table.Column<int>(type: "int", nullable: true),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartamentoId = table.Column<int>(type: "int", nullable: true),
+                    ProvinciaId = table.Column<int>(type: "int", nullable: true),
+                    DistritoId = table.Column<int>(type: "int", nullable: true),
+                    Fecha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Plazodias = table.Column<int>(type: "int", nullable: false),
                     JornadaDiariaId = table.Column<int>(type: "int", nullable: false),
                     MonedaId = table.Column<int>(type: "int", nullable: false),
-                    PresupuestoBaseCD = table.Column<double>(type: "float", nullable: false),
-                    PresupuestoBaseDI = table.Column<double>(type: "float", nullable: false),
-                    TotalPresupuestoBase = table.Column<double>(type: "float", nullable: false),
-                    PresupuestoOfertaCD = table.Column<double>(type: "float", nullable: false),
-                    PresupuestoOfertaDI = table.Column<double>(type: "float", nullable: false),
-                    TotalPresupuestoOferta = table.Column<double>(type: "float", nullable: false),
+                    PresupuestoBaseCD = table.Column<double>(type: "float", nullable: true),
+                    PresupuestoBaseDI = table.Column<double>(type: "float", nullable: true),
+                    TotalPresupuestoBase = table.Column<double>(type: "float", nullable: true),
+                    PresupuestoOfertaCD = table.Column<double>(type: "float", nullable: true),
+                    PresupuestoOfertaDI = table.Column<double>(type: "float", nullable: true),
+                    TotalPresupuestoOferta = table.Column<double>(type: "float", nullable: true),
                     CarpetaPresupuestalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -215,8 +204,8 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    PartidaId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 100, nullable: false),
-                    RecursoId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 100, nullable: false),
+                    PartidaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RecursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
                     Cuadrilla = table.Column<int>(type: "int", nullable: false),
                     Precio = table.Column<double>(type: "float", nullable: false),
@@ -241,34 +230,105 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "presupuesto_especialidad",
+                name: "rols_permisos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PresupuestoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EspecialidadId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProyectoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Correlativo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MenuId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_presupuesto_especialidad", x => x.Id);
+                    table.PrimaryKey("PK_rols_permisos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_presupuesto_especialidad_especialidades_EspecialidadId",
-                        column: x => x.EspecialidadId,
-                        principalTable: "especialidades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_rols_permisos_rols_RolId",
+                        column: x => x.RolId,
+                        principalTable: "rols",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_presupuesto_especialidad_presupuestos_PresupuestoId",
+                        name: "FK_users_personas_PersonaId",
+                        column: x => x.PersonaId,
+                        principalTable: "personas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_users_rols_RolId",
+                        column: x => x.RolId,
+                        principalTable: "rols",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "proyectos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Correlativo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PresupuestoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_proyectos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_proyectos_presupuestos_PresupuestoId",
                         column: x => x.PresupuestoId,
                         principalTable: "presupuestos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rols_permisos_opciones",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RolPermisoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OpcionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols_permisos_opciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_presupuesto_especialidad_proyectos_ProyectoId",
-                        column: x => x.ProyectoId,
+                        name: "FK_rols_permisos_opciones_rols_permisos_RolPermisoId",
+                        column: x => x.RolPermisoId,
+                        principalTable: "rols_permisos",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "especialidades",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ProyectoTenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_especialidades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_especialidades_proyectos_ProyectoTenantId",
+                        column: x => x.ProyectoTenantId,
                         principalTable: "proyectos",
                         principalColumn: "Id");
                 });
@@ -278,22 +338,21 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PresupuestoEspecialidadId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TituloId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EspecialidadId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TituloId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Dependencia = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Nivel = table.Column<int>(type: "int", nullable: true),
-                    Correlativo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Correlativo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_presupuestos_especialidad_titulos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_presupuestos_especialidad_titulos_presupuesto_especialidad_PresupuestoEspecialidadId",
-                        column: x => x.PresupuestoEspecialidadId,
-                        principalTable: "presupuesto_especialidad",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_presupuestos_especialidad_titulos_especialidades_EspecialidadId",
+                        column: x => x.EspecialidadId,
+                        principalTable: "especialidades",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_presupuestos_especialidad_titulos_presupuestos_especialidad_titulos_Dependencia",
                         column: x => x.Dependencia,
@@ -303,8 +362,7 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                         name: "FK_presupuestos_especialidad_titulos_titulos_TituloId",
                         column: x => x.TituloId,
                         principalTable: "titulos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -370,6 +428,11 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 column: "Dependencia");
 
             migrationBuilder.CreateIndex(
+                name: "IX_especialidades_ProyectoTenantId",
+                table: "especialidades",
+                column: "ProyectoTenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_partida_recurso_PartidaId",
                 table: "partida_recurso",
                 column: "PartidaId");
@@ -383,21 +446,6 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 name: "IX_partidas_Dependencia",
                 table: "partidas",
                 column: "Dependencia");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_presupuesto_especialidad_EspecialidadId",
-                table: "presupuesto_especialidad",
-                column: "EspecialidadId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_presupuesto_especialidad_PresupuestoId",
-                table: "presupuesto_especialidad",
-                column: "PresupuestoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_presupuesto_especialidad_ProyectoId",
-                table: "presupuesto_especialidad",
-                column: "ProyectoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_presupuestos_CarpetaPresupuestalId",
@@ -415,9 +463,9 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 column: "Dependencia");
 
             migrationBuilder.CreateIndex(
-                name: "IX_presupuestos_especialidad_titulos_PresupuestoEspecialidadId",
+                name: "IX_presupuestos_especialidad_titulos_EspecialidadId",
                 table: "presupuestos_especialidad_titulos",
-                column: "PresupuestoEspecialidadId");
+                column: "EspecialidadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_presupuestos_especialidad_titulos_TituloId",
@@ -443,6 +491,39 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 name: "IX_presupuestos_especialidad_titulos_partidas_recursos_RecursoId",
                 table: "presupuestos_especialidad_titulos_partidas_recursos",
                 column: "RecursoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_proyectos_PresupuestoId",
+                table: "proyectos",
+                column: "PresupuestoId",
+                unique: true,
+                filter: "[PresupuestoId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rols_permisos_RolId",
+                table: "rols_permisos",
+                column: "RolId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rols_permisos_opciones_RolPermisoId",
+                table: "rols_permisos_opciones",
+                column: "RolPermisoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_Email",
+                table: "users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_PersonaId",
+                table: "users",
+                column: "PersonaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_RolId",
+                table: "users",
+                column: "RolId");
         }
 
         /// <inheritdoc />
@@ -461,7 +542,10 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 name: "presupuestos_especialidad_titulos_partidas_recursos");
 
             migrationBuilder.DropTable(
-                name: "personas");
+                name: "rols_permisos_opciones");
+
+            migrationBuilder.DropTable(
+                name: "users");
 
             migrationBuilder.DropTable(
                 name: "presupuestos_especialidad_titulos_partidas");
@@ -470,25 +554,31 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                 name: "recursos");
 
             migrationBuilder.DropTable(
+                name: "rols_permisos");
+
+            migrationBuilder.DropTable(
+                name: "personas");
+
+            migrationBuilder.DropTable(
                 name: "partidas");
 
             migrationBuilder.DropTable(
                 name: "presupuestos_especialidad_titulos");
 
             migrationBuilder.DropTable(
-                name: "presupuesto_especialidad");
-
-            migrationBuilder.DropTable(
-                name: "titulos");
+                name: "rols");
 
             migrationBuilder.DropTable(
                 name: "especialidades");
 
             migrationBuilder.DropTable(
-                name: "presupuestos");
+                name: "titulos");
 
             migrationBuilder.DropTable(
                 name: "proyectos");
+
+            migrationBuilder.DropTable(
+                name: "presupuestos");
 
             migrationBuilder.DropTable(
                 name: "carpetas_presupuestales");

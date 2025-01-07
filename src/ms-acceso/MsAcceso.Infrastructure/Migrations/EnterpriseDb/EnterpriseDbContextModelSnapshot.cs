@@ -92,7 +92,12 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid?>("ProyectoTenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProyectoTenantId");
 
                     b.ToTable("especialidades", (string)null);
                 });
@@ -216,39 +221,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.ToTable("personas", (string)null);
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Correlativo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid>("EspecialidadId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PresupuestoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProyectoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EspecialidadId");
-
-                    b.HasIndex("PresupuestoId");
-
-                    b.HasIndex("ProyectoId");
-
-                    b.ToTable("presupuesto_especialidad", (string)null);
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant.PresupuestoEspecialidadTituloPartidaRecursoTenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -332,20 +304,20 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<Guid?>("Dependencia")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("EspecialidadId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("Nivel")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PresupuestoEspecialidadId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TituloId")
+                    b.Property<Guid?>("TituloId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Dependencia");
 
-                    b.HasIndex("PresupuestoEspecialidadId");
+                    b.HasIndex("EspecialidadId");
 
                     b.HasIndex("TituloId");
 
@@ -371,14 +343,20 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("DepartamentoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("Fecha")
+                    b.Property<int?>("DistritoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("JornadaDiariaId")
                         .IsRequired()
@@ -404,14 +382,14 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<double?>("PresupuestoOfertaDI")
                         .HasColumnType("float");
 
+                    b.Property<int?>("ProvinciaId")
+                        .HasColumnType("int");
+
                     b.Property<double?>("TotalPresupuestoBase")
                         .HasColumnType("float");
 
                     b.Property<double?>("TotalPresupuestoOferta")
                         .HasColumnType("float");
-
-                    b.Property<int?>("UbigeoId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -430,10 +408,20 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Correlativo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PresupuestoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PresupuestoId")
+                        .IsUnique()
+                        .HasFilter("[PresupuestoId] IS NOT NULL");
 
                     b.ToTable("proyectos", (string)null);
                 });
@@ -591,6 +579,15 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("DependenciaModel");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", "ProyectoTenant")
+                        .WithMany("Especialidades")
+                        .HasForeignKey("ProyectoTenantId");
+
+                    b.Navigation("ProyectoTenant");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasRecursosTenant.PartidaRecursoTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", "Partida")
@@ -637,31 +634,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", b =>
-                {
-                    b.HasOne("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", "Especialidad")
-                        .WithMany("PresupuestosEspecialidades")
-                        .HasForeignKey("EspecialidadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", "Presupuesto")
-                        .WithMany()
-                        .HasForeignKey("PresupuestoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", "Proyecto")
-                        .WithMany("PresupuestosEspecialidades")
-                        .HasForeignKey("ProyectoId");
-
-                    b.Navigation("Especialidad");
-
-                    b.Navigation("Presupuesto");
-
-                    b.Navigation("Proyecto");
-                });
-
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasRecursosTenant.PresupuestoEspecialidadTituloPartidaRecursoTenant", b =>
                 {
                     b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant.PresupuestoEspecialidadTituloPartidaTenant", "PresupuestoEspecialidadTituloPartida")
@@ -706,21 +678,17 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .WithMany("PresupuestosEspecialidadTitulos")
                         .HasForeignKey("Dependencia");
 
-                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTenant.PresupuestoEspecialidadTenant", "PresupuestoEspecialidad")
-                        .WithMany()
-                        .HasForeignKey("PresupuestoEspecialidadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", "Especialidad")
+                        .WithMany("PresupuestosEspecialidadTitulos")
+                        .HasForeignKey("EspecialidadId");
 
                     b.HasOne("MsAcceso.Domain.Tenant.TitulosTenant.TituloTenant", "Titulo")
                         .WithMany("PresupuestosEspecialidadesTitulos")
-                        .HasForeignKey("TituloId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TituloId");
 
                     b.Navigation("DependenciaModel");
 
-                    b.Navigation("PresupuestoEspecialidad");
+                    b.Navigation("Especialidad");
 
                     b.Navigation("Titulo");
                 });
@@ -738,6 +706,15 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("CarpetaPresupuestal");
 
                     b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", b =>
+                {
+                    b.HasOne("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", "Presupuesto")
+                        .WithOne("ProyectoTenant")
+                        .HasForeignKey("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", "PresupuestoId");
+
+                    b.Navigation("Presupuesto");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>
@@ -780,7 +757,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.EspecialidadesTenant.EspecialidadTenant", b =>
                 {
-                    b.Navigation("PresupuestosEspecialidades");
+                    b.Navigation("PresupuestosEspecialidadTitulos");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PartidasTenant.PartidaTenant", b =>
@@ -804,9 +781,14 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Navigation("PresupuestosEspecialidadTitulos");
                 });
 
+            modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosTenant.PresupuestoTenant", b =>
+                {
+                    b.Navigation("ProyectoTenant");
+                });
+
             modelBuilder.Entity("MsAcceso.Domain.Tenant.ProyectosTenant.ProyectoTenant", b =>
                 {
-                    b.Navigation("PresupuestosEspecialidades");
+                    b.Navigation("Especialidades");
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RecursosTenant.RecursoTenant", b =>

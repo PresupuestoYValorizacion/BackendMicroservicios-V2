@@ -13,6 +13,11 @@ public static class EspecialidadTenantErrors
         400,
         "El nombre de esta especialidad ya existe"
     );
+
+    public static Error EspecialidadNotExists = new(
+        400,
+        "Esta especialidad no existe"
+    );
     
     public static Error EspecialidadInUse = new(
         400,
