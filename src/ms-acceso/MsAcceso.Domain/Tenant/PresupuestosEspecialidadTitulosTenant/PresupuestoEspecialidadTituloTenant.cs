@@ -1,6 +1,7 @@
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
@@ -34,9 +35,9 @@ public sealed class PresupuestoEspecialidadTituloTenant : Entity<PresupuestoEspe
     public int? Nivel { get; private set; }
     public string? Correlativo { get; private set; }
     public List<PresupuestoEspecialidadTituloTenant>? PresupuestosEspecialidadTitulos { get; set; }
+    public List<PresupuestoEspecialidadTituloPartidaTenant>? PresupuestosEspecialidadTituloPartidas { get; set; }
 
     public static PresupuestoEspecialidadTituloTenant Create(
-        PresupuestoEspecialidadTituloTenantId Id,
         EspecialidadTenantId especialidadId,
         TituloTenantId TituloId,
         PresupuestoEspecialidadTituloTenantId? Dependencia,
@@ -44,7 +45,7 @@ public sealed class PresupuestoEspecialidadTituloTenant : Entity<PresupuestoEspe
         string Correlativo  
     )
     {
-        var presupuestoEspecialidadTitulo = new PresupuestoEspecialidadTituloTenant(Id, especialidadId, TituloId, Dependencia, Nivel, Correlativo);
+        var presupuestoEspecialidadTitulo = new PresupuestoEspecialidadTituloTenant(PresupuestoEspecialidadTituloTenantId.New(), especialidadId, TituloId, Dependencia, Nivel, Correlativo);
         return presupuestoEspecialidadTitulo;
     }
 

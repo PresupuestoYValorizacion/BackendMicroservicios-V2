@@ -153,7 +153,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PartidaTenant>().HasMany(partida => partida.PresupuestosEspecialidadesTitulos)
             .WithMany()
             .UsingEntity<PresupuestoEspecialidadTituloPartidaTenant>(
-                pet => pet.HasOne<PresupuestoEspecialidadTituloTenant>(pet => pet.PresupuestoEspecialidadTitulo).WithMany().HasForeignKey(e => e.PresupuestoEspecialidadTituloId),
+                pet => pet.HasOne<PresupuestoEspecialidadTituloTenant>(pet => pet.PresupuestoEspecialidadTitulo).WithMany(petp => petp.PresupuestosEspecialidadTituloPartidas).HasForeignKey(e => e.PresupuestoEspecialidadTituloId),
                 p => p.HasOne<PartidaTenant>(p => p.Partida).WithMany(p => p.PresupuestosEspecialidadesTitulosPartidas).HasForeignKey(e => e.PartidaId)
             );
 

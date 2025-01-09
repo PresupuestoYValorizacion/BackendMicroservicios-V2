@@ -489,7 +489,7 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
                         .IsRequired();
 
                     b.HasOne("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", "PresupuestoEspecialidadTitulo")
-                        .WithMany()
+                        .WithMany("PresupuestosEspecialidadTituloPartidas")
                         .HasForeignKey("PresupuestoEspecialidadTituloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -565,6 +565,8 @@ namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant.PresupuestoEspecialidadTituloTenant", b =>
                 {
+                    b.Navigation("PresupuestosEspecialidadTituloPartidas");
+
                     b.Navigation("PresupuestosEspecialidadTitulos");
                 });
 

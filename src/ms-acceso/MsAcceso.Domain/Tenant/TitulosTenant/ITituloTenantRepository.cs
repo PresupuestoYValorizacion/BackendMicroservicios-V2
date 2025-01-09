@@ -1,3 +1,5 @@
+using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+
 namespace MsAcceso.Domain.Tenant.TitulosTenant;
 
 public interface ITituloTenantRepository
@@ -7,7 +9,7 @@ public interface ITituloTenantRepository
     void Update(TituloTenant titulo);
     void Delete(TituloTenant titulo);
     Task<TituloTenant?> GetByIdAsync(TituloTenantId tituloId, CancellationToken cancellationToken = default);
-    Task<bool> TituloExist(string nombreTitulo, CancellationToken cancellationToken = default);
+    Task<bool> TituloExist(string nombreTitulo,EspecialidadTenantId especialidadTenantId, CancellationToken cancellationToken = default);
     Task<List<TituloTenant>> GetAllAsync(CancellationToken cancellationToken);
     
 }
