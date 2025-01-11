@@ -1,3 +1,5 @@
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
+
 namespace MsAcceso.Domain.Tenant.PartidasTenant;
 public interface IPartidaTenantRepository
 {
@@ -6,6 +8,6 @@ public interface IPartidaTenantRepository
     void Delete(PartidaTenant partida);
     // Task<List<PartidaTenant>> GetAllPartidasBySubnivel(PartidaTenantId Id, CancellationToken cancellationToken);
     Task<PartidaTenant?> GetByIdAsync(PartidaTenantId partidaId, CancellationToken cancellationToken);
-    Task<bool> PartidaExistsByName(string partidaNombre, CancellationToken cancellationToken = default);
+    Task<bool> PartidaExistsByName(string partidaNombre,PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default);
     Task<List<PartidaTenant>> GetAllAsync(CancellationToken cancellationToken);
 }

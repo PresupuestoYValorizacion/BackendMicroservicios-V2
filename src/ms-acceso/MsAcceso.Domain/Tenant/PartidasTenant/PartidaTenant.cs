@@ -25,6 +25,7 @@ public sealed class PartidaTenant : Entity<PartidaTenantId>
 
     public PartidaTenantId? Dependencia {get; private set;}
     public PartidaTenant? DependenciaModel {get; private set;}
+    public string? Correlativo {get; private set;}
     public string? Nombre {get; private set;}
     public int? Nivel { get; private set; }
     public List<PartidaTenant>? Partidas { get; set; }

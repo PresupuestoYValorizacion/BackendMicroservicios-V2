@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PartidasTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 using MsAcceso.Infrastructure.Service;
 
 namespace MsAcceso.Infrastructure.RepositoriesTenant;
@@ -13,9 +14,9 @@ internal sealed class PartidaTenantRepository : RepositoryTenant<PartidaTenant, 
     {
     }
 
-    public async Task<bool> PartidaExistsByName(string nombrePartidaTenant, CancellationToken cancellationToken = default)
+    public async Task<bool> PartidaExistsByName(string nombrePartidaTenant,PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<PartidaTenant>().AnyAsync(x => x.Nombre == nombrePartidaTenant && x.Activo == new Activo(true), cancellationToken);
+        return await DbContext.Set<PartidaTenant>().AnyAsync(x => x.Nombre == nombrePartidaTenant  && x.Activo == new Activo(true) && x.PresupuestosEspecialidadesTitulosPartidas.Any(x => x.PresupuestoEspecialidadTituloId == especialidadTituloId), cancellationToken);
     }
 
     public async Task<List<PartidaTenant>> GetAllAsync(CancellationToken cancellationToken)

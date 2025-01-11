@@ -8,6 +8,7 @@ using MsAcceso.Application.Sgo.Clientes.GetAllClientes;
 using MsAcceso.Application.Sgo.Clientes.GetByIdClienteTenant;
 using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
 using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
+using MsAcceso.Application.Sgo.Presupuestos.CreatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
 using MsAcceso.Domain.Abstractions;
@@ -36,12 +37,33 @@ public class PresupuestoController : Controller
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpPost("register-titulo")]
-    public async Task<IActionResult> RegisterRoles(
+    public async Task<IActionResult> RegisterTitulo(
         [FromBody] CreateTituloTenantCommand command,
         CancellationToken cancellationToken
     )
     {
 
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+
+
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPost("register-partida")]
+    public async Task<IActionResult> RegisterPartida(
+        [FromBody] CreatePartidaTenantCommand command,
+        CancellationToken cancellationToken
+    )
+    {
 
         var results = await _sender.Send(command, cancellationToken);
 

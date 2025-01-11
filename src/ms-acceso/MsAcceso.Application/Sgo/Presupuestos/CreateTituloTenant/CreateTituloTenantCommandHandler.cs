@@ -36,7 +36,7 @@ internal class CreateTituloTenantCommandHandler : ICommandHandler<CreateTituloTe
 
         var antiguoCorrelativo = await _especialidadTituloRepository.GetLastCorrelativoAsync(new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)), cancellationToken);
 
-        var correlativo = int.Parse(antiguoCorrelativo!)+1;
+        var correlativo = antiguoCorrelativo != null ?  int.Parse(antiguoCorrelativo!)+1 : 1;
 
         var correlativoFormateado = correlativo.ToString("D2");
         

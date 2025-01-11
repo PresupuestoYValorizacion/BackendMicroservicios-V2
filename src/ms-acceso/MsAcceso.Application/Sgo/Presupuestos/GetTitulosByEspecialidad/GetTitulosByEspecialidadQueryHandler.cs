@@ -4,6 +4,7 @@ using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.EspecialidadesTenant;
+using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
 using MsAcceso.Domain.Tenant.ProyectosTenant;
 
@@ -36,12 +37,22 @@ internal sealed class GetTitulosByEspecialidadQueryHandler : IQueryHandler<GetTi
 
     public async Task<Result<List<PresupuestoEspecialidadTituloTenantDto>>> Handle(GetTitulosByEspecialidadQuery request, CancellationToken cancellationToken)
     {
-        var especialidadTitulos = await _presupuestoEspecialidadTituloRepository.GetAllAsyncWithIncludes(new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)),cancellationToken);
+        try
+        {
+            var especialidadTitulos = await _presupuestoEspecialidadTituloRepository.GetAllAsyncWithIncludes(new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)), cancellationToken);
 
-        var especialidadTitulosDto = _mapper.Map<List<PresupuestoEspecialidadTituloTenantDto>>(especialidadTitulos);
+            var especialidadTitulosDto = _mapper.Map<List<PresupuestoEspecialidadTituloTenantDto>>(especialidadTitulos);
 
-        return especialidadTitulosDto!;
-        
+            return especialidadTitulosDto!;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        return Result.Failure<List<PresupuestoEspecialidadTituloTenantDto>>(PresupuestoEspecialidadTituloPartidaTenantErrors.PresupuestoExists)!;
+
     }
 
 

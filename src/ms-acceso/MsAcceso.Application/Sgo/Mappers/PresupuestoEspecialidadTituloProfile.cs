@@ -11,6 +11,8 @@ public class PresupuestoEspecialidadTituloProfile : Profile
         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
         .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.Titulo))
         .ForMember(dest => dest.Correlativo, opt => opt.MapFrom(src => src.Correlativo))
+        .ForMember(dest => dest.Partidas, opt => opt.MapFrom(src => src.PresupuestosEspecialidadTituloPartidas))
+        // .ForMember(dest => dest., opt => opt.MapFrom(src => src.Correlativo))
         ;
     }
 }

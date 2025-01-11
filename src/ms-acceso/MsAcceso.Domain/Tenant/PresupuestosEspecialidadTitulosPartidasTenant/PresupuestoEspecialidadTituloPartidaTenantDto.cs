@@ -1,6 +1,5 @@
 
 using MsAcceso.Domain.Tenant.PartidasTenant;
-using MsAcceso.Domain.Tenant.TitulosTenant;
 
 namespace MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 

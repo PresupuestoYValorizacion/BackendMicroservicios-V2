@@ -28,13 +28,12 @@ public sealed class PresupuestoEspecialidadTituloPartidaTenant : Entity<Presupue
     public string? Correlativo { get; private set; }
 
     public static PresupuestoEspecialidadTituloPartidaTenant Create(
-        PresupuestoEspecialidadTituloPartidaTenantId Id,
         PresupuestoEspecialidadTituloTenantId PresupuestoEspecialidadTituloId,
         PartidaTenantId PartidaId,
         string Correlativo  
     )
     {
-        var presupuestoEspecialidadTituloPartida = new PresupuestoEspecialidadTituloPartidaTenant(Id, PresupuestoEspecialidadTituloId, PartidaId, Correlativo);
+        var presupuestoEspecialidadTituloPartida = new PresupuestoEspecialidadTituloPartidaTenant(PresupuestoEspecialidadTituloPartidaTenantId.New(), PresupuestoEspecialidadTituloId, PartidaId, Correlativo);
         return presupuestoEspecialidadTituloPartida;
     }
 
