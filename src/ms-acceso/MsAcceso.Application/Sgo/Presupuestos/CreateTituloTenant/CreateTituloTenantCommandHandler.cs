@@ -1,3 +1,4 @@
+using AutoMapper.Internal.Mappers;
 using MediatR;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
@@ -33,14 +34,18 @@ internal class CreateTituloTenantCommandHandler : ICommandHandler<CreateTituloTe
         }
         var newTitulo = TituloTenant.Create(request.Nombre);
 
-        var correlativo = "01";
+        var antiguoCorrelativo = await _especialidadTituloRepository.GetLastCorrelativoAsync(new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)), cancellationToken);
 
+        var correlativo = int.Parse(antiguoCorrelativo!)+1;
+
+        var correlativoFormateado = correlativo.ToString("D2");
+        
         var newEspecialidadTitulo = PresupuestoEspecialidadTituloTenant.Create(
                 new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)),
                 newTitulo.Id!,
                 null,
                 0,
-                correlativo
+                correlativoFormateado
         );
 
         _tituloRepository.Add(newTitulo);

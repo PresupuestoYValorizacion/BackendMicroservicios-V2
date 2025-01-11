@@ -9,6 +9,7 @@ using MsAcceso.Application.Sgo.Clientes.GetByIdClienteTenant;
 using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
 using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
+using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Utils;
@@ -28,6 +29,8 @@ public class PresupuestoController : Controller
     {
         _sender = sender;
     }
+
+    
 
 
     [AllowAnonymous]
@@ -113,11 +116,13 @@ public class PresupuestoController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpGet("get-all-clientes")]
+    [HttpGet("get-all-by-especialidad/{idEspecialidad}")]
     public async Task<ActionResult<PaginationResult<ClienteDto>>> GetAllClientes(
+        string idEspecialidad
     )
     {
-        var query = new GetAllClientesQuery();
+        var query = new GetTitulosByEspecialidadQuery { EspecialidadId = idEspecialidad};
+
         var results = await _sender.Send(query);
 
         return Ok(results);
