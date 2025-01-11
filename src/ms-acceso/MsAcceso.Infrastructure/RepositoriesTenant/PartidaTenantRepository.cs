@@ -14,14 +14,44 @@ internal sealed class PartidaTenantRepository : RepositoryTenant<PartidaTenant, 
     {
     }
 
-    public async Task<bool> PartidaExistsByName(string nombrePartidaTenant,PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default)
+    public async Task<bool> PartidaExistsByName(string nombrePartidaTenant,PartidaTenantId dependencia, PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<PartidaTenant>().AnyAsync(x => x.Nombre == nombrePartidaTenant  && x.Activo == new Activo(true) && x.PresupuestosEspecialidadesTitulosPartidas.Any(x => x.PresupuestoEspecialidadTituloId == especialidadTituloId), cancellationToken);
+        bool isEmptyGuid = especialidadTituloId.Value == Guid.Empty;
+
+        // var depedenciaNueva = isEmptyGuid ? null : dependencia;
+        if(isEmptyGuid)
+        {
+            return  await DbContext.Set<PartidaTenant>().AnyAsync(x => x.Nombre == nombrePartidaTenant && x.Activo == new Activo(true) && x.Dependencia == dependencia , cancellationToken);
+        }
+
+        return await DbContext.Set<PartidaTenant>().AnyAsync(x => x.Nombre == nombrePartidaTenant && x.Activo == new Activo(true) && x.PresupuestosEspecialidadesTitulosPartidas.Any(x => x.PresupuestoEspecialidadTituloId == especialidadTituloId), cancellationToken);
     }
 
     public async Task<List<PartidaTenant>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await DbContext.Set<PartidaTenant>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
+    }
+
+    public async Task<string?> GetLastCorrelativoAsync(PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default)
+    {
+
+        return await DbContext.Set<PartidaTenant>()
+                                                                 .Where(x => x.Activo == new Activo(true) && x.PresupuestosEspecialidadesTitulosPartidas.Any(x => x.PresupuestoEspecialidadTituloId == especialidadTituloId))
+                                                                 .OrderByDescending(x => x.Correlativo)
+                                                                 .Select(x => x.Correlativo)
+                                                                 .FirstOrDefaultAsync(cancellationToken);
+    }
+    public async Task<string?> GetLastCorrelativoDependenciaAsync(int nivel, PartidaTenantId dependencia, CancellationToken cancellationToken = default)
+    {
+        bool isEmptyGuid = dependencia.Value == Guid.Empty;
+
+        var depedenciaNueva = isEmptyGuid ? null : dependencia;
+
+        return await DbContext.Set<PartidaTenant>()
+                                                                 .Where(x => x.Activo == new Activo(true) && x.Nivel == nivel && x.Dependencia == depedenciaNueva)
+                                                                 .OrderByDescending(x => x.Correlativo)
+                                                                 .Select(x => x.Correlativo)
+                                                                 .FirstOrDefaultAsync(cancellationToken);
     }
 
 

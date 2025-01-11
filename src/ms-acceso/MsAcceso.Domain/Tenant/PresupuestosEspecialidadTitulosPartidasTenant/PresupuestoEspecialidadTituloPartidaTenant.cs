@@ -12,40 +12,39 @@ public sealed class PresupuestoEspecialidadTituloPartidaTenant : Entity<Presupue
     private PresupuestoEspecialidadTituloPartidaTenant(
         PresupuestoEspecialidadTituloPartidaTenantId id,
         PresupuestoEspecialidadTituloTenantId presupuestoEspecialidadTituloId,
-        PartidaTenantId partidaId,
-        string correlativo
+        PartidaTenantId partidaId
+        // string correlativo
     ) : base(id)
     {
         PresupuestoEspecialidadTituloId = presupuestoEspecialidadTituloId;
         PartidaId = partidaId;
-        Correlativo = correlativo;
+        // Correlativo = correlativo;
     }
 
     public PresupuestoEspecialidadTituloTenantId? PresupuestoEspecialidadTituloId {get; private set;}
     public PresupuestoEspecialidadTituloTenant? PresupuestoEspecialidadTitulo {get; private set;}
     public PartidaTenantId? PartidaId {get; private set;}
     public PartidaTenant? Partida {get; private set;}
-    public string? Correlativo { get; private set; }
+    // public string? Correlativo { get; private set; }
 
     public static PresupuestoEspecialidadTituloPartidaTenant Create(
         PresupuestoEspecialidadTituloTenantId PresupuestoEspecialidadTituloId,
-        PartidaTenantId PartidaId,
-        string Correlativo  
+        PartidaTenantId PartidaId
     )
     {
-        var presupuestoEspecialidadTituloPartida = new PresupuestoEspecialidadTituloPartidaTenant(PresupuestoEspecialidadTituloPartidaTenantId.New(), PresupuestoEspecialidadTituloId, PartidaId, Correlativo);
+        var presupuestoEspecialidadTituloPartida = new PresupuestoEspecialidadTituloPartidaTenant(PresupuestoEspecialidadTituloPartidaTenantId.New(), PresupuestoEspecialidadTituloId, PartidaId);
         return presupuestoEspecialidadTituloPartida;
     }
 
     public Result Update(
         PresupuestoEspecialidadTituloTenantId presupuestoEspecialidadTituloId,
-        PartidaTenantId partidaId,
-        string correlativo
+        PartidaTenantId partidaId
+        // string correlativo
     )
     {
         PresupuestoEspecialidadTituloId = presupuestoEspecialidadTituloId;
         PartidaId = partidaId;
-        Correlativo = (correlativo.Length > 0) ? correlativo : Correlativo;
+        // Correlativo = (correlativo.Length > 0) ? correlativo : Correlativo;
         return Result.Success();
     }
 

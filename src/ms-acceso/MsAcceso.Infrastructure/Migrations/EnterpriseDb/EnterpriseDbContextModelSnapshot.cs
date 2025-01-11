@@ -149,6 +149,9 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Correlativo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("Dependencia")
                         .HasColumnType("uniqueidentifier");
 
@@ -267,11 +270,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Correlativo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("PartidaId")
                         .HasColumnType("uniqueidentifier");

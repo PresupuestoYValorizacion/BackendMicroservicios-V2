@@ -54,6 +54,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Dependencia = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Correlativo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Nivel = table.Column<int>(type: "int", nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
@@ -372,7 +373,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PresupuestoEspecialidadTituloId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PartidaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Correlativo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

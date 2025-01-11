@@ -317,9 +317,7 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired();
         builder.Entity<PresupuestoEspecialidadTituloPartidaTenant>().Property(pEspTitulosPartidas => pEspTitulosPartidas.PartidaId)
             .IsRequired();
-        builder.Entity<PresupuestoEspecialidadTituloPartidaTenant>().Property(pEspTitulos => pEspTitulos.Correlativo)
-            .IsRequired()
-            .HasMaxLength(100);
+            
         builder.Entity<PresupuestoEspecialidadTituloPartidaTenant>().Property(pEspTitulos => pEspTitulos.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));

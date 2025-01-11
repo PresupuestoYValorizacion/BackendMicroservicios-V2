@@ -15,12 +15,14 @@ public sealed class PartidaTenant : Entity<PartidaTenantId>
         PartidaTenantId id,
         PartidaTenantId? dependencia,
         string nombre,
+        string correlativo,
         int nivel
     ): base(id)
     {
         Dependencia = dependencia;
         Nombre = nombre;
         Nivel = nivel;
+        Correlativo = correlativo;
     }
 
     public PartidaTenantId? Dependencia {get; private set;}
@@ -40,10 +42,11 @@ public sealed class PartidaTenant : Entity<PartidaTenantId>
     public static PartidaTenant Create(
         PartidaTenantId? dependencia, 
         string nombre, 
+        string correlativo, 
         int nivel
     )
     {
-        var partida = new PartidaTenant(PartidaTenantId.New(), dependencia, nombre, nivel);
+        var partida = new PartidaTenant(PartidaTenantId.New(), dependencia,nombre, correlativo, nivel);
         return partida;
     }
 

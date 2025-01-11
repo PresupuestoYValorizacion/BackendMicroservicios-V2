@@ -19,11 +19,15 @@ internal sealed class PresupuestoEspecialidadTituloTenantRepository : Repository
         return await DbContext.Set<PresupuestoEspecialidadTituloTenant>().Where(x => x.Activo == new Activo(true) && x.EspecialidadId == especialidadId)
                     .Include(x => x.PresupuestosEspecialidadTituloPartidas)
                     .ThenInclude(x => x.Partida)
+                    .ThenInclude(x => x!.Partidas)
                     .Include(x => x.Titulo)
+
                     // .Include(x => x.!)
                     // .ThenInclude(x => x.CarpetaPresupuestal!)
                     // .Include(x => x.Presupuesto!)
                     // .ThenInclude(x => x.Cliente!)
+                    .OrderByDescending(x => x.Correlativo)
+
                     .ToListAsync(cancellationToken);
     }
 

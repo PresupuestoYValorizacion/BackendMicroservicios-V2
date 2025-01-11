@@ -28,7 +28,10 @@ internal class CreatePartidaTenantCommandHandler : ICommandHandler<CreatePartida
 
     public async Task<Result<Guid>> Handle(CreatePartidaTenantCommand request, CancellationToken cancellationToken)
     {
-        var partidaExiste = await _partidaRepository.PartidaExistsByName(request.Nombre, new PresupuestoEspecialidadTituloTenantId(Guid.Parse(request.PresupuestoEspecialidadTituloId)), cancellationToken);
+
+        var presupuestoEspecialidadTituloId = request.PresupuestoEspecialidadTituloId.Length > 0 ? new PresupuestoEspecialidadTituloTenantId(Guid.Parse(request.PresupuestoEspecialidadTituloId)) :new PresupuestoEspecialidadTituloTenantId(Guid.Empty);
+        var partidaId = request.PartidaIdPadre.Length > 0 ? new PartidaTenantId(Guid.Parse(request.PartidaIdPadre)) :new PartidaTenantId(Guid.Empty);
+        var partidaExiste = await _partidaRepository.PartidaExistsByName(request.Nombre,partidaId,presupuestoEspecialidadTituloId , cancellationToken);
 
         if(partidaExiste)
         {
@@ -39,22 +42,29 @@ internal class CreatePartidaTenantCommandHandler : ICommandHandler<CreatePartida
         
         var dependenciaPartida = new PartidaTenantId(tieneDependencia ?  Guid.Parse(request.PartidaIdPadre) : Guid.Empty);
 
+        string? antiguoCorrelativo = "";
 
-        var newPartida = PartidaTenant.Create(tieneDependencia ? dependenciaPartida : null, request.Nombre, request.Nivel);
+        if(request.Nivel == 0)
+        {
 
-        var antiguoCorrelativo = await _especialidadTituloPartidaRepository.GetLastCorrelativoAsync(new PresupuestoEspecialidadTituloTenantId(Guid.Parse(request.PresupuestoEspecialidadTituloId)), cancellationToken);
+            antiguoCorrelativo = await _partidaRepository.GetLastCorrelativoAsync(new PresupuestoEspecialidadTituloTenantId(Guid.Parse(request.PresupuestoEspecialidadTituloId)), cancellationToken);
+        }
+        else
+        {
+            antiguoCorrelativo = await _partidaRepository.GetLastCorrelativoDependenciaAsync(request.Nivel, new PartidaTenantId(Guid.Parse(request.PartidaIdPadre)), cancellationToken);
+        }
 
         var correlativo = antiguoCorrelativo != null ?  int.Parse(antiguoCorrelativo!)+1 : 1;
 
         var correlativoFormateado = correlativo.ToString("D2");
 
+        var newPartida = PartidaTenant.Create(tieneDependencia ? dependenciaPartida : null, request.Nombre,correlativoFormateado, request.Nivel);
         if(request.Nivel == 0)
         {
 
             var newEspecialidadTituloPartida = PresupuestoEspecialidadTituloPartidaTenant.Create(
                     new PresupuestoEspecialidadTituloTenantId(Guid.Parse(request.PresupuestoEspecialidadTituloId)),
-                    newPartida.Id!,
-                    correlativoFormateado
+                    newPartida.Id!
             );
 
              _especialidadTituloPartidaRepository.Add(newEspecialidadTituloPartida);
@@ -62,8 +72,8 @@ internal class CreatePartidaTenantCommandHandler : ICommandHandler<CreatePartida
         
 
         _partidaRepository.Add(newPartida);
-
-        await _especialidadTituloPartidaRepository.SaveChangesAsync(cancellationToken);
+        
+        await _partidaRepository.SaveChangesAsync(cancellationToken);
 
         return Result.Success(Guid.Empty, Message.Create);
 
