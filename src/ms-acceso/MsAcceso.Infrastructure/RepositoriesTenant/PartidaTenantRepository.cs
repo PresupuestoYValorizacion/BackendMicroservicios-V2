@@ -54,6 +54,14 @@ internal sealed class PartidaTenantRepository : RepositoryTenant<PartidaTenant, 
                                                                  .FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<PartidaTenant?> GetByIdWithIncludesAsync(PartidaTenantId partidaId, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<PartidaTenant>()
+                                                   .Where(x => x.Activo == new Activo(true) && x.Id == partidaId )
+                                                   .Include(x => x.PresupuestosEspecialidadesTitulosPartidas)
+                                                   .FirstOrDefaultAsync(cancellationToken);
+    }
+
 
 
     // public async Task<List<PartidaTenant>> GetAllPartidasBySubnivel(PartidaTenantId Id, CancellationToken cancellationToken)

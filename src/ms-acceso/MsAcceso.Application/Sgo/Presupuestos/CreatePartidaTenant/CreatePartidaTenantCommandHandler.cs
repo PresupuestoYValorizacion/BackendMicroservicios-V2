@@ -35,7 +35,7 @@ internal class CreatePartidaTenantCommandHandler : ICommandHandler<CreatePartida
 
         if(partidaExiste)
         {
-            return Result.Failure<Guid>(PresupuestoEspecialidadTituloPartidaTenantErrors.PresupuestoExists);
+            return Result.Failure<Guid>(PartidaTenantErrors.PartidaNameExists);
         }
 
         var tieneDependencia = request.PartidaIdPadre.Length > 0;

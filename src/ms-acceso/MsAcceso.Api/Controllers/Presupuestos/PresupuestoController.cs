@@ -10,7 +10,10 @@ using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
 using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
+using MsAcceso.Application.Sgo.Presupuestos.DeleteTituloPartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
+using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
+using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
 using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Utils;
@@ -77,43 +80,55 @@ public class PresupuestoController : Controller
 
     }
 
-    [HttpPut("update")]
+    [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    public async Task<IActionResult> UpdateParametro(
-        [FromBody] UpdateClienteTenantRequest request,
+    [HttpPut("update-partida")]
+    public async Task<IActionResult> UpdatePartida(
+        [FromBody] UpdatePartidaTenantCommand command,
         CancellationToken cancellationToken
     )
     {
-        var command = new UpdateClienteTenantCommand(
-            request.Id,
-            request.TipoPersonaId,
-            request.TipoDocumentoId,
-            request.TipoClienteId,
-            request.NumeroDocumento,
-            request.Nombre
-        );
 
-        var result = await _sender.Send(command, cancellationToken);
+        var results = await _sender.Send(command, cancellationToken);
 
-        if (result.IsFailure)
+        if (results.IsFailure)
         {
-            return BadRequest(result);
+            return BadRequest(results);
         }
 
-        return Ok(result);
+        return Ok(results);
+
+
     }
 
-    [HttpDelete("delete/{id}")]
+    [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    public async Task<IActionResult> DeleteParametro(
-        string Id,
+    [HttpPut("update-titulo")]
+    public async Task<IActionResult> UpdateTitulo(
+        [FromBody] UpdateTituloTenantCommand command,
         CancellationToken cancellationToken
     )
     {
-        var command = new DeleteClienteTenantCommand(
-            new ClienteTenantId(Guid.Parse(Id))
-        );
 
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+
+
+    }
+
+    [HttpPatch("delete")]
+    [ApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> DeleteParametro(
+        [FromBody] DeleteTituloPartidaTenantCommand command,
+        CancellationToken cancellationToken
+    )
+    {
         var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
@@ -126,11 +141,10 @@ public class PresupuestoController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpGet("get-pagination")]
-    public async Task<ActionResult<PaginationResult<ClienteDto>>> GetPaginationClientes(
-        [FromQuery] GetClienteByPaginationQuery request
-    )
+    [HttpGet("get-by-id-titulo/{id}")]
+    public async Task<ActionResult<ClienteDto>> GetByIdTitulo(string id)
     {
+        var request = new GetByIdClientTenantQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);
@@ -138,22 +152,8 @@ public class PresupuestoController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
-    [HttpGet("get-all-by-especialidad/{idEspecialidad}")]
-    public async Task<ActionResult<PaginationResult<ClienteDto>>> GetAllClientes(
-        string idEspecialidad
-    )
-    {
-        var query = new GetTitulosByEspecialidadQuery { EspecialidadId = idEspecialidad};
-
-        var results = await _sender.Send(query);
-
-        return Ok(results);
-    }
-
-    [AllowAnonymous]
-    [ApiVersion(ApiVersions.V1)]
-    [HttpGet("get-by-id/{id}")]
-    public async Task<ActionResult<ClienteDto>> GetClienteById(string id)
+    [HttpGet("get-by-id-partida/{id}")]
+    public async Task<ActionResult<ClienteDto>> GetByIdPartida(string id)
     {
         var request = new GetByIdClientTenantQuery { Id = id };
         var results = await _sender.Send(request);

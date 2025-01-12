@@ -12,6 +12,7 @@ public interface IPartidaTenantRepository
 
     // Task<List<PartidaTenant>> GetAllPartidasBySubnivel(PartidaTenantId Id, CancellationToken cancellationToken);
     Task<PartidaTenant?> GetByIdAsync(PartidaTenantId partidaId, CancellationToken cancellationToken);
+    Task<PartidaTenant?> GetByIdWithIncludesAsync(PartidaTenantId partidaId, CancellationToken cancellationToken);
     Task<bool> PartidaExistsByName(string partidaNombre,PartidaTenantId dependencia, PresupuestoEspecialidadTituloTenantId especialidadTituloId, CancellationToken cancellationToken = default);
     Task<List<PartidaTenant>> GetAllAsync(CancellationToken cancellationToken);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

@@ -31,6 +31,14 @@ internal sealed class PresupuestoEspecialidadTituloTenantRepository : Repository
                     .ToListAsync(cancellationToken);
     }
 
+    public async Task<PresupuestoEspecialidadTituloTenant?> GetByIdWithIncludesAsync(PresupuestoEspecialidadTituloTenantId especialidadId, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<PresupuestoEspecialidadTituloTenant>()
+                                                   .Where(x => x.Activo == new Activo(true) && x.Id == especialidadId )
+                                                   .Include(x => x.Titulo)
+                                                   .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<string?> GetLastCorrelativoAsync(EspecialidadTenantId especialidadId, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<PresupuestoEspecialidadTituloTenant>()

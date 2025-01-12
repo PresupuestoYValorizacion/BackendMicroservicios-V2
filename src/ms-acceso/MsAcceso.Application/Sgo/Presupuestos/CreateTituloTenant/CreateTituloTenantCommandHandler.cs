@@ -30,8 +30,9 @@ internal class CreateTituloTenantCommandHandler : ICommandHandler<CreateTituloTe
 
         if(especialidadExiste)
         {
-            return Result.Failure<Guid>(PresupuestoEspecialidadTituloTenantErrors.PresupuestoExists);
+            return Result.Failure<Guid>(TituloTenantErrors.TituloExists);
         }
+        
         var newTitulo = TituloTenant.Create(request.Nombre);
 
         var antiguoCorrelativo = await _especialidadTituloRepository.GetLastCorrelativoAsync(new EspecialidadTenantId(Guid.Parse(request.EspecialidadId)), cancellationToken);
