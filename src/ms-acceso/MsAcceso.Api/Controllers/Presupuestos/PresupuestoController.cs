@@ -2,20 +2,16 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MsAcceso.Application.Sgo.Clientes.CreateClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.DeleteClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.GetAllClientes;
-using MsAcceso.Application.Sgo.Clientes.GetByIdClienteTenant;
-using MsAcceso.Application.Sgo.Clientes.GetClienteByPagination;
-using MsAcceso.Application.Sgo.Clientes.UpdateClienteTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
 using MsAcceso.Application.Sgo.Presupuestos.DeleteTituloPartidaTenant;
-using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
+using MsAcceso.Application.Sgo.Presupuestos.GetByIdPartida;
+using MsAcceso.Application.Sgo.Presupuestos.GetByIdTitulo;
 using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
-using MsAcceso.Domain.Abstractions;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.PartidasTenant;
+using MsAcceso.Domain.Tenant.TitulosTenant;
 using MsAcceso.Utils;
 
 namespace MsAcceso.Api.Controllers.Presupuestos;
@@ -142,9 +138,9 @@ public class PresupuestoController : Controller
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-by-id-titulo/{id}")]
-    public async Task<ActionResult<ClienteDto>> GetByIdTitulo(string id)
+    public async Task<ActionResult<TituloTenantDto>> GetByIdTitulo(string id)
     {
-        var request = new GetByIdClientTenantQuery { Id = id };
+        var request = new GetByIdTituloQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);
@@ -153,9 +149,20 @@ public class PresupuestoController : Controller
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
     [HttpGet("get-by-id-partida/{id}")]
-    public async Task<ActionResult<ClienteDto>> GetByIdPartida(string id)
+    public async Task<ActionResult<PartidaTenantDto>> GetByIdPartida(string id)
     {
-        var request = new GetByIdClientTenantQuery { Id = id };
+        var request = new GetByIdPartidaQuery { Id = id };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-recursos-by-id-partida/{id}")]
+    public async Task<ActionResult<ClienteDto>> GetRecursosByIdPartida(string id)
+    {
+        var request = new GetByIdPartidaQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);
