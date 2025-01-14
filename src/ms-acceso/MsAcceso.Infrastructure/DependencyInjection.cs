@@ -47,6 +47,7 @@ using MsAcceso.Domain.Tenant.ProyectosTenant;
 using MsAcceso.Domain.Tenant.PresupuestosTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosPartidasTenant;
 using MsAcceso.Domain.Tenant.PresupuestosEspecialidadTitulosTenant;
+using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 
 namespace MsAcceso.Infrastructure;
 
@@ -107,6 +108,8 @@ public static class DependencyInjection
         services.AddScoped<IPersonaJuridicaTenantRepository, PersonaJuridicaTenantRepository>();
         services.AddScoped<IClienteTenantRepository, ClienteTenantRepository>();
         services.AddScoped<IPaginationClientesRepository, ClienteTenantRepository>();
+        services.AddScoped<IPaginationRecursosRepository, PartidaRecursoTenantRepository>();
+        services.AddScoped<IPartidaRecursoTenantRepository, PartidaRecursoTenantRepository>();
 
         services.AddScoped<IEspecialidadTenantRepository, EspecialidadTenantRepository>();
         services.AddScoped<ITituloTenantRepository, TituloTenantRepository>();

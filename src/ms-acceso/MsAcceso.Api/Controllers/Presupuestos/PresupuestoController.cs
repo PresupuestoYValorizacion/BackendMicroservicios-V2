@@ -3,12 +3,15 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MsAcceso.Application.Sgo.Presupuestos.CreatePartidaTenant;
+using MsAcceso.Application.Sgo.Presupuestos.CreateRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
+using MsAcceso.Application.Sgo.Presupuestos.DeleteRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.DeleteTituloPartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdPartida;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdTitulo;
 using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
 using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
+using MsAcceso.Application.Sgo.Presupuestos.UpdateRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
 using MsAcceso.Application.Sgo.Proyectos.GetByIdEspecialidad;
 using MsAcceso.Domain.Tenant.ClientesTenant;
@@ -80,6 +83,27 @@ public class PresupuestoController : Controller
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]
+    [HttpPost("register-recurso")]
+    public async Task<IActionResult> RegisterRecurso(
+        [FromBody] CreateRecursosTenantCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+
+
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
     [HttpPut("update-partida")]
     public async Task<IActionResult> UpdatePartida(
         [FromBody] UpdatePartidaTenantCommand command,
@@ -120,6 +144,27 @@ public class PresupuestoController : Controller
 
     }
 
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpPut("update-recurso")]
+    public async Task<IActionResult> UpdateRecurso(
+        [FromBody] UpdateRecursosTenantCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+
+        var results = await _sender.Send(command, cancellationToken);
+
+        if (results.IsFailure)
+        {
+            return BadRequest(results);
+        }
+
+        return Ok(results);
+
+
+    }
+
     [HttpPatch("delete")]
     [ApiVersion(ApiVersions.V1)]
     public async Task<IActionResult> DeleteParametro(
@@ -127,6 +172,25 @@ public class PresupuestoController : Controller
         CancellationToken cancellationToken
     )
     {
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
+    }
+
+    [HttpDelete("delete-recurso/{id}")]
+    [ApiVersion(ApiVersions.V1)]
+    public async Task<IActionResult> DeleteRecurso(
+        string id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new  DeleteRecursosTenantCommand(id);
+        
         var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)

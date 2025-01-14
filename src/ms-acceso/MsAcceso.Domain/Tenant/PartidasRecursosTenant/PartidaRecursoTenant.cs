@@ -38,7 +38,6 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
     public double? Parcial {get; private set;}
 
     public static PartidaRecursoTenant Create(
-        PartidaRecursoTenantId Id,
         PartidaTenantId PartidaId,
         RecursoTenantId RecursoId,
         int Cantidad,
@@ -47,7 +46,7 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
         double Parcial
     )
     {
-        var partidaRecurso = new PartidaRecursoTenant(Id, PartidaId, RecursoId, Cantidad, Cuadrilla, Precio, Parcial);
+        var partidaRecurso = new PartidaRecursoTenant(PartidaRecursoTenantId.New(), PartidaId, RecursoId, Cantidad, Cuadrilla, Precio, Parcial);
         return partidaRecurso;
     }
 

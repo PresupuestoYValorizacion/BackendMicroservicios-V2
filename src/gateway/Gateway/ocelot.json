@@ -1633,6 +1633,29 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/presupuestos/register-recurso",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/presupuestos/register-recurso",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/presupuestos/update-partida",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -1679,6 +1702,29 @@
       "SwaggerKey": "acceso"
     },
     {
+      "DownstreamPathTemplate": "/api/v1/presupuestos/update-recurso",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/presupuestos/update-recurso",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/presupuestos/delete",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -1689,6 +1735,29 @@
       ],
       "UpstreamPathTemplate": "/presupuestos/delete",
       "UpstreamHttpMethod": [ "PATCH" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "JwtBearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Authorization",
+        "Rol": "Claims[Rol] > value > |",
+        "Tenant": "Claims[Tenant] > value > |",
+        "IsAdmin": "Claims[IsAdmin] > value > |"
+      },
+      "SwaggerKey": "acceso"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/presupuestos/delete-recurso/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5175
+        }
+      ],
+      "UpstreamPathTemplate": "/presupuestos/delete-recurso/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "JwtBearer",
         "AllowedScopes": []
