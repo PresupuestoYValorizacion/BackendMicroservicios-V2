@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.AppDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250111184626_initialApp")]
+    [Migration("20250114055708_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -17201,6 +17201,148 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Dependencia = 2120,
                             Nivel = 1,
                             Nombre = "Jornada extendida o extra (más de 8 horas)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2124,
+                            Activo = true,
+                            Nivel = 0,
+                            Nombre = "UNIDADES DE MEDIDA"
+                        },
+                        new
+                        {
+                            Id = 2125,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Unidad (ud)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2126,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Kilogramo (kg)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2127,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Metro cúbico (m³)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2128,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Metro cuadrado (m²)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2129,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Litro (l)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2130,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Galón (gal)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2131,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Tonelada (t)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2132,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Metro lineal (ml)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2133,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Paquete (paquete)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2134,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Hora (h)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2135,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Jornada (8 horas laborales)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2136,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Día (d)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2137,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Mes (m)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2138,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Kilómetro (km)",
+                            Valor = "0"
+                        },
+                        new
+                        {
+                            Id = 2139,
+                            Activo = true,
+                            Dependencia = 2124,
+                            Nivel = 1,
+                            Nombre = "Viaje (viaje)",
                             Valor = "0"
                         });
                 });

@@ -12,7 +12,7 @@ using MsAcceso.Infrastructure;
 namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
 {
     [DbContext(typeof(EnterpriseDbContext))]
-    [Migration("20250111184614_initialApp")]
+    [Migration("20250114055653_initialApp")]
     partial class initialApp
     {
         /// <inheritdoc />
@@ -440,16 +440,301 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("TipoRecursoId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<int>("UnidadMedidaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("recursos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("60f42d2e-731b-4a48-8c5c-6fd3f9c2aaa2"),
+                            Activo = true,
+                            Nombre = "Capataz",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("a4e6a78f-4b33-4388-b2f4-7eb172c82e5a"),
+                            Activo = true,
+                            Nombre = "Operador de maquinaria",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("60bef5cf-7cfd-411f-aa04-849984a3bd8b"),
+                            Activo = true,
+                            Nombre = "Supervisor de obra",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("e1eef79d-bee1-414d-b4d2-658d2ad843d2"),
+                            Activo = true,
+                            Nombre = "Técnico eléctrico",
+                            UnidadMedidaId = 2134
+                        },
+                        new
+                        {
+                            Id = new Guid("1812353c-c46e-490f-9456-dfe6c764a0c4"),
+                            Activo = true,
+                            Nombre = "Albañil",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("64d34d40-6deb-4a69-91f4-40758eecfee5"),
+                            Activo = true,
+                            Nombre = "Ayudante general",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("0c9c1250-1b25-42cf-8b4a-1472acb908a4"),
+                            Activo = true,
+                            Nombre = "Cemento",
+                            UnidadMedidaId = 2126
+                        },
+                        new
+                        {
+                            Id = new Guid("71407e44-372b-4707-8a78-53f38b7f052c"),
+                            Activo = true,
+                            Nombre = "Arena",
+                            UnidadMedidaId = 2131
+                        },
+                        new
+                        {
+                            Id = new Guid("4c84bc89-5905-4c96-9223-77665bd5cc1c"),
+                            Activo = true,
+                            Nombre = "Grava",
+                            UnidadMedidaId = 2131
+                        },
+                        new
+                        {
+                            Id = new Guid("190dd940-58cc-4abe-8482-2ca53d4cb510"),
+                            Activo = true,
+                            Nombre = "Bloques de concreto",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("279a8d64-1967-4420-8c17-3a07d72e170d"),
+                            Activo = true,
+                            Nombre = "Ladrillos",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("3ea028f7-45cd-4f5d-82f3-ba56e5717c24"),
+                            Activo = true,
+                            Nombre = "Varillas de acero",
+                            UnidadMedidaId = 2132
+                        },
+                        new
+                        {
+                            Id = new Guid("ea4bb32d-df86-4295-a4d6-1af9b9413b2b"),
+                            Activo = true,
+                            Nombre = "Tubos de PVC",
+                            UnidadMedidaId = 2132
+                        },
+                        new
+                        {
+                            Id = new Guid("2018e9b6-8fe2-4b1c-8582-b93bcb7be381"),
+                            Activo = true,
+                            Nombre = "Pintura",
+                            UnidadMedidaId = 2129
+                        },
+                        new
+                        {
+                            Id = new Guid("3cb15773-b803-4c2c-b3a7-f025223d587c"),
+                            Activo = true,
+                            Nombre = "Yeso",
+                            UnidadMedidaId = 2126
+                        },
+                        new
+                        {
+                            Id = new Guid("9fe99a06-4787-42f2-b875-d981a3512cd9"),
+                            Activo = true,
+                            Nombre = "Clavos",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("32480dba-bc17-4868-99dd-4c9510f4fb9f"),
+                            Activo = true,
+                            Nombre = "Cables eléctricos",
+                            UnidadMedidaId = 2132
+                        },
+                        new
+                        {
+                            Id = new Guid("bc12556d-5195-4320-ac0b-105ad5f19016"),
+                            Activo = true,
+                            Nombre = "Excavadora",
+                            UnidadMedidaId = 2135
+                        },
+                        new
+                        {
+                            Id = new Guid("12864c2c-86ed-42f7-a47e-de419d93410d"),
+                            Activo = true,
+                            Nombre = "Camión de volteo",
+                            UnidadMedidaId = 2139
+                        },
+                        new
+                        {
+                            Id = new Guid("f735b650-1bad-4056-aeeb-01c4b98fe5b5"),
+                            Activo = true,
+                            Nombre = "Compactadora",
+                            UnidadMedidaId = 2135
+                        },
+                        new
+                        {
+                            Id = new Guid("561630df-f7cb-406d-8e69-a682f45b8915"),
+                            Activo = true,
+                            Nombre = "Taladro eléctrico",
+                            UnidadMedidaId = 2135
+                        },
+                        new
+                        {
+                            Id = new Guid("a2b7c2f0-8521-4731-806f-d6ae1070cbd2"),
+                            Activo = true,
+                            Nombre = "Andamios",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("9af05731-02af-4727-8a79-8a11c34f0508"),
+                            Activo = true,
+                            Nombre = "Martillos",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("d8dd669c-67b3-476e-b0b0-5f3f607adac8"),
+                            Activo = true,
+                            Nombre = "Llaves inglesas",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("9d650c8d-6cda-4a1b-a55a-0aae00f38994"),
+                            Activo = true,
+                            Nombre = "Sierra eléctrica",
+                            UnidadMedidaId = 2135
+                        },
+                        new
+                        {
+                            Id = new Guid("f8345dad-4f6c-4216-8e4c-030f1c24f063"),
+                            Activo = true,
+                            Nombre = "Renta de camión",
+                            UnidadMedidaId = 2139
+                        },
+                        new
+                        {
+                            Id = new Guid("752e5343-71a9-45d6-b171-3dc689af396b"),
+                            Activo = true,
+                            Nombre = "Flete de materiales",
+                            UnidadMedidaId = 2139
+                        },
+                        new
+                        {
+                            Id = new Guid("ccc3647f-b096-426c-a61a-e72d532ab23c"),
+                            Activo = true,
+                            Nombre = "Renta de grúa",
+                            UnidadMedidaId = 2135
+                        },
+                        new
+                        {
+                            Id = new Guid("0bf526c9-7aef-41c4-855f-9bdc2914fc53"),
+                            Activo = true,
+                            Nombre = "Transporte personal",
+                            UnidadMedidaId = 2137
+                        },
+                        new
+                        {
+                            Id = new Guid("730fcba5-4f01-4ddb-b40a-de12a2cd3960"),
+                            Activo = true,
+                            Nombre = "Electricidad",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("6db7b9cd-47d0-4fe8-a988-304113c44097"),
+                            Activo = true,
+                            Nombre = "Agua potable",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("de64fa6b-345a-43fb-ae8b-34d9b21f0deb"),
+                            Activo = true,
+                            Nombre = "Gas",
+                            UnidadMedidaId = 2129
+                        },
+                        new
+                        {
+                            Id = new Guid("bc8499f7-4619-4f74-8220-d61522a35a0d"),
+                            Activo = true,
+                            Nombre = "Alquiler de oficinas",
+                            UnidadMedidaId = 2137
+                        },
+                        new
+                        {
+                            Id = new Guid("116d904e-ca56-4e21-a57c-58cb13f01ca1"),
+                            Activo = true,
+                            Nombre = "Consultoría técnica",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("1c011f29-4784-4c92-b517-4fb9f9ead63a"),
+                            Activo = true,
+                            Nombre = "Supervisión de obra externa",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("511dd8bd-291b-4e99-83c9-1f8d9da0afdd"),
+                            Activo = true,
+                            Nombre = "Seguridad en obra",
+                            UnidadMedidaId = 2136
+                        },
+                        new
+                        {
+                            Id = new Guid("66866359-146f-4326-9396-dfb900967039"),
+                            Activo = true,
+                            Nombre = "Equipo de protección personal",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("2c3a82ba-c35b-404f-b20a-d89a3a6abcea"),
+                            Activo = true,
+                            Nombre = "Polvo de mármol",
+                            UnidadMedidaId = 2126
+                        },
+                        new
+                        {
+                            Id = new Guid("1b2ad3b5-1aaa-44ce-9537-ae7bce7aed05"),
+                            Activo = true,
+                            Nombre = "Madera para cimbra",
+                            UnidadMedidaId = 2132
+                        },
+                        new
+                        {
+                            Id = new Guid("973b2d83-501f-4f78-a9e7-0e1284b2a4c6"),
+                            Activo = true,
+                            Nombre = "Lonas protectoras",
+                            UnidadMedidaId = 2125
+                        },
+                        new
+                        {
+                            Id = new Guid("ececd90e-bce5-4b1f-8245-c37c1a9c3b90"),
+                            Activo = true,
+                            Nombre = "Seguro de maquinaria",
+                            UnidadMedidaId = 2137
+                        });
                 });
 
             modelBuilder.Entity("MsAcceso.Domain.Tenant.RolPermisosOpcionesTenant.RolPermisoOpcionTenant", b =>

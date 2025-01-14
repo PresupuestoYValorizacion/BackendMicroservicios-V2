@@ -207,15 +207,15 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-         builder.Entity<ProyectoTenant>()
-            .HasMany(proyecto => proyecto.Especialidades)
-            .WithOne(esp => esp.ProyectoTenant)
-            .HasForeignKey(e => e.ProyectoTenantId);
+        builder.Entity<ProyectoTenant>()
+           .HasMany(proyecto => proyecto.Especialidades)
+           .WithOne(esp => esp.ProyectoTenant)
+           .HasForeignKey(e => e.ProyectoTenantId);
 
-         builder.Entity<ProyectoTenant>()
-            .HasOne(proyecto => proyecto.Presupuesto)
-            .WithOne(pre => pre.ProyectoTenant)
-            .HasForeignKey<ProyectoTenant>(e => e.PresupuestoId);
+        builder.Entity<ProyectoTenant>()
+           .HasOne(proyecto => proyecto.Presupuesto)
+           .WithOne(pre => pre.ProyectoTenant)
+           .HasForeignKey<ProyectoTenant>(e => e.PresupuestoId);
 
         builder.Entity<EspecialidadTenant>().ToTable("especialidades");
         builder.Entity<EspecialidadTenant>().HasKey(especialidad => especialidad.Id);
@@ -228,10 +228,10 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
 
-    builder.Entity<EspecialidadTenant>()
-            .HasMany(esp => esp.PresupuestosEspecialidadTitulos)
-            .WithOne(pEspTitulos => pEspTitulos.Especialidad)
-            .HasForeignKey(pEspTitulos => pEspTitulos.EspecialidadId);
+        builder.Entity<EspecialidadTenant>()
+                .HasMany(esp => esp.PresupuestosEspecialidadTitulos)
+                .WithOne(pEspTitulos => pEspTitulos.Especialidad)
+                .HasForeignKey(pEspTitulos => pEspTitulos.EspecialidadId);
         // builder.Entity<EspecialidadTenant>().HasMany(especialidad => especialidad.Presupuestos)
         //     .WithMany()
         //     .UsingEntity<PresupuestoEspecialidadTenant>(
@@ -239,10 +239,10 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         //         e => e.HasOne<EspecialidadTenant>(p => p.Especialidad).WithMany(p => p.PresupuestosEspecialidades).HasForeignKey(e => e.EspecialidadId)
         //     );
 
-         builder.Entity<EspecialidadTenant>()
-            .HasOne(esp => esp.ProyectoTenant)
-            .WithMany(proyecto => proyecto.Especialidades)
-            .HasForeignKey(e => e.ProyectoTenantId);
+        builder.Entity<EspecialidadTenant>()
+           .HasOne(esp => esp.ProyectoTenant)
+           .WithMany(proyecto => proyecto.Especialidades)
+           .HasForeignKey(e => e.ProyectoTenantId);
 
         builder.Entity<TituloTenant>().ToTable("titulos");
         builder.Entity<TituloTenant>().HasKey(titulo => titulo.Id);
@@ -254,13 +254,13 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<TituloTenant>().Property(titulo => titulo.Activo)
             .IsRequired()
             .HasConversion(estado => estado!.Value, value => new Activo(value));
-            
+
         builder.Entity<TituloTenant>()
             .HasMany(titulos => titulos.PresupuestosEspecialidadesTitulos)
             .WithOne(pesp => pesp.Titulo)
             .HasForeignKey(titulo => titulo.TituloId);
 
-    
+
         builder.Entity<CarpetaPresupuestalTenant>().ToTable("carpetas_presupuestales");
         builder.Entity<CarpetaPresupuestalTenant>().HasKey(carpetaPresupuestal => carpetaPresupuestal.Id);
 
@@ -316,8 +316,8 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<RecursoTenant>().Property(recurso => recurso.Nombre)
             .IsRequired()
             .HasMaxLength(100);
-        builder.Entity<RecursoTenant>().Property(recurso => recurso.TipoRecursoId)
-            .IsRequired();
+        // builder.Entity<RecursoTenant>().Property(recurso => recurso.TipoRecursoId)
+        //     .IsRequired();
         builder.Entity<RecursoTenant>().Property(recurso => recurso.UnidadMedidaId)
             .IsRequired();
         builder.Entity<RecursoTenant>().Property(recurso => recurso.Activo)
@@ -329,6 +329,62 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
                 petp => petp.HasOne<PresupuestoEspecialidadTituloPartidaTenant>(petp => petp.PresupuestoEspecialidadTituloPartida).WithMany().HasForeignKey(e => e.PresupuestoEspecialidadTituloPartidaId),
                 r => r.HasOne<RecursoTenant>(p => p.Recurso).WithMany(p => p.PresupuestosEspecialidadesTitulosPartidasRecursos).HasForeignKey(e => e.RecursoId)
             );
+
+        builder.Entity<RecursoTenant>().HasData(
+            // Recursos Humanos
+            RecursoTenant.Create("Capataz", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Operador de maquinaria", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Supervisor de obra", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Técnico eléctrico", 2134), // Unidad: Hora (h)
+            RecursoTenant.Create("Albañil", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Ayudante general", 2136), // Unidad: Día (d)
+
+            // Materiales de construcción
+            RecursoTenant.Create("Cemento", 2126), // Unidad: Kilogramo (kg)
+            RecursoTenant.Create("Arena", 2131), // Unidad: Tonelada (t)
+            RecursoTenant.Create("Grava", 2131), // Unidad: Tonelada (t)
+            RecursoTenant.Create("Bloques de concreto", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Ladrillos", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Varillas de acero", 2132), // Unidad: Metro lineal (ml)
+            RecursoTenant.Create("Tubos de PVC", 2132), // Unidad: Metro lineal (ml)
+            RecursoTenant.Create("Pintura", 2129), // Unidad: Litro (l)
+            RecursoTenant.Create("Yeso", 2126), // Unidad: Kilogramo (kg)
+            RecursoTenant.Create("Clavos", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Cables eléctricos", 2132), // Unidad: Metro lineal (ml)
+
+            // Equipos y herramientas
+            RecursoTenant.Create("Excavadora", 2135), // Unidad: Jornada (8 horas laborales)
+            RecursoTenant.Create("Camión de volteo", 2139), // Unidad: Viaje (viaje)
+            RecursoTenant.Create("Compactadora", 2135), // Unidad: Jornada (8 horas laborales)
+            RecursoTenant.Create("Taladro eléctrico", 2135), // Unidad: Jornada (8 horas laborales)
+            RecursoTenant.Create("Andamios", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Martillos", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Llaves inglesas", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Sierra eléctrica", 2135), // Unidad: Jornada (8 horas laborales)
+
+            // Transporte y logística
+            RecursoTenant.Create("Renta de camión", 2139), // Unidad: Viaje (viaje)
+            RecursoTenant.Create("Flete de materiales", 2139), // Unidad: Viaje (viaje)
+            RecursoTenant.Create("Renta de grúa", 2135), // Unidad: Jornada (8 horas laborales)
+            RecursoTenant.Create("Transporte personal", 2137), // Unidad: Mes (m)
+
+            // Servicios
+            RecursoTenant.Create("Electricidad", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Agua potable", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Gas", 2129), // Unidad: Litro (l)
+            RecursoTenant.Create("Alquiler de oficinas", 2137), // Unidad: Mes (m)
+            RecursoTenant.Create("Consultoría técnica", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Supervisión de obra externa", 2136), // Unidad: Día (d)
+            RecursoTenant.Create("Seguridad en obra", 2136), // Unidad: Día (d)
+
+            // Otros
+            RecursoTenant.Create("Equipo de protección personal", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Polvo de mármol", 2126), // Unidad: Kilogramo (kg)
+            RecursoTenant.Create("Madera para cimbra", 2132), // Unidad: Metro lineal (ml)
+            RecursoTenant.Create("Lonas protectoras", 2125), // Unidad: Unidad (ud)
+            RecursoTenant.Create("Seguro de maquinaria", 2137) // Unidad: Mes (m)
+
+        );
 
         builder.Entity<PartidaRecursoTenant>().ToTable("partida_recurso");
         builder.Entity<PartidaRecursoTenant>().HasKey(pRecurso => pRecurso.Id);
@@ -354,7 +410,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<ClienteTenant>().HasKey(cliente => cliente.Id);
         builder.Entity<ClienteTenant>().Property(cliente => cliente.Id)
             .HasConversion(cliente => cliente!.Value, value => new ClienteTenantId(value));
-        
+
         builder.Entity<ClienteTenant>().Property(cliente => cliente.NumeroDocumento)
         .IsRequired()
         .HasMaxLength(100);
@@ -365,7 +421,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<ClienteTenant>().Property(cliente => cliente.Activo)
         .IsRequired()
         .HasConversion(estado => estado!.Value, value => new Activo(value));
-        
+
         builder.Entity<PresupuestoTenant>().ToTable("presupuestos");
         builder.Entity<PresupuestoTenant>().HasKey(presupuesto => presupuesto.Id);
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.Id)
@@ -388,7 +444,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
             .IsRequired();
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.JornadaDiariaId)
             .IsRequired();
-            
+
         builder.Entity<PresupuestoTenant>().Property(presupuesto => presupuesto.MonedaId)
             .IsRequired();
 
@@ -422,7 +478,7 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         // builder.Entity<PresupuestoEspecialidadTenant>().HasKey(pEspecialidad => pEspecialidad.Id);
         // builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.Id)
         //     .HasConversion(pEspecialidad => pEspecialidad!.Value, value => new PresupuestoEspecialidadTenantId(value));
-            
+
         // builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.PresupuestoId)
         //     .IsRequired(false);
         // builder.Entity<PresupuestoEspecialidadTenant>().Property(pEspecialidad => pEspecialidad.EspecialidadId)
@@ -438,14 +494,14 @@ public class EnterpriseDbContext : DbContext, IUnitOfWorkTenant
         builder.Entity<PresupuestoEspecialidadTituloTenant>().HasKey(pEspTitulos => pEspTitulos.Id);
         builder.Entity<PresupuestoEspecialidadTituloTenant>().Property(pEspTitulos => pEspTitulos.Id)
             .HasConversion(pEspTitulosId => pEspTitulosId!.Value, value => new PresupuestoEspecialidadTituloTenantId(value));
-        
+
         // builder.Entity<PresupuestoEspecialidadTituloTenant>().Property(pEspTitulos => pEspTitulos.TituloId)
         //     .IsRequired();
         builder.Entity<PresupuestoEspecialidadTituloTenant>()
             .HasOne(pEspTitulos => pEspTitulos.Titulo)
             .WithMany(t => t.PresupuestosEspecialidadesTitulos)
             .HasForeignKey(pEspTitulos => pEspTitulos.TituloId);
-            
+
         builder.Entity<PresupuestoEspecialidadTituloTenant>().Property(pEspTitulos => pEspTitulos.Correlativo)
             .IsRequired()
             .HasMaxLength(100);

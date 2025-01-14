@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace MsAcceso.Infrastructure.Migrations.LicenciaDb
 {
     /// <inheritdoc />
     public partial class initialApp : Migration
@@ -70,46 +72,17 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "personas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TipoId = table.Column<int>(type: "int", nullable: true),
-                    TipoDocumentoId = table.Column<int>(type: "int", nullable: true),
-                    NumeroDocumento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_personas", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "recursos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TipoRecursoId = table.Column<int>(type: "int", nullable: false),
                     UnidadMedidaId = table.Column<int>(type: "int", nullable: false),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_recursos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "rols",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,42 +138,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "personas_juridicas",
-                columns: table => new
-                {
-                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RazonSocial = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_personas_juridicas", x => x.PersonaId);
-                    table.ForeignKey(
-                        name: "FK_personas_juridicas_personas_PersonaId",
-                        column: x => x.PersonaId,
-                        principalTable: "personas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "personas_naturales",
-                columns: table => new
-                {
-                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NombreCompleto = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_personas_naturales", x => x.PersonaId);
-                    table.ForeignKey(
-                        name: "FK_personas_naturales_personas_PersonaId",
-                        column: x => x.PersonaId,
-                        principalTable: "personas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "partida_recurso",
                 columns: table => new
                 {
@@ -231,52 +168,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "rols_permisos",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MenuId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols_permisos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_rols_permisos_rols_RolId",
-                        column: x => x.RolId,
-                        principalTable: "rols",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    PersonaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RolId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_users_personas_PersonaId",
-                        column: x => x.PersonaId,
-                        principalTable: "personas",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_users_rols_RolId",
-                        column: x => x.RolId,
-                        principalTable: "rols",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "proyectos",
                 columns: table => new
                 {
@@ -293,25 +184,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         name: "FK_proyectos_presupuestos_PresupuestoId",
                         column: x => x.PresupuestoId,
                         principalTable: "presupuestos",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "rols_permisos_opciones",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RolPermisoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OpcionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Activo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rols_permisos_opciones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_rols_permisos_opciones_rols_permisos_RolPermisoId",
-                        column: x => x.RolPermisoId,
-                        principalTable: "rols_permisos",
                         principalColumn: "Id");
                 });
 
@@ -422,6 +294,54 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "recursos",
+                columns: new[] { "Id", "Activo", "Nombre", "UnidadMedidaId" },
+                values: new object[,]
+                {
+                    { new Guid("1228da04-b442-4ec5-8a60-df82a17418df"), true, "Supervisor de obra", 2136 },
+                    { new Guid("1dbf744a-8237-4175-a060-6f16b15f68a4"), true, "Seguro de maquinaria", 2137 },
+                    { new Guid("2209e5ef-4854-4646-978b-91b57af38efc"), true, "Camión de volteo", 2139 },
+                    { new Guid("2529b3fa-1281-4654-825e-e9df7a472c32"), true, "Flete de materiales", 2139 },
+                    { new Guid("320b28fe-2532-4abf-b2a8-61e886c815ca"), true, "Andamios", 2125 },
+                    { new Guid("3370db65-9d12-4720-a0f4-95730f7dcf9b"), true, "Consultoría técnica", 2136 },
+                    { new Guid("35dc82bd-28a0-45f8-aad4-d307e10d14ee"), true, "Bloques de concreto", 2125 },
+                    { new Guid("3c26fbbf-8255-4135-8e0e-bd83817cdbb0"), true, "Renta de camión", 2139 },
+                    { new Guid("3e579d06-ff7a-49f4-b318-51264b6ffa56"), true, "Equipo de protección personal", 2125 },
+                    { new Guid("40e70a85-05f1-42a3-851f-142413e78f74"), true, "Cables eléctricos", 2132 },
+                    { new Guid("414e612c-fa89-45ec-a714-2aa7f9a4bd58"), true, "Electricidad", 2136 },
+                    { new Guid("4569ab24-bfb9-433e-8e34-c6d9a5c5091d"), true, "Operador de maquinaria", 2136 },
+                    { new Guid("4cfc70f0-c5d0-461c-b822-de68a9d28388"), true, "Capataz", 2125 },
+                    { new Guid("4d960426-bfb9-40da-8beb-f6c17353abed"), true, "Seguridad en obra", 2136 },
+                    { new Guid("53765a42-1e1d-4011-9997-3a8588bf10ad"), true, "Gas", 2129 },
+                    { new Guid("5f697e5a-02ac-4eba-b9ee-513035887b22"), true, "Albañil", 2136 },
+                    { new Guid("67b388c4-d4c4-425e-8015-303a5899b311"), true, "Arena", 2131 },
+                    { new Guid("691cddd2-b2ca-422a-8927-e885593f0afa"), true, "Alquiler de oficinas", 2137 },
+                    { new Guid("75069a22-95fe-4460-aa89-229c0f53cce0"), true, "Polvo de mármol", 2126 },
+                    { new Guid("87880d95-f5a0-4d0f-affc-db39fdc03af9"), true, "Pintura", 2129 },
+                    { new Guid("896da2e7-8695-4e90-84f4-45887e1c9d9d"), true, "Varillas de acero", 2132 },
+                    { new Guid("8e37f6be-142d-4d09-9886-a2a50e11cae2"), true, "Lonas protectoras", 2125 },
+                    { new Guid("a459541c-f4e6-445d-bc44-b405871cb8fb"), true, "Sierra eléctrica", 2135 },
+                    { new Guid("a76977ae-a133-428e-bb50-6420e973151d"), true, "Transporte personal", 2137 },
+                    { new Guid("ab3bdac9-d87c-48f1-ab7e-0b6cc00c5751"), true, "Renta de grúa", 2135 },
+                    { new Guid("ade6b8d0-5073-415a-a970-e2e8c99969e3"), true, "Excavadora", 2135 },
+                    { new Guid("b2eb2d03-b324-4e27-9d70-7a6ece006ee1"), true, "Clavos", 2125 },
+                    { new Guid("bbf08a63-a1dc-446d-8e61-e2222d27d5db"), true, "Compactadora", 2135 },
+                    { new Guid("c1547ab0-adc6-4e21-ac63-a4965a145917"), true, "Grava", 2131 },
+                    { new Guid("c45527cc-daba-45c4-a2c8-daf83fc1ee87"), true, "Agua potable", 2136 },
+                    { new Guid("c532d6e6-fbee-48d4-80fd-597adc624ef1"), true, "Yeso", 2126 },
+                    { new Guid("c7b49729-daf6-4217-bed6-39b60b1002e0"), true, "Taladro eléctrico", 2135 },
+                    { new Guid("c8d00de7-d372-4321-8a6c-2556edf006b7"), true, "Ayudante general", 2136 },
+                    { new Guid("d528b30b-4c26-40fa-9afa-7822dfcc50d6"), true, "Madera para cimbra", 2132 },
+                    { new Guid("e3bb32e1-cddc-48d0-a3d0-74bd2531e84e"), true, "Ladrillos", 2125 },
+                    { new Guid("ec493adb-ab9c-46f8-bf72-7c9ff0c6e879"), true, "Llaves inglesas", 2125 },
+                    { new Guid("ee738887-4840-4744-bf0a-6ebfd7a30fde"), true, "Tubos de PVC", 2132 },
+                    { new Guid("f14da81f-da45-4687-817f-f4f3f52bd5e7"), true, "Cemento", 2126 },
+                    { new Guid("f4c5c60b-6dc9-47f5-b001-b15ed58b263e"), true, "Técnico eléctrico", 2134 },
+                    { new Guid("faf2d007-1e64-4f70-bf3b-eb27695b3c0b"), true, "Supervisión de obra externa", 2136 },
+                    { new Guid("fcbc3c57-19af-45c2-9ad1-996b3977e535"), true, "Martillos", 2125 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_carpetas_presupuestales_Dependencia",
                 table: "carpetas_presupuestales",
@@ -498,32 +418,6 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 column: "PresupuestoId",
                 unique: true,
                 filter: "[PresupuestoId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_rols_permisos_RolId",
-                table: "rols_permisos",
-                column: "RolId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_rols_permisos_opciones_RolPermisoId",
-                table: "rols_permisos_opciones",
-                column: "RolPermisoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_Email",
-                table: "users",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_PersonaId",
-                table: "users",
-                column: "PersonaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_RolId",
-                table: "users",
-                column: "RolId");
         }
 
         /// <inheritdoc />
@@ -533,19 +427,7 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 name: "partida_recurso");
 
             migrationBuilder.DropTable(
-                name: "personas_juridicas");
-
-            migrationBuilder.DropTable(
-                name: "personas_naturales");
-
-            migrationBuilder.DropTable(
                 name: "presupuestos_especialidad_titulos_partidas_recursos");
-
-            migrationBuilder.DropTable(
-                name: "rols_permisos_opciones");
-
-            migrationBuilder.DropTable(
-                name: "users");
 
             migrationBuilder.DropTable(
                 name: "presupuestos_especialidad_titulos_partidas");
@@ -554,19 +436,10 @@ namespace MsAcceso.Infrastructure.Migrations.EnterpriseDb
                 name: "recursos");
 
             migrationBuilder.DropTable(
-                name: "rols_permisos");
-
-            migrationBuilder.DropTable(
-                name: "personas");
-
-            migrationBuilder.DropTable(
                 name: "partidas");
 
             migrationBuilder.DropTable(
                 name: "presupuestos_especialidad_titulos");
-
-            migrationBuilder.DropTable(
-                name: "rols");
 
             migrationBuilder.DropTable(
                 name: "especialidades");

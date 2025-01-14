@@ -2294,8 +2294,28 @@ internal sealed class ParametroConfiguration : IEntityTypeConfiguration<Parametr
 			Parametro.Create(new ParametroId(2120), "TIPOS DE JORNADA", null, null, null, 0, null),
 			Parametro.Create(new ParametroId(2121), "Jornada estándar (8 horas)", null, null, new ParametroId(2120), 1, "0"),
 			Parametro.Create(new ParametroId(2122), "Jornada nocturna (7 horas)", null, null, new ParametroId(2120), 1, "0"),
-			Parametro.Create(new ParametroId(2123), "Jornada extendida o extra (más de 8 horas)", null, null, new ParametroId(2120), 1, "0")
+			Parametro.Create(new ParametroId(2123), "Jornada extendida o extra (más de 8 horas)", null, null, new ParametroId(2120), 1, "0"),
 
+			Parametro.Create(new ParametroId(2124), "UNIDADES DE MEDIDA", null, null, null, 0, null),
+			Parametro.Create(new ParametroId(2125), "Unidad (ud)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2126), "Kilogramo (kg)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2127), "Metro cúbico (m³)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2128), "Metro cuadrado (m²)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2129), "Litro (l)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2130), "Galón (gal)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2131), "Tonelada (t)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2132), "Metro lineal (ml)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2133), "Paquete (paquete)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2134), "Hora (h)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2135), "Jornada (8 horas laborales)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2136), "Día (d)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2137), "Mes (m)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2138), "Kilómetro (km)", null, null, new ParametroId(2124), 1, "0"),
+			Parametro.Create(new ParametroId(2139), "Viaje (viaje)", null, null, new ParametroId(2124), 1, "0")
+			// Parametro.Create(new ParametroId(2140), "Tonelada por kilómetro (t/km)", null, null, new ParametroId(2124), 1, "0"),
+			// Parametro.Create(new ParametroId(2141), "Jornada (8 horas laborales)", null, null, new ParametroId(2124), 1, "0"),
+			// Parametro.Create(new ParametroId(2142), "Día (d)", null, null, new ParametroId(2124), 1, "0"),
+			// Parametro.Create(new ParametroId(2143), "Mes (m)", null, null, new ParametroId(2124), 1, "0")
 
 
 

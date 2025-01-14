@@ -7,8 +7,10 @@ using MsAcceso.Application.Sgo.Presupuestos.CreateTituloTenant;
 using MsAcceso.Application.Sgo.Presupuestos.DeleteTituloPartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdPartida;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdTitulo;
+using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
 using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
+using MsAcceso.Application.Sgo.Proyectos.GetByIdEspecialidad;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
@@ -134,6 +136,18 @@ public class PresupuestoController : Controller
 
         return Ok(result);
     }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-all-by-especialidad/{idEspecialidad}")]
+    public async Task<ActionResult<TituloTenantDto>> GetAllByEspecialidad(string idEspecialidad)
+    {
+        var request = new GetTitulosByEspecialidadQuery { EspecialidadId = idEspecialidad };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
 
     [AllowAnonymous]
     [ApiVersion(ApiVersions.V1)]

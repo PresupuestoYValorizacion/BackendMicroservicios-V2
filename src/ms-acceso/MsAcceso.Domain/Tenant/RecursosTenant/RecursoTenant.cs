@@ -14,17 +14,16 @@ public sealed class RecursoTenant : Entity<RecursoTenantId>
     private RecursoTenant(
         RecursoTenantId id,
         string nombre,
-        int tipoRecursoId,
+        // int tipoRecursoId,
         int unidadMedidaId
     ) : base(id)
     {
         Nombre = nombre;
-        TipoRecursoId = tipoRecursoId;
+        // TipoRecursoId = tipoRecursoId;
         UnidadMedidaId = unidadMedidaId;
     }
 
     public string? Nombre { get; private set; }
-    public int? TipoRecursoId { get; private set; }
     public int UnidadMedidaId { get; private set; }
     // public List<PartidaTenant>? Partidas { get; } = [];
     // public List<PartidaRecursoTenant>? PartidasRecursos { get; } = [];
@@ -34,22 +33,19 @@ public sealed class RecursoTenant : Entity<RecursoTenantId>
 
     public static RecursoTenant Create(
         string Nombre,
-        int TipoRecursoId,
         int UnidadMedidaId
     )
     {
-        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, TipoRecursoId, UnidadMedidaId);
+        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, UnidadMedidaId);
         return recurso;
     }
 
     public Result Update(
         string nombre,
-        int tipoRecursoId,
         int unidadMedidaId
     )
     {
         Nombre = (nombre.Length > 0) ? nombre : Nombre;
-        TipoRecursoId = (tipoRecursoId > 0) ? tipoRecursoId : TipoRecursoId;
         UnidadMedidaId = (unidadMedidaId > 0) ? unidadMedidaId : UnidadMedidaId;
         return Result.Success();
     }

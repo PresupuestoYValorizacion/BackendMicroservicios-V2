@@ -17,7 +17,7 @@ internal sealed class PresupuestoEspecialidadTituloTenantRepository : Repository
     public async Task<List<PresupuestoEspecialidadTituloTenant>> GetAllAsyncWithIncludes(EspecialidadTenantId especialidadId, CancellationToken cancellationToken)
     {
         return await DbContext.Set<PresupuestoEspecialidadTituloTenant>().Where(x => x.Activo == new Activo(true) && x.EspecialidadId == especialidadId)
-                    .Include(x => x.PresupuestosEspecialidadTituloPartidas)
+                    .Include(x => x.PresupuestosEspecialidadTituloPartidas)!
                     .ThenInclude(x => x.Partida)
                     .ThenInclude(x => x!.Partidas)
                     .Include(x => x.Titulo)
@@ -26,7 +26,7 @@ internal sealed class PresupuestoEspecialidadTituloTenantRepository : Repository
                     // .ThenInclude(x => x.CarpetaPresupuestal!)
                     // .Include(x => x.Presupuesto!)
                     // .ThenInclude(x => x.Cliente!)
-                    .OrderByDescending(x => x.Correlativo)
+                    .OrderBy(x => x.Correlativo)
 
                     .ToListAsync(cancellationToken);
     }
