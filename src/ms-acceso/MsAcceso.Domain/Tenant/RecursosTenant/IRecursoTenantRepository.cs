@@ -9,5 +9,6 @@ public interface IRecursoTenantRepository
     Task<RecursoTenant?> GetByIdAsync(RecursoTenantId recursoId, CancellationToken cancellationToken = default);
     Task<bool> RecursoExist(string nombreRecurso, CancellationToken cancellationToken = default);
     Task<List<RecursoTenant>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<RecursoTenant>> GetAllByUnidadMedidaAsync(int unidadMedidaId,CancellationToken cancellationToken);
     
 }

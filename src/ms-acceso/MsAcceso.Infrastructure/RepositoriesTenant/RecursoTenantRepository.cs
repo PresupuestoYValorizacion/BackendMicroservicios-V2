@@ -18,6 +18,12 @@ internal sealed class RecursoTenantRepository : RepositoryTenant<RecursoTenant, 
         return await DbContext.Set<RecursoTenant>().Where(x => x.Activo == new Activo(true)).ToListAsync(cancellationToken);
     }
 
+    public async Task<List<RecursoTenant>> GetAllByUnidadMedidaAsync(int unidadMedidaId, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<RecursoTenant>().Where(x => x.Activo == new Activo(true) && x.UnidadMedidaId == unidadMedidaId).ToListAsync(cancellationToken);
+
+    }
+
     public async Task<bool> RecursoExist(string nombreRecurso, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<RecursoTenant>().AnyAsync(x => x.Nombre == nombreRecurso && x.Activo == new Activo(true), cancellationToken);

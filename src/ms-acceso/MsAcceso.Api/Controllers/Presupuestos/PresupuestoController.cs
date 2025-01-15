@@ -13,6 +13,7 @@ using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
 using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
+using MsAcceso.Application.Sgo.Proyectos.GetAllRecursosTenant;
 using MsAcceso.Application.Sgo.Proyectos.GetByIdEspecialidad;
 using MsAcceso.Domain.Tenant.ClientesTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
@@ -207,6 +208,17 @@ public class PresupuestoController : Controller
     public async Task<ActionResult<TituloTenantDto>> GetAllByEspecialidad(string idEspecialidad)
     {
         var request = new GetTitulosByEspecialidadQuery { EspecialidadId = idEspecialidad };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-recursos-by-unidad-medida/{idUnidadMedida}")]
+    public async Task<ActionResult<TituloTenantDto>> GetRecursosByUnidadMedida(int idUnidadMedida)
+    {
+        var request = new GetAllRecursosTenantQuery { UnidadMedidaId = idUnidadMedida };
         var results = await _sender.Send(request);
 
         return Ok(results);
