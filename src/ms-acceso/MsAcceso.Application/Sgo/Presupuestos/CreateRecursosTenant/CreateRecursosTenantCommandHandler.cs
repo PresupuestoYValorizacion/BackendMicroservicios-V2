@@ -30,19 +30,19 @@ internal class CreateRecursosTenantCommandHandler : ICommandHandler<CreateRecurs
     {
         var partidaExiste = await _partidaRepository.GetByIdAsync(new PartidaTenantId(Guid.Parse(request.PartidaId)), cancellationToken);
 
-        if(partidaExiste is not null)
+        if(partidaExiste is  null)
         {
             return Result.Failure<Guid>(PartidaTenantErrors.PartidaNotFound);
         }
 
         var recursoExiste = await _recursoRepository.GetByIdAsync(new RecursoTenantId(Guid.Parse(request.RecursoId)), cancellationToken);
 
-        if(recursoExiste is not null)
+        if(recursoExiste is null)
         {
             return Result.Failure<Guid>(RecursoTenantErrors.NotFound);
         }
 
-        var newPartidaRecurso = PartidaRecursoTenant.Create(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, 0);
+        var newPartidaRecurso = PartidaRecursoTenant.Create(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, request.Cantidad * request.Precio);
         
         _partidaRecursoRepository.Add(newPartidaRecurso);
 

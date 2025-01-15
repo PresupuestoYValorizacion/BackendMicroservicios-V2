@@ -1,8 +1,7 @@
 using MsAcceso.Application.Abstractions.Messaging;
-using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 
-namespace MsAcceso.Application.Sgo.Proyectos.GetAllRecursosTenant;
+namespace MsAcceso.Application.Sgo.Presupuestos.GetAllRecursosTenant;
 
 public sealed record GetAllRecursosTenantQuery : IQuery<List<RecursoTenantDto>>
 {

@@ -1,10 +1,9 @@
 using AutoMapper;
 using MsAcceso.Application.Abstractions.Messaging;
 using MsAcceso.Domain.Abstractions;
-using MsAcceso.Domain.Tenant.EspecialidadesTenant;
 using MsAcceso.Domain.Tenant.RecursosTenant;
 
-namespace MsAcceso.Application.Sgo.Proyectos.GetAllRecursosTenant;
+namespace MsAcceso.Application.Sgo.Presupuestos.GetAllRecursosTenant;
 
 
 internal sealed class GetAllRecursosTenantQueryHandler : IQueryHandler<GetAllRecursosTenantQuery, List<RecursoTenantDto>>

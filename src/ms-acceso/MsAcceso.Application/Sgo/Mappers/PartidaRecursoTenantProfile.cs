@@ -1,7 +1,7 @@
 using AutoMapper;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 
-namespace MsAcceso.Application.Tenant.Mappers
+namespace MsAcceso.Application.Sgo.Mappers
 {
     public class PartidaRecursoTenantProfile : Profile
     {
@@ -15,6 +15,7 @@ namespace MsAcceso.Application.Tenant.Mappers
             .ForMember(dest => dest.Cuadrilla, opt => opt.MapFrom(src => src.Cuadrilla))
             .ForMember(dest => dest.Precio, opt => opt.MapFrom(src => src.Precio))
             .ForMember(dest => dest.Parcial, opt => opt.MapFrom(src => src.Parcial))
+            .ForMember(dest => dest.Recurso, opt => opt.MapFrom(src => src.Recurso))
             ;
         }
     }

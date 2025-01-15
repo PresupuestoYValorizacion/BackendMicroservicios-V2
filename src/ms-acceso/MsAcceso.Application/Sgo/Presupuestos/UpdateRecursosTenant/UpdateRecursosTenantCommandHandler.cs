@@ -47,7 +47,7 @@ internal class UpdateRecursosTenantCommandHandler : ICommandHandler<UpdateRecurs
             return Result.Failure<Guid>(RecursoTenantErrors.NotFound);
         }
 
-        partidaRecursoExiste.Update(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, 0);
+        partidaRecursoExiste.Update(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, request.Cantidad * request.Precio);
         
         _partidaRecursoRepository.Update(partidaRecursoExiste);
 
