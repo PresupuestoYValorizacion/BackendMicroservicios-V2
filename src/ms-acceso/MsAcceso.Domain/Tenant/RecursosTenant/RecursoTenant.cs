@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using MsAcceso.Domain.Abstractions;
+using MsAcceso.Domain.Root.Parametros;
 using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
@@ -14,29 +16,35 @@ public sealed class RecursoTenant : Entity<RecursoTenantId>
     private RecursoTenant(
         RecursoTenantId id,
         string nombre,
-        // int tipoRecursoId,
-        int unidadMedidaId
+        int unidadMedidaId,
+        int tipoRecursoId
     ) : base(id)
     {
         Nombre = nombre;
-        // TipoRecursoId = tipoRecursoId;
+        TipoRecursoId = tipoRecursoId;
         UnidadMedidaId = unidadMedidaId;
     }
 
     public string? Nombre { get; private set; }
     public int UnidadMedidaId { get; private set; }
-    // public List<PartidaTenant>? Partidas { get; } = [];
-    // public List<PartidaRecursoTenant>? PartidasRecursos { get; } = [];
+    public int TipoRecursoId {get; private set;}
+
+    [NotMapped]
+    public Parametro? TipoRecurso { get; set; }
+
+    [NotMapped]
+    public Parametro? UnidadMedida { get; set; }
     public List<PresupuestoEspecialidadTituloPartidaTenant>? PresupuestosEspecialidadesTitulosPartidas { get; } = [];
     public List<PresupuestoEspecialidadTituloPartidaRecursoTenant> PresupuestosEspecialidadesTitulosPartidasRecursos { get; } = [];
 
 
     public static RecursoTenant Create(
         string Nombre,
-        int UnidadMedidaId
+        int UnidadMedidaId,
+        int TipoRecursoId
     )
     {
-        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, UnidadMedidaId);
+        var recurso = new RecursoTenant(RecursoTenantId.New(), Nombre, UnidadMedidaId, TipoRecursoId);
         return recurso;
     }
 

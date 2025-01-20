@@ -16,7 +16,8 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
         int cantidad,
         int cuadrilla,
         double precio,
-        double parcial
+        double parcial,
+        string tipoCuadrilla
 
     ): base(id)
     {
@@ -26,6 +27,7 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
         Cuadrilla = cuadrilla;
         Precio = precio;
         Parcial = parcial;
+        TipoCuadrilla = tipoCuadrilla;
     }
 
     public PartidaTenantId? PartidaId  {get; private set;}
@@ -36,6 +38,7 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
     public int? Cuadrilla  {get; private set;}
     public double? Precio {get; private set;}
     public double? Parcial {get; private set;}
+    public string? TipoCuadrilla {get; private set;}
 
     public static PartidaRecursoTenant Create(
         PartidaTenantId PartidaId,
@@ -43,10 +46,11 @@ public sealed class PartidaRecursoTenant : Entity<PartidaRecursoTenantId>
         int Cantidad,
         int Cuadrilla,
         double Precio,
-        double Parcial
+        double Parcial,
+        string TipoCuadrilla
     )
     {
-        var partidaRecurso = new PartidaRecursoTenant(PartidaRecursoTenantId.New(), PartidaId, RecursoId, Cantidad, Cuadrilla, Precio, Parcial);
+        var partidaRecurso = new PartidaRecursoTenant(PartidaRecursoTenantId.New(), PartidaId, RecursoId, Cantidad, Cuadrilla, Precio, Parcial, TipoCuadrilla);
         return partidaRecurso;
     }
 

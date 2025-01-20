@@ -42,7 +42,7 @@ internal class CreateRecursosTenantCommandHandler : ICommandHandler<CreateRecurs
             return Result.Failure<Guid>(RecursoTenantErrors.NotFound);
         }
 
-        var newPartidaRecurso = PartidaRecursoTenant.Create(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, request.Cantidad * request.Precio);
+        var newPartidaRecurso = PartidaRecursoTenant.Create(partidaExiste!.Id!, recursoExiste!.Id!, request.Cantidad, request.Cuadrilla, request.Precio, request.Cantidad * request.Precio, request.TipoCuadrilla);
         
         _partidaRecursoRepository.Add(newPartidaRecurso);
 

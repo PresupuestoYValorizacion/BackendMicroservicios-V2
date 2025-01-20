@@ -179,57 +179,16 @@ public class LicenciaDbContext : DbContext, IUnitOfWorkTenant
 
         builder.Entity<RecursoTenant>().HasData(
             // Recursos Humanos
-            RecursoTenant.Create("Capataz", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Operador de maquinaria", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Supervisor de obra", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Técnico eléctrico", 2134), // Unidad: Hora (h)
-            RecursoTenant.Create("Albañil", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Ayudante general", 2136), // Unidad: Día (d)
-
-            // Materiales de construcción
-            RecursoTenant.Create("Cemento", 2126), // Unidad: Kilogramo (kg)
-            RecursoTenant.Create("Arena", 2131), // Unidad: Tonelada (t)
-            RecursoTenant.Create("Grava", 2131), // Unidad: Tonelada (t)
-            RecursoTenant.Create("Bloques de concreto", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Ladrillos", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Varillas de acero", 2132), // Unidad: Metro lineal (ml)
-            RecursoTenant.Create("Tubos de PVC", 2132), // Unidad: Metro lineal (ml)
-            RecursoTenant.Create("Pintura", 2129), // Unidad: Litro (l)
-            RecursoTenant.Create("Yeso", 2126), // Unidad: Kilogramo (kg)
-            RecursoTenant.Create("Clavos", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Cables eléctricos", 2132), // Unidad: Metro lineal (ml)
-
-            // Equipos y herramientas
-            RecursoTenant.Create("Excavadora", 2135), // Unidad: Jornada (8 horas laborales)
-            RecursoTenant.Create("Camión de volteo", 2139), // Unidad: Viaje (viaje)
-            RecursoTenant.Create("Compactadora", 2135), // Unidad: Jornada (8 horas laborales)
-            RecursoTenant.Create("Taladro eléctrico", 2135), // Unidad: Jornada (8 horas laborales)
-            RecursoTenant.Create("Andamios", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Martillos", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Llaves inglesas", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Sierra eléctrica", 2135), // Unidad: Jornada (8 horas laborales)
-
-            // Transporte y logística
-            RecursoTenant.Create("Renta de camión", 2139), // Unidad: Viaje (viaje)
-            RecursoTenant.Create("Flete de materiales", 2139), // Unidad: Viaje (viaje)
-            RecursoTenant.Create("Renta de grúa", 2135), // Unidad: Jornada (8 horas laborales)
-            RecursoTenant.Create("Transporte personal", 2137), // Unidad: Mes (m)
-
-            // Servicios
-            RecursoTenant.Create("Electricidad", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Agua potable", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Gas", 2129), // Unidad: Litro (l)
-            RecursoTenant.Create("Alquiler de oficinas", 2137), // Unidad: Mes (m)
-            RecursoTenant.Create("Consultoría técnica", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Supervisión de obra externa", 2136), // Unidad: Día (d)
-            RecursoTenant.Create("Seguridad en obra", 2136), // Unidad: Día (d)
-
-            // Otros
-            RecursoTenant.Create("Equipo de protección personal", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Polvo de mármol", 2126), // Unidad: Kilogramo (kg)
-            RecursoTenant.Create("Madera para cimbra", 2132), // Unidad: Metro lineal (ml)
-            RecursoTenant.Create("Lonas protectoras", 2125), // Unidad: Unidad (ud)
-            RecursoTenant.Create("Seguro de maquinaria", 2137) // Unidad: Mes (m)
+            RecursoTenant.Create("Cemento", 2127, 2125), 
+            RecursoTenant.Create("Arena", 2128, 2125), 
+            RecursoTenant.Create("Ladrillos", 2129, 2125), 
+            RecursoTenant.Create("Clavos", 2130, 2125), 
+            RecursoTenant.Create("Pintura", 2131, 2125), 
+            RecursoTenant.Create("Tubería PVC", 2132, 2125), 
+            RecursoTenant.Create("Obrero", 2133, 2126), 
+            RecursoTenant.Create("Capataz", 2133, 2127),
+            RecursoTenant.Create("Ayudante", 2133, 2127),
+            RecursoTenant.Create("Ingeniero Residente", 2134, 2127)
 
         );
 

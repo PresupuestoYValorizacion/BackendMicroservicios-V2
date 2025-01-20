@@ -11,5 +11,7 @@ public class PartidaRecursoTenantDto
     public int? Cuadrilla {get; set;}
     public double? Precio {get; set;}
     public double? Parcial {get; set;}
+    public string? TipoCuadrilla {get; private set;}
+
     public RecursoTenantDto? Recurso {get; set;}
 }   

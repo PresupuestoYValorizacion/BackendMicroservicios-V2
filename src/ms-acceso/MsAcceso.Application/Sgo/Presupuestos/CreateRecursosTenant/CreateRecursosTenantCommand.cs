@@ -7,5 +7,6 @@ public sealed record CreateRecursosTenantCommand(
     string RecursoId,
     int Cantidad,
     int Cuadrilla,
-    double Precio
+    double Precio,
+    string TipoCuadrilla
 ) : ICommand<Guid>;

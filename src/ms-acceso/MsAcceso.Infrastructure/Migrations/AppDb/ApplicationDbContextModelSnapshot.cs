@@ -17205,7 +17205,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Id = 2124,
                             Activo = true,
                             Nivel = 0,
-                            Nombre = "UNIDADES DE MEDIDA"
+                            Nombre = "TIPO DE RECURSO"
                         },
                         new
                         {
@@ -17213,7 +17213,7 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Activo = true,
                             Dependencia = 2124,
                             Nivel = 1,
-                            Nombre = "Unidad (ud)",
+                            Nombre = "Insumo",
                             Valor = "0"
                         },
                         new
@@ -17222,124 +17222,79 @@ namespace MsAcceso.Infrastructure.Migrations.AppDb
                             Activo = true,
                             Dependencia = 2124,
                             Nivel = 1,
-                            Nombre = "Kilogramo (kg)",
+                            Nombre = "Personal",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2127,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Metro cúbico (m³)",
+                            Nombre = "Bolsa",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2128,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Metro cuadrado (m²)",
+                            Nombre = "Metro cúbico",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2129,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Litro (l)",
+                            Nombre = "Unidad",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2130,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Galón (gal)",
+                            Nombre = "Kilogramo",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2131,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Tonelada (t)",
+                            Nombre = "Galón",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2132,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2125,
                             Nivel = 1,
-                            Nombre = "Metro lineal (ml)",
+                            Nombre = "Metro lineal",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2133,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2126,
                             Nivel = 1,
-                            Nombre = "Paquete (paquete)",
+                            Nombre = "Jornada",
                             Valor = "0"
                         },
                         new
                         {
                             Id = 2134,
                             Activo = true,
-                            Dependencia = 2124,
+                            Dependencia = 2126,
                             Nivel = 1,
-                            Nombre = "Hora (h)",
-                            Valor = "0"
-                        },
-                        new
-                        {
-                            Id = 2135,
-                            Activo = true,
-                            Dependencia = 2124,
-                            Nivel = 1,
-                            Nombre = "Jornada (8 horas laborales)",
-                            Valor = "0"
-                        },
-                        new
-                        {
-                            Id = 2136,
-                            Activo = true,
-                            Dependencia = 2124,
-                            Nivel = 1,
-                            Nombre = "Día (d)",
-                            Valor = "0"
-                        },
-                        new
-                        {
-                            Id = 2137,
-                            Activo = true,
-                            Dependencia = 2124,
-                            Nivel = 1,
-                            Nombre = "Mes (m)",
-                            Valor = "0"
-                        },
-                        new
-                        {
-                            Id = 2138,
-                            Activo = true,
-                            Dependencia = 2124,
-                            Nivel = 1,
-                            Nombre = "Kilómetro (km)",
-                            Valor = "0"
-                        },
-                        new
-                        {
-                            Id = 2139,
-                            Activo = true,
-                            Dependencia = 2124,
-                            Nivel = 1,
-                            Nombre = "Viaje (viaje)",
+                            Nombre = "Mes",
                             Valor = "0"
                         });
                 });

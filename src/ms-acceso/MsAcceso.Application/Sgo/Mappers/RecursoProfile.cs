@@ -11,6 +11,7 @@ public class RecursoProfile : Profile
         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id!.Value.ToString()))
         .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Nombre))
         .ForMember(dest => dest.UnidadMedidaId, opt => opt.MapFrom(src => src.UnidadMedidaId))
+        .ForMember(dest => dest.TipoRecursoId, opt => opt.MapFrom(src => src.TipoRecursoId))
         ;
     }
 }

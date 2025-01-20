@@ -6,5 +6,6 @@ public class RecursoTenantDto
     public string? Id { get; set; }
     public string? Nombre { get; set; }
     public int UnidadMedidaId { get; set; }
+    public int TipoRecursoId { get; set; }
 
 }
