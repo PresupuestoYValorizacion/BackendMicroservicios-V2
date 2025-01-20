@@ -9,6 +9,7 @@ using MsAcceso.Application.Sgo.Presupuestos.DeleteRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.DeleteTituloPartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetAllRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdPartida;
+using MsAcceso.Application.Sgo.Presupuestos.GetByIdPartidaRecurso;
 using MsAcceso.Application.Sgo.Presupuestos.GetByIdTitulo;
 using MsAcceso.Application.Sgo.Presupuestos.GetRecursosByPartidaPagination;
 using MsAcceso.Application.Sgo.Presupuestos.GetTitulosByEspecialidad;
@@ -16,6 +17,7 @@ using MsAcceso.Application.Sgo.Presupuestos.UpdatePartidaTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateRecursosTenant;
 using MsAcceso.Application.Sgo.Presupuestos.UpdateTituloTenant;
 using MsAcceso.Domain.Tenant.ClientesTenant;
+using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 using MsAcceso.Domain.Tenant.PartidasTenant;
 using MsAcceso.Domain.Tenant.TitulosTenant;
 using MsAcceso.Utils;
@@ -242,6 +244,17 @@ public class PresupuestoController : Controller
     public async Task<ActionResult<PartidaTenantDto>> GetByIdPartida(string id)
     {
         var request = new GetByIdPartidaQuery { Id = id };
+        var results = await _sender.Send(request);
+
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [ApiVersion(ApiVersions.V1)]
+    [HttpGet("get-by-id-partida-recurso/{id}")]
+    public async Task<ActionResult<PartidaRecursoTenantDto>> GetByIdPartidaRecurso(string id)
+    {
+        var request = new GetByIdPartidaRecursoQuery { Id = id };
         var results = await _sender.Send(request);
 
         return Ok(results);

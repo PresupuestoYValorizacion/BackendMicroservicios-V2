@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MsAcceso.Application.Sgo.Paginations;
+using MsAcceso.Domain.Shared;
 using MsAcceso.Domain.Tenant.PartidasRecursosTenant;
 using MsAcceso.Infrastructure.Service;
 
@@ -11,4 +13,11 @@ internal sealed class PartidaRecursoTenantRepository : RepositoryTenant<PartidaR
     {
     }
 
+    public async Task<PartidaRecursoTenant?> GetByIdWithIncludesAsync(PartidaRecursoTenantId partidaRecursoId, CancellationToken cancellationToken = default)
+    {
+       return await DbContext.Set<PartidaRecursoTenant>()
+                                                   .Where(x => x.Activo == new Activo(true) && x.Id == partidaRecursoId )
+                                                   .Include(x => x.Recurso)
+                                                   .FirstOrDefaultAsync(cancellationToken);
+    }
 }
